@@ -70,6 +70,7 @@ def _capabilities() -> dict[str, Capability]:
         Capability("mail_followup_status", "read", MailFollowupQuery),
         Capability("mail_followup_stop", "stop", MailFollowupStop),
         Capability("sandbox_shop_quote", "draft", ShopQuery, timeout=22),
+        Capability("flight_purchase_review", "read", EmptyArgs),
         Capability("sandbox_flight_quote", "draft", FlightQuery, timeout=SEARCH_WINDOW_SECONDS+4),
         Capability("browser_research_draft", "draft", BrowserResearchDraft),
         Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),

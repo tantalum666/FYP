@@ -146,6 +146,8 @@ class Runtime:
         self.mail_followups = MailFollowups(self)
         self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
+        from .flight_booking.live_checkout import LiveFlightCheckouts
+        self.live_flight_checkouts = LiveFlightCheckouts(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):

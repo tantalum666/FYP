@@ -32,6 +32,7 @@ export function JobActionCard({
   compact = true,
   refreshToken,
   onContinue,
+  onBuyFlight,
 }: {
   job: ComputerJob;
   t: Translate;
@@ -43,6 +44,7 @@ export function JobActionCard({
   compact?: boolean;
   refreshToken?: number;
   onContinue?: () => void;
+  onBuyFlight?: (jobId: string) => void;
 }) {
   const [exportError, setExportError] = useState<unknown>(null);
   const application = isApplicationAction(job.action);
@@ -332,7 +334,8 @@ export function JobActionCard({
       {computer &&
         job.result?.verified &&
         (job.result.readback?.quote ? (
-          <CommerceQuote quote={job.result.readback.quote} t={t} />
+          <><CommerceQuote quote={job.result.readback.quote} t={t} />
+            {connector && job.result.readback.quote.offer && onBuyFlight && <button type="button" className="secondary" disabled={busy || !fresh} onClick={()=>onBuyFlight(job.id)}>{t("Prepare purchase", "准备购买这张机票")}</button>}</>
         ) : (
           job.result.readback?.report && (
             <section

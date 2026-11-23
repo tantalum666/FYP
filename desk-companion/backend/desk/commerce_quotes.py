@@ -112,8 +112,18 @@ class FlightPage(StrictModel):
     note: ShortText
 
 
+class KiwiSegment(StrictModel):
+    origin: Airport
+    destination: Airport
+    flight: str | None = Field(pattern=r"^[A-Z0-9]{2,3}\d{1,5}[A-Z]?$", default=None)
+    departs: str | None = Field(default=None, max_length=40)
+    arrives: str | None = Field(default=None, max_length=40)
+
+
 class FlightSupplier(StrictModel):
     provider: Literal["Kiwi.com"]
+    outbound: list[KiwiSegment] | None = Field(default=None, max_length=12, exclude_if=lambda value: value is None)
+    inbound: list[KiwiSegment] | None = Field(default=None, max_length=12, exclude_if=lambda value: value is None)
     matching_offers: int = Field(ge=0, le=500, strict=True)
     tool_result_sha256: str = Field(pattern="^[a-f0-9]{64}$")
     checked_bags_for_party: int | None = Field(ge=0, le=18, strict=True)

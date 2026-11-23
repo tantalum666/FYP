@@ -363,6 +363,41 @@ class VoiceService:
             async with send_lock:
                 await asyncio.wait_for(socket.send_json(value), timeout=3)
 
+        flight_review_turn = None
+        flight_review_result = None
+
+        async def show_flight_review():
+            nonlocal flight_review_turn, flight_review_result
+            if not conversation or principal.get("kind") != "owner" or not self.principal_valid(principal):
+                return {"error":"OWNER_SIGN_IN_REQUIRED", "saved":False}
+            turn_id = (turns.current or turns.start()).id
+            if turn_id == flight_review_turn and flight_review_result:
+                return flight_review_result
+            from .flight_booking.live_chat import describe
+            try:
+                view = await asyncio.to_thread(self.runtime.live_flight_checkouts.start, principal, conversation)
+            except DomainError as error:
+                return {"error":error.code,"saved":False}
+            if (not self.principal_valid(principal) or not self.runtime.personal_context.visible(principal)
+                or self.conversations.entries.get(conversation.id) is not conversation):
+                return {"error":"CONVERSATION_SCOPE_CHANGED", "saved":False}
+            sentence = describe(view, language == "zh")
+            await send_client({"type":"flight_checkout", "conversation_id":conversation.id,
+                               "message":sentence, "live_flight_checkout":view})
+            if isinstance(protocol, OpenAILiveProtocol):
+                source = view.get('source') or {}
+                event = None
+                if language=='zh' and source.get('currency')=='HKD' and type(source.get('listed_minor')) is int and hasattr(protocol, 'fare_readback'):
+                    event=protocol.fare_readback(source['listed_minor'],review_sentence=sentence)
+                instruction = "For this flight request give the owner this verified next step: " + sentence
+                if event is None:
+                    event = (protocol.spoken_instruction(instruction) if hasattr(protocol, 'spoken_instruction') else
+                             {"type":"session.instructions.append", "event_id":uuid4().hex, "delegation_id":None, "content":instruction})
+                await send_provider(event)
+            flight_review_turn = turn_id
+            flight_review_result = {"message":sentence, "state":view['state'], "saved":False, "purchase_confirmed":view['state']=='completed'}
+            return flight_review_result
+
         async def cancel_drafts(ids=None):
             await dispatcher.cancel(ids)
             for call_id in list(drafts):
@@ -800,6 +835,13 @@ class VoiceService:
                                 normalized = self.work.observe(work_session_ref, event)
                                 if normalized is not None:
                                     await deliver_provider(normalized)
+                                if event.get("role") == "user":
+                                    from .flight_booking.checkout_source import purchase_intent
+                                    words = normalized.get("text", "") if normalized else event.get("text", "")
+                                    if (normalized or event.get("final")) and purchase_intent(words):
+                                        opened = await show_flight_review()
+                                        if opened.get("error"):
+                                            await send_client({"type":"flight_checkout_unavailable", "code": opened["error"]})
                                 event = {
                                     key: value
                                     for key, value in event.items()
@@ -956,9 +998,15 @@ class VoiceService:
                                 await dispatcher.cancel()
                                 return
                         if "proposal" in result:
+                            if conversation:
+                                self.runtime.live_flight_checkouts.bind(principal, conversation, result["proposal"])
                             drafts[event["id"]] = result["proposal"]["id"]
                             self.state = "confirm"
                             await send_client({"type": "proposal", "proposal": result["proposal"]})
+                        if result.get("live_flight_review"):
+                            grounded = await show_flight_review()
+                            result.clear()
+                            result.update(grounded)
                         result = dispatcher.current_result(event, result)
                         if "job" in result:
                             await send_client({"type": "jobs_changed", "job": result["job"]})
@@ -1241,6 +1289,7 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         runtime.voice.conversations.forget(who, conversation_id)
         runtime.flight_bookings.forget_chat(who, conversation_id)
         runtime.shop_orders.forget_chat(who, conversation_id)
+        runtime.live_flight_checkouts.forget_chat(who, conversation_id)
         return {"cleared": True}
 
     @router.post("/voice/work-drafts")

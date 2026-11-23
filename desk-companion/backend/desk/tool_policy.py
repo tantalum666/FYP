@@ -102,6 +102,7 @@ OWNER_ONLY_TOOLS = frozenset(
         "mail_followup_stop",
         "browser_research_draft",
         "browser_research_status",
+        "flight_purchase_review",
         "sandbox_flight_quote",
         "sandbox_shop_quote",
         "email_status",
@@ -394,6 +395,8 @@ def outcome_message(outcome: str, result, language: str = "en") -> str:
 def ends_text_turn(name: str, result: dict) -> bool:
     from .capabilities import CAPABILITIES
 
+    if name == "flight_purchase_review" and result.get("live_flight_review"):
+        return True
     if name == "propose_plan" and result.get("error"):
         return True
     if result.get("error") == "TOOL_TIMEOUT":

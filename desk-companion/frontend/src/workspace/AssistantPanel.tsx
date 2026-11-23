@@ -1,3 +1,5 @@
+import { LiveFlightCheckout, startsFlightCheckout } from "./LiveFlightCheckout";
+import { useLiveFlightReview } from "./useLiveFlightReview";
 import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
 import { orderKey, orderStatus, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
 import { useCommerceReviews, needsDecision, reviewRef, type CommerceRef } from "./commerceReviews";
@@ -112,6 +114,7 @@ export function AssistantPanel({
   onClearTask?: () => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
+  const ownerView = data?.principal.kind === "owner";
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
   const [view, setView] = useState<
     "chat" | "jobs" | "help" | "timing" | "activity"
@@ -229,6 +232,16 @@ export function AssistantPanel({
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const conversationId = useRef<string | undefined>(undefined);
+  const liveFlight = useLiveFlightReview(conversationId, taskId, data ? ownerView : undefined,
+    !!data?.personal_context_visible, !suspended && !offline && !stale);
+  const {current: ownerFlight, receive: receiveFlight, update: updateFlight} = liveFlight;
+  async function selectOriginal(source: {proposal_id?: string; job_id?: string}) {
+    if (await liveFlight.select(source)) {
+      setView("chat");
+      if (immersive && !suspended) onExpandedChange?.(true);
+    }
+  }
+
   const contextTouched = useRef(0);
   const voiceRevision = useRef<string | undefined>(undefined);
   const pendingSubmission = useRef<string | null>(null);
@@ -346,6 +359,7 @@ export function AssistantPanel({
       <JobActionCard
         key={job.id}
         job={job}
+        onBuyFlight={(id)=>void selectOriginal({job_id:id}).catch(setError)}
         t={t}
         busy={!!jobBusy}
         cancelling={!!jobCancelling || offline}
@@ -535,7 +549,6 @@ export function AssistantPanel({
   useEffect(() => {
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
-  const ownerView = data?.principal.kind === "owner";
   const showOrderUpdates = useCallback(
     (updates: CommerceReview[]) => {
       if (
@@ -656,6 +669,10 @@ export function AssistantPanel({
       if (immersive && !suspended)
         showDelivery(result.kind === "reply" ? replyDelivery(result.delivery, result.message) : "neutral");
       conversationId.current = result.conversation_id;
+      if(result.conversation_id && result.live_flight_checkout){
+        receiveFlight(result.conversation_id,result.live_flight_checkout);
+        if(immersive && !suspended) onExpandedChange?.(true);
+      }
       const card = result.shopping_order
         ? { ...result.shopping_order, kind: "shop" as const }
         : result.flight_booking
@@ -681,7 +698,7 @@ export function AssistantPanel({
             body: userText,
             files: submittedFiles,
             commerceChat:
-              card || result.flight_alternatives
+              card || result.flight_alternatives || result.live_flight_checkout
                 ? result.conversation_id
                 : undefined,
           },
@@ -701,7 +718,7 @@ export function AssistantPanel({
               card && !result.commerce_note ? orderKey(card) : undefined,
             choices: result.flight_alternatives,
             commerceChat:
-              card || result.flight_alternatives
+              card || result.flight_alternatives || result.live_flight_checkout
                 ? result.conversation_id
                 : undefined,
             kind: result.kind,
@@ -712,7 +729,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent,commerce.receive,immersive,suspended,taskId,t],
+    [chatFiles.sent,commerce.receive,receiveFlight,immersive,suspended,onExpandedChange,taskId,t],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -754,7 +771,7 @@ export function AssistantPanel({
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
     const review = choice ? choice.review : typedCommerceReview.current;
-    const useOmni = omni && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    const useOmni = omni && !startsFlightCheckout(submitted) && !choice && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
@@ -999,10 +1016,10 @@ export function AssistantPanel({
     const id = conversationId.current;
     endVoice();
     try {
-      if (id)
-        await request(`/voice/conversations/${encodeURIComponent(id)}`, {
-          method: "DELETE",
-        });
+      if (id) {
+        await request(`/voice/conversations/${encodeURIComponent(id)}`, {method: "DELETE"});
+      }
+      liveFlight.clear();
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
@@ -1131,6 +1148,10 @@ export function AssistantPanel({
                 ? t("Companion: ", "助理：") + speechText.current.assistant
                 : ""),
           );
+        }
+        if(event.type === "flight_checkout" && event.conversation_id && event.conversation_id === conversationId.current && event.live_flight_checkout){
+          receiveFlight(event.conversation_id,event.live_flight_checkout);
+          if(immersive && !suspended) onExpandedChange?.(true);
         }
         if (event.type === "proposal" || event.type === "proposals_changed")
           void reload();
@@ -1353,7 +1374,12 @@ export function AssistantPanel({
   const homeAnswer = focusedOrder
     ? orderStatus(focusedOrder, t)
     : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
+  const liveTurn = turns.filter(turn=>turn.kind === "live_flight_checkout" && turn.commerceChat===activeChat).at(-1);
+  const liveCard = !suspended && !stale && !offline && privateOrdersVisible && ownerFlight && ownerFlight.chat === activeChat && ownerFlight.task === taskId
+    ? <LiveFlightCheckout key={ownerFlight.view.id ?? ownerFlight.chat} view={ownerFlight.view} chat={ownerFlight.chat} t={t} onUpdate={updateFlight} onSource={(id)=>selectOriginal({proposal_id:id})}/>
+    : null;
   function turnBody(turn: ConversationTurn) {
+    if (turn === liveTurn && liveCard) return liveCard;
     if (
       turn === focusTurn &&
       focusedOrder &&
@@ -1593,6 +1619,7 @@ export function AssistantPanel({
                   jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
               </div>
             ))}
+          {(!immersive || expanded) && !liveTurn && liveCard}
           {immersive && !expanded && (openOrder
             ? <button type="button" className="assistant-latest commerce-open" aria-live="polite" onClick={()=>onExpandedChange?.(true)}>
                 {homeAnswer} <span aria-hidden="true"> ›</span>
