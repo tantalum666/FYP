@@ -353,8 +353,8 @@ def turn(runtime, payload, principal, chat):
 def failure(code, language):
     messages = {
         "FLIGHT_OPTION_UNAVAILABLE": (
-            "按原时刻和条件已查不到这班航班。可以选择原清单中的另一班。",
-            "This departure is no longer available on the original terms. You can choose another flight from the shortlist.",
+            "按这份清单的条件和你指定的限额，查不到这班航班。可以选择原清单中的另一班。",
+            "I couldn’t verify this departure within your limits on the shortlist’s terms. You can choose another flight from the list.",
         ),
         "FLIGHT_TEST_SCOPE": (
             "目前可预订一位虚构成人的单程基础票价。能否按这个范围查询？",

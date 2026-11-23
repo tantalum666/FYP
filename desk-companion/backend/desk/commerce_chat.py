@@ -77,6 +77,8 @@ def turn(runtime, payload, principal, chat):
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
     lang = language_for(payload.message, payload.language)
+    if cached and reply.get("flight_shortlist_chat"):
+        reply = shortlist.recover_review(runtime.flight_bookings, reply, key, principal, chat, payload)
     if request := reply.get("flight_shortlist_review"):
         return shortlist.apply_review(runtime.flight_bookings, request, key, principal, chat, lang)
     if "booked_flight_calendar" in reply:

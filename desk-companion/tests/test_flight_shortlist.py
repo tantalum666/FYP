@@ -1,9 +1,10 @@
 """The original offered menu and the fresh, unapproved fare survive the chat process."""
 
 import json
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from copy import deepcopy
 from datetime import UTC, datetime
+from multiprocessing import get_context
 from threading import Event
 
 import httpx
@@ -12,6 +13,7 @@ from fastapi.testclient import TestClient
 
 from desk.app import create_app
 from desk.flight_booking.provider import FlightQuery, LetsFG
+from desk.tasks import TaskInput
 from session_protocol_fixture import install_session_protocol
 from test_flight_calendar_fit import DAY, FARES, PRIVATE, event, offer
 
@@ -301,7 +303,8 @@ def test_calendar_is_rechecked_at_selection_and_again_at_explicit_approval(start
     assert len(desk.inventory.searches) == 3
 
 
-def test_session_paraphrase_uses_only_the_owners_selector_and_keeps_calendar_local(start):
+@pytest.mark.parametrize("calendar_arg", [{}, {"check_calendar": True}])
+def test_session_paraphrase_uses_only_the_owners_selector_and_keeps_calendar_local(start, calendar_arg):
     desk = start()
     chat = desk.initial()["conversation_id"]
     event_id = event(desk.runtime, DAY + "T08:10", DAY + "T08:40")
@@ -311,7 +314,7 @@ def test_session_paraphrase_uses_only_the_owners_selector_and_keeps_calendar_loc
     shown = desk.ask("invented", "Could I look at those choices again?", chat)
     assert offered(shown) == ["FA101", "FA102", "FA103"] and len(desk.inventory.searches) == 1
     desk.session.next_calls = [
-        ("revisit_flight_shortlist", {"option_number": 2, "check_calendar": True})
+        ("revisit_flight_shortlist", {"option_number": 2, **calendar_arg})
     ]
     desk.session.lose_result_once = True
     picked = desk.ask(
@@ -398,7 +401,13 @@ def test_cancellation_in_another_worker_wins_against_an_inflight_recheck(start):
     assert len(desk.inventory.searches) == 2
 
 
-def test_legacy_quote_and_pinned_card_without_a_saved_list_still_bind_their_own_terms(start):
+@pytest.mark.parametrize("message", [
+    "Check this flight again",
+    f"Recheck test flight FA104 from HKG to HND on {DAY} on the same terms and show me the quote."
+    " My budget is HK$50.00. Recheck my desk calendar too.",
+    f"选 FA104，{DAY} 从 HKG 到 HND，请按原条件重新核价给我确认。 预算上限 HK$50.00。 仍需避开我的桌面日程。",
+])
+def test_legacy_quote_and_pinned_card_without_a_saved_list_still_bind_their_own_terms(start, message):
     desk = start()
     original = desk.initial(flight_number="FA103")
     chat = original["conversation_id"]
@@ -415,7 +424,7 @@ def test_legacy_quote_and_pinned_card_without_a_saved_list_still_bind_their_own_
         )
     ]
     pin = TERMS | {"flight_number": "FA104", "avoid_calendar_conflicts": True}
-    row = restarted.ask("legacy-pin", "Check this flight again", chat, calendar_flight_choice=pin)[
+    row = restarted.ask("legacy-pin", message, chat, calendar_flight_choice=pin)[
         "flight_booking"
     ]
     assert row["segments"][0]["flight"] == "FA104" and row["calendar_fit"] == "clear"
@@ -459,3 +468,206 @@ def test_list_closed_while_the_session_interprets_a_followup(start):
         "interpret", "I'd like to see whether the second departure still works.", chat
     )
     assert "no open" in result["message"] and len(desk.inventory.searches) == 1
+
+
+LOWER_LIMIT = (
+    "My limit just fell to HK$32. Please get a fresh quote for the second option "
+    "from flight list 1 only if it fits that new limit."
+)
+LOWER_LIMIT_ZH = "我的预算刚降到32港元。请给航班清单1的第二个选项重新报价，只有符合新预算才报价。"
+
+
+def _leave_original_list(directory):
+    desk = Desk(directory, Inventory(), None)
+    initial = desk.initial()
+    assert offered(initial) == ["FA101", "FA102", "FA103"]
+    assert len(desk.inventory.searches) == 1
+    return desk.cookie, initial["conversation_id"]
+
+
+@pytest.mark.parametrize(
+    ("message", "model_limit", "fare"),
+    [
+        pytest.param(LOWER_LIMIT, {}, 43.25, id="english-omitted-over"),
+        pytest.param(LOWER_LIMIT_ZH, {"max_hkd": 100}, 32.01, id="chinese-widened-over"),
+        pytest.param(LOWER_LIMIT, {"max_hkd": 50}, 31.75, id="english-widened-eligible"),
+        pytest.param(LOWER_LIMIT_ZH, {}, 32.00, id="chinese-omitted-at-limit"),
+    ],
+)
+def test_restarted_session_reprices_only_within_owners_new_limit(
+    start, tmp_path, message, model_limit, fare
+):
+    with ProcessPoolExecutor(1, mp_context=get_context("spawn")) as worker:
+        cookie, chat = worker.submit(_leave_original_list, tmp_path).result(timeout=30)
+    desk = start(cookie)
+    desk.inventory.routes["HND"][1]["price"] = fare
+    desk.session.next_calls = [("revisit_flight_shortlist", {"option_number": 2, **model_limit})]
+    picked = desk.ask("limited", message, chat, stream=True)
+    assert desk.session.functions
+    if fare > 32:
+        assert "flight_booking" not in picked, picked.get("flight_booking")
+        assert picked["error"] == "FLIGHT_OPTION_UNAVAILABLE"
+        assert desk.reviews(chat)["rows"] == []
+    else:
+        row = picked["flight_booking"]
+        assert row["segments"][0]["flight"] == "FA102" and row["review_minor"] == round(fare * 100)
+        assert row["state"] == "quoted" and row["approved_minor"] is None
+        with desk.runtime.store.connection() as db:
+            record = json.loads(db.execute("SELECT data FROM sandbox_flight_bookings").fetchone()[0])
+        assert record["original_search"]["max_hkd"] == 50
+        assert record["quote"]["search_terms"]["max_hkd"] == 32
+        assert record["remote"] is None
+    assert desk.ask("limited", message, chat) == picked
+    assert len(desk.inventory.searches) == 1
+
+
+def test_tightened_review_expires_old_approval_and_stays_with_its_list(start):
+    desk = start()
+    chat = desk.initial()["conversation_id"]
+    old = desk.ask("original-pick", "Select option 1 from flight list 1", chat)["flight_booking"]
+    direct = "Select option 2 from flight list 1, at most HK$32."
+    assert desk.ask("lower", direct, chat)["error"] == "FLIGHT_OPTION_UNAVAILABLE"
+    assert desk.reviews(chat)["rows"][0]["state"] == "expired"
+    assert desk.ask("stale", "confirm", chat, status=409, **decision(old))["error"]["code"] == (
+        "FLIGHT_REVIEW_CHANGED"
+    )
+    restarted = start(desk.cookie)
+    task = desk.runtime.tasks.create(TaskInput(title="Unrelated trip"), "other-task")["task"]
+    wrong_task = restarted.ask("wrong-task", direct, chat, task_id=task["id"], status=404)
+    assert wrong_task["error"]["code"] == "CONVERSATION_NOT_FOUND"
+    # The numbered button generated from the historical menu carries no budget.
+    pick = "选航班清单 1 的第 2 班"
+    assert restarted.ask("button", pick, chat)["error"] == "FLIGHT_OPTION_UNAVAILABLE"
+    desk.inventory.routes["HND"][1]["price"] = 31.99
+    eligible = restarted.ask("fresh", pick, chat)["flight_booking"]
+    assert (eligible["id"], eligible["review_minor"], eligible["approved_minor"]) == (
+        old["id"], 3199, None,
+    )
+    assert not restarted.session.requests
+    desk.inventory.routes["HND"][1]["price"] = 37
+    restarted.initial(chat, key="new-list")
+    separate = restarted.ask("other-list", "Select option 2 from flight list 2", chat)["flight_booking"]
+    assert separate["review_minor"] == 3700 and separate["id"] != old["id"]
+
+
+def test_tightening_survives_a_failed_lookup_and_the_same_operation_can_retry(start):
+    desk = start()
+    chat = desk.initial()["conversation_id"]
+    old = desk.ask("first", "select FA101", chat)["flight_booking"]
+    desk.inventory.status = 503
+    desk.session.next_calls = [("revisit_flight_shortlist", {"option_number": 2})]
+    desk.ask("lower", LOWER_LIMIT, chat, status=503)
+    restarted = start(desk.cookie)
+    assert restarted.reviews(chat)["rows"][0]["state"] == "expired"
+    assert restarted.ask("stale", "confirm", chat, status=409, **decision(old))["error"]["code"] == (
+        "FLIGHT_REVIEW_CHANGED"
+    )
+    desk.inventory.status = 200
+    desk.inventory.routes["HND"][1]["price"] = 31
+    new = restarted.ask("lower", LOWER_LIMIT, chat)["flight_booking"]
+    assert new["review_minor"] == 3100 and new["id"] == old["id"] and new["approved_minor"] is None
+    assert not restarted.session.requests
+
+
+def test_concurrent_wider_lookup_cannot_replace_a_tightened_limit(start):
+    desk = start()
+    chat = desk.initial()["conversation_id"]
+    second = start(desk.cookie)
+    entered, release = Event(), Event()
+
+    def pause_first_lookup():
+        desk.inventory.on_search = None
+        entered.set()
+        assert release.wait(10)
+
+    desk.inventory.on_search = pause_first_lookup
+    with ThreadPoolExecutor(max_workers=1) as worker:
+        pending = worker.submit(desk.ask, "wide", "choose FA102", chat, status=409)
+        try:
+            assert entered.wait(10)
+            answer = second.ask("tight", "Select option 2 from flight list 1, at most HK$32", chat)
+            assert answer["error"] == "FLIGHT_OPTION_UNAVAILABLE"
+        finally:
+            release.set()
+        assert pending.result()["error"]["code"] == "FLIGHT_REVIEW_CHANGED"
+    assert desk.reviews(chat) == {"has_flight_shortlist": True, "rows": []}
+    assert len(desk.inventory.searches) == 3
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "Translate this for a friend: “Select option 2 from flight list 1, at most HK$32.”",
+        "Do not get a quote for the second option from flight list 1.",
+        "Recheck the second option from flight list 1 only if the carrier is ZZ and it's nonstop.",
+        "My limit is US$32. Get a fresh quote for the second option from flight list 1.",
+        "如果要加托运行李，请重新核价航班清单1的第二班。",
+    ],
+)
+def test_session_cannot_turn_a_mention_or_unbound_condition_into_a_quote(start, message):
+    desk = start()
+    chat = desk.initial()["conversation_id"]
+    desk.session.next_calls = [("revisit_flight_shortlist", {"option_number": 2, "max_hkd": 100})]
+    reply = desk.ask("mention", message, chat)
+    assert reply["kind"] == "clarify" and "flight_booking" not in reply
+    assert "separate flight search" in reply["message"] or "单独查询" in reply["message"]
+    assert desk.reviews(chat) == {"has_flight_shortlist": True, "rows": []}
+    assert len(desk.inventory.searches) == 1
+
+
+def test_pinned_selection_respects_both_the_card_and_the_new_message(start):
+    desk = start()
+    first = desk.initial(avoid_calendar_conflicts=True)
+    chat = first["conversation_id"]
+    pin = first["flight_alternatives"]["alternatives"][1]["calendar_choice"]
+    desk.inventory.routes["HND"][1]["price"] = 32.01
+    reply = desk.ask("pin", "选 FA102，总价不超过32港元。", chat, calendar_flight_choice=pin)
+    assert reply["error"] == "FLIGHT_OPTION_UNAVAILABLE"
+    desk.inventory.routes["HND"][1]["price"] = 31.75
+    tighter = {**pin, "max_hkd": 31}
+    assert desk.ask("narrow-pin", "选 FA102", chat, calendar_flight_choice=tighter)["error"] == (
+        "FLIGHT_OPTION_UNAVAILABLE"
+    )
+    desk.inventory.routes["HND"][1]["price"] = 31
+    row = desk.ask("old-pin", "选 FA102", chat, calendar_flight_choice=pin)["flight_booking"]
+    assert row["review_minor"] == 3100 and row["calendar_fit"] == "clear"
+    assert row["approved_minor"] is None
+
+
+@pytest.mark.parametrize("receipt", ["pending", "issued"])
+def test_retry_of_pre_upgrade_operation_cannot_replay_its_wider_terms(start, receipt):
+    desk = start()
+    chat = desk.initial()["conversation_id"]
+    with desk.runtime.store.connection() as db:
+        original = db.execute("SELECT data FROM sandbox_flight_bookings").fetchone()[0]
+    desk.inventory.routes["HND"][1]["price"] = 32
+    desk.session.next_calls = [("revisit_flight_shortlist", {"option_number": 2})]
+    draft = desk.ask("old-operation", LOWER_LIMIT, chat)["flight_booking"]
+    # Replay either checkpoint left by the previous implementation with the
+    # real operation fingerprint, login, original list, and database binding.
+    with desk.runtime.store.connection(write=True) as db:
+        row = json.loads(db.execute("SELECT data FROM sandbox_flight_bookings").fetchone()[0])
+        key = row["shortlist_operation"]
+        reply = json.loads(db.execute("SELECT result FROM assistant_replies WHERE id=?", (key,)).fetchone()[0])
+        if receipt == "pending":
+            data = original
+            reply.pop("flight_booking")
+            reply.update(kind="clarify", message="", flight_shortlist_review={
+                "id": draft["id"], "version": 1, "option": 2, "check_calendar": False,
+            })
+        else:
+            row.pop("shortlist_max_hkd")
+            row.pop("shortlist_calendar")
+            row["quote"]["total_minor"] = 4325
+            row["quote"]["search_terms"]["max_hkd"] = 50
+            data = json.dumps(row)
+            reply["flight_booking"].update(quoted_minor=4325, review_minor=4325)
+        db.execute("UPDATE sandbox_flight_bookings SET data=?, serial=serial+1", (data,))
+        db.execute("UPDATE assistant_replies SET result=? WHERE id=?", (json.dumps(reply), key))
+    desk.inventory.routes["HND"][1]["price"] = 43.25
+    restarted = start(desk.cookie)
+    result = restarted.ask("old-operation", LOWER_LIMIT, chat)
+    assert result["error"] == "FLIGHT_OPTION_UNAVAILABLE" and "flight_booking" not in result
+    assert all(r["state"] == "expired" for r in restarted.reviews(chat)["rows"])
+    assert len(desk.inventory.searches) == (3 if receipt == "pending" else 2)
+    assert not restarted.session.requests

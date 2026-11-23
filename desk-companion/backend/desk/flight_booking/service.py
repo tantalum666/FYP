@@ -9,11 +9,24 @@ from ..commerce_review import ChatReviews
 from ..store import DomainError
 from .calendar_fit import check_itineraries
 from .timetable import departure_day
-from .provider import FlightQuery, LetsFG, PNR, booking_id, matched, minor, select_fare
+from .provider import FlightQuery, LetsFG, PNR, booking_id, matched, matches_choice, minor, select_fare
 
 
 def _flight_identity(legs):
     return tuple((s["flight"], s["origin"], s["destination"], s["departs"][:10]) for s in legs)
+
+
+def _option_query(row, leg, ceiling, calendar):
+    terms = FlightQuery.model_validate(row["original_search"])
+    ceilings = (terms.max_hkd, row.get("shortlist_max_hkd"), ceiling)
+    return terms.model_copy(update={
+        "flight_number": leg["flight"],
+        "nonstop": True,
+        "max_hkd": min((cap for cap in ceilings if cap is not None), default=None),
+        "avoid_calendar_conflicts": bool(
+            terms.avoid_calendar_conflicts or row.get("shortlist_calendar") or calendar
+        ),
+    })
 
 
 def public(row):
@@ -219,15 +232,7 @@ class FlightBookings(ChatReviews):
             return self.read(saved["id"], self.owner(principal), chat.id)
         return public(saved)
 
-    def _recheck_option(self, row, option, check_calendar):
-        leg = row["shortlist"]["alternatives"][option - 1]["segment"]
-        terms = FlightQuery.model_validate(row["original_search"])
-        query = terms.model_copy(
-            update={
-                "flight_number": leg["flight"], "nonstop": True,
-                "avoid_calendar_conflicts": terms.avoid_calendar_conflicts or check_calendar,
-            }
-        )
+    def _recheck_option(self, leg, query):
         # A flight number can appear at two different times in the same day's inventory.
         # A fresh offer ID and fare may change; the reviewed itinerary must still match.
         try:
@@ -258,7 +263,7 @@ class FlightBookings(ChatReviews):
             return self.read(row["id"], owner, chat) if row.get("quote") else None
         if (
             not row.get("shortlist")
-            or row["version"] != request["version"]
+            or (row["version"] != request["version"] and row.get("shortlist_pending") != key)
             or row["state"] not in {"shortlisted", "quoted", "expired"}
             or row.get("remote")
             or row.get("approved") is not None
@@ -267,9 +272,27 @@ class FlightBookings(ChatReviews):
         option = request.get("option")
         if option is not None and not 1 <= option <= len(row["shortlist"]["alternatives"]):
             raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
-        quote = self._recheck_option(row, option, request["check_calendar"]) if option else None
+        quote = None
+        if option is not None:
+            leg = row["shortlist"]["alternatives"][option - 1]["segment"]
+            query = _option_query(row, leg, request.get("max_hkd"), request.get("check_calendar"))
+            original = row["original_search"]
+            prior_cap = row.get("shortlist_max_hkd", original.get("max_hkd"))
+            prior_calendar = row.get("shortlist_calendar", original.get("avoid_calendar_conflicts", False))
+            row.update(shortlist_max_hkd=query.max_hkd, shortlist_calendar=query.avoid_calendar_conflicts)
+            if query.max_hkd != prior_cap or query.avoid_calendar_conflicts != prior_calendar:
+                # Admit the narrower terms before the lookup. An outage or a slow
+                # response must not leave a wider approval available in another worker.
+                with self.lock, self.store.connection(write=True) as db:
+                    self.runtime.personal_context.require_owner_transaction(db, principal)
+                    row.update(shortlist_pending=key, version=row["version"] + 1)
+                    if row["state"] == "quoted":
+                        row["state"] = "expired"
+                    self._write_row(db, row)
+            quote = self._recheck_option(leg, query)
         with self.lock, self.store.connection(write=True) as db:
             self.runtime.personal_context.require_owner_transaction(db, principal)
+            row.pop("shortlist_pending", None)
             row.update(shortlist_operation=key, option_unavailable=bool(option and not quote))
             row["version"] += 1
             if option is None:
@@ -286,6 +309,35 @@ class FlightBookings(ChatReviews):
         if row["option_unavailable"]:
             raise DomainError("FLIGHT_OPTION_UNAVAILABLE", 409)
         return public(row) if row.get("quote") else None
+
+    def bind_legacy_selection(self, ident, key, principal, chat, *, selection, ceiling, calendar):
+        """On replay, check a fare already issued by the previous shortlist Function."""
+        owner = self.owner(principal)
+        row = self._get(ident, owner, chat, include_unquoted=True)
+        if (
+            row.get("shortlist_operation") != key or row["state"] != "quoted"
+            or "shortlist_max_hkd" in row or row.get("remote") or row.get("approved") is not None
+        ):
+            return
+        quote = row["quote"]
+        leg = quote["segments"][0]
+        query = _option_query(row, leg, ceiling, calendar or quote.get("avoid_calendar_conflicts"))
+        with self.store.connection(write=True) as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            row.update(shortlist_max_hkd=query.max_hkd, shortlist_calendar=query.avoid_calendar_conflicts)
+            if (
+                selection and row["shortlist"]["alternatives"][selection - 1]["segment"] == leg
+                and matches_choice(quote, query)
+            ):
+                quote.update(search_terms=query.model_dump(exclude_none=True),
+                             avoid_calendar_conflicts=query.avoid_calendar_conflicts)
+                if query.avoid_calendar_conflicts:
+                    self._check_calendar(row, db)
+            else:
+                self._state(row, "expired")
+                row["option_unavailable"] = True
+            self._write_row(db, row)
+        return public(row)
 
     def read(self, ident, owner, chat, *, following=False):
         with self.lock:

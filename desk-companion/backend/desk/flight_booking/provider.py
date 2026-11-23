@@ -23,6 +23,7 @@ PNR = re.compile(r"[A-Z0-9]{6}")
 
 
 FlightNumber = Annotated[str, Field(pattern=r"^[A-Z0-9]{2}\s?[0-9]{1,4}[A-Z]?$")]
+HKDLimit = Annotated[float, Field(gt=0, le=1_000_000)]
 
 
 class BookedFlightCalendarQuery(StrictModel):
@@ -46,7 +47,7 @@ class FlightQuery(StrictModel):
         default=False,
         description="True only when the owner explicitly requests a price-rise test scenario.",
     )
-    max_hkd: float | None = Field(default=None, gt=0, le=1000000)
+    max_hkd: HKDLimit | None = None
     checked_bag_kg: int = Field(default=0, ge=0, le=60)
     return_date: Day | None = None
 
