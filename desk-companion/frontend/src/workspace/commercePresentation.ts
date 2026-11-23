@@ -152,7 +152,7 @@ export function optionTime(leg: Leg, t: Translate) {
   return `${from}–${to}${suffix ? " " + suffix : ""}`;
 }
 
-export function legTime(leg: Leg) {
+export function legTime<T extends Pick<Leg, "departs" | "arrives">>(leg: T) {
   const [day, from] = leg.departs.split("T"),
     [end, to] = leg.arrives.split("T");
   return `${day} · ${from}–${end === day ? "" : end + " "}${to}`;

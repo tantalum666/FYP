@@ -146,7 +146,11 @@ export function SandboxFlightCard({
       ) : (
         <>
           <details className="commerce-receipt">
-            <summary>{flightStatus(flight, t)}</summary>
+            <summary>
+              {flight.calendar_preview
+                ? t("Booking details", "订座详情")
+                : flightStatus(flight, t)}
+            </summary>
             <div className="commerce-detail-body">
               {legs}
               <div>
@@ -221,13 +225,10 @@ export function SandboxFlightCard({
             <div className="commerce-detail-body">
               <strong>{flight.calendar_preview.title}</strong>
               <div>
-                {flight.calendar_preview.start_local
-                  .replace("T", " ")
-                  .slice(0, 16)}{" "}
-                →{" "}
-                {flight.calendar_preview.end_local
-                  .replace("T", " ")
-                  .slice(0, 16)}{" "}
+                {legTime({
+                  departs: flight.calendar_preview.start_local.slice(0, 16),
+                  arrives: flight.calendar_preview.end_local.slice(0, 16),
+                })}{" "}
                 · {flight.calendar_preview.timezone}
               </div>
               {flight.calendar_preview.fit &&

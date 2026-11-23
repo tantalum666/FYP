@@ -30,4 +30,4 @@ The Diagnostics screen shows the UTC platform export, usage-based estimate, loca
 
 Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
 
-**Next step** — On a positive response to the original eBay developer review, run the buyer/seller marketplace cancellation and verify its order and refund independently.
+**Next step** — Review the API author's completed component commits against their earlier client/data contracts and integrate the verified combination into [PR 144](https://github.com/tantalum666/FYP/pull/144). The eBay account review and original Pi release package are tracked separately in the preceding evidence.
