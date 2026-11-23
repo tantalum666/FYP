@@ -13,7 +13,48 @@
     ],
     "original_helper_and_backup_sha256": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
     "preflight_hkt": "2026-11-23T16:06:18+08:00",
-    "separate_post_reconnection_snapshot": "pending",
+    "separate_post_reconnection_snapshot": {
+      "backup_sha256_matches": true,
+      "boot_id_prefix": "a98fb674",
+      "cpu_ceiling_khz": 2400000,
+      "early_renewal_uptimes_s": [
+        4.723,
+        34.786
+      ],
+      "early_rtc_clock_seconds_since_epoch": [
+        16,
+        46
+      ],
+      "firmware_poweroff_on_halt_0": true,
+      "first_combined_post_reconnect_read_passed": false,
+      "installed_unit_hashes_unchanged": true,
+      "later_valid_calendar_epoch_renewals": 3,
+      "normal_api_healthy": true,
+      "opt_in_marker_present": true,
+      "original_app_release": "082002013fd375b7d3b66885e59ca5b781a26bc0",
+      "physical_boot_trigger": "unverified",
+      "pmic_alarm_enabled": true,
+      "pmic_deadline_hkt": "2026-11-23T21:15:23+08:00",
+      "pmic_lead_s": 162,
+      "pmic_linux_and_stored_owner_match": true,
+      "read_hkt": "2026-11-23T21:12:41+08:00",
+      "rtc_minus_os_s": -0.3,
+      "source_sha256_matches": true,
+      "unit_states": {
+        "desk-auto-wake.service": {
+          "ActiveState": "inactive",
+          "ExecMainStatus": "0",
+          "Result": "success",
+          "UnitFileState": "enabled"
+        },
+        "desk-auto-wake.timer": {
+          "ActiveState": "active",
+          "Result": "success",
+          "UnitFileState": "enabled"
+        }
+      },
+      "which_first_comparison_failed": "not recorded"
+    },
     "similar_candidate_backup_preexisting": false,
     "timer_restarted": false,
     "two_distinct_successful_systemd_invocations": true
