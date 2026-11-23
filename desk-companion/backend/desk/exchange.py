@@ -11,6 +11,7 @@ import icalendar
 import recurring_ical_events
 from pydantic import Field, ValidationError, model_validator
 
+from . import google_imports
 from .access import digest
 from .calendar import expand_all, iso, wall_to_utc
 from .mailbox_backup import empty_mailbox_bundle
@@ -67,11 +68,41 @@ class ExchangeService:
                 "CREATE TABLE IF NOT EXISTS calendar_shares(id TEXT PRIMARY KEY,token_hash TEXT UNIQUE NOT NULL,data TEXT NOT NULL,expires_at TEXT NOT NULL,revoked INTEGER NOT NULL DEFAULT 0)"
             )
 
+    def save_preview(self, conn, kind, rows, warnings, metadata, *, google=None):
+        conn.execute("DELETE FROM import_previews WHERE expires_at<=?", (iso(self.store.clock()),))
+        preview_id = uuid4().hex
+        expires = iso(self.store.clock() + timedelta(minutes=15))
+        document = {"rows": rows, "warnings": warnings, "metadata": metadata or {}}
+        conn.execute(
+            "INSERT INTO import_previews VALUES(?,?,?,?,'pending')",
+            (
+                preview_id,
+                kind,
+                encode({**document, **({"google": google} if google else {})}),
+                expires,
+            ),
+        )
+        return {"preview_id": preview_id, "kind": kind, "expires_at": expires, **document}
+
+    def pending_preview(self, conn, receipt):
+        row = conn.execute(
+            "SELECT kind,data,expires_at FROM import_previews WHERE id=? AND state='pending' AND expires_at>?",
+            (receipt["preview_id"], iso(self.store.clock())),
+        ).fetchone()
+        if not row:
+            raise DomainError("IMPORT_EXPIRED", 410)
+        document = json.loads(row["data"])
+        return {
+            **receipt,
+            "kind": row["kind"],
+            "expires_at": row["expires_at"],
+            "rows": document["rows"],
+            "warnings": document["warnings"],
+            "metadata": document["metadata"],
+        }
+
     def _preview(self, kind, rows, warnings, key, metadata=None):
         def apply(conn):
-            conn.execute(
-                "DELETE FROM import_previews WHERE expires_at<=?", (iso(self.store.clock()),)
-            )
             documents, _ = self.store.data(conn)
             existing = {e.get("external_id"): e for e in documents if e.get("external_id")}
             by_id = {e["id"]: e for e in documents}
@@ -87,14 +118,7 @@ class ExchangeService:
                 )
                 same = match and all(match.get(k) == v for k, v in row["event"].items())
                 row["status"] = "unchanged" if same else "changed" if match else "new"
-            preview_id = uuid4().hex
-            expires = iso(self.store.clock() + timedelta(minutes=15))
-            document = {"rows": rows, "warnings": warnings, "metadata": metadata or {}}
-            conn.execute(
-                "INSERT INTO import_previews VALUES(?,?,?,?,'pending')",
-                (preview_id, kind, encode(document), expires),
-            )
-            return {"preview_id": preview_id, "kind": kind, "expires_at": expires, **document}
+            return self.save_preview(conn, kind, rows, warnings, metadata)
 
         return self.store.operation(
             key,
@@ -215,79 +239,111 @@ class ExchangeService:
             },
         )
 
-    def apply(self, preview_id, payload, key, *, allow_backup=True):
-        # Check before Store.operation can return a cached private restore receipt.
-        with self.store.connection() as conn:
+    def save_event(self, conn, item, kind):
+        document = EventInput.model_validate(item["event"]).model_dump(mode="json")
+        document.update(
+            origin="import" if kind in {"ics", "google"} else "backup",
+            batch_id=None,
+            provider=kind if kind in {"ics", "google"} else None,
+            external_id=item["external_id"],
+        )
+        if item["existing_id"]:
+            current = self.store.event(conn, item["existing_id"])
+            if current["version"] != item["expected_version"]:
+                raise DomainError("VERSION_CONFLICT")
+            event_id = item["existing_id"]
+            # Local occurrence edits would be lost on replacement: require a new preview after resolving them.
+            if conn.execute("SELECT 1 FROM exceptions WHERE event_id=?", (event_id,)).fetchone():
+                raise DomainError("SERIES_HAS_EXCEPTIONS")
+            conn.execute(
+                "UPDATE events SET data=?,version=version+1 WHERE id=?",
+                (encode(document), event_id),
+            )
+        else:
+            if kind != "google":
+                # A concurrently imported identical source must not create a duplicate.
+                for current in conn.execute("SELECT data FROM events WHERE deleted=0"):
+                    if (
+                        item["external_id"]
+                        and json.loads(current[0]).get("external_id") == item["external_id"]
+                    ):
+                        raise DomainError("VERSION_CONFLICT")
+            event_id = item.get("restore_id") or uuid4().hex
+            if conn.execute("SELECT 1 FROM events WHERE id=?", (event_id,)).fetchone():
+                raise DomainError("VERSION_CONFLICT")
+            conn.execute(
+                "INSERT INTO events(id,data,version) VALUES(?,?,1)",
+                (event_id, encode(document)),
+            )
+            for occurrence, exception in item["exceptions"].items():
+                conn.execute(
+                    "INSERT INTO exceptions VALUES(?,?,?)",
+                    (event_id, occurrence, encode(exception)),
+                )
+        return event_id
+
+    def authorize_review(self, conn, key, request, owner_session, *, owner, google_only=False):
+        preview_id = request["preview_id"]
+        source = conn.execute(
+            "SELECT kind,json_extract(data,'$.google.fence') AS fence FROM import_previews WHERE id=?",
+            (preview_id,),
+        ).fetchone()
+        if not source:
+            # A confirmation or discard receipt can outlive the temporary Google review.
             source = conn.execute(
-                "SELECT kind FROM import_previews WHERE id=?", (preview_id,)
+                """SELECT 'google' AS kind,json_extract(request,'$.google_fence') AS fence
+                   FROM operations WHERE id=? AND json_extract(request,'$.preview_id')=?
+                   AND json_type(request,'$.google_fence')='object'""",
+                (key, preview_id),
             ).fetchone()
-            if source and source["kind"] == "backup" and not allow_backup:
-                raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        if source and source["kind"] in {"backup", "google", "google_refresh"} and not owner:
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        if source and source["kind"] in {"google", "google_refresh"}:
+            if not source["fence"]:  # The old preview lacks an account or session binding.
+                raise DomainError("IMPORT_EXPIRED", 410)
+            request["google_fence"] = json.loads(source["fence"])
+            self.runtime.google.check_fence(conn, owner_session, request["google_fence"])
+        elif google_only:
+            raise DomainError("IMPORT_EXPIRED", 410)
+
+    def apply(self, preview_id, payload, key, *, allow_backup=True, owner_session=None):
+        request = {"type": "import_apply", "preview_id": preview_id, **payload.model_dump()}
+
+        def authorize(conn):
+            self.authorize_review(conn, key, request, owner_session, owner=allow_backup)
 
         def apply(conn):
             row = conn.execute("SELECT * FROM import_previews WHERE id=?", (preview_id,)).fetchone()
             if not row or row["expires_at"] <= iso(self.store.clock()) or row["state"] != "pending":
                 raise DomainError("IMPORT_EXPIRED", 410)
             preview = json.loads(row["data"])
-            rows = preview["rows"]
-            if row["kind"] == "backup" and payload.replace_matching:
-                raise DomainError("RESTORE_KEEP_EXISTING", 422)
-            selected = [
-                r
-                for r in rows
-                if r["status"] == "new" or r["status"] == "changed" and payload.replace_matching
-            ]
-            if (
-                conn.execute("SELECT COUNT(*) FROM events WHERE deleted=0").fetchone()[0]
-                + sum(r["status"] == "new" for r in selected)
-                > 500
-            ):
-                raise DomainError("EVENT_LIMIT", 422)
-            created, updated = 0, 0
-            for item in selected:
-                document = EventInput.model_validate(item["event"]).model_dump(mode="json")
-                document.update(
-                    origin="import" if row["kind"] in {"ics", "google"} else "backup",
-                    batch_id=None,
-                    provider=row["kind"] if row["kind"] in {"ics", "google"} else None,
-                    external_id=item["external_id"],
+            if row["kind"] in {"google", "google_refresh"}:
+                counts = google_imports.apply_import(
+                    self, conn, row["kind"], preview_id, preview, payload
                 )
-                if item["existing_id"]:
-                    current = self.store.event(conn, item["existing_id"])
-                    if current["version"] != item["expected_version"]:
-                        raise DomainError("VERSION_CONFLICT")
-                    event_id = item["existing_id"]
-                    # Local occurrence edits would be lost on replacement: require a new preview after resolving them.
-                    if conn.execute(
-                        "SELECT 1 FROM exceptions WHERE event_id=?", (event_id,)
-                    ).fetchone():
-                        raise DomainError("SERIES_HAS_EXCEPTIONS")
-                    conn.execute(
-                        "UPDATE events SET data=?,version=version+1 WHERE id=?",
-                        (encode(document), event_id),
-                    )
-                    updated += 1
-                else:
-                    # A concurrently imported identical source must not create a duplicate.
-                    for current in conn.execute("SELECT data FROM events WHERE deleted=0"):
-                        if (
-                            item["external_id"]
-                            and json.loads(current[0]).get("external_id") == item["external_id"]
-                        ):
-                            raise DomainError("VERSION_CONFLICT")
-                    event_id = item.get("restore_id") or uuid4().hex
-                    if conn.execute("SELECT 1 FROM events WHERE id=?", (event_id,)).fetchone():
-                        raise DomainError("VERSION_CONFLICT")
-                    conn.execute(
-                        "INSERT INTO events(id,data,version) VALUES(?,?,1)",
-                        (event_id, encode(document)),
-                    )
-                    for occurrence, exception in item["exceptions"].items():
-                        conn.execute(
-                            "INSERT INTO exceptions VALUES(?,?,?)",
-                            (event_id, occurrence, encode(exception)),
-                        )
-                    created += 1
+            else:
+                rows = preview["rows"]
+                if row["kind"] == "backup" and payload.replace_matching:
+                    raise DomainError("RESTORE_KEEP_EXISTING", 422)
+                selected = [
+                    r
+                    for r in rows
+                    if r["status"] == "new" or r["status"] == "changed" and payload.replace_matching
+                ]
+                if (
+                    conn.execute("SELECT COUNT(*) FROM events WHERE deleted=0").fetchone()[0]
+                    + sum(r["status"] == "new" for r in selected)
+                    > 500
+                ):
+                    raise DomainError("EVENT_LIMIT", 422)
+                created = updated = 0
+                for item in selected:
+                    self.save_event(conn, item, row["kind"])
+                    if item["existing_id"]:
+                        updated += 1
+                    else:
+                        created += 1
+                counts = {"created": created, "updated": updated, "kept": len(rows) - len(selected)}
             task_result = (
                 self.runtime.tasks.restore(
                     conn, preview["metadata"].get("task_bundle", {"tasks": [], "evidence": []})
@@ -348,12 +404,10 @@ class ExchangeService:
             self.store.record(
                 conn,
                 "calendar_imported",
-                details={"kind": row["kind"], "created": created, "updated": updated},
+                details={"kind": row["kind"], **counts},
             )
             return {
-                "created": created,
-                "updated": updated,
-                "kept": len(rows) - len(selected),
+                **counts,
                 "tasks_created": task_result["created"],
                 "tasks_kept": task_result["kept"],
                 "memories_created": memory_result["created"],
@@ -371,9 +425,7 @@ class ExchangeService:
                 "applied": True,
             }
 
-        return self.store.operation(
-            key, {"type": "import_apply", "preview_id": preview_id, **payload.model_dump()}, apply
-        )
+        return self.store.operation(key, request, apply, authorize=authorize)
 
     def export_ics(self):
         calendar = icalendar.Calendar()

@@ -193,10 +193,15 @@ def test_google_oauth_is_bound_single_use_encrypted_and_read_only(tmp_path):
             not in conn.execute("SELECT encrypted_tokens FROM google_connection").fetchone()[0]
         )
     preview = google.preview(
-        ShareInput(start=date(2026, 10, 1), end=date(2026, 10, 15)), uuid4().hex
+        ShareInput(start=date(2026, 10, 1), end=date(2026, 10, 15)), uuid4().hex, token
     )
     assert preview["rows"][0]["event"]["start_local"] == "2026-10-03T07:00:00"
-    assert runtime.exchange.apply(preview["preview_id"], ImportApply(), "import")["created"] == 1
+    assert (
+        runtime.exchange.apply(preview["preview_id"], ImportApply(), "import", owner_session=token)[
+            "created"
+        ]
+        == 1
+    )
     assert all(r.method == "GET" for r in calls if "/calendar/v3/" in r.url.path)
     assert google.disconnect()["provider_revocation_confirmed"]
     assert not google.snapshot()["connected"]

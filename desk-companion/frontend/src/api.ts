@@ -20,6 +20,8 @@ export async function request<T>(
       "/assistant/messages",
       "/assistant/retained-messages",
       "/browser/observations",
+      "/google/preview",
+      "/google/refresh",
     ].includes(path)
       ? 75000
       : 12000,
@@ -581,8 +583,8 @@ export function errorText(
       "草稿已过期，请重新生成后保存。",
     ],
     IMPORT_EXPIRED: [
-      "This import preview expired or was applied. Preview the file again.",
-      "导入预览已过期或已应用，请重新预览文件。",
+      "This preview expired or closed. Open a fresh preview.",
+      "此预览已过期或关闭，请重新预览。",
     ],
     IMPORT_TOO_LARGE: [
       "Use a smaller file or a shorter date range.",
@@ -619,6 +621,14 @@ export function errorText(
     GOOGLE_NOT_CONNECTED: [
       "Connect your Google calendar before refreshing.",
       "请先连接Google日历。",
+    ],
+    GOOGLE_REFRESH_TOO_LARGE: [
+      "Choose dates with at most 50 imported Google events.",
+      "请选择最多含 50 项已导入 Google 事项的日期范围。",
+    ],
+    PRIVATE_CONTEXT_HIDDEN: [
+      "Show private details to continue.",
+      "请先显示私人详情。",
     ],
     GOOGLE_CONNECTION_FAILED: [
       "Google could not be reached. The local calendar is still available.",
