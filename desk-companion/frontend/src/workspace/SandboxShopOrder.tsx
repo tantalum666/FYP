@@ -3,6 +3,7 @@ import {
   hkd,
   reviewRef,
   shopStatus,
+  shopTitle,
   type CommerceRef,
   type SandboxShop,
 } from "./commercePresentation";
@@ -29,11 +30,28 @@ export function SandboxShopCard({
     onDecision(message, reviewRef(order, "shop"));
   const fields = (
     <>
-      <div>
-        {q.name} × {terms.quantity} · {hkd(q.unit_minor)} {t("each", "每件")}
-      </div>
-      <div>{terms.sku}</div>
-      {q.shipping_name && <div>{q.shipping_name}</div>}
+      {"item_names" in q ? (
+        <ul>
+          {q.terms.items.map((line) => (
+            <li key={line.product_id}>
+              {q.item_names[line.product_id]} ({line.sku}) × {line.quantity}
+              {" · "}{hkd(line.subtotal_minor / line.quantity)} {t("each", "每件")}
+              {" · "}{t("Subtotal", "小计")} {hkd(line.subtotal_minor)}
+              {line.discount_minor > 0 && <> · {t("Discount", "优惠")} −{hkd(line.discount_minor)}</>}
+              {line.tax_minor > 0 && <> · {t("Tax", "税费")} {hkd(line.tax_minor)}</>}
+              {line.subtotal_tax_minor !== line.tax_minor && (
+                <> · {t("Tax before discount", "优惠前税额")} {hkd(line.subtotal_tax_minor)}</>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <>
+          <div>{q.name} × {q.terms.quantity} · {hkd(q.unit_minor)} {t("each", "每件")}</div>
+          <div>{q.terms.sku}</div>
+        </>
+      )}
+      {q.shipping_name && <div>{q.shipping_name} · {terms.rate_id}</div>}
       <div>
         {t("Items", "商品")} {hkd(terms.subtotal_minor)} ·{" "}
         {t("Delivery", "运费")} {hkd(terms.shipping_minor)}
@@ -47,6 +65,15 @@ export function SandboxShopCard({
         <div>
           {t("Fees", "附加费")} {hkd(terms.fees_minor)}
         </div>
+      )}
+      {"item_names" in q && q.terms.fees.map((fee, index) => (
+        <div key={index}>
+          {fee.name} {hkd(fee.total_minor)}
+          {fee.tax_minor > 0 && <> · {t("Tax", "税费")} {hkd(fee.tax_minor)}</>}
+        </div>
+      ))}
+      {"item_names" in q && q.terms.shipping_tax_minor > 0 && (
+        <div>{t("Delivery tax", "运费税额")} {hkd(q.terms.shipping_tax_minor)}</div>
       )}
       {terms.discount_minor > 0 && (
         <div>
@@ -78,9 +105,7 @@ export function SandboxShopCard({
     >
       {atCheckout ? (
         <>
-          <strong>
-            {q.name} × {terms.quantity}
-          </strong>
+          <strong>{shopTitle(q, t)}</strong>
           <p>
             {t("Items", "商品")} {hkd(terms.subtotal_minor)} ·{" "}
             {q.destination === "HK"
@@ -108,8 +133,9 @@ export function SandboxShopCard({
           </p>
           {revised && order.previous && (
             <p role="status">
-              {t("New total", "总价已变")} ·{" "}
-              {hkd(order.previous.terms.total_minor)} → {total}
+              {order.previous.terms.total_minor === order.review_minor
+                ? t(`Details changed · Total still ${total}`, `明细已变 · 总价仍为 ${total}`)
+                : <>{t("New total", "总价已变")} · {hkd(order.previous.terms.total_minor)} → {total}</>}
             </p>
           )}
           {retry && <p role="status">{shopStatus(order, t)}</p>}

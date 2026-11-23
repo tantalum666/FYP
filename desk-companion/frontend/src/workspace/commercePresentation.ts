@@ -1,24 +1,40 @@
 import type { Translate } from "../types";
 
-interface ShopQuote {
-  name: string;
-  unit_minor: number;
+interface ShopIdentity {
+  product_id: number;
+  sku: string;
+  quantity: number;
+}
+interface ShopLine extends ShopIdentity {
+  subtotal_minor: number;
+  discount_minor: number;
+  subtotal_tax_minor: number;
+  tax_minor: number;
+}
+interface ShopTotals {
+  currency: "HKD";
+  subtotal_minor: number;
+  discount_minor: number;
+  shipping_minor: number;
+  tax_minor: number;
+  fees_minor: number;
+  total_minor: number;
+  rate_id: string;
+}
+type ShopQuote = {
   shipping_name: string;
   destination: string | null;
-  terms: {
-    product_id: number;
-    sku: string;
-    quantity: number;
-    currency: "HKD";
-    subtotal_minor: number;
-    discount_minor: number;
-    shipping_minor: number;
-    tax_minor: number;
-    fees_minor: number;
-    total_minor: number;
-    rate_id: string;
-  };
-}
+} & (
+  | { name: string; unit_minor: number; terms: ShopTotals & ShopIdentity }
+  | {
+      item_names: Record<string, string>;
+      terms: ShopTotals & {
+        items: ShopLine[];
+        fees: { name: string; total_minor: number; tax_minor: number }[];
+        shipping_tax_minor: number;
+      };
+    }
+);
 export interface SandboxShop {
   id: string;
   version: number;
@@ -154,16 +170,23 @@ const shopStates: Record<string, [string, string]> = {
   refund_retry: ["Cancellation unconfirmed", "撤单尚未确认"],
   retry: ["Payment unconfirmed", "扣款尚未确认"],
   expired: ["Quote expired", "报价已过期"],
+  unavailable: ["Basket unavailable", "购物清单无法结账"],
   cancelled: ["Cancelled before payment", "已取消，未付款"],
   failed: ["Payment failed", "付款未完成"],
   unverified: ["Payment unverified", "扣款待核实"],
 };
 
+export function shopTitle(q: ShopQuote, t: Translate): string {
+  if (!("item_names" in q)) return `${q.name} × ${q.terms.quantity}`;
+  const lines = q.terms.items;
+  if (lines.length === 1)
+    return `${q.item_names[lines[0].product_id]} × ${lines[0].quantity}`;
+  return t(`${lines.length} products`, `${lines.length} 种商品`);
+}
+
 export function shopStatus(row: SandboxShop, t: Translate): string {
   const r = row.receipt,
-    item = r
-      ? `#${r.order}`
-      : `${row.quote.name} × ${row.quote.terms.quantity}`;
+    item = r ? `#${r.order}` : shopTitle(row.quote, t);
   if (row.state === "refunded" && r?.refunded_minor != null)
     return `${item} · ${t("Refunded", "已退款")} ${hkd(r.refunded_minor)}`;
   if (row.cancel_unavailable && row.state === "completed")
@@ -171,8 +194,11 @@ export function shopStatus(row: SandboxShop, t: Translate): string {
   if (row.state === "completed" && r)
     return `${item} · ${t("Test charge", "模拟扣款")} ${hkd(r.charged_minor)}`;
   if (row.state === "quoted") return `${item} · ${hkd(row.review_minor)}`;
-  if (row.state === "reprice" && row.previous)
+  if (row.state === "reprice" && row.previous) {
+    if (row.previous.terms.total_minor === row.review_minor)
+      return `${item} · ${t("Terms changed", "明细已变")} · ${hkd(row.review_minor)}`;
     return `${item} · ${hkd(row.previous.terms.total_minor)} → ${hkd(row.review_minor)}`;
+  }
   const label = shopStates[row.state] ?? ["Checking order", "正在查单"];
   return `${item} · ${t(label[0], label[1])}`;
 }
@@ -226,6 +252,7 @@ const watchStates = new Set([
 ]);
 const importantStates = new Set([
   "reprice",
+  "unavailable",
   "refunded",
   "stopped",
   "completed",

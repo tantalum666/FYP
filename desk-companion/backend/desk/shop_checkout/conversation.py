@@ -10,9 +10,10 @@ from .provider import ShopQuery
 TOOL = {
     "name": "sandbox_shop_quote",
     "description": (
-        "For a request to buy an item, prepare an order quote from the owner's WooCommerce TEST shop. "
-        "Use the requested product name in its original language or its exact SKU and the exact quantity of selling units. "
-        "Ask if either is missing or ambiguous. The shop computes delivery to the fictional Hong Kong address and the full HKD total. "
+        "Prepare one quote for the owner's entire basket from the WooCommerce TEST shop. "
+        "Send every requested product name in its original language or exact SKU and selling-unit quantity "
+        "in one items array. For one product you may send product and quantity instead. "
+        "Ask if any item or quantity is missing or ambiguous. The shop computes one full HKD cart with Hong Kong delivery. "
         "For price research on a named real merchant use browser_research_draft instead. No real goods or money. "
         "This function cannot place an order, approve a price or charge a card. The owner confirms the displayed exact cart and each change."
     ),
@@ -29,13 +30,24 @@ def describe(row, language):
     t = q["terms"]
     zh = language == "zh"
     if row["state"] == "quoted":
+        lines = t.get("items", [])
+        if len(lines) > 1:
+            subject = f"{len(lines)} 种商品" if zh else f"{len(lines)} products"
+        else:
+            subject = f"{q['name']} × {t['quantity']}"
         return (
-            f"{q['name']} × {t['quantity']}：商品 {price(t['subtotal_minor'])}，运费 {price(t['shipping_minor'])}，测试订单总价 {price(t['total_minor'])}。确认后我才付款。"
+            f"{subject}，商品 {price(t['subtotal_minor'])}，运费 {price(t['shipping_minor'])}，测试订单总价 {price(t['total_minor'])}。确认后我才付款。"
             if zh
-            else f"{q['name']} × {t['quantity']}. Items {price(t['subtotal_minor'])}, delivery {price(t['shipping_minor'])}, order total {price(t['total_minor'])}. Confirm to make the test payment."
+            else f"{subject}. Items {price(t['subtotal_minor'])}, delivery {price(t['shipping_minor'])}, order total {price(t['total_minor'])}. Confirm to make the test payment."
         )
     if row["state"] == "reprice":
         old = row["previous"]["terms"]
+        if old["total_minor"] == t["total_minor"]:
+            return (
+                f"结账明细已变，总价仍为 {price(t['total_minor'])}。请核对新明细后确认付款。"
+                if zh
+                else f"Checkout details changed. The total is still {price(t['total_minor'])}. Review the new details before paying."
+            )
         return (
             f"商店更新了结账报价：原总价 {price(old['total_minor'])}，新总价 {price(t['total_minor'])}，其中运费 {price(t['shipping_minor'])}。还没有付款。按新报价继续吗？"
             if zh
@@ -80,6 +92,10 @@ def describe(row, language):
             "The refund needs merchant review. A completed full refund has not been verified.",
         ),
         "cancelled": ("已取消，没有付款。", "Cancelled without payment."),
+        "unavailable": (
+            "商店无法按原清单供货或配送。请重新询价。",
+            "The shop can no longer supply or deliver the whole basket. Request a fresh quote.",
+        ),
         "expired": ("报价已过期，请重新查询。", "Quote expired. Request a fresh quote."),
         "checking": (
             "正在查回商店订单和 Stripe 的扣款回执。",
@@ -202,6 +218,14 @@ def failure(code, lang):
         "SHOP_AMBIGUOUS": (
             "有多个商品匹配，请指定完整商品名或 SKU。",
             "Several products match. Specify the full name or SKU.",
+        ),
+        "SHOP_ITEM_UNAVAILABLE": (
+            "购物清单中有商品无法按要求购买，请核对商品和数量。",
+            "An item is unavailable in the requested quantity. Check the basket before trying again.",
+        ),
+        "SHOP_QUANTITY_LIMIT": (
+            "同一 SKU 合计最多可购买 99 件，请核对数量。",
+            "The combined quantity exceeds 99 for one SKU. Check the requested quantity.",
         ),
         "SHOP_DELIVERY_UNAVAILABLE": (
             "商店未提供已核实的香港配送费，暂时无法报价。",

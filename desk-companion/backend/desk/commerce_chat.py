@@ -164,7 +164,7 @@ def context_instructions(runtime, principal, chat, context):
                 {k: row[k] for k in ("quote", "state", "receipt")} for row in orders[:3]
             ]
         instructions.append(
-            "For an owner asking to buy a product (买、购买 or 购物), use sandbox_shop_quote for the product name in its original language and exact quantity. The shop quotes items and Hong Kong delivery. For existing orders use the matching chat receipt; use the recorded gross charge, successful refund and net separately. A buyer cancellation or refund is confirmed only by the local merchant/payment receipts. You cannot refund, pay or approve a revision."
+            "For an owner asking to shop (买、购买 or 购物), call sandbox_shop_quote once with every requested product name in its original language and its exact quantity. Ask about any unclear item before quoting the basket. The shop quotes the whole cart and Hong Kong delivery. For existing orders use the matching chat receipt; use the recorded gross charge, successful refund and net separately. A buyer cancellation or refund is confirmed only by the local merchant/payment receipts. You cannot refund, pay or approve a revision."
         )
     if runtime.flight_bookings.enabled:
         if rows := flights.prompt_context(runtime, principal, chat):
