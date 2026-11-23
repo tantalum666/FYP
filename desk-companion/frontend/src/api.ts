@@ -20,7 +20,7 @@ export async function request<T>(
       "/assistant/messages",
       "/assistant/retained-messages",
       "/browser/observations",
-    ].includes(path)
+    ].includes(path) || path.startsWith("/assistant/flight-checkouts/") || path === "/apps/letsfg/connect"
       ? 75000
       : 12000,
   );

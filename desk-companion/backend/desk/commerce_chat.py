@@ -4,6 +4,7 @@ from . import commerce_aftercare
 from .store import DomainError
 from .commerce_review import language_for
 from .flight_booking import conversation as flights
+from .flight_booking import live_chat
 from .shop_checkout import conversation as shopping
 
 
@@ -25,6 +26,10 @@ def follow_orders(runtime):
 
 
 def can_resume(runtime, principal, payload):
+    if not payload.flight_review and not payload.shopping_review and runtime.live_flight_checkouts.can_resume(
+        principal, payload.conversation_id, None, payload.task_id
+    ):
+        return True
     if payload.shopping_review:
         return runtime.shop_orders.can_resume(
             principal, payload.conversation_id, payload.shopping_review, payload.task_id
@@ -40,6 +45,8 @@ def can_resume(runtime, principal, payload):
 
 
 def turn(runtime, payload, principal, chat):
+    if result := live_chat.turn(runtime, payload, principal, chat):
+        return result
     if result := commerce_aftercare.turn(runtime, payload, principal, chat):
         return result
     if payload.shopping_review:
@@ -70,6 +77,16 @@ def turn(runtime, payload, principal, chat):
 
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
+    if proposal := reply.get('proposal'):
+        if not cached:
+            runtime.live_flight_checkouts.bind(principal, chat, proposal)
+    if reply.get('live_flight_review'):
+        return live_chat.reply(runtime.live_flight_checkouts.start(principal,chat),chat,payload.message,payload.language)
+    if cached and reply.get('kind')=='live_flight_checkout':
+        ident=reply.get('live_id')
+        view=(runtime.live_flight_checkouts.view(principal,chat.id,ident) if ident
+              else runtime.live_flight_checkouts.start(principal,chat))
+        return live_chat.reply(view,chat,payload.message,payload.language)
     lang = language_for(payload.message, payload.language)
     choice = getattr(payload, "calendar_flight_choice", None)
     calendar_requested = getattr(payload, "flight_calendar_requested", False) or choice is not None
@@ -148,6 +165,8 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
 
 
 def tool_available(runtime, name, *, scoped):
+    if name == "flight_purchase_review":
+        return scoped
     if name == "sandbox_shop_quote":
         return scoped and runtime.shop_orders.enabled
     if name == "sandbox_flight_quote":
@@ -156,7 +175,7 @@ def tool_available(runtime, name, *, scoped):
 
 
 def context_instructions(runtime, principal, chat, context):
-    instructions = []
+    instructions = ["For a purchase of a previously shown real Kiwi fare use flight_purchase_review. Its original linked quote, checked baggage, dates and passenger count govern. Never switch a real ticket to the fictional sandbox. Only the owner can purchase in the private checkout review."]
     if runtime.shop_orders.enabled:
         orders = runtime.shop_orders.listing(principal, chat.id)
         if orders:

@@ -93,6 +93,18 @@ const hongKongAmount = new Intl.NumberFormat("en-HK", {
 });
 
 export const hkd = (minor: number) => `HK$${hongKongAmount.format(minor / 100)}`;
+export function formatCurrencyMinor(value: number, currency: string, t?: Translate) {
+  if (currency === "HKD") return hkd(value);
+  const format = new Intl.NumberFormat(t ? t("en-HK", "zh-HK") : "en-HK", {
+    style: "currency",
+    currency,
+    currencyDisplay: "code",
+  });
+  return format.format(
+    value / 10 ** (format.resolvedOptions().maximumFractionDigits ?? 2),
+  );
+}
+
 export const needsDecision = (row: { state: string }) =>
   ["quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
 export const reviewRef = (

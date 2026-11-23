@@ -30,7 +30,7 @@ class ReviewDecision(ReviewRef):
 
 class ChatReviews:
     # SQL identifiers are fixed by the application, never supplied by a quote or caller.
-    tables = {"FLIGHT": "sandbox_flight_bookings", "SHOP": "sandbox_shop_orders"}
+    tables = {"FLIGHT": "sandbox_flight_bookings", "SHOP": "sandbox_shop_orders", "LIVE_FLIGHT": "live_flight_checkouts"}
 
     def __init__(self, runtime, kind):
         self.runtime, self.store = runtime, runtime.store
@@ -40,7 +40,7 @@ class ChatReviews:
             db.execute(
                 f"CREATE TABLE IF NOT EXISTS {self.table}(id TEXT PRIMARY KEY,owner TEXT NOT NULL,chat TEXT NOT NULL,data TEXT NOT NULL,serial INTEGER NOT NULL DEFAULT 0)"
             )
-            index = "sandbox_flight_chat" if kind == "FLIGHT" else "sandbox_shop_chat"
+            index = {"FLIGHT": "sandbox_flight_chat", "SHOP": "sandbox_shop_chat", "LIVE_FLIGHT": "live_flight_chat"}[kind]
             db.execute(f"CREATE INDEX IF NOT EXISTS {index} ON {self.table}(owner,chat)")
             db.execute(
                 f"CREATE INDEX IF NOT EXISTS {index}_due ON {self.table}"
@@ -57,13 +57,14 @@ class ChatReviews:
         self.runtime.personal_context.require_visible(principal)
         return owner
 
-    def insert(self, row, key, principal, chat):
+    def insert(self, row, key, principal, chat, *, state="quoted"):
         owner = self.owner(principal)
         if not chat or chat.owner != owner:
             raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
         ident = hashlib.sha256(key.encode()).hexdigest()[:32]
-        row.update(id=ident, task_id=chat.task_id, version=1, state="quoted")
+        row.update(id=ident, task_id=chat.task_id, version=1, state=state)
         with self.store.connection(write=True) as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
             db.execute(
                 f"INSERT OR IGNORE INTO {self.table}(id,owner,chat,data) VALUES(?,?,?,?)",
                 (ident, owner, chat.id, encode(row)),

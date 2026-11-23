@@ -105,6 +105,7 @@ export interface ProposalDecisionReply {
   job?: { id: string };
 }
 export interface Reply {
+  live_flight_checkout?: import("./LiveFlightCheckout").LiveCheckout;
   delivery?: import("../companion/delivery").Delivery;
   commerce_note?: boolean;
   flight_alternatives?: import("./commercePresentation").FlightAlternatives;

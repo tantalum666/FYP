@@ -139,6 +139,10 @@ class Runtime:
         self.trips = TravelQuoteService(self)
         from .flight_booking.service import FlightBookings
         self.flight_bookings = FlightBookings(self)
+        from .flight_booking.live_oauth import LetsFGAccount
+        from .flight_booking.live_provider import LiveFlightProvider
+        self.letsfg_auth = LetsFGAccount(self)
+        self.live_flight_provider = LiveFlightProvider(self)
         from .shop_checkout.service import ShopOrders
         self.shop_orders = ShopOrders(self)
         self.store.operation_guard = self.agent_runs.guard_operation
@@ -146,6 +150,8 @@ class Runtime:
         self.mail_followups = MailFollowups(self)
         self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
+        from .flight_booking.live_checkout import LiveFlightCheckouts
+        self.live_flight_checkouts = LiveFlightCheckouts(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):

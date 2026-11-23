@@ -91,6 +91,11 @@ class ChangeProposal(StrictModel):
 
 TOOLS = [
     FLIGHT_QUOTE_TOOL,
+    {"name": "flight_purchase_review", "description": (
+        "Open the owner's original real Kiwi flight purchase review from this conversation. "
+        "Use when the owner wants to buy the previously shown ticket. The desk reopens the trusted "
+        "itinerary; no model argument can supply a price, passenger, payment, approval or booking."
+    ), "parameters": {"type": "object", "properties": {}, "additionalProperties": False}},
     SHOP_QUOTE_TOOL,
     {
         "name": "email_reply_draft",
@@ -585,6 +590,8 @@ class AssistantService:
                 return self.runtime.mail_followups.stop(query.followup_id, call_key)
             if name == "sandbox_shop_quote":
                 return self.runtime.shop_orders.prepare(ShopQuery.model_validate(arguments))
+            if name == "flight_purchase_review":
+                return {"live_flight_review": True, "saved": False}
             if name == "sandbox_flight_quote":
                 return self.runtime.flight_bookings.prepare(FlightQuery.model_validate(arguments))
             if name in {"browser_research_draft", "browser_research_status"}:

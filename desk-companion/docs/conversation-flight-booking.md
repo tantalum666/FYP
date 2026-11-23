@@ -1,5 +1,7 @@
 # LetsFG test bookings in Alice’s ordinary conversation
 
+For a real ticket, the separate [live supplier connection and booking contract](live-flight-agent.md) covers original offers, return journeys, checked baggage, owner approval and independently verified payment.
+
 An owner can ask Alice to book one fictional adult on a one-way base fare in HKD. Supply the airports and date. A flight number, airline, nonstop requirement or maximum HKD total narrows the search. If the sandbox has no exact match or cannot verify a required checked weight, Alice asks for a change. A real-market price lookup continues through the existing public research tools. [Conversation acceptance](../../output/qa/2026-11-19-alice-flight-conversation/verification.md) · [LetsFG sandbox contract](https://letsfg.co/developers/docs/api-sandbox/index.html).
 
 ## Hong Kong fare amounts

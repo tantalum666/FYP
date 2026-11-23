@@ -54,6 +54,7 @@ from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
 from . import commerce_chat, hkd
+from .flight_booking import live_chat
 from .tool_policy import tool_visible
 from .weather_conversation import answer_city_weather
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
@@ -442,7 +443,8 @@ class TextAssistant:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         conversation = None
         cached = None
-        grant = self.runtime.permissions.capture(principal, payload.task_id)
+        live_purchase = live_chat.purchase_intent(payload.message)
+        grant = None if live_purchase else self.runtime.permissions.capture(principal, payload.task_id)
         if principal is not None:
             task_context(self.runtime, principal, payload.task_id)
             # Durable business receipts follow the principal, while temporary
@@ -450,10 +452,12 @@ class TextAssistant:
             scope = f"{principal.get('kind')}:{principal.get('id', 'owner')}"
             key = "chat/" + hashlib.sha256(f"{scope}/{key}".encode()).hexdigest()
             cached = self._cached_reply(payload, key, allow_memory)
+            live_scope = live_chat.replay_scope(self.runtime,cached,principal,payload)
             revision, _ = memory_context(self.runtime, allow_memory)
             try:
                 conversation = self.runtime.voice.conversations.open(
-                    principal, revision, payload.conversation_id, task_id=payload.task_id
+                    principal, revision, live_scope or payload.conversation_id, task_id=payload.task_id,
+                    recover_review=bool(live_scope),
                 )
             except DomainError as error:
                 if error.code == "CONVERSATION_NOT_FOUND" and commerce_chat.can_resume(self.runtime, principal, payload):
@@ -461,6 +465,15 @@ class TextAssistant:
                         principal, revision, payload.conversation_id, task_id=payload.task_id,
                         recover_review=True,
                     )
+                elif error.code == "CONVERSATION_NOT_FOUND" and principal.get("kind") == "owner":
+                    from .flight_booking.checkout_source import old_results
+                    from .conversation import Conversations
+                    if (not live_purchase or not self.runtime.personal_context.visible(principal)
+                            or not old_results(self.store, Conversations.owner(principal), payload.task_id)):
+                        if cached is None:
+                            raise
+                    # Older Live sessions did not store a chat link. A fresh owner chat can
+                    # offer explicit selection of that login's original verified jobs.
                 elif error.code != "CONVERSATION_NOT_FOUND" or cached is None:
                     raise
                 # The same authorized owner can recover an acknowledged
@@ -504,12 +517,11 @@ class TextAssistant:
         if cached is not None:
             reply = cached
         elif admitted is not None or stepped is not None or public_weather is not None:
-            # Weather is already formatted with exact numbers and the precipitation outlook.
             reply = public_weather or present(admitted or stepped, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)",
-                    (key, self._fingerprint(payload, allow_memory), encode(reply)),
+                    (key, self._fingerprint(payload, allow_memory), encode(live_chat.receipt(reply, conversation))),
                 )
         else:
             reply = self._message(
@@ -523,13 +535,14 @@ class TextAssistant:
         reply = commerce_chat.present(
             self.runtime, reply, key, principal, conversation, payload, cached=cached is not None
         )
-        reply = (
-            self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
-            if cached is None
-            else self.runtime.permissions.refresh_reply(reply, language=payload.language)
-        )
+        if reply.get("kind") != "live_flight_checkout":
+            reply = (
+                self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
+                if cached is None
+                else self.runtime.permissions.refresh_reply(reply, language=payload.language)
+            )
         with self.store.connection(write=True) as conn:
-            conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(reply), key))
+            conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(live_chat.receipt(reply,conversation)), key))
         with self.store.connection() as conn:
             hidden = self.store.settings(conn)["hide_private"]
         if isinstance(reply.get("message"), str):
