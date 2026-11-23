@@ -80,6 +80,8 @@ def describe(row, language):
     if row["state"] == "quoted":
         t = q["terms"]
         subject = shop_quote_subject(q, zh)
+        return (
+            f"{subject}，商品 {price(t['subtotal_minor'])}，运费 {price(t['shipping_minor'])}，测试订单总价 {price(t['total_minor'])}。确认后我才付款。"
             if zh
             else f"{subject}. Items {price(t['subtotal_minor'])}, delivery {price(t['shipping_minor'])}, order total {price(t['total_minor'])}. Confirm to make the test payment."
         )
