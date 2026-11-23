@@ -690,3 +690,110 @@ def test_live_delegated_kiwi_proposal_publishes_completed_original_to_chat(desk)
     reply = ask(d.c, "buy-voice-result", BUY, chat.id)
     assert reply["live_flight_checkout"]["source"]["request"]["checked_bag_kg"] == 20
     assert not d.source.searches and not d.source.submitted
+
+
+def test_expired_login_can_start_a_fresh_round_trip_without_reusing_the_old_quote(
+    desk, monkeypatch
+):
+    from hashlib import sha256
+    from desk.flight_booking.live_chat import describe
+    from desk.openai_live import OpenAILiveProtocol
+
+    import socket
+
+    original_connect = socket.socket.connect
+
+    def local_only(sock, address):
+        if sock.family in {socket.AF_INET, socket.AF_INET6}:
+            pytest.fail("The expired-quote fixture attempted a network connection")
+        return original_connect(sock, address)
+
+    monkeypatch.setattr(socket.socket, "connect", local_only)
+    d = desk
+    _, old_proposal, old_job = research(d)
+    old_token = d.c.cookies["desk_companion_session"]
+    with d.r.store.connection(write=True) as db:
+        db.execute(
+            "UPDATE sessions SET expires=? WHERE token_hash=?",
+            ("2026-11-22T00:00:00Z", sha256(old_token.encode()).hexdigest()),
+        )
+    current = TestClient(d.app, base_url="https://testserver", headers=HEAD)
+    current.post(
+        "/api/session", json={"username": "owner", "password": "fixture"}
+    ).raise_for_status()
+    assert (
+        not d.r.store.session_valid(old_token) and d.r.jobs.detail(old_job)["state"] == "succeeded"
+    )
+    model_requests = len(d.session.requests)
+    reply = ask(current, "new-login-purchase", BUY)
+    assert reply["live_flight_checkout"] == {"state": "no_source", "sources": []}
+    assert all(
+        word in reply["message"] for word in ("出发地", "目的地", "出发日期", "回程日期", "新报价")
+    )
+    assert all(
+        term not in json.dumps(reply, ensure_ascii=False)
+        for term in (old_proposal, "BR852", "HKG", "NRT", "338959", "20 kg")
+    )
+    assert (
+        len(d.session.requests) == model_requests
+        and not d.source.searches
+        and not d.source.submitted
+    )
+    for state in ("no_source", "source_unavailable", "source_changed"):
+        for zh, terms in [
+            (False, ("departure date", "return date", "fresh fare")),
+            (True, ("出发地", "回程日期", "新报价")),
+        ]:
+            speech = OpenAILiveProtocol.spoken_instruction(describe({"state": state}, zh))
+            assert all(word in speech["content"] for word in terms)
+    # Only the newly supplied trip enters the ordinary read-only itinerary proposal.
+    trip = {
+        **SPEC,
+        "destination": "KIX",
+        "departure": "2026-12-10",
+        "return_date": "2026-12-14",
+        "adults": 2,
+        "checked_bag_kg": 0,
+    }
+    d.session.next_calls = [
+        (
+            "browser_research_draft",
+            {
+                **DRAFT,
+                "title": "Osaka return",
+                "goal": "Check the new Osaka trip",
+                "quote_request": trip,
+            },
+        )
+    ]
+    fresh = ask(
+        current,
+        "new-trip",
+        "请查 12 月 10 日香港 HKG 到大阪关西 KIX，12 月 14 日回，两位成人，无托运，用港币。",
+        reply["conversation_id"],
+    )
+    proposal = fresh["proposal"]
+    expected = {**trip, "budget_minor": None}
+    assert (
+        proposal["id"] != old_proposal and proposal["data"]["browser"]["quote_request"] == expected
+    )
+    assert "BR852" not in json.dumps(d.session.creations[-1])
+    decision = f"/api/assistant/proposals/{proposal['id']}/decisions"
+    assert (
+        current.post(
+            decision, headers={"X-Operation-Id": "missing-fresh-share"}, json={"action": "confirm"}
+        ).status_code
+        == 422
+    )
+    assert len(d.r.jobs.listing()) == 1
+    consent = current.post(
+        decision,
+        headers={"X-Operation-Id": "share-new-trip"},
+        json={"action": "confirm", "share_itinerary": True},
+    )
+    consent.raise_for_status()
+    assert (
+        d.r.jobs.detail(consent.json()["job"]["id"], review=True)["request"]["quote_request"]
+        == expected
+    )
+    assert not d.source.searches and not d.source.submitted

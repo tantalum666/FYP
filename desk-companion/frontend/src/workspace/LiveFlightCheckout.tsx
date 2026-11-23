@@ -1,3 +1,4 @@
+import freshQuote from "../../../backend/desk/data/fresh-flight-quote.json" with { type: "json" };
 import { useEffect, useRef, useState } from "react";
 import "./live-flight-checkout.css";
 import { LiveFlightPassengerForm } from "./LiveFlightPassengerForm";
@@ -280,21 +281,8 @@ export function LiveFlightCheckout({
       className="commerce-order live-flight-checkout"
       aria-label={t("Real flight purchase", "真实机票购买")}
     >
-      {view.state === "no_source" && (
-        <p>
-          {t(
-            "Open the original Kiwi flight result and select Prepare purchase.",
-            "请打开原来的 Kiwi 航班结果，选择「准备购买这张机票」。",
-          )}
-        </p>
-      )}
-      {["source_unavailable", "source_changed"].includes(view.state) && (
-        <p>
-          {t(
-            "The original listing could not be verified. Reopen its search result.",
-            "原报价无法核实，请重新查看原查询结果。",
-          )}
-        </p>
+      {["no_source", "source_unavailable", "source_changed"].includes(view.state) && (
+        <p>{t(freshQuote.en, freshQuote.zh)}</p>
       )}
       {src && (
         <>
