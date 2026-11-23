@@ -83,7 +83,8 @@ export function FlightChoices({
       aria-label={t("Available test flights", "可选测试航班")}
     >
       <p>
-        {result.requested_calendar_fit
+        {result.shortlist_number && `${t("List", "清单")} ${result.shortlist_number} · `}
+        {result.original ? result.unavailable_flight : result.requested_calendar_fit
           ? `${result.unavailable_flight} · ${calendarFitLabel(result.requested_calendar_fit, t)}`
           : t(
               `${result.unavailable_flight} unavailable`,
@@ -92,12 +93,14 @@ export function FlightChoices({
         · {first.origin} → {first.destination}
       </p>
       <small>
-        {day} · {t("Local times · Test fares", "当地时间 · 模拟票价")}
+        {day} · {result.original
+          ? t("Local times · Originally offered fares", "当地时间 · 原报价")
+          : t("Local times · Test fares", "当地时间 · 模拟票价")}
         {result.avoid_calendar_conflicts && (
-          <> · {calendarFitLabel("clear", t)}</>
+          <> · {result.original ? t("Calendar checked at lookup", "曾核对日程") : calendarFitLabel("clear", t)}</>
         )}
       </small>
-      {result.alternatives.map(({ segment, total_minor, calendar_choice }) => {
+      {result.alternatives.map(({ segment, total_minor, calendar_choice }, index) => {
         const budget =
           result.max_minor == null
             ? ""
@@ -105,8 +108,12 @@ export function FlightChoices({
                 ` My budget is ${hkd(result.max_minor)}.`,
                 ` 预算上限 ${hkd(result.max_minor)}。`,
               );
-        const selection =
-          t(
+        const selection = result.shortlist_number
+          ? t(
+              `Select option ${index + 1} from flight list ${result.shortlist_number}`,
+              `选航班清单 ${result.shortlist_number} 的第 ${index + 1} 班`,
+            )
+          : t(
             `Recheck test flight ${segment.flight} from ${segment.origin} to ${segment.destination} on ${day} on the same terms and show me the quote.`,
             `选 ${segment.flight}，${day} 从 ${segment.origin} 到 ${segment.destination}，请按原条件重新核价给我确认。`,
           ) +
@@ -118,7 +125,7 @@ export function FlightChoices({
           <button
             type="button"
             className="commerce-choice"
-            key={segment.flight + segment.departs}
+            key={segment.flight + segment.departs + segment.arrives}
             disabled={busy}
             aria-label={t(
               `Recheck ${segment.flight}, ${segment.departs.replace("T", " ")} to ${segment.arrives.replace("T", " ")}, ${hkd(total_minor)}`,
@@ -128,7 +135,7 @@ export function FlightChoices({
               onSelect(
                 selection,
                 t(`Select ${segment.flight}`, `选 ${segment.flight}`),
-                result.avoid_calendar_conflicts
+                !result.shortlist_number && result.avoid_calendar_conflicts
                   ? (calendar_choice ?? {
                       origin: segment.origin,
                       destination: segment.destination,

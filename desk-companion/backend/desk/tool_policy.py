@@ -94,7 +94,9 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
-SCOPED_COMMERCE_TOOLS = frozenset({"sandbox_flight_quote", "sandbox_shop_quote", "booked_flight_calendar_draft"})
+SCOPED_COMMERCE_TOOLS = frozenset({
+    "sandbox_flight_quote", "sandbox_shop_quote", "booked_flight_calendar_draft", "revisit_flight_shortlist",
+})
 
 
 OWNER_ONLY_TOOLS = frozenset(

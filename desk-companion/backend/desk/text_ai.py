@@ -449,16 +449,23 @@ class TextAssistant:
             scope = f"{principal.get('kind')}:{principal.get('id', 'owner')}"
             key = "chat/" + hashlib.sha256(f"{scope}/{key}".encode()).hexdigest()
             cached = self._cached_reply(payload, key, allow_memory)
+            shortlist_chat = cached.get("flight_shortlist_chat") if cached else None
+            if shortlist_chat and not self.runtime.flight_bookings.can_resume(
+                principal, shortlist_chat, None, payload.task_id
+            ):
+                raise DomainError("CONVERSATION_NOT_FOUND", 404)
+            chat_id = shortlist_chat or payload.conversation_id
             revision, _ = memory_context(self.runtime, allow_memory)
             try:
                 conversation = self.runtime.voice.conversations.open(
-                    principal, revision, payload.conversation_id, task_id=payload.task_id
+                    principal, revision, chat_id, task_id=payload.task_id
                 )
             except DomainError as error:
-                if error.code == "CONVERSATION_NOT_FOUND" and commerce_chat.can_resume(self.runtime, principal, payload):
+                if error.code == "CONVERSATION_NOT_FOUND" and (
+                    shortlist_chat or commerce_chat.can_resume(self.runtime, principal, payload)
+                ):
                     conversation = self.runtime.voice.conversations.open(
-                        principal, revision, payload.conversation_id, task_id=payload.task_id,
-                        recover_review=True,
+                        principal, revision, chat_id, task_id=payload.task_id, recover_review=True,
                     )
                 elif error.code != "CONVERSATION_NOT_FOUND" or cached is None:
                     raise
@@ -495,10 +502,12 @@ class TextAssistant:
         elif admitted is not None:
             reply = present(admitted, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
-                conn.execute(
-                    "INSERT INTO assistant_replies VALUES(?,?,?)",
+                inserted = conn.execute(
+                    "INSERT OR IGNORE INTO assistant_replies VALUES(?,?,?)",
                     (key, self._fingerprint(payload, allow_memory), encode(reply)),
-                )
+                ).rowcount
+            if not inserted:
+                cached = reply = self._cached_reply(payload, key, allow_memory)
         elif stepped is not None:
             reply = present(stepped, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
@@ -714,7 +723,9 @@ class TextAssistant:
                     if t["name"] in TEXT_TOOL_NAMES
                     and tool_visible(t["name"], allow_memory, channel="text")
                     and commerce_chat.tool_available(
-                        self.runtime, t["name"], scoped=official and conversation is not None and not files
+                        self.runtime, t["name"],
+                        scoped=official and conversation is not None and not files,
+                        principal=principal, chat=conversation,
                     )
                 ],
             }

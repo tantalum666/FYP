@@ -60,16 +60,26 @@ def describe_alternatives(result, language):
             if zh
             else f"{requested} is unavailable. These alternatives fit your desk calendar."
         )
+    if result.get("original"):
+        header = (
+            "原清单中的起降时间和当时票价（当地时间）："
+            if zh else "Originally offered flights and fares, in local time:"
+        )
+    if list_number := result.get("shortlist_number"):
+        header = (f"航班清单 {list_number} · " if zh else f"Flight list {list_number} · ") + header
     lines = [header]
-    for option in result["alternatives"]:
+    for number, option in enumerate(result["alternatives"], 1):
         leg = option["segment"]
         lines.append(
-            f"{leg['flight']} · {leg['origin']} → {leg['destination']} · {leg['departs'].replace('T', ' ')} → {leg['arrives'].replace('T', ' ')} · {price(option['total_minor'])}"
+            f"{number}. {leg['flight']} · {leg['origin']} → {leg['destination']} · {leg['departs'].replace('T', ' ')} → {leg['arrives'].replace('T', ' ')} · {price(option['total_minor'])}"
         )
+    selector = ("序号或航班号" if list_number else "航班号") if zh else (
+        "an option or flight number" if list_number else "a flight number"
+    )
     lines.append(
-        "告诉我想选的航班号，我会重新核价给你确认。目前没有订位或扣款。"
+        f"告诉我想选的{selector}，我会重新核价给你确认。目前没有订位或扣款。"
         if zh
-        else "Choose a flight number and I will recheck its price for your approval. Nothing has been booked or charged."
+        else f"Choose {selector} and I will recheck its price for your approval. Nothing has been booked or charged."
     )
     return "\n".join(lines)
 
@@ -342,6 +352,10 @@ def turn(runtime, payload, principal, chat):
 
 def failure(code, language):
     messages = {
+        "FLIGHT_OPTION_UNAVAILABLE": (
+            "按原时刻和条件已查不到这班航班。可以选择原清单中的另一班。",
+            "This departure is no longer available on the original terms. You can choose another flight from the shortlist.",
+        ),
         "FLIGHT_TEST_SCOPE": (
             "目前可预订一位虚构成人的单程基础票价。能否按这个范围查询？",
             "I can test a one-way base fare for one fictional adult. Would that work?",
