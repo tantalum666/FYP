@@ -78,7 +78,7 @@ class ChatReviews:
             record = db.execute(
                 f"SELECT data,serial FROM {self.table} WHERE id=? AND owner=? AND chat=? "
                 "AND (? OR json_type(data,'$.quote')='object')",
-                (ident, owner, chat, include_unquoted),
+                (ident, owner, chat, include_unquoted or self.kind == "SHOP"),
             ).fetchone()
         if not record:
             raise DomainError(self.kind + "_NOT_FOUND", 404)
@@ -195,8 +195,10 @@ class ChatReviews:
                 r[0]
                 for r in db.execute(
                     f"SELECT id FROM {self.table} WHERE owner=? AND chat=? "
-                    "AND json_type(data,'$.quote')='object' ORDER BY rowid DESC",
-                    (owner, chat),
+                    "AND (? OR json_type(data,'$.quote')='object') ORDER BY rowid DESC",
+                    # A shopping substitute can be reviewed before it has a price.
+                    # Flight-only menus use their own conversation listing.
+                    (owner, chat, self.kind == "SHOP"),
                 )
             ]
         return [self.read(ident, owner, chat) for ident in ids]

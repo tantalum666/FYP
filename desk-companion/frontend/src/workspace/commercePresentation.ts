@@ -134,6 +134,15 @@ export const reviewRef = (
   kind,
 });
 
+export function typedReviewRef(rows: CommerceReview[], hasFlightShortlist: boolean) {
+  const pending = rows.filter(needsDecision);
+  if (pending.length !== 1) return undefined;
+  const [row] = pending;
+  // Both open lists accept a bare ordinal. Only a deliberate card choice distinguishes them.
+  if (hasFlightShortlist && row.kind === "shop" && row.state === "choosing") return undefined;
+  return reviewRef(row, row.kind);
+}
+
 type Leg = SandboxFlight["segments"][number];
 export type CalendarFlightChoice = {
   origin: string;

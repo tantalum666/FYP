@@ -75,6 +75,19 @@ class ShopOrders(ChatReviews):
         self.enabled = bool(config)
         self.provider = WooSandbox(config)
 
+    def has_open_choices(self, principal, chat):
+        if not self.enabled:
+            return False
+        owner = self.owner(principal)
+        with self.store.connection() as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            return db.execute(
+                """SELECT 1 FROM sandbox_shop_orders WHERE owner=? AND chat=?
+                   AND json_extract(data,'$.task_id') IS ? AND json_extract(data,'$.state')='choosing'
+                   AND json_extract(data,'$.expires')>? LIMIT 1""",
+                (owner, chat.id, chat.task_id, iso(self.store.clock())),
+            ).fetchone() is not None
+
     def prepare(self, query):
         if not self.enabled:
             raise DomainError("SHOP_DISABLED", 403)

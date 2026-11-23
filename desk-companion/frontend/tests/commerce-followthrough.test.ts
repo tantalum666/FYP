@@ -9,6 +9,7 @@ import {
   legTime,
   orderUpdates,
   watchedMarks,
+  typedReviewRef,
   orderStatus,
   type CommerceReview,
 } from "../src/workspace/commercePresentation.ts";
@@ -169,4 +170,16 @@ test("a quiet recap and a separate settlement preserve a pending calendar previe
   const other = flight("other", "stopped", 3);
   const turns = appendOrderUpdates([preview, recap], [other], "owner-chat", t);
   assert.equal(focusedOrderTurn(turns, [row, other]), preview);
+});
+
+
+test("a typed ordinal stays unbound while both a shopping menu and a flight list are open", () => {
+  const shop: CommerceReview = {
+    kind: "shop", id: "basket", version: 1, state: "choosing", quote: null, review_minor: null,
+    previous: null, approved_minor: null, receipt: null,
+  };
+  assert.equal(typedReviewRef([shop], true), undefined);
+  assert.deepEqual(typedReviewRef([shop], false), {
+    kind: "shop", id: "basket", version: 1, amount_minor: null,
+  });
 });

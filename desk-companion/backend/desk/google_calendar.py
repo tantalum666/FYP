@@ -1,6 +1,5 @@
 """Owner-reviewed reads of the connected primary Google Calendar."""
 
-import json
 import re
 from datetime import UTC, datetime, time
 from functools import partial
@@ -104,23 +103,31 @@ class GoogleCalendar(GoogleOAuth):
         with self.store.connection(write=True) as conn:
             google_imports.initialize(conn)
 
-    def import_status(self, session):
+    def import_status(self, session, *, include_result=True):
         with self.store.connection() as conn:
             if not self.store.session_valid(session, conn):
                 raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
             account = self.account(conn)
             settings = self.store.settings(conn)
             visible = account["connected"] and not settings["hide_private"]
-            last = conn.execute(
-                "SELECT summary FROM google_refresh_result WHERE account_version=?",
-                (account["version"],),
-            ).fetchone()
+            fence = review_fence(session, account, settings)
+            version = digest(encode(fence)) if visible else None
+            if not include_result:
+                # The ordinary workspace needs only the existing opaque display fence.
+                return {
+                    **self._snapshot(account if account["connected"] else None),
+                    "review_version": version,
+                }
+            last = (
+                google_imports.last_refresh(conn, account["version"], fence["session"])
+                if visible else None
+            )
+            # A newer confirmation can have identical counts and even the same clock time.
+            receipt = digest(encode([version, last])) if last else None
+            if last:
+                last.pop("confirmation_id", None)
             return {
-                **account,
-                "review_version": digest(encode(review_fence(session, account, settings)))
-                if visible
-                else None,
-                "last_refresh": json.loads(last[0]) if last and visible else None,
+                **account, "review_version": version, "last_refresh": last, "last_refresh_ref": receipt,
             }
 
     def check_fence(self, conn, session, expected=None):

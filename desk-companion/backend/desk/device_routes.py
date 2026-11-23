@@ -29,8 +29,8 @@ def device_routes(runtime, authenticated, owner, agent, operation_id, limit):
         )
 
     @router.get("/workspace")
-    def workspace(principal=Depends(authenticated)):
-        return runtime.snapshot(principal)
+    def workspace(request: Request, principal=Depends(authenticated)):
+        return runtime.snapshot(principal, owner_session=request.cookies.get("desk_companion_session"))
 
     @router.post("/posture/actions", dependencies=[Depends(authenticated)])
     def posture_action(payload: PostureAction, key=Depends(operation_id)):

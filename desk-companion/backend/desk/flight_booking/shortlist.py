@@ -272,6 +272,17 @@ def _resolve(service, payload, principal, chat, command, *, allow_fallback=False
     ):
         return None
     lists = {n: row for n, row in lists.items() if row["open"] and number in (None, n)}
+    if number is None and isinstance(choice, int) and not pin and not flight_request(payload.message):
+        if allow_fallback and payload.shopping_review and payload.shopping_review.amount_minor is None:
+            return None
+        if not payload.flight_review and service.runtime.shop_orders.has_open_choices(principal, chat):
+            if not lists and allow_fallback:
+                return None
+            return reply(
+                "请选择购物替代选项，或指明航班清单编号。" if zh else
+                "Choose the shopping alternative on its card, or name the flight list number.",
+                flight_shortlist_chat=chat.id if lists else None,
+            )
     if not lists:
         # An empty conversation has no durable binding to authorize cached replay.
         return reply(

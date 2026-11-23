@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor
-from copy import deepcopy
 from datetime import timedelta
 
 from fastapi.testclient import TestClient
@@ -7,9 +6,11 @@ import httpx
 import pytest
 
 from desk.app import COOKIE
+from desk.flight_booking.provider import LetsFG
+from test_conversation_flight_booking import Sandbox
 from test_conversation_shop_checkout import send
 from test_shop_basket import desk as desk, render, start
-from woo_basket_fixture import PEN, REQUEST, TISSUES, approved_basket, product
+from woo_basket_fixture import PEN, TISSUES, approved_basket, product
 
 
 GEL = "QA-FINE-GEL"
@@ -57,6 +58,33 @@ def card(client, chat, control, operation):
 
 def listed(client, chat):
     return client.get("/api/assistant/commerce-reviews", params={"conversation_id": chat}).json()["rows"]
+
+
+def test_basket_and_flight_options_keep_their_own_reviews_in_one_chat(desk):
+    client, runtime, woo, session = desk
+    pen_options(woo, session)
+    chat, shopping = start(client)
+    day = (runtime.store.clock().date() + timedelta(days=7)).isoformat()
+    flight = Sandbox(day)
+    runtime.flight_bookings.enabled = True
+    runtime.flight_bookings.provider = LetsFG(httpx.MockTransport(flight))
+    session.next_calls = [("sandbox_flight_quote", {
+        "origin": "HKG", "destination": "HND", "departure": day, "flight_number": "XX999",
+    })]
+    offered = send(client, "other-flight", "Find test flight XX999 from HKG to HND", chat).json()
+    assert offered["flight_alternatives"]["shortlist_number"] == 1
+    reviews = client.get("/api/assistant/commerce-reviews", params={"conversation_id": chat}).json()
+    assert reviews["has_flight_shortlist"] and [r["id"] for r in reviews["rows"]] == [shopping["id"]]
+    ambiguous = send(client, "bare-ordinal", "select option 1", chat).json()
+    assert ambiguous["kind"] == "clarify" and not ambiguous.get("flight_booking")
+    assert not ambiguous.get("shopping_order") and len(flight.calls) == 1
+    assert "购物" in ambiguous["message"] and "航班" in ambiguous["message"]
+    selected = send(client, "shop-ordinal", "select option 1", chat, shopping).json()
+    assert selected["shopping_order"]["id"] == shopping["id"]
+    assert selected["shopping_order"]["state"] == "quoted" and not selected.get("flight_booking")
+    assert len(flight.calls) == 1 and not woo.payment_methods and not woo.orders
+    explicit = send(client, "flight-ordinal", "select option 1 from flight list 1", chat).json()
+    assert explicit["flight_booking"]["state"] == "quoted" and len(flight.calls) == 2
 
 
 def test_mixed_alternative_card_requotes_selected_units_then_separately_pays(desk):

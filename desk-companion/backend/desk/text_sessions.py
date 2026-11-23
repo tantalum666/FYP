@@ -582,6 +582,7 @@ class TextFunctions:
             "text/" + digest(encode([sid, tid, a["call_id"]])),
             scope=self.key,
             allow_memory=self.allow_memory,
+            principal=self.principal,
             language=self.payload.language,
             channel="text",
         )
@@ -619,6 +620,8 @@ class TextFunctions:
                     self.sessions.runtime, self.local_reply, self.key,
                     self.principal, self.chat, self.payload,
                 )
+            if result.get("view") == "last_refresh" and self.chat:
+                self.local_reply["conversation_id"] = self.chat.id
             if self.plan:
                 self.local_reply["plan"] = self.plan
             with self.sessions.store.connection(write=True) as db:

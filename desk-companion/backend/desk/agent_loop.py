@@ -47,6 +47,7 @@ class AgentLoop:
         key: str,
         language: str,
         allow_memory: bool,
+        principal: dict | None = None,
         on_event: Callable[[dict], None] | None = None,
     ):
         context = dict(context)
@@ -97,6 +98,7 @@ class AgentLoop:
                 call_key,
                 scope=key,
                 allow_memory=allow_memory,
+                principal=principal,
                 language=language,
                 channel="text",
             )

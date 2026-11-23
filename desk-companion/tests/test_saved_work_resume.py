@@ -484,6 +484,16 @@ def test_only_owner_instruction_selects_saved_work():
         assert parse_work_continue(text) is None
 
 
+def test_quoted_google_readback_question_does_not_replace_the_owner_work_request(launch):
+    with launch() as client:
+        selected = task(client)
+        run = start(client, selected)
+        words = f"{ASK}\n> What changed in my Google Calendar last refresh?"
+        reply = stream(client, "continue-with-quoted-question", message=words, task_id=selected)
+        assert reply["kind"] == "work_resume" and reply["work_run_id"] == run["id"]
+        assert len(detail(client, run)["steps"]) == 1
+
+
 def test_restarted_chat_can_claim_one_step_with_a_verified_csv(launch):
     with launch() as client:
         selected = task(client)

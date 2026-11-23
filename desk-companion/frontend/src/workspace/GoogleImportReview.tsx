@@ -16,6 +16,7 @@ export interface GoogleStatus {
   connected: boolean;
   version: string;
   review_version: string | null;
+  last_refresh_ref?: string | null;
   connected_at: string | null;
   last_refresh: RefreshResult | null;
 }
