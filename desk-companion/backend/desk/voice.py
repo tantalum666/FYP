@@ -1238,7 +1238,9 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         if principal["kind"] != "owner":
             raise DomainError("OWNER_REQUIRED", 403)
         who = {**principal, "session": request.cookies.get("desk_companion_session")}
-        runtime.voice.conversations.forget(who, conversation_id)
+        with runtime.text_ai.lock:
+            runtime.voice.conversations.forget(who, conversation_id)
+            runtime.conversation_work.saved.forget(Conversations.owner(who), conversation_id)
         runtime.flight_bookings.forget_chat(who, conversation_id)
         runtime.shop_orders.forget_chat(who, conversation_id)
         return {"cleared": True}

@@ -114,6 +114,16 @@ Each operation id steps at most once. `before_continue` raises `CONVERSATION_WOR
 
 Another login cannot open the conversation. A paired device receives 403. Full access creates no job and no proposal. The task's other fields, including an omitted `next_step`, stay as they are. File integrity is still not evidence that a shopping, booking, or other real-world goal was achieved.
 
+## Continuing saved work after an interruption
+
+In ordinary chat, “Continue the task from before.” and “继续刚才那个任务。” use retained Work even before the first report or after the chat buffer is lost. The owner’s current login, selected task (if any), original privacy grant and run deadline must still match. A known chat can reopen with an empty buffer. A fresh chat can find earlier retained runs without migrating them. When several runs fit, chat shows their goals and versioned commands. The owner can reply with a choice after restarting the app.
+
+The existing worker can take one local deterministic step for the selected run. Work detail shows its checkpoint and the chat reply carries the same step ID. A retry uses the original operation and version. After the goal changes, the owner can select its exact version or ask again in the chat that showed the revised goal. Two requests submitted together cannot acknowledge a goal that neither had seen. A runtime shutdown pause can resume under its original grant. An owner pause, cancellation, expiry or forgotten chat association keeps that work closed to this command.
+
+A pending task or calendar draft appears on its existing confirmation card, including in Full access mode. The owner’s decision keeps its original proposal ID. A later chat request can have the worker check the recorded decision. An outstanding question or a model step directs the owner to Work. The chat command makes no provider, payment, mail or booking call.
+
+Local QA on 23 November 2026 passed 17 focused pytest cases and Ruff. After a lost reply, an SSE retry returned the original checkpoint ID and Work detail still showed one step. The pending draft ID matched the original draft operation, and the confirmation receipt identified the task read back from SQLite. All inputs and sessions were synthetic. [Saved Work regression tests](../tests/test_saved_work_resume.py).
+
 ## Interruption and unknown result
 
 `ConversationWork.offline_interrupt` is an in-process fixture control. It is not an HTTP field. Text and voice use it on the same turn.

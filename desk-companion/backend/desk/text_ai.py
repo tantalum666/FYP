@@ -429,20 +429,29 @@ class TextAssistant:
         )
 
     def message(self, payload, key, *, allow_memory=True, on_event=None, principal=None):
+        # Capture the version requested by this turn before a concurrent message
+        # can finish a different step under the conversation lock.
+        resume = (
+            self.runtime.conversation_work.prepare_resume(payload, principal) if principal else None
+        )
         # Serialize receipt lookup, action application and reply persistence together.
         # A duplicate arriving during a permission change must not gain a new grant.
         with self.lock:
             return self._scoped_message(
-                payload, key, allow_memory=allow_memory, on_event=on_event, principal=principal
+                payload, key, allow_memory=allow_memory, on_event=on_event, principal=principal,
+                resume=resume,
             )
 
-    def _scoped_message(self, payload, key, *, allow_memory=True, on_event=None, principal=None):
+    def _scoped_message(
+        self, payload, key, *, allow_memory=True, on_event=None, principal=None, resume=None
+    ):
         if not key or len(key) > 100:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         conversation = None
         cached = None
-        grant = self.runtime.permissions.capture(principal, payload.task_id)
+        grant = self.runtime.permissions.capture(principal, payload.task_id) if resume is None else None
         if principal is not None:
+            work = self.runtime.conversation_work
             task_context(self.runtime, principal, payload.task_id)
             # Durable business receipts follow the principal, while temporary
             # chat replay follows the specific login session and selected task.
@@ -450,17 +459,26 @@ class TextAssistant:
             key = "chat/" + hashlib.sha256(f"{scope}/{key}".encode()).hexdigest()
             cached = self._cached_reply(payload, key, allow_memory)
             revision, _ = memory_context(self.runtime, allow_memory)
+            first_resume = resume is not None and payload.conversation_id is None
+            chat_id = resume.initial_chat_id(key) if first_resume else payload.conversation_id
             try:
                 conversation = self.runtime.voice.conversations.open(
-                    principal, revision, payload.conversation_id, task_id=payload.task_id
+                    principal, revision, chat_id, task_id=payload.task_id,
+                    recover_review=first_resume,
                 )
             except DomainError as error:
-                if error.code == "CONVERSATION_NOT_FOUND" and commerce_chat.can_resume(self.runtime, principal, payload):
+                if error.code != "CONVERSATION_NOT_FOUND":
+                    raise
+                can_reopen = (
+                    work.saved.can_reopen(payload, principal) if resume is not None
+                    else commerce_chat.can_resume(self.runtime, principal, payload)
+                )
+                if can_reopen:
                     conversation = self.runtime.voice.conversations.open(
                         principal, revision, payload.conversation_id, task_id=payload.task_id,
                         recover_review=True,
                     )
-                elif error.code != "CONVERSATION_NOT_FOUND" or cached is None:
+                elif cached is None or resume is not None:
                     raise
                 # The same authorized owner can recover an acknowledged
                 # operation after signing in again. Never replay the old chat.
@@ -475,10 +493,12 @@ class TextAssistant:
             # An explicit goal change is owner authority. It never reaches the model.
             if payload.shopping_review and payload.flight_review:
                 raise DomainError("AMBIGUOUS_COMMERCE_REVIEW", 409)
-            admitted = commerce_chat.turn(self.runtime, payload, principal, conversation)
+            if resume is None:
+                work.check_other_continue(key, payload)
+                admitted = commerce_chat.turn(self.runtime, payload, principal, conversation)
             if admitted is None:
-                admitted = self.runtime.conversation_work.turn(
-                    payload, key, principal, conversation=conversation
+                admitted = work.turn(
+                    payload, key, principal, conversation=conversation, resume=resume,
                 )
         stepped = None
         if (
@@ -492,13 +512,30 @@ class TextAssistant:
             )
         if cached is not None:
             reply = cached
+            if resume is not None:
+                if cached.get("kind") == "work_resume":
+                    reply = work.turn(
+                        payload, key, principal, conversation, resume=resume, cached=cached
+                    )
+                else:
+                    # An older client may already have used this exact phrase as
+                    # ordinary chat. Its receipt cannot authorize a new Work step.
+                    reply = {
+                        "mode": "local_rules", "kind": "work_resume", "saved": False,
+                        "message": ("请重新发送消息以继续当前工作。" if payload.language == "zh"
+                                    else "Send a new message to continue saved work."),
+                    }
         elif admitted is not None:
-            reply = present(admitted, self.runtime.data.preferences(), payload.language)
+            # Preserve every versioned choice even with the brief reply preference.
+            reply = admitted if resume is not None else present(
+                admitted, self.runtime.data.preferences(), payload.language
+            )
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)",
                     (key, self._fingerprint(payload, allow_memory), encode(reply)),
                 )
+                work.saved.remember(conn, conversation, key, reply)
         elif stepped is not None:
             reply = present(stepped, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
@@ -515,16 +552,17 @@ class TextAssistant:
                 conversation=conversation,
                 principal=principal,
             )
-        reply = commerce_chat.present(
-            self.runtime, reply, key, principal, conversation, payload, cached=cached is not None
-        )
-        reply = (
-            self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
-            if cached is None
-            else self.runtime.permissions.refresh_reply(reply, language=payload.language)
-        )
-        with self.store.connection(write=True) as conn:
-            conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(reply), key))
+        if resume is None:
+            reply = commerce_chat.present(
+                self.runtime, reply, key, principal, conversation, payload, cached=cached is not None
+            )
+            reply = (
+                self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
+                if cached is None
+                else self.runtime.permissions.refresh_reply(reply, language=payload.language)
+            )
+            with self.store.connection(write=True) as conn:
+                conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(reply), key))
         with self.store.connection() as conn:
             hidden = self.store.settings(conn)["hide_private"]
         if cached is None and not hidden:

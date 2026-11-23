@@ -29,6 +29,7 @@ from .agent_run_schemas import RunAction
 from .agent_runs import TERMINAL
 from .calendar import iso
 from .store import DomainError, encode
+from .work_resume import SavedWork
 
 # One matcher. Source labels and quote marks are closed lists, not extra patterns.
 _IMPLICIT_LEADS = ("change the goal", "调整目标")
@@ -74,6 +75,7 @@ _FOLLOWUP_ASKS = frozenset(
 )
 # Closed continue asks. Status questions stay on the follow-up read above.
 _CONTINUE_BARE = frozenset({"continue this work", "继续这项工作"})
+_SAVED_ASKS = {"continue the task from before", "继续刚才那个任务"}
 _CONTINUE_LEADS = ("continue work", "继续工作")
 _CLOSED = TERMINAL | {"paused", "blocked"}
 _RESULT_KINDS = frozenset({"work_goal", "work_result"})
@@ -189,15 +191,25 @@ def parse_work_continue(message: str) -> dict | None:
     if own is None or len(own) != 1 or own[0].endswith(("?", "？")):
         return None
     line = own[0]
+    if line.casefold().rstrip(" .。") in _SAVED_ASKS:
+        return {"run_id": None, "saved_work": True}
     if _followup_key(line) in _CONTINUE_BARE:
         return {"run_id": None}
     for lead in _CONTINUE_LEADS:
         rest = _after_lead(line, lead)
         if rest is None or not rest[:1].isspace():
             continue
-        token = rest.lstrip().rstrip(" .。")
+        fields = rest.strip().rstrip(" .。").split()
+        if not fields:
+            continue
+        token = fields[0]
         if len(token) == 32 and all(c in "0123456789abcdef" for c in token.casefold()):
-            return {"run_id": token.casefold()}
+            if len(fields) == 1:
+                return {"run_id": token.casefold()}
+            if len(fields) == 2 and fields[1][:1].casefold() == "v":
+                version = fields[1][1:]
+                if version.isascii() and version.isdigit() and 0 < len(version) <= 16:
+                    return {"run_id": token.casefold(), "version": int(version), "saved_work": True}
     return None
 
 
@@ -251,14 +263,22 @@ class ConversationWork:
     def __init__(self, runtime):
         self.runtime = runtime
         self.store = runtime.store
+        self.saved = SavedWork(runtime)
         # Offline fixture control. Production leaves this unset. It is not an HTTP field.
         self.offline_interrupt = None
 
-    def turn(self, payload, key, principal, conversation=None):
+    def prepare_resume(self, payload, principal):
+        command = parse_work_continue(payload.message)
+        if command and command.get("saved_work") and not payload.voice_steer:
+            return self.saved.select(payload, principal, command)
+        return None
+
+    def turn(self, payload, key, principal, conversation=None, *, resume=None, cached=None):
         action_key = _action_key(key)
         self._require_snapshot(payload, action_key, principal)
         language = payload.language if payload.language in _TEXT else "en"
-        self._reject_other_continue(action_key, payload.message, language)
+        if resume is not None:
+            return self.saved.turn(payload, principal, conversation, action_key, resume, cached=cached)
         if getattr(payload, "voice_steer", False) is True:
             return self._steer_snapshot(payload, action_key, principal, language)
         parsed = parse_changed_goal(payload.message)
@@ -535,13 +555,15 @@ class ConversationWork:
             current.append(row)
         return current
 
-    def _reject_other_continue(self, action_key, message, language):
-        row = self._operation_row(action_key)
-        if row is None or not str(row["request_hash"]).removeprefix("pending/").startswith(
-            "continue:"
-        ):
+    def check_other_continue(self, key, payload):
+        """A lost Work reply cannot lend its operation ID to another chat path."""
+        row = self._operation_row(_action_key(key))
+        if row is None:
             return
-        if row["request_hash"].removeprefix("pending/") != _continue_request(message, language):
+        request = row["request_hash"].removeprefix("pending/")
+        if request.startswith("resume:") or (
+            request.startswith("continue:") and request != _continue_request(payload.message, payload.language)
+        ):
             raise DomainError("OPERATION_ID_CONFLICT")
 
     def _record_continue(self, action_key, request, run_id, *, pending=False):
