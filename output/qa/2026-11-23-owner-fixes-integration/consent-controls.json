@@ -1,0 +1,62 @@
+{
+  "thin_689d1d8e": {
+    "plain": {
+      "kind": "clarify",
+      "shop_state": "quoted",
+      "shop_submissions": 0,
+      "flight_submissions": 0
+    },
+    "inferred": {
+      "kind": "shopping_order",
+      "shop_state": "completed",
+      "shop_submissions": 1,
+      "flight_submissions": 0
+    },
+    "selected": {
+      "kind": "shopping_order",
+      "shop_state": "completed",
+      "shop_submissions": 1,
+      "flight_submissions": 0
+    }
+  },
+  "thin_d549fba8": {
+    "plain": {
+      "kind": "clarify",
+      "shop_state": "quoted",
+      "shop_submissions": 0,
+      "flight_submissions": 0
+    },
+    "inferred": {
+      "kind": "clarify",
+      "shop_state": "quoted",
+      "shop_submissions": 0,
+      "flight_submissions": 0
+    },
+    "selected": {
+      "kind": "shopping_order",
+      "shop_state": "completed",
+      "shop_submissions": 1,
+      "flight_submissions": 0
+    }
+  },
+  "combined": {
+    "plain": {
+      "kind": "clarify",
+      "shop_state": "quoted",
+      "shop_submissions": 0,
+      "flight_submissions": 0
+    },
+    "inferred": {
+      "kind": "clarify",
+      "shop_state": "quoted",
+      "shop_submissions": 0,
+      "flight_submissions": 0
+    },
+    "selected": {
+      "kind": "shopping_order",
+      "shop_state": "completed",
+      "shop_submissions": 1,
+      "flight_submissions": 0
+    }
+  }
+}
