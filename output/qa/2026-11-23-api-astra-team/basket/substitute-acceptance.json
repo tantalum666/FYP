@@ -1,0 +1,78 @@
+{
+  "commit": "5e5730e0e73c76c7ff9112b480b3409a0de85efa",
+  "tree": "9a0e26f5b94e36cf781cc7f0523eb5438152b1f9",
+  "real_guard": {
+    "expected_skus": {
+      "FYP-QA-POCKET-TISSUES": 2,
+      "FYP-QA-DELIVERY-PACK": 1
+    },
+    "removed": [
+      "测试文具包 / Test stationery pack (FYP-QA-DELIVERY-PACK) × 1"
+    ],
+    "added": [
+      "Alternate stationery pack QA (FYP-QA-BASKET-ALT) × 1"
+    ],
+    "old_total_minor": 3300,
+    "guard_total_minor": 3300,
+    "message": "商店在付款前拦下了商品变更：测试文具包 / Test stationery pack (FYP-QA-DELIVERY-PACK) × 1 → Alternate stationery pack QA (FYP-QA-BASKET-ALT) × 1。总价仍为 HK$33.00。请重新选购。",
+    "state": "items_changed",
+    "old_approval_replay": "items_changed",
+    "stopped_review_payment_http": 409,
+    "merchant_reference_mapped": false,
+    "reference_specific_test_method_matches": {
+      "payment_intents": 0,
+      "charges": 0
+    }
+  },
+  "incomplete_guard_replay": {
+    "removed_field": "merchant 409 revision",
+    "state": "unverified",
+    "message": "商店和支付回执尚未匹配，扣款金额待核对。",
+    "definitive_prepayment_claim": false,
+    "merchant_reference_mapped": false
+  },
+  "ordinary_same_chat_choice": {
+    "initial_state": "choosing",
+    "selection_sku": "FYP-QA-BASKET-ALT",
+    "chosen_quantities": {
+      "FYP-QA-POCKET-TISSUES": 2,
+      "FYP-QA-BASKET-ALT": 1
+    },
+    "choice_price_minor": 3300,
+    "choice_shipping_minor": 800,
+    "review_state": "quoted",
+    "approved_amount": null,
+    "old_choice_payment_http": 409,
+    "original_approval_state_after_selection": "items_changed",
+    "declined": true,
+    "replacement_merchant_order_mapped": false
+  },
+  "status": "pass",
+  "new_stripe_objects": {
+    "payment_intents": 0,
+    "charges": 0
+  },
+  "clone_only_injected_swaps": 2,
+  "fallback_gateway_sentinel_hits": 0,
+  "real_model_requests": 0,
+  "frozen_frontend_static_render": {
+    "items_changed": {
+      "home": "Checkout stopped · 测试文具包 / Test stationery pack (FYP-QA-DELIVERY-PACK) × 1 → Alternate stationery pack QA (FYP-QA-BASKET-ALT) × 1 · Total still HK$33.00",
+      "has_payment_decision": false,
+      "action_text": "",
+      "choice_controls": 0
+    },
+    "unverified": {
+      "home": "2 products · Payment unverified",
+      "has_payment_decision": false,
+      "action_text": "Check my shopping refund",
+      "choice_controls": 0
+    },
+    "choosing": {
+      "home": "FYP-QA-DELIVERY-PACK · Choose an alternative",
+      "has_payment_decision": false,
+      "action_text": "",
+      "choice_controls": 2
+    }
+  }
+}

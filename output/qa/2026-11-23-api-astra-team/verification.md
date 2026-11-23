@@ -29,3 +29,12 @@ At `401e0fb2` the authenticated owner can review changes to imported copies. The
 The original Raspberry Pi now runs the same stable `08200201` release as the normal Mac and iPhone Simulator. Its physical kiosk, software, original Google grants and A3 v9 were independently read back after a tested rollback. [Physical Pi evidence](pi-stable-release/verification.md). New API development is reviewed on separate GitHub branches.
 
 The shop aftercare revision `2686b0dc` reconciles distinct partial refunds. In an isolated merchant, order #31 was charged HK$25.00 and three separate Stripe test refunds returned HK$5.25, HK$7.75 and HK$12.00. Reopened net amounts were HK$19.75, HK$12.00 and HK$0.00. The pending-refund evidence is a synthetic replay. [Refund receipts](basket/partial-refunds.md).
+
+## Final component acceptance
+
+- A same-total replacement SKU stopped before the payment mapping. Alice named the removed and replacement product, gave the HK$33 total and required a separate unapproved quote. An incomplete merchant response continued to report uncertainty. [Independent merchant and chat acceptance](basket/substitute-acceptance.md).
+- The original owner recovered a flight that moved from second to third in the provider list after a real server restart. The tightened HK$32 ceiling blocked HK$43.25 and was preserved on the eligible alternatives. [Persisted flight shortlist](flight-shortlist/verification.md).
+- A single skipped routine occurrence preserved its sibling and its following weekly run across a Lord Howe daylight-saving transition. An interrupted retained Work run with an uploaded CSV advanced exactly once after the integrating engineer repaired a nested SQLite writer. A quiet catch-up kept original provider notices scoped to the login and chat. [Independent continuation, routine and quiet checks](continuation/verification.md).
+- The regular composer answered a question about the last confirmed Google refresh in Chinese and English from the stored result. Unconfirmed proposals and private titles did not become the answer. [Normal HTTP and streaming readback](google-review/chat-readback.md).
+
+The integrating engineer reviewed and resolved the shared conversation routing, stored response, owner scope and commerce presentation seams. At `1820597b`, 27 focused backend and combined checks, 12 frontend checks, TypeScript and targeted lint passed. The checked Git tree was `b82a10b68f76e0bc5fc8d7924294dc06bfba3a71`.

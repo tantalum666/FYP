@@ -1,0 +1,285 @@
+{
+  "date": "2026-11-23",
+  "environment": "Isolated FastAPI/Uvicorn on loopback, two actual processes, a single temporary SQLite desk per case and signed-in HTTP clients. Local scripted OpenAI Sessions and LetsFG transports. Network guard permits only loopback.",
+  "public_routes": [
+    "POST /api/assistant/messages/stream",
+    "POST /api/assistant/messages",
+    "GET /api/assistant/commerce-reviews",
+    "GET /api/assistant/flight-bookings",
+    "POST /api/events",
+    "GET /api/calendar"
+  ],
+  "preceding_release": {
+    "source": "01a15501250383ed5218eda2bce9cd83e665a789",
+    "original_offers": [
+      [
+        "FQ345",
+        3100
+      ],
+      [
+        "FQ355",
+        3600
+      ],
+      [
+        "FQ365",
+        4700
+      ]
+    ],
+    "after_process_restart": {
+      "status": 404,
+      "reply": {
+        "code": "CONVERSATION_NOT_FOUND"
+      },
+      "stored_rows": 0
+    }
+  },
+  "shortlist_candidate": {
+    "source": "c6542aac904d3d451cb89868436c74ffeda8da1a",
+    "checks": {
+      "initial_offer": {
+        "date": "2026-12-04",
+        "alternatives": [
+          [
+            "FQ345",
+            3100
+          ],
+          [
+            "FQ355",
+            3600
+          ],
+          [
+            "FQ365",
+            4700
+          ]
+        ]
+      },
+      "process_restart": {
+        "different_process": true,
+        "chat_buffers_at_startup": [
+          0,
+          0
+        ]
+      },
+      "second_login": {
+        "review_rows": 0,
+        "shortlist_indicator": false,
+        "read_http": 404,
+        "selection_http": 404,
+        "bound_quote_http": 404
+      },
+      "ambiguous_selection": {
+        "reply": "Which flight shortlist? For example, say “show flight list 2”.\n1. HKG → HND · 2026-12-04 · ZZ998\n2. HKG → HND · 2026-12-06 · ZZ998",
+        "bookings": 0
+      },
+      "restored_list": {
+        "original": true,
+        "alternatives": [
+          [
+            "FQ345",
+            3100
+          ],
+          [
+            "FQ355",
+            3600
+          ],
+          [
+            "FQ365",
+            4700
+          ]
+        ],
+        "additional_model_or_supplier_calls": 0
+      },
+      "fresh_choice": {
+        "original_flight": "FQ355",
+        "original_minor": 3600,
+        "fresh_minor": 4325,
+        "fresh_inventory_order": [
+          "FQ365",
+          "FQ345",
+          "FQ355"
+        ],
+        "state": "quoted",
+        "approved_minor": null,
+        "replay_used_same_review_without_supplier_call": true
+      },
+      "original_amount_rejected": {
+        "http": 409,
+        "supplier_bookings": 0
+      },
+      "budget": {
+        "ceiling_minor": 5000,
+        "new_fare_minor": 5500,
+        "error": "FLIGHT_OPTION_UNAVAILABLE",
+        "prior_review_http": 409,
+        "supplier_bookings": 0
+      },
+      "new_busy_interval": {
+        "renewed_quote_minor": 4400,
+        "fit_after_confirmation": "conflict",
+        "supplier_bookings": 0
+      },
+      "before_explicit_booking": {
+        "supplier_bookings": 0,
+        "captures": 0,
+        "approved_ledger_rows": 0
+      },
+      "confirmed_flight_calendar": {
+        "flight": "FQ365",
+        "capture_minor": 3000,
+        "provider_bookings_total": 1,
+        "same_offer_and_amount_in_independent_supplier_record": true,
+        "additional_bookings_for_calendar": 0,
+        "provider_reads_for_calendar": 2,
+        "flight_events_before_save": 0,
+        "flight_events_after_save": 1,
+        "visibility": "private",
+        "start": "2026-12-04T18:00:00",
+        "end": "2026-12-04T21:00:00",
+        "timezone": "Asia/Hong_Kong"
+      }
+    },
+    "fixture_counts": {
+      "startup": 2,
+      "session_protocol": 15,
+      "search": 6,
+      "book": 1,
+      "original_receipt_read": 3,
+      "external_connection_attempts": 0,
+      "supplier_price_answers": 0
+    }
+  },
+  "tightened_ceiling_original_failure": {
+    "source": "c6542aac904d3d451cb89868436c74ffeda8da1a",
+    "initial_limit_hkd": 50,
+    "owner_message": "My limit just fell to HK$32. Please get a fresh quote for the second option from flight list 1 only if it fits that new limit.",
+    "fixture_function": "revisit_flight_shortlist",
+    "fixture_arguments": {
+      "option_number": 2
+    },
+    "returned_hkd": 43.25,
+    "stored_limit_hkd": 50.0,
+    "review_state": "quoted",
+    "supplier_bookings": 0,
+    "subsequent_original_button_hkd": 43.25
+  },
+  "repaired_candidate": {
+    "source": "14e1ce9114fde47e924dc3c35c83f2f23d050185",
+    "parent": "c6542aac904d3d451cb89868436c74ffeda8da1a",
+    "source_git_tree": "f175e57428fcd268c73743e539ba14cf2dd94d85",
+    "detached_http_test_git_tree": "f175e57428fcd268c73743e539ba14cf2dd94d85",
+    "full_tree_diff_exit": 0,
+    "outcomes_equal_to_prior_for_original_journey": true,
+    "fixture_counts_for_original_journey": {
+      "startup": 2,
+      "session_protocol": 15,
+      "search": 6,
+      "book": 1,
+      "original_receipt_read": 3
+    },
+    "new_ceiling_cases": [
+      {
+        "sample": "english_above_tightened_cap",
+        "owner_message": "My limit just fell to HK$32. Please get a fresh quote for the second option from flight list 1 only if it fits that new limit.",
+        "original_limit_minor": 5000,
+        "new_limit_minor": 3200,
+        "supplier_fare_minor": 4325,
+        "function_arguments": {
+          "option_number": 2
+        },
+        "http": 200,
+        "stream_terminal": "done",
+        "outcome": "unavailable",
+        "actionable_minor": null,
+        "stored_quote_ceilings_hkd": [],
+        "supplier_searches_for_followup": 1,
+        "supplier_bookings": 0,
+        "external_connections_attempted": 0,
+        "later_original_button": {
+          "error": "FLIGHT_OPTION_UNAVAILABLE",
+          "actionable_minor": null,
+          "supplier_bookings": 0
+        }
+      },
+      {
+        "sample": "chinese_eligible_fare",
+        "owner_message": "我现在最多只花 32 港元。之前航班清单 1 的第二班，请在这个预算内帮我重新核价。",
+        "original_limit_minor": 5000,
+        "new_limit_minor": 3200,
+        "supplier_fare_minor": 3100,
+        "function_arguments": {
+          "option_number": 2
+        },
+        "http": 200,
+        "stream_terminal": "done",
+        "outcome": "clarification",
+        "actionable_minor": null,
+        "stored_quote_ceilings_hkd": [],
+        "supplier_searches_for_followup": 0,
+        "supplier_bookings": 0,
+        "external_connections_attempted": 0,
+        "displayed_message": "请明确原选项和港币上限。如需更改其他条件，请按新条件单独查询。"
+      },
+      {
+        "sample": "chinese_above_cap_with_wider_model_value",
+        "owner_message": "我现在最多只花 32 港元。之前航班清单 1 的第二班，请在这个预算内帮我重新核价。",
+        "original_limit_minor": 5000,
+        "new_limit_minor": 3200,
+        "supplier_fare_minor": 4325,
+        "function_arguments": {
+          "option_number": 2,
+          "max_hkd": 90
+        },
+        "http": 200,
+        "stream_terminal": "done",
+        "outcome": "clarification",
+        "actionable_minor": null,
+        "stored_quote_ceilings_hkd": [],
+        "supplier_searches_for_followup": 0,
+        "supplier_bookings": 0,
+        "external_connections_attempted": 0,
+        "displayed_message": "请明确原选项和港币上限。如需更改其他条件，请按新条件单独查询。"
+      },
+      {
+        "sample": "english_eligible_despite_wider_model_value",
+        "owner_message": "My limit just fell to HK$32. Please get a fresh quote for the second option from flight list 1 only if it fits that new limit.",
+        "original_limit_minor": 5000,
+        "new_limit_minor": 3200,
+        "supplier_fare_minor": 3150,
+        "function_arguments": {
+          "option_number": 2,
+          "max_hkd": 90
+        },
+        "http": 200,
+        "stream_terminal": "done",
+        "outcome": "quoted",
+        "actionable_minor": 3150,
+        "stored_quote_ceilings_hkd": [
+          32.0
+        ],
+        "supplier_searches_for_followup": 1,
+        "supplier_bookings": 0,
+        "external_connections_attempted": 0
+      },
+      {
+        "sample": "chinese_short_eligible",
+        "owner_message": "请给航班清单 1 的第二个选项重新报价，不超过 32 港元。",
+        "original_limit_minor": 5000,
+        "new_limit_minor": 3200,
+        "supplier_fare_minor": 3025,
+        "function_arguments": {
+          "option_number": 2
+        },
+        "http": 200,
+        "stream_terminal": "done",
+        "outcome": "quoted",
+        "actionable_minor": 3025,
+        "stored_quote_ceilings_hkd": [
+          32.0
+        ],
+        "supplier_searches_for_followup": 1,
+        "supplier_bookings": 0,
+        "external_connections_attempted": 0
+      }
+    ]
+  }
+}
