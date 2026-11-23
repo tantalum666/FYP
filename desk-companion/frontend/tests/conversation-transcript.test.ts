@@ -96,3 +96,14 @@ test("Home shows only the approval headline and ordinary answers retain their ow
   assert.equal(asksApprovalStatus("现在有什么需要我确认？"), true);
   assert.equal(asksApprovalStatus("Show the original flight options"), false);
 });
+
+test("an HKD caption replacement changes just Alice's live amount", () => {
+  const first = appendLiveTranscript([], "s", { role: "user", text: "港币三千三百八十九元五角九仙", caption_group: 1 });
+  const second = appendLiveTranscript(first, "s", { role: "assistant", text: "Kiwi.com 的报价", caption_group: 1 });
+  const corrected = appendLiveTranscript(second, "s", {
+    role: "assistant", text: "Kiwi.com 的报价为 HK$3,389.59。", caption_group: 1, caption_replace: true,
+  });
+  assert.equal(corrected.length, 2);
+  assert.equal(corrected[0].body, first[0].body);
+  assert.equal(corrected[1].body, "Kiwi.com 的报价为 HK$3,389.59。");
+});

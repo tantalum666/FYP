@@ -27,6 +27,7 @@ from fastapi import APIRouter, Depends, WebSocket, Request
 from starlette.websockets import WebSocketDisconnect
 from starlette import websockets as starlette_websockets
 
+from . import hkd
 from .conversation import Conversations, draft_context, memory_context, task_context
 from . import approval_status, quiet_chat
 from .store import DomainError
@@ -364,6 +365,50 @@ class VoiceService:
             async with send_lock:
                 await asyncio.wait_for(socket.send_json(value), timeout=3)
 
+        flight_review_turn = None
+        flight_review_result = None
+
+        async def show_flight_review():
+            nonlocal flight_review_turn, flight_review_result
+            if not conversation or principal.get("kind") != "owner" or not self.principal_valid(principal):
+                return {"error":"OWNER_SIGN_IN_REQUIRED", "saved":False}
+            turn_id = (turns.current or turns.start()).id
+            if turn_id == flight_review_turn and flight_review_result:
+                return flight_review_result
+            from .flight_booking.live_chat import describe
+            try:
+                view = await asyncio.to_thread(self.runtime.live_flight_checkouts.start, principal, conversation)
+            except DomainError as error:
+                return {"error":error.code,"saved":False}
+            if (not self.principal_valid(principal) or not self.runtime.personal_context.visible(principal)
+                or self.conversations.entries.get(conversation.id) is not conversation):
+                return {"error":"CONVERSATION_SCOPE_CHANGED", "saved":False}
+            sentence = describe(view, language == "zh")
+            await send_client({"type":"flight_checkout", "conversation_id":conversation.id,
+                               "message":sentence, "live_flight_checkout":view})
+            if isinstance(protocol, OpenAILiveProtocol):
+                source = view.get('source') or {}
+                event = None
+                minor = None
+                if view['state']=='source' and source.get('currency')=='HKD':
+                    minor=source.get('listed_minor')
+                elif view['state']=='review' and view.get('selected'):
+                    option=view['choices'][view['selected']-1]
+                    if option.get('payable') and option.get('currency')=='HKD':
+                        minor=option.get('total_minor')
+                elif view['state']=='completed' and view.get('receipt',{}).get('currency')=='HKD':
+                    minor=view['receipt'].get('charged_minor')
+                if language=='zh' and type(minor) is int and hasattr(protocol, 'fare_readback'):
+                    event=protocol.fare_readback(minor,review_sentence=sentence)
+                instruction = "For this flight request give the owner this verified next step: " + sentence
+                if event is None:
+                    event = (protocol.spoken_instruction(instruction) if hasattr(protocol, 'spoken_instruction') else
+                             {"type":"session.instructions.append", "event_id":uuid4().hex, "delegation_id":None, "content":instruction})
+                await send_provider(event)
+            flight_review_turn = turn_id
+            flight_review_result = {"message":sentence, "state":view['state'], "saved":False, "purchase_confirmed":view['state']=='completed'}
+            return flight_review_result
+
         async def cancel_drafts(ids=None):
             await dispatcher.cancel(ids)
             for call_id in list(drafts):
@@ -393,6 +438,18 @@ class VoiceService:
                 protocol.voice_style += (
                     "\n" + voice_preferences["description"] + "\n" + voice_preferences["delivery"]
                 )
+                if conversation:
+                    from .browser_research import current_chat_quote
+                    from .commerce_quotes import kiwi_hkd_price
+
+                    ref = current_chat_quote(self.runtime, conversation)
+                    price = kiwi_hkd_price(ref.get("quote")) if ref and ref.get("record_verified") else None
+                    last = next((row["text"] for row in reversed(conversation.items) if row["role"] == "assistant"), "")
+                    previous = hkd.last_spoken_amount(last)
+                    if price:
+                        protocol.fare_speech.remember(price, "Kiwi.com 报价为 ", previous_was_fare=previous == price)
+                    elif previous:
+                        protocol.fare_speech.remember(previous, "上次提到的金额为 ", previous_was_fare=True)
                 remaining = 6000
                 for item in reversed(conversation.replay() if conversation else []):
                     message = item.get("item", {})
@@ -402,6 +459,8 @@ class VoiceService:
                     if not text or size > remaining:
                         continue
                     remaining -= size
+                    if message.get("role") == "assistant":
+                        message = {**message, "content": [{"type": "output_text", "text": text}]}
                     protocol.initial_items.insert(0, message)
             if budget_voice:
                 spend.reserve(session_id, "voice", VOICE, seconds=625)
@@ -697,11 +756,24 @@ class VoiceService:
                             raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
 
                 async def deliver_provider(event):
-                    nonlocal client_ready_sent, failure
+                    nonlocal client_ready_sent, failure, last_audio_turn
                     if client_gone.is_set():
                         return False
                     try:
-                        await send_client(event)
+                        output = protocol.fare_speech.outgoing(event) if isinstance(protocol, OpenAILiveProtocol) else [event]
+                        for item in output:
+                            if item["type"] == "retry_fare_speech":
+                                await send_provider(protocol.spoken_instruction(item["instruction"]))
+                                continue
+                            if item["type"] == "audio":
+                                if not turns.current or item.get("turn_id") != turns.current.id:
+                                    continue
+                                item = {**item, **turns.audio()}
+                                last_audio_turn = item["turn_id"]
+                                self.state = "speaking"
+                            if item.pop("_fare_caption", False) and conversation:
+                                conversation.append("assistant", item["text"])
+                            await send_client(item)
                         if event["type"] == "ready":
                             client_ready_sent = True
                         return True
@@ -731,6 +803,16 @@ class VoiceService:
                             raise DomainError("VOICE_PROVIDER_ERROR", 502)
                         for event in protocol.events(data):
                             kind = event["type"]
+                            if kind == "fare_instruction":
+                                await send_provider(event["wire"])
+                                continue
+                            if (
+                                kind == "transcript" and event.get("role") == "assistant"
+                                and isinstance(protocol, OpenAILiveProtocol)
+                                and (protocol.fare_speech.expected or protocol.fare_speech.suppress_tail)
+                            ):
+                                await deliver_provider(event)
+                                continue
                             if kind == "ready":
                                 if (
                                     conversation
@@ -793,14 +875,19 @@ class VoiceService:
                                     continue  # Never play a schedule answer backed only by old chat.
                                 if not turns.current or turns.current.ended is None:
                                     await deliver_provider(turns.end())
-                                event = {**event, **turns.audio()}
-                                last_audio_turn = event.get("turn_id")
-                                self.state = "speaking"
+                                event = {**event, "turn_id": turns.current.id}
                                 last_activity = time.monotonic()
                             elif kind == "transcript":
                                 normalized = self.work.observe(work_session_ref, event)
                                 if normalized is not None:
                                     await deliver_provider(normalized)
+                                if event.get("role") == "user":
+                                    from .flight_booking.checkout_source import purchase_intent
+                                    words = normalized.get("text", "") if normalized else event.get("text", "")
+                                    if (normalized or event.get("final")) and purchase_intent(words):
+                                        opened = await show_flight_review()
+                                        if opened.get("error"):
+                                            await send_client({"type":"flight_checkout_unavailable", "code": opened["error"]})
                                 event = {
                                     key: value
                                     for key, value in event.items()
@@ -814,7 +901,7 @@ class VoiceService:
                                 }
                                 if event.get("role") == "user":
                                     turns.transcript(
-                                        event.get("text", ""), visual_context=image_count > 0
+                                        (normalized or event).get("text", ""), visual_context=image_count > 0
                                     )
                                     if conversation and event.get("final"):
                                         conversation.append("user", event.get("text", ""))
@@ -827,7 +914,7 @@ class VoiceService:
                                         continue
                                     assistant_text = (
                                         event.get("text", "")
-                                        if event.get("final")
+                                        if event.get("final") or event.get("caption_replace")
                                         else assistant_text + event.get("text", "")
                                     )[:8000]
                                     if mode == "text":
@@ -840,6 +927,7 @@ class VoiceService:
                                         event["text"],
                                         session_id,
                                         event["caption_group"],
+                                        replace=bool(event.get("caption_replace")),
                                     )
                                 last_activity = time.monotonic()
                             elif kind == "tool":
@@ -847,6 +935,9 @@ class VoiceService:
                                 last_activity = time.monotonic()
                                 if not turns.current or turns.current.ended is None:
                                     await deliver_provider(turns.end())
+                                if event["name"] == "weather_query" and turns.current.weather_query:
+                                    # Bind a standalone spoken request to its actual place and local day.
+                                    event = {**event, "arguments": json.dumps(turns.current.weather_query)}
                                 event = {**event, "_turn_id": turns.tool(event["id"])}
                                 dispatcher.submit(event)
                                 continue
@@ -957,9 +1048,15 @@ class VoiceService:
                                 await dispatcher.cancel()
                                 return
                         if "proposal" in result:
+                            if conversation:
+                                self.runtime.live_flight_checkouts.bind(principal, conversation, result["proposal"])
                             drafts[event["id"]] = result["proposal"]["id"]
                             self.state = "confirm"
                             await send_client({"type": "proposal", "proposal": result["proposal"]})
+                        if result.get("live_flight_review"):
+                            grounded = await show_flight_review()
+                            result.clear()
+                            result.update(grounded)
                         result = dispatcher.current_result(event, result)
                         if "job" in result:
                             await send_client({"type": "jobs_changed", "job": result["job"]})
@@ -992,13 +1089,13 @@ class VoiceService:
                             group = None if blocked_group else protocol.poll()
                             if group:
                                 assistant_text = ""
-                                await send_client(
+                                await deliver_provider(
                                     {
                                         **group,
                                         **(
-                                            {"turn_id": last_audio_turn}
-                                            if last_audio_turn is not None
-                                            else {}
+                                            {"turn_id": turns.current.id}
+                                            if turns.current and protocol.fare_speech.expected
+                                            else {"turn_id": last_audio_turn} if last_audio_turn is not None else {}
                                         ),
                                         "mode": mode,
                                     }
@@ -1239,13 +1336,19 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         if principal["kind"] != "owner":
             raise DomainError("OWNER_REQUIRED", 403)
         who = {**principal, "session": request.cookies.get("desk_companion_session")}
-        with runtime.text_ai.lock, runtime.store.connection(write=True) as db:
+        with (
+            runtime.text_ai.lock,
+            runtime.live_flight_checkouts.lock,
+            runtime.voice.conversations.lock,
+            runtime.store.connection(write=True) as db,
+        ):
             runtime.voice.conversations.forget(who, conversation_id)
             runtime.conversation_work.saved.forget(Conversations.owner(who), conversation_id, db)
             runtime.flight_bookings.forget_chat(who, conversation_id, db)
             runtime.shop_orders.forget_chat(who, conversation_id, db)
             quiet_chat.forget(db, who, conversation_id)
             approval_status.forget(db, who, conversation_id)
+            runtime.live_flight_checkouts.forget_chat(who, conversation_id, db)
         return {"cleared": True}
 
     @router.post("/voice/work-drafts")

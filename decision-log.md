@@ -985,3 +985,11 @@ The owner authorized a separately metered OpenAI API developer using GPT-6.2 Ast
 ## 2026-11-23 Respect mixed-scope decisions and published purchase amounts
 
 Five separately attributed API worktrees shared one private dated development allocation. Original owner and source identity remain attached to a recovered shortlist, Work request, calendar refresh, quiet update and shop approval. Ambiguous assent after a decision overview has no write authority. A quote retains its original party, itinerary, baggage facts and currency and requires a new decision for changed commercial terms. [Combined acceptance](output/qa/2026-11-23-api-astra-team/verification.md).
+
+## 2026-11-23 Global weather in conversation and voice
+
+The owner reported that an ordinary Tokyo question was refused and a Hong Kong lookup supplied only a temperature. Resolve explicitly named places with Open-Meteo’s worldwide GeoNames geocoder and the OpenCC language dictionaries. Use destination-local dates, preserve official HKO station and forecast feeds and label modeled readings and supplementary ranges. Rainfall probability refers to published forecast probabilities or HKO’s category. The existing shared weather function serves ordinary text, Sessions and Live voice. This source branch was verified with public data and replayed model protocols. [Acceptance and receipts](output/qa/2026-11-23-global-weather/verification.md).
+
+## 2026-11-23 Respond to the owner’s actual weather and purchase questions
+
+The owner requested a worldwide city lookup with rain, a compact listening area, natural currency speech and a flight agent that continues after showing a research price. The application reuses the original signed-in conversation, trusted amount, selected source and supplier-controlled checkout. No owner consent transfers between the public weather read, optional seller inspection, live flight OAuth and the specific payment. [Behavior and evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).

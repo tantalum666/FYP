@@ -10,6 +10,8 @@ import re
 import time
 from dataclasses import dataclass, field
 
+from .weather_conversation import direct_query
+
 
 @dataclass
 class Turn:
@@ -17,6 +19,7 @@ class Turn:
     started: float
     ended: float | None = None
     input_end_ms: float | None = None
+    weather_query: dict | None = None
     needs_tool: bool = False
     tool_delivered: bool = False
     pending: set = field(default_factory=set)
@@ -66,6 +69,7 @@ class VoiceTurns:
         visual_question = visual_context and re.search(
             r"image|screen|picture|photo|截图|图片|画面|屏幕|照片|相片", value, re.I
         )
+        turn.weather_query = None if visual_question else direct_query(value)
         if visual_question and not turn.pending and not turn.tool_delivered:
             turn.needs_tool = False
         creation_request = re.search(

@@ -1,0 +1,14 @@
+{
+  "discovery_register": "real official LetsFG PFS public OAuth client",
+  "http": 200,
+  "authorization_origin": "https://letsfg.co",
+  "authorization_path": "/connect",
+  "scopes": [
+    "flights:search",
+    "flights:book"
+  ],
+  "pkce": "S256",
+  "redirect_origin": "127.0.0.1:5190",
+  "flow_status": "pending",
+  "access_token_obtained": false
+}

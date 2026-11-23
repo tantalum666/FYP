@@ -1,0 +1,34 @@
+{
+  "kind": "separate official public sandbox, synthetic round trip",
+  "api_base": "https://letsfg.co/developers/api/v1/sandbox/flights/",
+  "status": "completed",
+  "same_search_and_offer": true,
+  "synthetic_pnr_observed": true,
+  "offer_currency": "HKD",
+  "offer_price": 178.0,
+  "charged_amount": 178.0,
+  "legs": [
+    {
+      "origin": "HKG",
+      "destination": "NRT",
+      "departure": "2026-11-24T09:50:00",
+      "arrival": "2026-11-24T11:49:00",
+      "flight_no": "AA3066"
+    },
+    {
+      "origin": "NRT",
+      "destination": "HKG",
+      "departure": "2026-12-01T18:45:00",
+      "arrival": "2026-12-02T03:17:00",
+      "flight_no": "AA9284"
+    }
+  ],
+  "bag_map": {
+    "1_bag": 37.14
+  },
+  "bag_source": "estimate",
+  "bag_weight_verified": false,
+  "matches_original_BR_legs": false,
+  "personal_data_sent": false,
+  "live_hold_or_charge": false
+}

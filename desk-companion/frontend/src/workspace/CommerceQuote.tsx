@@ -1,3 +1,4 @@
+import { formatCurrencyMinor as money } from "./commercePresentation";
 import type { Translate } from "../types";
 
 type Budget = { currency?: string | null; budget_minor?: number | null };
@@ -59,16 +60,7 @@ export type Quote = {
   budget_status: "within" | "over" | "unknown";
 };
 
-function money(value: number, currency: string, t: Translate) {
-  const format = new Intl.NumberFormat(t("en-HK", "zh-HK"), {
-    style: "currency",
-    currency,
-    currencyDisplay: "code",
-  });
-  return format.format(
-    value / 10 ** (format.resolvedOptions().maximumFractionDigits ?? 2),
-  );
-}
+
 
 export function QuoteScope({
   request,

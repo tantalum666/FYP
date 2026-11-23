@@ -5,15 +5,12 @@ import { proposalDecisionNotice } from "../src/workspace/proposalDecision.ts";
 const en = (english: string, _chinese: string) => english;
 const zh = (_english: string, chinese: string) => chinese;
 
-test("browser approval reports conversation progress without a device or purchase receipt", () => {
-  const notice = proposalDecisionNotice(
-    { kind: "browser_research", queued: true },
-    "confirm",
-    undefined,
-    en,
-  );
-  assert.match(notice, /conversation/);
-  assert.doesNotMatch(notice, /device|purchased|booked|completed|saved/i);
+test("the live research job owns its status both on approval and on receipt recovery", () => {
+  const job = { id: "existing-research" };
+  for (const queued of [true, false]) {
+    assert.equal(proposalDecisionNotice({ job, queued }, "confirm", "browser_research", en), "");
+  }
+  assert.equal(proposalDecisionNotice({ queued: true }, "confirm", "browser_research", zh), "");
 });
 
 test("recovering an ended browser task does not claim to start it again", () => {

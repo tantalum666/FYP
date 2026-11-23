@@ -117,7 +117,24 @@ export type StatusMark = Pick<
 >;
 export const orderKey = (row: Pick<StatusMark, "kind" | "id">) =>
   row.kind + "/" + row.id;
-export const hkd = (minor: number) => `HK$${(minor / 100).toFixed(2)}`;
+const hongKongAmount = new Intl.NumberFormat("en-HK", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+export const hkd = (minor: number) => `HK$${hongKongAmount.format(minor / 100)}`;
+export function formatCurrencyMinor(value: number, currency: string, t?: Translate) {
+  if (currency === "HKD") return hkd(value);
+  const format = new Intl.NumberFormat(t ? t("en-HK", "zh-HK") : "en-HK", {
+    style: "currency",
+    currency,
+    currencyDisplay: "code",
+  });
+  return format.format(
+    value / 10 ** (format.resolvedOptions().maximumFractionDigits ?? 2),
+  );
+}
+
 export const needsDecision = (row: { state: string }) =>
   ["choosing", "quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
 export const needsOwnerReview = (row: CommerceReview) =>

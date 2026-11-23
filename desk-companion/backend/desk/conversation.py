@@ -11,6 +11,7 @@ import threading
 import time
 from dataclasses import dataclass, field
 
+from . import hkd
 from .calendar import iso
 from .memory import MAX_MODEL
 from .store import DomainError
@@ -40,7 +41,7 @@ class Conversation:
         self.items.append({"role": role, "text": text[:8000], **metadata})
         self._trim()
 
-    def append_voice_fragment(self, role, text, stream, group):
+    def append_voice_fragment(self, role, text, stream, group, *, replace=False):
         """Update one displayed speaker turn, including delayed older fragments."""
         if not isinstance(text, str) or not text:
             return
@@ -49,7 +50,7 @@ class Conversation:
             return
         for item in peers:
             if item["voice_group"] == group and item["role"] == role:
-                item["text"] = (item["text"] + text)[:8000]
+                item["text"] = (text if replace else item["text"] + text)[:8000]
                 self._trim()
                 return
         entry = {"role": role, "text": text[:8000], "voice_stream": stream, "voice_group": group}
@@ -80,7 +81,8 @@ class Conversation:
                     "content": [
                         {
                             "type": "input_text" if item["role"] == "user" else "text",
-                            "text": item["text"],
+                            "text": hkd.present_text(item["text"], spoken=True)
+                            if item["role"] == "assistant" and hkd.chinese(item["text"]) else item["text"],
                         }
                     ],
                 },

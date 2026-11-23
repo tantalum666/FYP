@@ -22,7 +22,7 @@ export async function request<T>(
       "/browser/observations",
       "/google/preview",
       "/google/refresh",
-    ].includes(path)
+    ].includes(path) || path.startsWith("/assistant/flight-checkouts/") || path === "/apps/letsfg/connect"
       ? 75000
       : 12000,
   );

@@ -118,6 +118,22 @@ def _leg(leg, origin, destination, day, nonstop):
         return False
 
 
+def _segments(sector):
+    if not sector:
+        return []
+    segments = sector["segments"]
+    result = []
+    for index, item in enumerate(segments):
+        number = str(item.get("flightNumber", "")).replace(" ", "").upper()
+        result.append({
+            "origin": item["from"], "destination": item["to"],
+            "flight": number if re.fullmatch(r"[A-Z0-9]{2,3}\d{1,5}[A-Z]?", number) else None,
+            "departs": item.get("departureTime") or (sector.get("departureTime") if index == 0 else None),
+            "arrives": item.get("arrivalTime") or (sector.get("arrivalTime") if index == len(segments)-1 else None),
+        })
+    return result
+
+
 def _offer(it, spec, currency):
     out, back = it.get("outbound"), it.get("inbound")
     dep, dest, returning = spec["origin"], spec["destination"], spec.get("return_date")
@@ -188,6 +204,7 @@ def _offer(it, spec, currency):
         offer,
         bags,
         all(seg.get("carrier") == "UO" for seg in out.get("segments", [])) and not back,
+        _segments(out), _segments(back),
     )
 
 
@@ -241,6 +258,7 @@ def recorded_quote(items, intent, turn):
         "matching_offers": sum(o is not None for o in offers),
         "tool_result_sha256": sha256(encode(data).encode()).hexdigest(),
         "checked_bags_for_party": best[1] if best else None,
+        **({"outbound": best[3], "inbound": best[4]} if best else {}),
         "terms_url": KIWI_TERMS,
         "airline_bag_rules": HK_EXPRESS_AGENT_BAGS if best and best[2] else None,
     }

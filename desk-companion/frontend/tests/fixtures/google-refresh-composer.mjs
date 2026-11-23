@@ -65,6 +65,8 @@ const mocks = {
   "./personal/types": { personalContextVisible },
   "./quietChat": { quietChatIntent },
   "./personal/responseFence": { ResponseFence },
+  "./useLiveFlightReview": { useLiveFlightReview: () => ({ current: null, receive: noop, update: noop }) },
+  "./LiveFlightCheckout": { startsFlightCheckout: () => false },
   "./commerceReviews": { useCommerceReviews: () => commerce, needsDecision: () => false },
   "./useChatFiles": { useChatFiles: () => files },
   "./wake/useAliceWake": { useAliceWake: () => ({ pause: noop, rearm: noop, disable: noop }) },

@@ -348,10 +348,14 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
             {"id": "voice_fixture"} if finish == "stop" else "marin"
         )
         tools = setup["delegation"]["responses"]["tools"]
-        voice_capabilities = set(CAPABILITIES) - {"sandbox_flight_quote", "sandbox_shop_quote"}
+        # These four effects require the authenticated text/chat workflow. Live can
+        # open the private real-fare review but cannot submit a supplier booking.
+        voice_capabilities = set(CAPABILITIES) - {
+            "sandbox_flight_quote", "sandbox_shop_quote", "booked_flight_calendar_draft", "revisit_flight_shortlist",
+        }
         assert len(tools) == len(voice_capabilities)
         assert {tool["name"] for tool in tools} == voice_capabilities
-        assert {"weather_query", "browser_research_draft", "browser_research_status"} <= {
+        assert {"weather_query", "browser_research_draft", "browser_research_status", "flight_purchase_review"} <= {
             tool["name"] for tool in tools
         }
         if finish == "stop":

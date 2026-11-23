@@ -1,0 +1,355 @@
+{
+  "baseline": "412721b2e4b5",
+  "layout": "d6ffb509b598ff1f887b1c9a37430cf412d5689e",
+  "verified_source": "3e3630d4ef98a67538ba4b4f6b263f5a92e355b1",
+  "browser": "Google Chrome 157.0.8103.80",
+  "test_context": "Loopback-only fixture upstreams, real Chromium audio worklet, synthetic microphone. The ordinary app controls and conversation rendering handled all interactions.",
+  "viewports": {
+    "desktop": {
+      "before": {
+        "viewport_css_px": [
+          1267,
+          720
+        ],
+        "panel_height_css_px": 590,
+        "transcript_height_css_px": 200.8125,
+        "voice_row_height_css_px": 221.59375,
+        "entire_input_area_height_css_px": 305.1875,
+        "stale_started_text_count": 2,
+        "purchase_request_text_entirely_visible": true,
+        "latest_reply_text_entirely_visible": true,
+        "older_read_position_preserved_through_new_caption": true,
+        "reached_latest_after_scroll": true,
+        "visible_voice_controls": [
+          {
+            "name": "Camera & microphone",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Stop speaking",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "End conversation",
+            "width": 42,
+            "height": 42,
+            "inView": true
+          }
+        ],
+        "permission_popover_fits_panel": true,
+        "wake_control_available": true,
+        "camera_panel_opened": true,
+        "text_composer_focused_after_mute": false,
+        "draft_editable_after_mute": true,
+        "fixture_audio_frames": 33,
+        "voice_control_messages": [
+          "start:voice",
+          "playback_ended",
+          "interrupt"
+        ],
+        "console_errors_or_warnings": [],
+        "page_errors": []
+      },
+      "after": {
+        "viewport_css_px": [
+          1267,
+          720
+        ],
+        "panel_height_css_px": 590,
+        "transcript_height_css_px": 448,
+        "voice_row_height_css_px": 48,
+        "entire_input_area_height_css_px": 58,
+        "stale_started_text_count": 0,
+        "purchase_request_text_entirely_visible": true,
+        "latest_reply_text_entirely_visible": true,
+        "older_read_position_preserved_through_new_caption": true,
+        "reached_latest_after_scroll": true,
+        "visible_voice_controls": [
+          {
+            "name": "Camera & microphone",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Stop speaking",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Turn off microphone and switch to text",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          }
+        ],
+        "permission_popover_fits_panel": true,
+        "wake_control_available": true,
+        "camera_panel_opened": true,
+        "text_composer_focused_after_mute": true,
+        "draft_editable_after_mute": true,
+        "fixture_audio_frames": 33,
+        "voice_control_messages": [
+          "start:voice",
+          "playback_ended",
+          "interrupt"
+        ],
+        "console_errors_or_warnings": [],
+        "page_errors": []
+      }
+    },
+    "phone": {
+      "before": {
+        "viewport_css_px": [
+          390,
+          844
+        ],
+        "panel_height_css_px": 620,
+        "transcript_height_css_px": 250.40625,
+        "voice_row_height_css_px": 221.59375,
+        "entire_input_area_height_css_px": 291.59375,
+        "stale_started_text_count": 2,
+        "purchase_request_text_entirely_visible": false,
+        "latest_reply_text_entirely_visible": true,
+        "older_read_position_preserved_through_new_caption": true,
+        "reached_latest_after_scroll": true,
+        "visible_voice_controls": [
+          {
+            "name": "Camera & microphone",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Share an image or screen",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Stop speaking",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "End conversation",
+            "width": 42,
+            "height": 42,
+            "inView": true
+          }
+        ],
+        "permission_popover_fits_panel": false,
+        "wake_control_available": true,
+        "camera_panel_opened": true,
+        "text_composer_focused_after_mute": false,
+        "draft_editable_after_mute": true,
+        "fixture_audio_frames": 34,
+        "voice_control_messages": [
+          "start:voice",
+          "playback_ended",
+          "interrupt"
+        ],
+        "console_errors_or_warnings": [],
+        "page_errors": [],
+        "image_and_screen_picker_opened": true
+      },
+      "after": {
+        "viewport_css_px": [
+          390,
+          844
+        ],
+        "panel_height_css_px": 620,
+        "transcript_height_css_px": 440,
+        "voice_row_height_css_px": 48,
+        "entire_input_area_height_css_px": 102,
+        "stale_started_text_count": 0,
+        "purchase_request_text_entirely_visible": true,
+        "latest_reply_text_entirely_visible": true,
+        "older_read_position_preserved_through_new_caption": true,
+        "reached_latest_after_scroll": true,
+        "visible_voice_controls": [
+          {
+            "name": "Camera & microphone",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Share an image or screen",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Stop speaking",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Turn off microphone and switch to text",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          }
+        ],
+        "permission_popover_fits_panel": true,
+        "wake_control_available": true,
+        "camera_panel_opened": true,
+        "text_composer_focused_after_mute": true,
+        "draft_editable_after_mute": true,
+        "fixture_audio_frames": 33,
+        "voice_control_messages": [
+          "start:voice",
+          "playback_ended",
+          "interrupt"
+        ],
+        "console_errors_or_warnings": [],
+        "page_errors": [],
+        "image_and_screen_picker_opened": true
+      }
+    },
+    "landscape": {
+      "before": {
+        "viewport_css_px": [
+          844,
+          390
+        ],
+        "panel_height_css_px": 260,
+        "transcript_height_css_px": 22,
+        "voice_row_height_css_px": 221.59375,
+        "entire_input_area_height_css_px": 291.59375,
+        "stale_started_text_count": 2,
+        "purchase_request_text_entirely_visible": false,
+        "latest_reply_text_entirely_visible": false,
+        "older_read_position_preserved_through_new_caption": true,
+        "reached_latest_after_scroll": true,
+        "visible_voice_controls": [
+          {
+            "name": "Camera & microphone",
+            "width": 44,
+            "height": 44,
+            "inView": false
+          },
+          {
+            "name": "Stop speaking",
+            "width": 44,
+            "height": 44,
+            "inView": false
+          },
+          {
+            "name": "End conversation",
+            "width": 42,
+            "height": 42,
+            "inView": false
+          }
+        ],
+        "permission_popover_fits_panel": true,
+        "wake_control_available": true,
+        "camera_panel_opened": true,
+        "text_composer_focused_after_mute": false,
+        "draft_editable_after_mute": true,
+        "fixture_audio_frames": 33,
+        "voice_control_messages": [
+          "start:voice",
+          "playback_ended",
+          "interrupt"
+        ],
+        "console_errors_or_warnings": [],
+        "page_errors": []
+      },
+      "after": {
+        "viewport_css_px": [
+          844,
+          390
+        ],
+        "panel_height_css_px": 314,
+        "transcript_height_css_px": 204,
+        "voice_row_height_css_px": 48,
+        "entire_input_area_height_css_px": 50,
+        "stale_started_text_count": 0,
+        "purchase_request_text_entirely_visible": true,
+        "latest_reply_text_entirely_visible": true,
+        "older_read_position_preserved_through_new_caption": true,
+        "reached_latest_after_scroll": true,
+        "visible_voice_controls": [
+          {
+            "name": "Camera & microphone",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Stop speaking",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          },
+          {
+            "name": "Turn off microphone and switch to text",
+            "width": 44,
+            "height": 44,
+            "inView": true
+          }
+        ],
+        "permission_popover_fits_panel": true,
+        "wake_control_available": true,
+        "camera_panel_opened": true,
+        "text_composer_focused_after_mute": true,
+        "draft_editable_after_mute": true,
+        "fixture_audio_frames": 32,
+        "voice_control_messages": [
+          "start:voice",
+          "playback_ended",
+          "interrupt"
+        ],
+        "console_errors_or_warnings": [],
+        "page_errors": []
+      }
+    }
+  },
+  "follow_repeats": [
+    {
+      "screen": "desktop",
+      "remaining": 0,
+      "followed": true,
+      "older_position_kept": true
+    },
+    {
+      "screen": "phone",
+      "remaining": 0,
+      "followed": true,
+      "older_position_kept": true
+    },
+    {
+      "screen": "landscape",
+      "remaining": 0,
+      "followed": true,
+      "older_position_kept": true
+    },
+    {
+      "screen": "desktop",
+      "remaining": 0,
+      "followed": true,
+      "older_position_kept": true
+    },
+    {
+      "screen": "desktop",
+      "remaining": 0,
+      "followed": true,
+      "older_position_kept": true
+    },
+    {
+      "screen": "desktop",
+      "remaining": 0,
+      "followed": true,
+      "older_position_kept": true
+    }
+  ]
+}

@@ -1,6 +1,14 @@
 # LetsFG test bookings in Alice’s ordinary conversation
 
+For a real ticket, the separate [live supplier connection and booking contract](live-flight-agent.md) covers original offers, return journeys, checked baggage, owner approval and independently verified payment.
+
 An owner can ask Alice to book one fictional adult on a one-way base fare in HKD. Supply the airports and date. A flight number, airline, nonstop requirement or maximum HKD total narrows the search. If the sandbox has no exact match or cannot verify a required checked weight, Alice asks for a change. A real-market price lookup continues through the existing public research tools. [Conversation acceptance](../../output/qa/2026-11-19-alice-flight-conversation/verification.md) · [LetsFG sandbox contract](https://letsfg.co/developers/docs/api-sandbox/index.html).
+
+## Hong Kong fare amounts
+
+An imported Kiwi result supplies its currency and integer minor units. Chinese chat and the quote card show a listed amount such as **HK$3,389.59**. Mandarin and Cantonese read the same amount as **三千三百八十九点五九港元**. A zero directly after the decimal is spoken when it changes the amount. Baggage and final checkout totals retain their own verification status.
+
+A Chinese fare readback sends the verified amount into the owner's existing Live voice session. The desk buffers that utterance before playback and compares the provider's caption with the expected decimal wording. It releases the original PCM for a match. An uncertain or mixed-unit attempt can request one correction in the same session, followed by the written price if the wording remains unconfirmed. [Regression and audio-readback evidence](../../output/qa/2026-11-23-hkd-readback/verification.md).
 
 ## Owner journey
 
@@ -41,3 +49,11 @@ The preview lasts five minutes. A changed itinerary, changed calendar conflict, 
 The existing Sessions dispatcher prepares the quote; no model tool grants spending authority. The normal message endpoint processes owner decisions and the existing conversation refresh updates the card. A single SQLite table stores the chosen quote, versions, decisions and upstream reference. A lost submission acknowledgement can be recovered with the same request key. An uncertain answer queries the existing booking. An unmatched capture stays unverified. A recovered owner conversation can re-open its local record. Explicitly forgetting a conversation removes its association with the provider record. [Official OpenAI Functions](https://developers.openai.com/api/docs/guides/agents-api/tools/functions).
 
 The installation opt-in is `DESK_LETSFG_SANDBOX_ENABLED=1`. There is no configurable live payment endpoint or field for a real card, passport, wallet or traveller. Booking IDs on the public sandbox can be used to read its records, so they stay private. The operator verifier takes the original quoted amount and, for an accepted price change, an optional independently approved `approved_charge_amount`. [Verifier](../scripts/verify_letsfg_sandbox_booking.py) · [earlier provider-only checks](../../output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## Buying a previously shown real Kiwi flight
+
+In the original owner conversation say “帮我购买这个机票” or select **Prepare purchase** on the completed Kiwi result. Alice reopens the signed-in owner’s verified evidence. If an older Live session retained the job without a chat link, choose the original dated listing once. The review preserves the airports, outbound and return dates, known flight numbers and times, passengers, currency and baggage requirement.
+
+Before connecting a wallet, **Let Alice verify the original Kiwi offer** permits a read-only cloud browser to check that particular public fare for both directions. With a connected LetsFG account, **Check LetsFG fare** requests a new offer from the named seller. If baggage or mandatory fees remain uncertain, Alice can inspect the exact seller listing, check the separate original Kiwi listing and reprice other candidates from that original search. A generic fare-family policy cannot authorize the ticket.
+
+The secure owner form appears only for a freshly verifiable payable offer. Its final action names the exact currency and total. Changes require another decision. Bank checks and uncertain results return to the original booking journal, and Alice displays a booking reference and capture only after a matching supplier read. [Checkout acceptance](../../output/qa/2026-11-23-kiwi-owner-checkout/verification.md)

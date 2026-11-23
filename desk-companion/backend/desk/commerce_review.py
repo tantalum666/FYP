@@ -32,7 +32,7 @@ class ReviewDecision(ReviewRef):
 
 class ChatReviews:
     # SQL identifiers are fixed by the application, never supplied by a quote or caller.
-    tables = {"FLIGHT": "sandbox_flight_bookings", "SHOP": "sandbox_shop_orders"}
+    tables = {"FLIGHT": "sandbox_flight_bookings", "SHOP": "sandbox_shop_orders", "LIVE_FLIGHT": "live_flight_checkouts"}
 
     def __init__(self, runtime, kind):
         self.runtime, self.store = runtime, runtime.store
@@ -42,7 +42,7 @@ class ChatReviews:
             db.execute(
                 f"CREATE TABLE IF NOT EXISTS {self.table}(id TEXT PRIMARY KEY,owner TEXT NOT NULL,chat TEXT NOT NULL,data TEXT NOT NULL,serial INTEGER NOT NULL DEFAULT 0)"
             )
-            index = "sandbox_flight_chat" if kind == "FLIGHT" else "sandbox_shop_chat"
+            index = {"FLIGHT": "sandbox_flight_chat", "SHOP": "sandbox_shop_chat", "LIVE_FLIGHT": "live_flight_chat"}[kind]
             db.execute(f"CREATE INDEX IF NOT EXISTS {index} ON {self.table}(owner,chat)")
             db.execute(
                 f"CREATE INDEX IF NOT EXISTS {index}_due ON {self.table}"
@@ -78,7 +78,7 @@ class ChatReviews:
             record = db.execute(
                 f"SELECT data,serial FROM {self.table} WHERE id=? AND owner=? AND chat=? "
                 "AND (? OR json_type(data,'$.quote')='object')",
-                (ident, owner, chat, include_unquoted or self.kind == "SHOP"),
+                (ident, owner, chat, include_unquoted or self.kind != "FLIGHT"),
             ).fetchone()
         if not record:
             raise DomainError(self.kind + "_NOT_FOUND", 404)
@@ -196,9 +196,8 @@ class ChatReviews:
                 for r in db.execute(
                     f"SELECT id FROM {self.table} WHERE owner=? AND chat=? "
                     "AND (? OR json_type(data,'$.quote')='object') ORDER BY rowid DESC",
-                    # A shopping substitute can be reviewed before it has a price.
-                    # Flight-only menus use their own conversation listing.
-                    (owner, chat, self.kind == "SHOP"),
+                    # Only sandbox flight lists store unquoted menu rows beside their bookings.
+                    (owner, chat, self.kind != "FLIGHT"),
                 )
             ]
         return [self.read(ident, owner, chat) for ident in ids]

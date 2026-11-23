@@ -11,7 +11,10 @@ import {
 } from "./voice-timing.ts";
 
 export interface VoiceEvent extends Partial<TurnMeasurement> {
+  live_flight_checkout?: import("./LiveFlightCheckout").LiveCheckout;
+  message?: string;
   caption_group?: number;
+  caption_replace?: boolean;
   start_ms?: number;
   end_ms?: number;
   continuous?: boolean;

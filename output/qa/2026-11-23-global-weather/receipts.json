@@ -1,0 +1,224 @@
+{
+  "checked_at_utc": "2026-11-23T13:20:13+00:00",
+  "public_sources_live": true,
+  "openai_network_calls": 0,
+  "actual_loopback_composer_sse": [
+    {
+      "question": "帮我查一下东京的天气",
+      "reply": "东京当地 2026-11-23 22:15，Open-Meteo估算 8.8°C，大致晴朗。今天预计局部多云，4.2 至 12.8°C，逐小时降水概率最高 0%，预计全天降水 0 毫米。",
+      "area": "destination",
+      "local_date": "2026-11-23",
+      "timezone": "Asia/Tokyo",
+      "source": "Open-Meteo",
+      "country_code": "JP",
+      "current": {
+        "time": "2026-11-23T22:15:00+09:00",
+        "temperature_c": 8.8,
+        "conditions": "大致晴朗",
+        "basis": "model"
+      },
+      "days": [
+        {
+          "date": "2026-11-23",
+          "conditions": "局部多云",
+          "minimum_c": 4.2,
+          "maximum_c": 12.8,
+          "peak_precipitation_probability_pct": 0,
+          "precipitation_mm": 0.0
+        }
+      ]
+    },
+    {
+      "question": "帮我看一下香港的天气",
+      "reply": "香港当地 2026-11-23 21:00，香港天文台实测 23°C。本港地区今晚及明日天气预测，多云，有几阵雨。明日初时雨势较为频密。气温由午夜约23度，逐步下降至明晚市区最低约18度，新界再低一两度。Open-Meteo 今天预计21.2 至 24°C，逐小时降水概率最高 10%。",
+      "area": "hong_kong",
+      "local_date": "2026-11-23",
+      "timezone": "Asia/Hong_Kong",
+      "source": "Hong Kong Observatory",
+      "current": {
+        "time": "2026-11-23T21:00:00+08:00",
+        "temperature_c": 23,
+        "basis": "station"
+      },
+      "local_forecast": {
+        "period": "本港地区今晚及明日天气预测",
+        "conditions": "多云，有几阵雨。明日初时雨势较为频密。气温由午夜约23度，逐步下降至明晚市区最低约18度，新界再低一两度。吹和缓至清劲东风，离岸及高地间中吹强风。明早转吹偏北风。",
+        "issued_at": "2026-11-23T20:45:00+08:00",
+        "source": "Hong Kong Observatory",
+        "source_url": "https://www.hko.gov.hk/en/wxinfo/currwx/flw.htm"
+      },
+      "days": [
+        {
+          "date": "2026-11-23",
+          "conditions": "毛毛雨",
+          "minimum_c": 21.2,
+          "maximum_c": 24.0,
+          "peak_precipitation_probability_pct": 10,
+          "precipitation_mm": 0.8,
+          "precipitation_windows": [
+            {
+              "from": "22:00",
+              "until": "23:00",
+              "peak_probability_pct": 4
+            }
+          ],
+          "source": "Open-Meteo"
+        }
+      ],
+      "issued_at": "2026-11-23T16:30:00+08:00"
+    },
+    {
+      "question": "What's the weather like in Cape Town today?",
+      "reply": "In Cape Town at 2026-11-23 15:15 local time, Open-Meteo estimated 22.2°C, mainly clear. Today, expect overcast, 15.4 to 23.3°C, peak hourly precipitation chance 49%, 0 mm forecast for the day.",
+      "area": "destination",
+      "local_date": "2026-11-23",
+      "timezone": "Africa/Johannesburg",
+      "source": "Open-Meteo",
+      "country_code": "ZA",
+      "current": {
+        "time": "2026-11-23T15:15:00+02:00",
+        "temperature_c": 22.2,
+        "conditions": "mainly clear",
+        "basis": "model"
+      },
+      "days": [
+        {
+          "date": "2026-11-23",
+          "conditions": "overcast",
+          "minimum_c": 15.4,
+          "maximum_c": 23.3,
+          "peak_precipitation_probability_pct": 49,
+          "precipitation_mm": 0.0
+        }
+      ]
+    },
+    {
+      "question": "What's the weather in Reykjavík today?",
+      "reply": "In Reykjavik at 2026-11-23 13:15 local time, Open-Meteo estimated 8.1°C, overcast. Today, expect light rain, 6.9 to 8.6°C, peak hourly precipitation chance 100%, 11.7 mm forecast for the day, precipitation expected around 15:00–20:00.",
+      "area": "destination",
+      "local_date": "2026-11-23",
+      "timezone": "Atlantic/Reykjavik",
+      "source": "Open-Meteo",
+      "country_code": "IS",
+      "current": {
+        "time": "2026-11-23T13:15:00+00:00",
+        "temperature_c": 8.1,
+        "conditions": "overcast",
+        "basis": "model"
+      },
+      "days": [
+        {
+          "date": "2026-11-23",
+          "conditions": "light rain",
+          "minimum_c": 6.9,
+          "maximum_c": 8.6,
+          "peak_precipitation_probability_pct": 100,
+          "precipitation_mm": 11.7,
+          "precipitation_windows": [
+            {
+              "from": "15:00",
+              "until": "20:00",
+              "peak_probability_pct": 96
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "What's the weather in Buenos Aires today?",
+      "reply": "In Buenos Aires at 2026-11-23 10:15 local time, Open-Meteo estimated 26.5°C, mainly clear. Today, expect overcast, 18.4 to 29.7°C, peak hourly precipitation chance 4%, 0 mm forecast for the day.",
+      "area": "destination",
+      "local_date": "2026-11-23",
+      "timezone": "America/Argentina/Buenos_Aires",
+      "source": "Open-Meteo",
+      "country_code": "AR",
+      "current": {
+        "time": "2026-11-23T10:15:00-03:00",
+        "temperature_c": 26.5,
+        "conditions": "mainly clear",
+        "basis": "model"
+      },
+      "days": [
+        {
+          "date": "2026-11-23",
+          "conditions": "overcast",
+          "minimum_c": 18.4,
+          "maximum_c": 29.7,
+          "peak_precipitation_probability_pct": 4,
+          "precipitation_mm": 0.0
+        }
+      ]
+    },
+    {
+      "question": "香港明天的天气怎么样？",
+      "reply": "香港天文台 2026-11-24 多云，有几阵雨，初时雨势较为频密。天气逐步转凉，18 至 23°C，显著降雨概率中。",
+      "area": "hong_kong",
+      "local_date": "2026-11-23",
+      "timezone": "Asia/Hong_Kong",
+      "source": "Hong Kong Observatory",
+      "days": [
+        {
+          "date": "2026-11-24",
+          "minimum_c": 18,
+          "maximum_c": 23,
+          "conditions": "多云，有几阵雨，初时雨势较为频密。天气逐步转凉。",
+          "wind": "北风4至5级，离岸及高地间中6级。",
+          "significant_rain_category": "中"
+        }
+      ],
+      "issued_at": "2026-11-23T16:30:00+08:00"
+    }
+  ],
+  "preference_after_explicit_lookups": "none",
+  "ordinary_sessions_protocol_replay": {
+    "model": "gpt-6.2-sol",
+    "required_weather_arguments": [
+      "location",
+      "period",
+      "language"
+    ],
+    "reply": "Tokyo (Open-Meteo) 2026-11-24 heavy rain, 6.8 to 18.3°C, peak hourly precipitation chance 100%. 2026-11-25 mainly clear, 7 to 13.1°C, peak hourly precipitation chance 18%. 2026-11-26 overcast, 4.3 to 13.7°C, peak hourly precipitation chance 0%.",
+    "days": [
+      {
+        "conditions": "heavy rain",
+        "date": "2026-11-24",
+        "maximum_c": 18.3,
+        "minimum_c": 6.8,
+        "peak_precipitation_probability_pct": 100,
+        "precipitation_mm": 16.5,
+        "precipitation_windows": [
+          {
+            "from": "16:00",
+            "peak_probability_pct": 100,
+            "until": "19:00"
+          }
+        ]
+      },
+      {
+        "conditions": "mainly clear",
+        "date": "2026-11-25",
+        "maximum_c": 13.1,
+        "minimum_c": 7.0,
+        "peak_precipitation_probability_pct": 18,
+        "precipitation_mm": 0.0
+      },
+      {
+        "conditions": "overcast",
+        "date": "2026-11-26",
+        "maximum_c": 13.7,
+        "minimum_c": 4.3,
+        "peak_precipitation_probability_pct": 0,
+        "precipitation_mm": 0.0
+      }
+    ]
+  },
+  "actual_loopback_voice_socket_with_replayed_upstream": {
+    "model": "gpt-live-1.1",
+    "delegation": "gpt-6.2-sol",
+    "user_transcript_chunks": 2,
+    "tool_result_bound_to_expected_call": true,
+    "destination": "JP",
+    "caption_echoed_from_public_result": "东京当地 2026-11-23 22:15，Open-Meteo估算 8.8°C，大致晴朗。今天预计局部多云，4.2 至 12.8°C，逐小时降水概率最高 0%，预计全天降水 0 毫米。",
+    "audio_generated": false
+  }
+}

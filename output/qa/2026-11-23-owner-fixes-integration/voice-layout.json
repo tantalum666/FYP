@@ -1,0 +1,53 @@
+{
+  "desktop": {
+    "viewport": [
+      1267,
+      720
+    ],
+    "urlPath": "/",
+    "requestFullyVisible": true,
+    "answerFullyVisible": true,
+    "scrollbackHeld": true,
+    "composerFocused": true,
+    "micOff": true,
+    "staleText": 0,
+    "errors": [],
+    "console": [],
+    "voice_row_height": 48,
+    "transcript_height": 448
+  },
+  "phone": {
+    "viewport": [
+      390,
+      844
+    ],
+    "urlPath": "/?surface=phone",
+    "requestFullyVisible": true,
+    "answerFullyVisible": true,
+    "scrollbackHeld": true,
+    "composerFocused": true,
+    "micOff": true,
+    "staleText": 0,
+    "errors": [],
+    "console": [],
+    "voice_row_height": 48,
+    "transcript_height": 440
+  },
+  "landscape": {
+    "viewport": [
+      844,
+      390
+    ],
+    "urlPath": "/?surface=phone",
+    "requestFullyVisible": true,
+    "answerFullyVisible": true,
+    "scrollbackHeld": true,
+    "composerFocused": true,
+    "micOff": true,
+    "staleText": 0,
+    "errors": [],
+    "console": [],
+    "voice_row_height": 48,
+    "transcript_height": 204
+  }
+}

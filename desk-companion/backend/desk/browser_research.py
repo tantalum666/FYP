@@ -107,19 +107,17 @@ def current_chat_quote(runtime, conversation):
         for item in reversed(conversation.items[-16:])
         if item.get("role") == "assistant" and item.get("operation_id")
     ]
-    if not keys:
-        return None
     with runtime.store.connection() as conn:
         if runtime.store.settings(conn)["hide_private"]:
             return None
-        placeholders = ",".join("?" for _ in keys)
-        replies = dict(
-            conn.execute(
-                f"SELECT id,result FROM assistant_replies WHERE id IN ({placeholders})", keys
-            )
-        )
-    for key in keys:
-        proposal = json.loads(replies.get(key, "{}")).get("proposal") or {}
+        replies = {}
+        if keys:
+            placeholders = ",".join("?" for _ in keys)
+            replies = dict(conn.execute(f"SELECT id,result FROM assistant_replies WHERE id IN ({placeholders})", keys))
+    proposals = [json.loads(replies[key]).get("proposal") for key in keys if key in replies]
+    if checkouts := getattr(runtime, "live_flight_checkouts", None):
+        proposals.append(checkouts.last_proposal(conversation))
+    for proposal in filter(None, proposals):
         browser = (proposal.get("data") or {}).get("browser") or {}
         if proposal.get("kind") != "browser_research" or not browser.get("quote_request"):
             continue
