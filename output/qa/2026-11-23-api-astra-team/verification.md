@@ -38,3 +38,5 @@ The shop aftercare revision `2686b0dc` reconciles distinct partial refunds. In a
 - The regular composer answered a question about the last confirmed Google refresh in Chinese and English from the stored result. Unconfirmed proposals and private titles did not become the answer. [Normal HTTP and streaming readback](google-review/chat-readback.md).
 
 The integrating engineer reviewed and resolved the shared conversation routing, stored response, owner scope and commerce presentation seams. At `1820597b`, 27 focused backend and combined checks, 12 frontend checks, TypeScript and targeted lint passed. The checked Git tree was `b82a10b68f76e0bc5fc8d7924294dc06bfba3a71`.
+
+The final Work fix, authored by the paid API contributor and wired by the coordinator, corrected a compound “Yes, confirm it.” after an overview in Full access and Ask mode. A previously surfaced unrelated task note is now a scoped clarification with zero writes. The same revision supports old single-item and new mixed-basket titles. The independently measured phone routine selector also exposes the chosen local time and zone at 390 pixels. [Final checked outcomes](continuation/verification.md).

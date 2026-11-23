@@ -981,3 +981,7 @@ The owner asked to continue personal-agent work. Group 2 chose calendar-aware fl
 ## 2026-11-23 Parallel API development and local flight calendar handoff
 
 The owner authorized a separately metered OpenAI API developer using GPT-6.2 Astra at maximum reasoning effort, with a fixed retained-credit floor. Its actual contributions use a named Git author and a separate review branch. Regular Alice clients retain their configured provider and budgets. The integrating engineer chose a confirmed-flight handoff: the existing booking review supplies the authority and identity, and the existing calendar writer inserts one local event alongside the source binding in a single transaction. Require a fresh provider read and an explicit event confirmation. [Source and local checks](output/qa/2026-11-23-api-astra-team/verification.md).
+
+## 2026-11-23 Respect mixed-scope decisions and published purchase amounts
+
+Five separately attributed API worktrees shared one private dated development allocation. Original owner and source identity remain attached to a recovered shortlist, Work request, calendar refresh, quiet update and shop approval. Ambiguous assent after a decision overview has no write authority. A quote retains its original party, itinerary, baggage facts and currency and requires a new decision for changed commercial terms. [Combined acceptance](output/qa/2026-11-23-api-astra-team/verification.md).
