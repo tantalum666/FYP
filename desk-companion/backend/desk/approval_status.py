@@ -11,7 +11,7 @@ from .calendar import iso
 from .commerce_review import language_for
 from .conversation import Conversations
 from .flight_booking.conversation import owner_decision as flight_decision
-from .shop_checkout.conversation import owner_decision as shop_decision, price
+from .shop_checkout.conversation import owner_decision as shop_decision, price, shop_quote_subject
 from .store import DomainError
 from .work_limits import RUN_COUNT
 
@@ -20,11 +20,29 @@ DISPLAY_LIMIT = 3
 _SOURCE_LIMIT = 12
 _SOURCE_TIMEOUT_MS = 250
 _ASKS = {"what needs my approval", "现在有什么需要我确认", "有什么需要我确认"}
-_ASSENT = re.compile(
-    r"(?:(?:yes[, ]+)?(?:ok(?:ay)?|sure|go ahead|do it|do them all|both|all of them)"
-    r"|(?:please )?(?:confirm|approve|accept)(?: (?:it|that|both|all|them|them all|all of them))?"
-    r"|(?:全部|都|一起)?(?:好[的啊]?|可以|确认|确定|同意)(?:吧|了)?)[.!。]*"
+_ASSENT_SEP = r"[\s,.!;:。、–—-]"
+_EN_ACK = r"(?:yes|yeah|yep|ok(?:ay)?|sure)"
+_EN_REF = r"(?:it|this|that|(?:both|all)(?:\s+of\s+them)?|them(?:\s+(?:all|both))?)"
+_EN_ASSENT = re.compile(
+    rf"(?:{_EN_ACK}{_ASSENT_SEP}+(?:and\s+)?)?(?:(?:please|kindly){_ASSENT_SEP}+)?"
+    rf"(?:{_EN_ACK}|both|all\s+of\s+them|go\s+ahead|"
+    rf"(?:go\s+ahead{_ASSENT_SEP}+(?:and\s+)?)?"
+    rf"(?:(?:confirm|approve|accept)(?:\s+{_EN_REF})?|do\s+(?:{_EN_REF}|so)|proceed))"
+    rf"(?:{_ASSENT_SEP}+(?:please|thanks|thank\s+you))?{_ASSENT_SEP}*"
 )
+_ZH_ACK = r"(?:(?:好[的啊呀]?|可以的?|行|同意)[吧了]?|是的?|对的?|嗯|没问题)"
+_ZH_ASSENT = re.compile(
+    rf"(?:{_ZH_ACK}{_ASSENT_SEP}*)?(?:那?就)?"
+    rf"(?:(?:请|麻烦)[你您]?{_ASSENT_SEP}*)?(?:(?:帮我|帮忙){_ASSENT_SEP}*)?"
+    rf"(?:全部(?:都)?|全?都|一起)?(?:{_ZH_ACK}|"
+    r"(?:确认|确定|批准|接受|同意)(?:一?下)?(?:它们?|[这那]个|全部)?[吧了]?)"
+    rf"(?:{_ASSENT_SEP}*谢谢)?{_ASSENT_SEP}*"
+)
+
+
+def is_unbound_assent(wording: str) -> bool:
+    """Match a normalized, target-free reply for clarification only."""
+    return bool(_EN_ASSENT.fullmatch(wording) or _ZH_ASSENT.fullmatch(wording))
 
 
 @dataclass(frozen=True)
@@ -46,7 +64,7 @@ def clarify_decision(runtime, payload, principal, chat):
         return None
     decision = shop_decision(payload.message) or flight_decision(payload.message)
     wording = unicodedata.normalize("NFKC", payload.message).strip().casefold()
-    if not decision and not _ASSENT.fullmatch(wording):
+    if not decision and not is_unbound_assent(wording):
         return None
     if ref and wording.rstrip(".!。") in {
         "恢复原购物订单", "recover shop order", "恢复原测试单", "recover this test booking"
@@ -90,7 +108,7 @@ def _commerce(service, db, chat, now, zh):
         shop = service.kind == "SHOP"
         if shop:
             quote = row["quote"]
-            title = f"{_short(quote['name'])} × {quote['terms']['quantity']}"
+            title = _short(shop_quote_subject(quote, zh))
             previous = (row["previous"] or {}).get("terms", {}).get("total_minor")
         else:
             title = " / ".join(leg["flight"] for leg in row["segments"])
