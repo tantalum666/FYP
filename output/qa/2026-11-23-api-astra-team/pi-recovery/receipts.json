@@ -231,6 +231,15 @@
     "full_focused_policy_tests_passed": 43,
     "further_paid_calls": 0,
     "installed_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
+    "local_linux_focused_test_files": {
+      "executed_on_original_pi": false,
+      "includes_both_unchanged_real_systemd_graph_cases": true,
+      "machine": "aarch64",
+      "passed": 45,
+      "python": "3.12.3",
+      "service_manager": "systemd 255",
+      "skipped": 0
+    },
     "maximum_eligible_fallback_lead_s": 900,
     "normal_lead_s": 180,
     "old_and_new_differential": {
