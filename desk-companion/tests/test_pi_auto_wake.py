@@ -154,7 +154,7 @@ def test_lost_replacement_restores_only_verified_earlier_deadline(renewing):
     saved = json.loads(state.read_text())
     assert saved['readback'] == [{'value': 0}] * len(auto_wake.READ_DELAYS)
     assert saved['restore_readback'] == [{'value': 1180}]
-    assert saved['verified'] == 1180
+    assert saved['verified'] == 1180 and saved['owned'] == [1180]
 
 
 def test_different_future_deadline_after_write_never_becomes_owned(renewing):
@@ -313,3 +313,30 @@ def test_sysfs_adapter_serializes_absolute_and_active_relative_forms(tmp_path):
     assert device.alarm() == 1210
     (tmp_path / 'wakealarm').write_bytes(b'')
     assert device.alarm() == 0
+
+
+@pytest.mark.parametrize('register_lost', [False, True])
+def test_disproved_intent_cannot_own_a_later_foreign_alarm(renewing, register_lost):
+    rtc, state = renewing
+    real_write = rtc.set_alarm
+
+    def failed_move(value):
+        if isinstance(value, str):
+            rtc.writes.append(value)
+            if register_lost:
+                rtc.value = 0
+        else:
+            real_write(value)
+
+    rtc.set_alarm = failed_move
+    with pytest.raises(RuntimeError, match='previous_(retained|restored)'):
+        change_alarm(rtc, state)
+    assert json.loads(state.read_text())['owned'] == [1180]
+    rtc.set_alarm = real_write
+    # A different owner later selects the same epoch as our failed intent.
+    rtc.value = 1210
+    rtc.writes.clear()
+    with pytest.raises(RuntimeError, match='Another RTC alarm'):
+        change_alarm(rtc, state, disarm=True)
+    assert rtc.value == 1210 and rtc.writes == []
+    assert json.loads(state.read_text())['owned'] == []

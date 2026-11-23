@@ -106,13 +106,14 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
         target = 0 if disarm else now + delay
         initial = read_alarm(rtc)
         previous = initial[-1].get('value')
-        state = {'owned': owned, 'verified': last_good, 'rtc_now': now, 'expected': target,
+        state = {'owned': owned, 'verified': last_good, 'previous_verified': last_good,
+                 'rtc_now': now, 'expected': target,
                  'initial': initial}
         if previous is None:
             state['outcome'] = 'initial_read_failed'
             record_failure(state_path, state, 'RTC alarm could not be read')
         if previous > now and previous not in owned:
-            state['outcome'] = 'foreign_alarm_preserved'
+            state.update(owned=[], verified=0, outcome='foreign_alarm_preserved')
             record_failure(state_path, state, 'Another RTC alarm is active; it was not replaced')
 
         if previous > now:
@@ -155,13 +156,18 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
                 state['restore_error'] = error
             state['restore_readback'] = read_alarm(rtc, last_good)
             restored = state['restore_readback'][-1].get('value')
-            state['outcome'] = 'previous_restored' if restored == last_good else 'restore_unconfirmed'
+            if restored == last_good:
+                state.update(owned=[last_good], verified=last_good, outcome='previous_restored')
+            else:
+                state['outcome'] = 'restore_unconfirmed'
+                if restored is not None and restored > now and restored not in state['owned']:
+                    state.update(owned=[], verified=0)
         elif observed is None:
             state['outcome'] = 'readback_unavailable'
         elif observed == last_good and last_good:
-            state['outcome'] = 'previous_retained'
+            state.update(owned=[last_good], verified=last_good, outcome='previous_retained')
         elif observed > now and observed not in state['owned']:
-            state['outcome'] = 'foreign_alarm_preserved'
+            state.update(owned=[], verified=0, outcome='foreign_alarm_preserved')
         else:
             state['outcome'] = 'readback_mismatch'
         record_failure(state_path, state, 'RTC alarm readback did not match')
