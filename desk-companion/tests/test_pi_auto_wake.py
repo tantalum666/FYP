@@ -351,3 +351,174 @@ def test_stale_initial_read_does_not_orphan_an_owned_alarm(renewing, stale):
     assert saved['initial'][-1] == {'value': 1180}
     assert len(saved['initial']) == 2 and saved['owned'] == [1210]
     assert rtc.writes == ['+=30']
+
+
+@pytest.mark.parametrize(
+    ('now', 'previous_verified', 'recorded_now'),
+    [
+        (16, 1795421401, 1795421221),  # 2026 -> a reset RTC near the Unix epoch.
+        (16, 1795421401, None),       # Earlier two-value ownership format.
+        (1000, 1200, 1020),           # Backwards clock step within the 900-second limit.
+        (16, 917, None),              # One second beyond the largest supported delay.
+    ],
+)
+def test_empty_slot_never_restores_a_previous_clock_deadline(
+    tmp_path, now, previous_verified, recorded_now
+):
+    state = tmp_path / 'alarm.json'
+    saved = {'owned': [previous_verified, previous_verified + 30]}
+    if recorded_now is not None:
+        saved.update(verified=previous_verified, rtc_now=recorded_now)
+    state.write_text(json.dumps(saved))
+    rtc = Rtc(now=now)
+    original_write = rtc.set_alarm
+
+    def lose_current_target(value):
+        if value == now + 180:
+            rtc.writes.append(value)
+        else:
+            original_write(value)
+
+    rtc.set_alarm = lose_current_target
+    with pytest.raises(RuntimeError, match='readback'):
+        change_alarm(rtc, state)
+    assert previous_verified not in rtc.writes
+    assert rtc.value == 0
+    assert json.loads(state.read_text())['verified'] == 0
+
+
+def test_in_window_legacy_fallback_at_supported_maximum_is_preserved(tmp_path):
+    rtc = Rtc(now=16)
+    state = tmp_path / 'alarm.json'
+    state.write_text(json.dumps({'owned': [916, 946]}))
+    original_write = rtc.set_alarm
+
+    def lose_primary(value):
+        if value == 196:
+            rtc.writes.append(value)
+        else:
+            original_write(value)
+
+    rtc.set_alarm = lose_primary
+    with pytest.raises(RuntimeError, match='previous_restored'):
+        change_alarm(rtc, state)
+    assert rtc.value == 916 and rtc.writes == [196, 916]
+
+
+def test_ntp_forward_retargets_our_still_enabled_prior_alarm_without_clearing(tmp_path):
+    rtc = Rtc(now=16)
+    state = tmp_path / 'alarm.json'
+    assert change_alarm(rtc, state)['wake_at'] == 196
+    rtc.time = 1795439481
+    rtc.writes.clear()
+    normal_write = rtc.set_alarm
+
+    def kernel_enabled_slot(value):
+        if not isinstance(value, str) and value > 0 and rtc.value:
+            raise OSError(errno.EBUSY, 'enabled hardware slot')
+        normal_write(value)
+
+    rtc.set_alarm = kernel_enabled_slot
+    target = rtc.time + 180
+    assert change_alarm(rtc, state)['wake_at'] == target
+    assert rtc.writes == [f'+={target - 196}']
+
+
+@pytest.mark.parametrize(
+    ('now', 'external_deadline'),
+    [(16, 266), (16, 1795421402), (1795439481, 1795439731)],
+)
+def test_foreign_future_alarm_is_preserved_across_clock_generations(tmp_path, now, external_deadline):
+    state = tmp_path / 'alarm.json'
+    state.write_text(json.dumps({'owned': [1795421401], 'verified': 1795421401, 'rtc_now': 1795421221}))
+    rtc = Rtc(now, external_deadline)
+    for disarm in [False, True]:
+        with pytest.raises(RuntimeError, match='Another RTC alarm'):
+            change_alarm(rtc, state, disarm=disarm)
+    assert rtc.value == external_deadline and rtc.writes == []
+
+
+def test_far_owned_alarm_is_retargetable_without_ever_becoming_a_fallback(tmp_path):
+    prior = 1795421401
+    state = tmp_path / 'alarm.json'
+    state.write_text(json.dumps({'owned': [prior], 'verified': prior, 'rtc_now': prior - 180}))
+    rtc = Rtc(16, prior)
+    real_write = rtc.set_alarm
+    rtc.set_alarm = rtc.writes.append
+    with pytest.raises(RuntimeError, match='readback_mismatch'):
+        change_alarm(rtc, state)
+    rejected = json.loads(state.read_text())
+    assert rejected['verified'] == 0 and rejected['rejected_fallback'] == prior
+    assert rtc.value == prior and prior in rejected['owned']
+
+    rtc.set_alarm = real_write
+    rtc.time = 46
+    assert change_alarm(rtc, state)['wake_at'] == 226
+    assert rtc.writes == [f'+={196-prior}', f'+={226-prior}']
+
+
+def test_explicit_disarm_can_clear_identified_prior_domain_alarm(tmp_path):
+    prior = 1795421401
+    state = tmp_path / 'alarm.json'
+    state.write_text(json.dumps({'owned': [prior], 'verified': prior, 'rtc_now': prior - 180}))
+    rtc = Rtc(16, prior)
+    assert not change_alarm(rtc, state, disarm=True)['enabled']
+    assert rtc.writes == [0] and rtc.value == 0
+
+
+def test_clock_step_before_arming_stops_without_writing(tmp_path, monkeypatch):
+    state = tmp_path / 'alarm.json'
+    rtc = Rtc(16)
+    save = auto_wake.save_state
+
+    def synchronize(path, record):
+        save(path, record)
+        if record['outcome'] == 'pending':
+            rtc.time = 1795439481
+
+    monkeypatch.setattr(auto_wake, 'save_state', synchronize)
+    with pytest.raises(RuntimeError, match='clock changed before'):
+        change_alarm(rtc, state)
+    assert not rtc.writes
+    assert change_alarm(rtc, state)['wake_at'] == 1795439661
+
+
+def test_clock_step_after_writing_cannot_confirm_an_expired_target(tmp_path):
+    state = tmp_path / 'alarm.json'
+    rtc = Rtc(16)
+    real_write = rtc.set_alarm
+
+    def synchronize_after_write(value):
+        real_write(value)
+        rtc.time = 1795439481
+
+    rtc.set_alarm = synchronize_after_write
+    with pytest.raises(RuntimeError, match='clock changed during readback'):
+        change_alarm(rtc, state)
+    assert rtc.writes == [196] and json.loads(state.read_text())['verified'] == 0
+    assert change_alarm(rtc, state)['wake_at'] == 1795439661
+
+
+def test_clock_reset_while_restoring_cannot_claim_decades_of_wake_delay(tmp_path):
+    state = tmp_path / 'alarm.json'
+    old = 1795421401
+    rtc = Rtc(old - 180)
+    assert change_alarm(rtc, state)['wake_at'] == old
+    rtc.time += 30
+    rtc.writes.clear()
+    real_write = rtc.set_alarm
+
+    def failed_move_then_clock_reset(value):
+        if isinstance(value, str):
+            rtc.writes.append(value)
+            rtc.value = 0
+        else:
+            real_write(value)
+            rtc.time = 16
+
+    rtc.set_alarm = failed_move_then_clock_reset
+    with pytest.raises(RuntimeError, match='clock changed during fallback'):
+        change_alarm(rtc, state)
+    saved = json.loads(state.read_text())
+    assert rtc.writes == ['+=30', old] and saved['verified'] == 0
+    assert saved['outcome'] == 'clock_changed_during_restore'

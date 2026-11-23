@@ -223,6 +223,78 @@
     "alarm_lead_s": 180,
     "systemd_interval_s": 30
   },
+  "rtc_clock_epoch_followup": {
+    "added_boundary_cases": 14,
+    "candidate_helper_sha256": "84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e",
+    "candidate_passed_all_new_cases": 14,
+    "device_configuration_or_hardware_writes_for_followup": false,
+    "full_focused_policy_tests_passed": 43,
+    "further_paid_calls": 0,
+    "installed_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
+    "maximum_eligible_fallback_lead_s": 900,
+    "normal_lead_s": 180,
+    "old_and_new_differential": {
+      "installed": {
+        "foreign_distant_future_alarm": {
+          "register_after": 1795421402,
+          "reported_outcome": "foreign_alarm_preserved",
+          "reported_verified": 0,
+          "writes": []
+        },
+        "ntp_forward_retained_enabled_alarm": {
+          "register_after": 196,
+          "reported_outcome": "readback_mismatch",
+          "reported_verified": 0,
+          "writes": [
+            1795439661
+          ]
+        },
+        "reset_rtc_empty_lost_new_alarm": {
+          "register_after": 1795421401,
+          "reported_outcome": "previous_restored",
+          "reported_verified": 1795421401,
+          "writes": [
+            196,
+            1795421401
+          ]
+        }
+      },
+      "new_candidate": {
+        "foreign_distant_future_alarm": {
+          "register_after": 1795421402,
+          "reported_outcome": "foreign_alarm_preserved",
+          "reported_verified": 0,
+          "writes": []
+        },
+        "ntp_forward_retained_enabled_alarm": {
+          "register_after": 1795439661,
+          "reported_outcome": "verified",
+          "reported_verified": 1795439661,
+          "writes": [
+            "+=1795439465"
+          ]
+        },
+        "reset_rtc_empty_lost_new_alarm": {
+          "register_after": 0,
+          "reported_outcome": "readback_mismatch",
+          "reported_verified": 0,
+          "writes": [
+            196
+          ]
+        }
+      }
+    },
+    "prior_version_failed_new_cases": 9,
+    "prior_version_passed_new_controls": 5,
+    "source_real_inputs": {
+      "first_boot_rtc_epoch_seconds": [
+        16,
+        46
+      ],
+      "previous_programmed_epoch_s": 1795421401
+    },
+    "status": "offline candidate pending separate review and installation"
+  },
   "source_baseline_helper_sha256": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
   "systemd": "257"
 }

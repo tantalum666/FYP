@@ -54,6 +54,7 @@ def save_state(path, state):
 # A transient empty sysfs read or a firmware read error is followed by two more
 # observations. Stop on the first exact match, without repeating the RTC write.
 READ_DELAYS = (0, 0.05, 0.15)
+MAX_WAKE_DELAY = 900
 
 
 def read_alarm(rtc, accepted=None):
@@ -86,9 +87,14 @@ def record_failure(path, state, message):
     raise RuntimeError(message + ' ' + json.dumps(state, separators=(',', ':')))
 
 
+def in_wake_window(deadline, now, verified_at):
+    # A saved absolute timestamp may belong to an RTC epoch that lost power.
+    return (verified_at is None or verified_at <= now) and 0 < deadline - now <= MAX_WAKE_DELAY
+
+
 def change_alarm(rtc, state_path, *, delay=180, disarm=False):
-    if not 60 <= delay <= 900:
-        raise ValueError('Wake delay must be between 60 and 900 seconds')
+    if not 60 <= delay <= MAX_WAKE_DELAY:
+        raise ValueError(f'Wake delay must be between 60 and {MAX_WAKE_DELAY} seconds')
     state_path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     with (state_path.parent / 'lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
@@ -98,45 +104,60 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
             raise ValueError('Invalid RTC ownership record')
         # In the old two-value format the first value was actually read and the
         # second was write intent. A pending target is never a fallback by itself.
-        last_good = saved.get('verified', owned[0] if owned else 0)
-        if type(last_good) is not int or (last_good and last_good not in owned):
+        previous_verified = saved.get('verified', owned[0] if owned else 0)
+        if type(previous_verified) is not int or (previous_verified and previous_verified not in owned):
             raise ValueError('Invalid verified RTC ownership record')
 
+        # Older two-value files have no clock sample; the horizon still applies.
+        # Keep the verified sample independent of later unsuccessful attempts.
+        verified_at = saved.get('verified_at', saved.get('rtc_now'))
+        if verified_at is not None and type(verified_at) is not int:
+            raise ValueError('Invalid RTC verification time')
         now = rtc.now()
         target = 0 if disarm else now + delay
+        retained_verified = previous_verified if in_wake_window(previous_verified, now, verified_at) else 0
         # With a live ownership record, a single empty/stale initial read must
         # not orphan our deadline. An actual foreign alarm is only observed.
         live_owned = {value for value in owned if value > now}
         initial = read_alarm(rtc, live_owned or None)
         previous = initial[-1].get('value')
-        state = {'owned': owned, 'verified': last_good, 'previous_verified': last_good,
+        state = {'owned': owned, 'verified': retained_verified, 'previous_verified': previous_verified,
+                 'previous_verified_at': verified_at, 'verified_at': verified_at if retained_verified else None,
                  'rtc_now': now, 'expected': target,
                  'initial': initial}
         if previous is None:
             state['outcome'] = 'initial_read_failed'
             record_failure(state_path, state, 'RTC alarm could not be read')
         if previous > now and previous not in owned:
-            state.update(owned=[], verified=0, outcome='foreign_alarm_preserved')
+            state.update(owned=[], verified=0, verified_at=None, outcome='foreign_alarm_preserved')
             record_failure(state_path, state, 'Another RTC alarm is active; it was not replaced')
 
-        if previous > now:
-            last_good = previous
-        elif last_good <= now:
+        # Ownership permits an in-place retarget of an enabled register after
+        # an NTP step. It does not make that stale deadline a useful fallback.
+        active_owned = previous if previous in owned else 0
+        last_good = active_owned or previous_verified
+        if last_good and not in_wake_window(last_good, now, verified_at):
+            state['rejected_fallback'] = last_good
             last_good = 0
-        state.update(owned=sorted({n for n in (last_good, target) if n}), verified=last_good,
-                     outcome='pending')
+        state.update(owned=sorted({n for n in (active_owned, last_good, target) if n}),
+                     verified=last_good, verified_at=now if last_good else None, outcome='pending')
         save_state(state_path, state)
         if previous != target:
             # The durable intent write can take time. Recheck ownership before
             # touching the register; an unrecognised value belongs to its writer.
             before_write = read_alarm(rtc, (previous,))
             if before_write[-1].get('value') != previous:
-                state.update(owned=owned, verified=saved.get('verified', owned[0] if owned else 0),
+                state.update(owned=owned, verified=retained_verified, verified_at=verified_at if retained_verified else None,
                              before_write=before_write, outcome='changed_before_write')
                 record_failure(state_path, state, 'RTC alarm changed before our write')
+            write_now = rtc.now()
+            if target and not in_wake_window(target, write_now, now):
+                state.update(owned=owned, verified=retained_verified, verified_at=verified_at if retained_verified else None,
+                             observed_rtc_now=write_now, outcome='clock_changed_before_write')
+                record_failure(state_path, state, 'RTC clock changed before our write')
             # Linux wakealarm supports extending an active alarm in one store.
             # An absolute write to an empty slot refuses an already active alarm.
-            value = f'+={target - previous}' if target and previous > now else target
+            value = f'+={target - active_owned}' if target and active_owned else target
             error = write_alarm(rtc, value)
             if error:
                 state['write_error'] = error
@@ -144,13 +165,22 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
         observations = read_alarm(rtc, (target,))
         observed = observations[-1].get('value')
         state['readback'] = observations
+        observed_now = rtc.now()
         if observed == target:
-            state.update(owned=[target] if target else [], verified=target, outcome='verified')
+            if target and not in_wake_window(target, observed_now, now):
+                state.update(observed_rtc_now=observed_now, verified=0, verified_at=None,
+                             outcome='clock_changed_during_write')
+                record_failure(state_path, state, 'RTC clock changed during readback')
+            state.update(owned=[target] if target else [], verified=target,
+                         verified_at=observed_now if target else None, outcome='verified')
             save_state(state_path, state)
             return {'enabled': not disarm, 'rtc_now': now, 'wake_at': target,
                     'readback': observations}
 
-        if observed == 0 and not disarm and last_good > rtc.now():
+        if last_good and not in_wake_window(last_good, observed_now, now):
+            state.update(rejected_fallback=last_good, observed_rtc_now=observed_now, verified=0, verified_at=None)
+            last_good = 0
+        if observed == 0 and not disarm and last_good:
             # Restore only the last verified owned deadline to an empty slot.
             # Never clear here: Linux rejects this absolute write if a foreign
             # writer installed another alarm since our read.
@@ -160,17 +190,22 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
             state['restore_readback'] = read_alarm(rtc, (last_good,))
             restored = state['restore_readback'][-1].get('value')
             if restored == last_good:
-                state.update(owned=[last_good], verified=last_good, outcome='previous_restored')
+                restore_now = rtc.now()
+                if not in_wake_window(last_good, restore_now, observed_now):
+                    state.update(observed_rtc_now=restore_now, verified=0, verified_at=None,
+                                 outcome='clock_changed_during_restore')
+                    record_failure(state_path, state, 'RTC clock changed during fallback readback')
+                state.update(owned=[last_good], verified=last_good, verified_at=restore_now, outcome='previous_restored')
             else:
                 state['outcome'] = 'restore_unconfirmed'
                 if restored is not None and restored > now and restored not in state['owned']:
-                    state.update(owned=[], verified=0)
+                    state.update(owned=[], verified=0, verified_at=None)
         elif observed is None:
             state['outcome'] = 'readback_unavailable'
         elif observed == last_good and last_good:
-            state.update(owned=[last_good], verified=last_good, outcome='previous_retained')
+            state.update(owned=[last_good], verified=last_good, verified_at=observed_now, outcome='previous_retained')
         elif observed > now and observed not in state['owned']:
-            state.update(owned=[], verified=0, outcome='foreign_alarm_preserved')
+            state.update(owned=[], verified=0, verified_at=None, outcome='foreign_alarm_preserved')
         else:
             state['outcome'] = 'readback_mismatch'
         record_failure(state_path, state, 'RTC alarm readback did not match')

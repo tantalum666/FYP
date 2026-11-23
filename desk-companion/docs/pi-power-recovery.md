@@ -8,6 +8,8 @@ The installed helper cleared its previous deadline, wrote a replacement, then ex
 
 For an active owned alarm the revised helper uses Linux’s in-place wakealarm update. It retains the last verified future deadline during the operation, retries observation of a transient mismatch, and records the expected and observed values before reporting an error. It attempts to restore a still-valid earlier deadline only to an empty alarm slot. The period remains 30 seconds and the requested alarm lead remains 180 seconds. An explicit disarm clears the owned deadline. Unknown future deadlines remain with their owner.
 
+The subsequent clock-epoch follow-up is under separate review. Loss of RTC calendar time invalidates prior-generation fallback dates. The candidate restores only an owned deadline within the supported 900-second horizon and rejects a known backwards clock jump. The deployed helper and candidate are identified separately in the [cross-boot and differential evidence](../../output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md#rtc-clock-reset-follow-up-tested-offline).
+
 ## Current restore and wake state
 
 The recovery CPU unit and container hold were removed in the previous recovery work. The 17 November boot check covered release `8c67ddbe`. On 18 November the normal application and autostart entry moved to `c607759e`. The device compositor showed Alice on the connected kiosk page. The software ceiling remained 2400000 kHz and the RTC timer stayed enabled and active with matching unit files. This application rollout supplies a single displayed frame. Long-run power and animation stability remain open. [Rollout readback](../../output/qa/2026-11-18-three-end-rollout/verification.md).
