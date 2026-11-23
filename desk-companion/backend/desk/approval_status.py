@@ -97,7 +97,12 @@ def _commerce(service, db, chat, now, zh):
             previous = row["previous_minor"]
         total = price(row["review_minor"])
         revised = row["state"] == "reprice"
-        if revised and previous is not None:
+        if shop and revised and previous == row["review_minor"]:
+            reason = (
+                f"结算内容有变化，总价仍为 {total}，请重新核对"
+                if zh else f"review the changed checkout terms at the same {total} total"
+            )
+        elif revised and previous is not None:
             amounts = f"{price(previous)} → {total}"
             reason = f"请核对新总价 {amounts}" if zh else f"review the revised total {amounts}"
         elif shop:
