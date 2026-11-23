@@ -257,22 +257,28 @@ class Store:
             (iso(self.clock()), action, event_id, encode(details or {})),
         )
 
-    def operation(self, key, payload, apply):
+    def operation_receipt(self, conn, key, payload):
         if not key or len(key) > 100:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         request = encode(payload)
+        if self.operation_guard is not None:
+            self.operation_guard(conn, key, payload)
+        old = conn.execute("SELECT * FROM operations WHERE id=?", (key,)).fetchone()
+        if old:
+            if old["request"] != request and json.loads(old["request"]) != {
+                "redacted_request_sha256": hashlib.sha256(request.encode()).hexdigest()
+            }:
+                raise DomainError("OPERATION_ID_CONFLICT")
+            return request, json.loads(old["response"])
+        return request, None
+
+    def operation(self, key, payload, apply, *, authorize=None):
         with self.connection(write=True) as conn:
-            if self.operation_guard is not None:
-                self.operation_guard(conn, key, payload)
-            old = conn.execute("SELECT * FROM operations WHERE id=?", (key,)).fetchone()
-            if old:
-                if old["request"] != request:
-                    retired = json.loads(old["request"])
-                    if not isinstance(retired, dict) or retired != {
-                        "redacted_request_sha256": hashlib.sha256(request.encode()).hexdigest()
-                    }:
-                        raise DomainError("OPERATION_ID_CONFLICT")
-                return json.loads(old["response"])
+            if authorize is not None:
+                authorize(conn)
+            request, old = self.operation_receipt(conn, key, payload)
+            if old is not None:
+                return old
             response = apply(conn)
             self.reconcile_reminders(conn)
             self.bump(conn)
@@ -302,16 +308,18 @@ class Store:
             )
         return token
 
-    def session_valid(self, token):
+    def session_valid(self, token, conn=None):
         if not token:
             return False
-        with self.connection() as conn:
-            return bool(
-                conn.execute(
-                    "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
-                    (hashlib.sha256(token.encode()).hexdigest(), iso(self.clock())),
-                ).fetchone()
-            )
+        if conn is None:
+            with self.connection() as active:
+                return self.session_valid(token, active)
+        return bool(
+            conn.execute(
+                "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+                (hashlib.sha256(token.encode()).hexdigest(), iso(self.clock())),
+            ).fetchone()
+        )
 
     def logout(self, token):
         with self.connection(write=True) as conn:

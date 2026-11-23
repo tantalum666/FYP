@@ -1,5 +1,5 @@
 import json
-from fastapi import APIRouter, Depends, Header, Response
+from fastapi import APIRouter, Depends, Header, Request, Response
 from .exchange import BackupInput, ImportApply, ImportFile, ShareInput
 
 
@@ -14,11 +14,16 @@ def exchange_routes(runtime, authenticated, owner, operation_id):
     def apply(
         preview_id: str,
         payload: ImportApply,
+        request: Request,
         key=Depends(operation_id),
         principal=Depends(authenticated),
     ):
         return runtime.exchange.apply(
-            preview_id, payload, key, allow_backup=principal["kind"] == "owner"
+            preview_id,
+            payload,
+            key,
+            allow_backup=principal["kind"] == "owner",
+            owner_session=request.cookies.get("desk_companion_session"),
         )
 
     @router.get("/exchange/calendar.ics", dependencies=[Depends(owner)])

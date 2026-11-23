@@ -151,7 +151,7 @@ export interface WorkspaceSnapshot {
     holiday_coverage: number[];
     quiet_now: boolean;
   };
-  google: { configured: boolean; connected: boolean; last_read: string | null };
+  google: { configured: boolean; connected: boolean; connected_at?: string | null; last_read: string | null };
   replay_available: boolean;
   runtime: string;
 }

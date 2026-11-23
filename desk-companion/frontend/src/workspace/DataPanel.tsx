@@ -1,18 +1,22 @@
 import { useDraftGuard } from "../components/DraftGuard";
 import { ExportLink } from "./ExportLink";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DateTime } from "luxon";
 import { Download, Upload, Link2, FileClock } from "lucide-react";
-import { errorText, request, write } from "../api";
-import type { EventInput, Translate } from "../types";
+import { ApiError, errorText, pendingWrite, request, write, type PendingWrite } from "../api";
+import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { OwnerAccess } from "./OwnerAccess";
 import { apiOrigin } from "../native";
+import { ResponseFence } from "./personal/responseFence";
+import {
+  ChangedDetails, importStatus, refreshCounts, refreshPlan, resolutionLabel, type GoogleStatus, type ImportRow,
+} from "./GoogleImportReview";
 
 interface Preview {
   preview_id: string;
   kind: string;
-  rows: Array<{ event: EventInput; status: string }>;
+  rows: ImportRow[];
   warnings: string[];
   metadata: Record<string, unknown>;
   expires_at: string;
@@ -25,55 +29,174 @@ interface Share {
   expires_at: string;
 }
 
+interface ImportResult {
+  created: number;
+  updated: number;
+  removed: number;
+  kept: number;
+  tasks_created: number;
+  tasks_kept: number;
+  memories_created: number;
+  memories_kept: number;
+}
+
 export function DataPanel({ t }: { t: Translate }) {
-  const { data, refresh } = useWorkspace();
+  const { data, offline, stale, refresh } = useWorkspace();
   const [start, setStart] = useState(DateTime.now().toISODate()!),
     [end, setEnd] = useState(DateTime.now().plus({ days: 30 }).toISODate()!);
-  const [preview, setPreview] = useState<Preview | null>(null),
+  const [draft, setPreview] = useState<(Preview & { epoch?: number }) | null>(null),
     [replace, setReplace] = useState(false),
-    [busy, setBusy] = useState(false),
+    [resolutions, setResolutions] = useState<string[]>([]),
+    [activity, setBusy] = useState<boolean | number>(false),
     [error, setError] = useState<unknown>(null),
-    [notice, setNotice] = useState("");
+    [notice, setNotice] = useState<string | { session: string; epoch?: number; text: string }>("");
   const [shares, setShares] = useState<Share[]>([]),
     [mode, setMode] = useState("busy"),
     [link, setLink] = useState("");
-  const [google, setGoogle] = useState<{
-    configured: boolean;
-    connected: boolean;
-    last_read: string | null;
-  } | null>(null);
+  const [loaded, setGoogle] = useState<(GoogleStatus & { scope: string }) | null>(null);
+  const [sessionEpoch, setSessionEpoch] = useState(0);
   const owner = data?.principal.kind === "owner";
+  const online = !offline && !stale;
+  const visible = owner && !!data?.personal_context_visible && online;
+  const session = JSON.stringify([
+    data?.principal.kind, data?.principal.id, sessionEpoch, online, visible,
+  ]);
+  const scope = JSON.stringify([session, data?.google.connected, data?.google.connected_at]);
+  const google = loaded?.scope === scope ? loaded : null;
+  const canReview = !!(
+    visible && google?.review_version && data?.google.connected &&
+    google.connected_at === data.google.connected_at
+  );
+  const fence = useRef(new ResponseFence()).current;
+  fence.update(JSON.stringify([scope, google?.version, google?.review_version]), canReview);
+  const epoch = fence.capture();
+  const busy = activity === true || activity === epoch;
+  const lastWrite = useRef<{ key: string; epoch: number } | null>(null);
+  const isGoogle = draft?.kind === "google" || draft?.kind === "google_refresh";
+  const preview =
+    isGoogle && (draft.epoch !== epoch || !canReview || draft.metadata.review_version !== google?.review_version)
+      ? null : draft;
+  const reviewingRefresh = preview?.kind === "google_refresh";
+  const lastRefresh = canReview ? google?.last_refresh : null;
+  const message = typeof notice === "string"
+    ? notice
+    : notice.session === session && (notice.epoch === undefined || fence.accepts(notice.epoch)) && notice.text;
   useDraftGuard(!!preview, busy);
-  async function load() {
+  const loadGeneration = useRef(0);
+  const load = useCallback(async () => {
+    const generation = ++loadGeneration.current;
+    const token = fence.capture();
+    const current = () => generation === loadGeneration.current && token === fence.capture();
     if (owner)
       try {
         const [s, g] = await Promise.all([
           request<{ shares: Share[] }>("/shares"),
-          request<{
-            configured: boolean;
-            connected: boolean;
-            last_read: string | null;
-          }>("/google/status"),
+          request<GoogleStatus>("/google/status"),
         ]);
-        setShares(s.shares);
-        setGoogle(g);
+        if (current()) {
+          setShares(s.shares);
+          setGoogle({ ...g, scope });
+        }
       } catch (e) {
-        setError(e);
+        if (current()) {
+          setGoogle(null);
+          setError(e);
+        }
       }
-  }
+  }, [owner, scope, fence]);
   useEffect(() => {
     void load();
-  }, [owner]);
-  async function act(action: () => Promise<unknown>) {
-    setBusy(true);
+    return () => { loadGeneration.current += 1; };
+  }, [load]);
+  useEffect(() => {
+    if (isGoogle && !preview) setPreview(null);
+  }, [isGoogle, preview]);
+  useEffect(() => {
+    const sessionChanged = () => {
+      fence.update("session-changing", false);
+      setSessionEpoch((value) => value + 1);
+      setGoogle(null);
+      setPreview((old) => old?.kind.startsWith("google") ? null : old);
+      setNotice("");
+      setError(null);
+    };
+    window.addEventListener("desk:session", sessionChanged);
+    window.addEventListener("desk:personal-context", sessionChanged);
+    return () => {
+      fence.update("unmounted", false);
+      window.removeEventListener("desk:session", sessionChanged);
+      window.removeEventListener("desk:personal-context", sessionChanged);
+    };
+  }, [fence]);
+  useEffect(() => {
+    // retryPending emits the same operation object at start and completion.
+    // Reopening this panel cannot adopt a retry begun by the previous session.
+    let retry: PendingWrite | null = null;
+    const retrying = (event: Event) => {
+      const operation = (event as CustomEvent<PendingWrite>).detail;
+      const last = lastWrite.current;
+      if (fence.accepts(epoch) && (last?.key !== operation.key || last.epoch === epoch))
+        retry = operation;
+    };
+    const recovered = (event: Event) => {
+      const { operation, result } = (event as CustomEvent<{ operation: PendingWrite; result: Preview }>).detail;
+      if (!fence.accepts(epoch) || operation !== retry) return;
+      retry = null;
+      if (["/google/preview", "/google/refresh"].includes(operation.path) &&
+          result.metadata.review_version === google?.review_version) {
+        setError(null);
+        setPreview({ ...result, epoch });
+        setReplace(false);
+        setResolutions([]);
+      } else if (preview && isGoogle && (
+        operation.path === `/exchange/${preview.preview_id}/apply` ||
+        operation.path === `/google/${preview.preview_id}/discard`
+      )) {
+        setError(null);
+        setPreview((old) => old?.preview_id === preview.preview_id ? null : old);
+        void load();
+        void refresh();
+      }
+    };
+    window.addEventListener("desk:write-retrying", retrying);
+    window.addEventListener("desk:write-recovered", recovered);
+    return () => {
+      window.removeEventListener("desk:write-retrying", retrying);
+      window.removeEventListener("desk:write-recovered", recovered);
+    };
+  }, [epoch, fence, google?.review_version, isGoogle, load, preview, refresh]);
+  function writeReview<T>(path: string, body: unknown) {
+    if (!fence.accepts(epoch)) throw new ApiError("IMPORT_EXPIRED", 410);
+    const pending = pendingWrite();
+    const last = lastWrite.current;
+    if (pending && last?.key === pending.key && last.epoch !== epoch)
+      throw new ApiError("PENDING_WRITE");
+    const result = write<T>(path, body);
+    const op = pendingWrite();
+    if (op?.path === path && JSON.stringify(op.body) === JSON.stringify(body))
+      lastWrite.current = { key: op.key, epoch };
+    return result;
+  }
+  async function act(action: () => Promise<unknown>, googleAction = false) {
+    const current = () => !googleAction || epoch === fence.capture();
+    if (!current()) return;
+    setBusy(googleAction ? epoch : true);
     setError(null);
     setNotice("");
     try {
       return await action();
     } catch (e) {
+      if (!current()) return;
+      if (googleAction && e instanceof ApiError && (
+        [401, 403, 410].includes(e.status) ||
+        ["APP_CONNECTION_CHANGED", "GOOGLE_NOT_CONNECTED", "VERSION_CONFLICT"].includes(e.code)
+      )) {
+        if (isGoogle) setPreview((old) => old === draft ? null : old);
+        void load();
+      }
       setError(e);
     } finally {
-      setBusy(false);
+      if (current()) setBusy(false);
     }
   }
   async function importFile(file: File | undefined, kind: "ics" | "backup") {
@@ -93,6 +216,56 @@ export function DataPanel({ t }: { t: Translate }) {
       setPreview(result);
       setReplace(false);
     });
+  }
+  function previewGoogle(path: "/google/preview" | "/google/refresh") {
+    void act(async () => {
+      if (!fence.accepts(epoch) || !google) return;
+      const result = await writeReview<Preview>(path, { start, end, expected_version: google.version });
+      if (!fence.accepts(epoch)) return;
+      if (result.metadata.review_version !== google.review_version) {
+        throw new ApiError("IMPORT_EXPIRED", 410);
+      }
+      setPreview({ ...result, epoch });
+      setReplace(false);
+      setResolutions([]);
+    }, true);
+  }
+  async function confirmPreview() {
+    if (!preview) return;
+    const submit = isGoogle ? writeReview : write;
+    const result = await submit<ImportResult>(`/exchange/${preview.preview_id}/apply`, {
+      replace_matching: replace,
+      ...(reviewingRefresh && resolutions.length ? { resolve_event_ids: resolutions } : {}),
+    });
+    if (isGoogle && !fence.accepts(epoch)) return;
+    if (reviewingRefresh) {
+      setNotice({ session, epoch, text: refreshCounts(result, t) });
+    } else if (isGoogle) {
+      setNotice({
+        session, epoch,
+        text: t(
+          `${result.created} added · ${result.updated} updated · ${result.kept} kept`,
+          `新增 ${result.created} 项 · 更新 ${result.updated} 项 · 保留 ${result.kept} 项`,
+        ),
+      });
+    } else {
+      setNotice(t(
+        `Imported: ${result.created} added, ${result.updated} updated; ${result.kept} kept. Tasks: ${result.tasks_created} added, ${result.tasks_kept} kept. Facts: ${result.memories_created ?? 0} added, ${result.memories_kept ?? 0} kept.`,
+        `导入完成：新增${result.created}项，更新${result.updated}项，保留${result.kept}项。事务：新增${result.tasks_created}项，保留${result.tasks_kept}项。事实：新增${result.memories_created ?? 0}条，保留${result.memories_kept ?? 0}条。`,
+      ));
+    }
+    setPreview(null);
+    if (isGoogle) await load();
+    if (!isGoogle || fence.accepts(epoch)) await refresh();
+  }
+
+  async function discardPreview() {
+    if (!preview) return;
+    if (isGoogle) {
+      await writeReview(`/google/${preview.preview_id}/discard`, {});
+      if (!fence.accepts(epoch)) return;
+    }
+    setPreview(null);
   }
   return (
     <div className="workspace-panel data-panel">
@@ -163,8 +336,8 @@ export function DataPanel({ t }: { t: Translate }) {
           <summary>Google Calendar</summary>
           <p>
             {t(
-              "Import a copy of your Google calendar. Changes here do not sync back.",
-              "导入 Google 日历副本，本地修改不会同步回去。",
+              "Preview your primary calendar, or check copies already imported for the dates above.",
+              "预览 Google 主日历，或检查上方日期内已导入的副本。",
             )}
           </p>
           <div className="workspace-inline-actions">
@@ -172,41 +345,42 @@ export function DataPanel({ t }: { t: Translate }) {
               <>
                 <button
                   className="secondary"
-                  disabled={busy}
-                  onClick={() =>
-                    void act(async () => {
-                      setPreview(
-                        await write<Preview>("/google/preview", {
-                          start,
-                          end,
-                          mode: "busy",
-                          expires_days: 7,
-                        }),
-                      );
-                      setReplace(false);
-                    })
-                  }
+                  disabled={busy || !canReview}
+                  onClick={() => previewGoogle("/google/preview")}
                 >
-                  {t("Preview Google updates", "预览Google更新")}
+                  {t("Preview date range", "预览所选日期")}
+                </button>
+                <button
+                  className="secondary"
+                  disabled={busy || !canReview}
+                  onClick={() => previewGoogle("/google/refresh")}
+                >
+                  {t("Refresh imported events", "刷新已导入事项")}
                 </button>
                 <button
                   className="text-button danger"
-                  disabled={busy}
+                  disabled={busy || !online}
                   onClick={() =>
                     void act(async () => {
                       const result = await request<{
                         provider_revocation_confirmed: boolean;
-                      }>("/google/disconnect", { method: "POST", body: "{}" });
-                      setNotice(
-                        result.provider_revocation_confirmed
+                      }>("/apps/calendar/disconnect", {
+                        method: "POST",
+                        body: JSON.stringify({ expected_version: google.version }),
+                      });
+                      if (epoch !== fence.capture()) return;
+                      if (isGoogle) setPreview(null);
+                      setNotice({
+                        session,
+                        text: result.provider_revocation_confirmed
                           ? t("Google disconnected.", "已断开Google。")
                           : t(
                               "Disconnected locally. Remove this app in your Google account to finish revoking access.",
                               "本地已断开，请到Google账号移除此应用以完成撤销。",
                             ),
-                      );
+                      });
                       await load();
-                    })
+                    }, true)
                   }
                 >
                   {t("Disconnect", "断开")}
@@ -215,21 +389,23 @@ export function DataPanel({ t }: { t: Translate }) {
             ) : (
               <button
                 className="secondary"
-                disabled={busy || !google?.configured}
+                disabled={busy || !online || !google?.configured}
                 onClick={() =>
                   void act(async () => {
                     const result = await request<{ url: string }>(
                       "/google/connect",
                       { method: "POST", body: "{}" },
                     );
+                    if (epoch !== fence.capture()) return;
                     window.open(result.url, "_blank", "noopener");
-                    setNotice(
-                      t(
+                    setNotice({
+                      session,
+                      text: t(
                         "Complete consent in the browser, then refresh status.",
                         "在浏览器完成授权后刷新状态。",
                       ),
-                    );
-                  })
+                    });
+                  }, true)
                 }
               >
                 {t("Connect Google", "连接Google")}
@@ -239,7 +415,24 @@ export function DataPanel({ t }: { t: Translate }) {
               {t("Refresh status", "刷新状态")}
             </button>
           </div>
-          {!google?.configured && (
+          {google?.connected && !data?.personal_context_visible && <p className="workspace-hint">
+            {t("Show private details to review Google events.", "显示私人详情后即可检查 Google 事项。")}
+          </p>}
+          {lastRefresh && <p className="workspace-hint">
+            {t("Last confirmed refresh", "最近确认的刷新")} · {DateTime.fromISO(lastRefresh.at).toLocaleString(DateTime.DATETIME_SHORT)}
+            {" · "}{lastRefresh.start} → {lastRefresh.end}
+            {" · "}{refreshCounts(lastRefresh, t)}
+            {lastRefresh.conflicts > 0 && t(` · ${lastRefresh.conflicts} locally edited`, ` · ${lastRefresh.conflicts} 项有本地修改`)}
+            {lastRefresh.unresolved > 0 && t(` · ${lastRefresh.unresolved} unverified`, ` · ${lastRefresh.unresolved} 项未核实`)}
+          </p>}
+          {google?.connected && <details>
+            <summary>{t("Which copies can refresh?", "哪些副本可刷新？")}</summary>
+            <p className="workspace-hint">{t(
+              "Choose up to 31 days and 50 imported events. Older copies can be matched by ID in these dates if this desk has only ever connected one Google Calendar grant. Unverified copies stay on the desk.",
+              "可选最多 31 天和 50 项已导入事项。若本桌面仅授权连接过一次 Google 日历，可在所选日期内按 ID 匹配旧副本。无法核实的副本保留在本地。",
+            )}</p>
+          </details>}
+          {google && !google.configured && (
             <p className="workspace-hint">
               {t(
                 "Google connection is not configured.",
@@ -251,8 +444,8 @@ export function DataPanel({ t }: { t: Translate }) {
       )}
       {preview && (
         <section className="workspace-section">
-          <h3>{t("Review import", "检查导入")}</h3>
-          {preview.kind !== "backup" && (
+          <h3>{reviewingRefresh ? t("Review refresh", "检查刷新") : t("Review import", "检查导入")}</h3>
+          {preview.kind !== "backup" && !reviewingRefresh && (
             <p>
               {t(
                 "New events are private, with reminders off.",
@@ -260,13 +453,16 @@ export function DataPanel({ t }: { t: Translate }) {
               )}
             </p>
           )}
-          <p>
+          {reviewingRefresh ? <p>
+            {String(preview.metadata.start)} → {String(preview.metadata.end)}
+            {" · "}{refreshPlan(preview.rows, t, resolutions)}
+          </p> : <p>
             {preview.rows.length} {t("entries", "项")} ·{" "}
             {preview.rows.filter((r) => r.status === "new").length}{" "}
             {t("new", "新增")} ·{" "}
             {preview.rows.filter((r) => r.status === "changed").length}{" "}
             {t("changed", "已有变化")}
-          </p>
+          </p>}
           {preview.kind === "backup" && (
             <p>
               {t(
@@ -286,16 +482,23 @@ export function DataPanel({ t }: { t: Translate }) {
           )}
           <div className="import-preview-list">
             {preview.rows.map((r, i) => (
-              <div key={i}>
+              <div key={r.existing_id ?? i}>
                 <strong>{r.event.title}</strong>
                 <small>
                   {r.event.start_local.replace("T", " ")} · {r.event.timezone} ·{" "}
-                  {r.status === "new"
-                    ? t("New", "新增")
-                    : r.status === "changed"
-                      ? t("Changed", "已有变化")
-                      : t("Unchanged", "无变化")}
+                  {importStatus(r.status, t)}
                 </small>
+                {r.previous && <ChangedDetails previous={r.previous} event={r.event} t={t} />}
+                {reviewingRefresh && r.status === "unverified" && r.proposed_status && r.existing_id && (
+                  <label className="check-field">
+                    <input type="checkbox" disabled={busy} value={r.existing_id}
+                      checked={resolutions.includes(r.existing_id)}
+                      onChange={({ currentTarget: { checked, value } }) =>
+                        setResolutions((ids) => checked ? [...ids, value] : ids.filter((id) => id !== value))}
+                    />
+                    {resolutionLabel(r.proposed_status, t)}
+                  </label>
+                )}
               </div>
             ))}
           </div>
@@ -304,7 +507,7 @@ export function DataPanel({ t }: { t: Translate }) {
               {message}
             </p>
           ))}
-          {preview.kind !== "backup" &&
+          {preview.kind !== "backup" && !reviewingRefresh &&
             preview.rows.some((r) => r.status === "changed") && (
               <label className="check-field">
                 <input
@@ -323,39 +526,17 @@ export function DataPanel({ t }: { t: Translate }) {
               className="primary"
               disabled={
                 busy ||
-                (!preview.rows.length &&
+                (!reviewingRefresh && !preview.rows.length &&
                   !Number(preview.metadata.tasks_count) &&
                   !Number(preview.metadata.memories_count))
               }
-              onClick={() =>
-                void act(async () => {
-                  const result = await write<{
-                    created: number;
-                    updated: number;
-                    kept: number;
-                    tasks_created: number;
-                    tasks_kept: number;
-                    memories_created?: number;
-                    memories_kept?: number;
-                  }>(`/exchange/${preview.preview_id}/apply`, {
-                    replace_matching: replace,
-                  });
-                  setNotice(
-                    t(
-                      `Imported: ${result.created} added, ${result.updated} updated; ${result.kept} kept. Tasks: ${result.tasks_created} added, ${result.tasks_kept} kept. Facts: ${result.memories_created ?? 0} added, ${result.memories_kept ?? 0} kept.`,
-                      `导入完成：新增${result.created}项，更新${result.updated}项，保留${result.kept}项。事务：新增${result.tasks_created}项，保留${result.tasks_kept}项。事实：新增${result.memories_created ?? 0}条，保留${result.memories_kept ?? 0}条。`,
-                    ),
-                  );
-                  setPreview(null);
-                  await refresh();
-                })
-              }
+              onClick={() => void act(confirmPreview, isGoogle)}
             >
-              {t("Apply import", "确认导入")}
+              {reviewingRefresh ? t("Confirm local refresh", "确认刷新本地副本") : t("Apply import", "确认导入")}
             </button>
             <button
               className="secondary"
-              onClick={() => setPreview(null)}
+              onClick={() => void act(discardPreview, isGoogle)}
               disabled={busy}
             >
               {t("Discard preview", "放弃预览")}
@@ -504,7 +685,7 @@ export function DataPanel({ t }: { t: Translate }) {
         </p>
       )}
       {!owner && <OwnerAccess t={t} />}
-      {notice && <p role="status">{notice}</p>}
+      {message && <p role="status">{message}</p>}
       {!!error && (
         <p className="error-message" role="alert">
           {errorText(error, t)}

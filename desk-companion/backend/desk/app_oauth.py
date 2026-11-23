@@ -20,6 +20,23 @@ from .vault import Vault
 from .app_specs import SPECS, SCOPES, CALLBACKS
 
 
+class ProviderResponseError(DomainError):
+    def __init__(self, code, status, data):
+        super().__init__(code, 502)
+        self.provider_status = status
+        error = data.get("error")
+        errors = error.get("errors") if isinstance(error, dict) else None
+        self.reasons = (
+            {
+                item["reason"]
+                for item in errors
+                if isinstance(item, dict) and isinstance(item.get("reason"), str)
+            }
+            if isinstance(errors, list)
+            else set()
+        )
+
+
 def app_client_config(resource):
     prefix = "DESK_GOOGLE_" if SPECS[resource]["provider"] == "google" else "DESK_MICROSOFT_"
     config = {
@@ -118,6 +135,9 @@ class AppOAuth:
             row = conn.execute(
                 f"SELECT connected_at,last_read FROM {self.account_table} WHERE id=1"
             ).fetchone()
+        return self._snapshot(row)
+
+    def _snapshot(self, row):
         return {
             "configured": self.configured(),
             "connected": bool(row),
@@ -232,6 +252,10 @@ class AppOAuth:
                     and data.get("error") == "invalid_grant"
                 ):
                     raise DomainError(self.code("RECONNECT_REQUIRED"), 409)
+                if response.is_error:
+                    raise ProviderResponseError(
+                        self.code("CONNECTION_FAILED"), response.status_code, data
+                    )
                 response.raise_for_status()
                 return data
         except (httpx.HTTPError, ValueError):
@@ -410,10 +434,12 @@ class AppOAuth:
                 )
                 tokens = {**tokens, **self._tokens(response, tokens["refresh_token"])}
                 with self.store.connection(write=True) as conn:
-                    conn.execute(
-                        f"UPDATE {self.account_table} SET encrypted_tokens=? WHERE id=1",
-                        (self.vault.encrypt(encode(tokens)),),
+                    written = conn.execute(
+                        f"UPDATE {self.account_table} SET encrypted_tokens=? WHERE id=1 AND encrypted_tokens=?",
+                        (self.vault.encrypt(encode(tokens)), row[0]),
                     )
+                    if not written.rowcount:
+                        raise DomainError("APP_CONNECTION_CHANGED")
             return tokens["access_token"]
 
     def disconnect(self):
@@ -473,17 +499,20 @@ class AppOAuth:
             raise DomainError(self.code("ACCOUNT_UNVERIFIED"), 403) from None
         return {"email": email}
 
-    def account(self):
-        state = self.snapshot()
-        with self.store.connection() as conn:
-            row = conn.execute(
-                f"SELECT encrypted_tokens FROM {self.account_table} WHERE id=1"
-            ).fetchone()
-        tokens = json.loads(self.vault.decrypt(row[0])) if row else {}
+    def account(self, conn=None):
+        if conn is None:
+            with self.store.connection() as active:
+                return self.account(active)
+        row = conn.execute(f"SELECT * FROM {self.account_table} WHERE id=1").fetchone()
+        tokens = json.loads(self.vault.decrypt(row["encrypted_tokens"])) if row else {}
+        version = tokens.get("connection_id", "disconnected")
+        if self.resource == "calendar" and row and "connection_id" not in tokens:
+            # Pre-version Calendar grants retain the same binding across access-token rotations.
+            version = digest("legacy-calendar/" + row["connected_at"])
         return {
-            **state,
+            **self._snapshot(row),
             "email": tokens.get("email"),
-            "version": tokens.get("connection_id", "disconnected"),
+            "version": version,
         }
 
     def cancel(self, flow_id, session):
