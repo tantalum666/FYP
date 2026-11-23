@@ -26,7 +26,7 @@ At `401e0fb2` the authenticated owner can review changes to imported copies. The
 
 ## Installed stable release and new draft branches
 
-The original Raspberry Pi now runs the same stable `08200201` release as the normal Mac and iPhone Simulator. Its physical kiosk, software, original Google grants and A3 v9 were independently read back after a tested rollback. [Physical Pi evidence](pi-stable-release/verification.md). New API development is reviewed on separate GitHub branches.
+At the stable-release checkpoint the original Raspberry Pi, normal Mac and iPhone Simulator all served `08200201`. Later owner-facing deployments have [their own dated receipt](../2026-11-23-owner-flow-hotfix/verification.md). Its physical kiosk, software, original Google grants and A3 v9 were independently read back after a tested rollback. [Physical Pi evidence](pi-stable-release/verification.md). New API development is reviewed on separate GitHub branches.
 
 The shop aftercare revision `2686b0dc` reconciles distinct partial refunds. In an isolated merchant, order #31 was charged HK$25.00 and three separate Stripe test refunds returned HK$5.25, HK$7.75 and HK$12.00. Reopened net amounts were HK$19.75, HK$12.00 and HK$0.00. The pending-refund evidence is a synthetic replay. [Refund receipts](basket/partial-refunds.md).
 
@@ -40,3 +40,7 @@ The shop aftercare revision `2686b0dc` reconciles distinct partial refunds. In a
 The integrating engineer reviewed and resolved the shared conversation routing, stored response, owner scope and commerce presentation seams. At `1820597b`, 27 focused backend and combined checks, 12 frontend checks, TypeScript and targeted lint passed. The checked Git tree was `b82a10b68f76e0bc5fc8d7924294dc06bfba3a71`.
 
 The final Work fix, authored by the paid API contributor and wired by the coordinator, corrected a compound “Yes, confirm it.” after an overview in Full access and Ask mode. A previously surfaced unrelated task note is now a scoped clarification with zero writes. The same revision supports old single-item and new mixed-basket titles. The independently measured phone routine selector also exposes the chosen local time and zone at 390 pixels. [Final checked outcomes](continuation/verification.md).
+
+## Combined owner journeys and the final branch
+
+The parallel development branch also contains the separate owner-facing weather, speech, voice controls and flight checkout. A differential comparison found and fixed two issues at the point where the independently worked-on features met. The old checkout filter hid the owner’s valid live review, and implicit shopping confirmation could select the wrong open card. The ordinary conversation can now ask which review the user means. A selected card retains its operation and amount. The compact voice layout continues to work while an unrelated task is pending. [Cross-branch controls, previous failures and the exact tested product tree](../2026-11-23-owner-fixes-integration/verification.md).
