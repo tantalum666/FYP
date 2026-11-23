@@ -1,0 +1,141 @@
+{
+  "candidate_validation": {
+    "frozen_initial_helper_sha256": "cb49028f5aa48727a8281824b3488e1a11e3a3c69747ad406ca3841fb6ff9958",
+    "legacy_cycle_detected": true,
+    "local_linux_systemd_verify_legacy_pair": 1,
+    "local_linux_systemd_verify_shipped_pair": 0,
+    "mac_linux_graph_cases_skipped": 2,
+    "mac_pytest_passed": 24
+  },
+  "device_change_from_this_diagnosis": false,
+  "installed_component_sha256": {
+    "helper": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
+    "service": "b0f2e75434496c75d117d87b2655e0cbc1a54bf4146eda7ce399a56cb8a701bc",
+    "timer": "b28b19df326fe70c564af520cede44d59cd36a6246e0ca309a841e83f17d2b7a"
+  },
+  "installed_unit_hashes_match_release_baseline": true,
+  "kernel": "6.18.50+rpt-rpi-2712",
+  "manual_recovery": {
+    "boot_time_hkt_from_kernel": "2026-11-23T15:16:17+08:00",
+    "first_successful_renewal_uptime_s": 4.874,
+    "id_prefix": "d92c4b5a",
+    "kernel_undervoltage_uptimes_s": [
+      6.436,
+      91.104
+    ],
+    "owner_confirmed_button_or_power_reconnect": true,
+    "previous_boot_attribution_note": "User-journal recovery and absence of a recorded orderly shutdown do not distinguish electrical loss from a hard reset.",
+    "readbacks": [
+      {
+        "alarm_hkt": "2026-11-23T15:22:27+08:00",
+        "checked_hkt": "2026-11-23T15:19:38+08:00",
+        "seconds_ahead": 169
+      },
+      {
+        "alarm_hkt": "2026-11-23T15:24:30+08:00",
+        "checked_hkt": "2026-11-23T15:21:51+08:00",
+        "seconds_ahead": 159
+      }
+    ],
+    "renewal_journal_matches_both_linux_rtc_sysfs_readbacks": true,
+    "service_enabled": true,
+    "service_result": "success",
+    "service_returncode": "0",
+    "timer_active": true,
+    "timer_enabled": true,
+    "user_journal_warning": "corrupted or uncleanly shut down"
+  },
+  "offline_differential": {
+    "lost_programming": {
+      "candidate": {
+        "final_alarm_epoch": 1795416889,
+        "outcome": "previous_restored",
+        "writes": [
+          "+=31",
+          1795416889
+        ]
+      },
+      "installed": {
+        "final_alarm_epoch": 0,
+        "outcome": "readback_mismatch",
+        "writes": [
+          0,
+          1795416920
+        ]
+      }
+    },
+    "transient_empty": {
+      "candidate": {
+        "final_alarm_epoch": 1795416920,
+        "outcome": "verified",
+        "writes": [
+          "+=31"
+        ]
+      },
+      "installed": {
+        "final_alarm_epoch": 1795416920,
+        "outcome": "readback_mismatch",
+        "writes": [
+          0,
+          1795416920
+        ]
+      }
+    }
+  },
+  "original_device": "Raspberry Pi 5 Model B Rev 1.0",
+  "other_paths": {
+    "hat_eeprom_product_exposed": false,
+    "linux_watchdog_bootstatus": 0,
+    "linux_watchdog_state": "active",
+    "linux_watchdog_timeout_s": 60,
+    "persisted_owner_file_read_from_ordinary_login": false,
+    "power_gpio_overlays": [],
+    "power_related_timer_candidates": [],
+    "pstore_records": 0,
+    "readable_system_cron_shutdown_commands": 0,
+    "recognised_battery_or_ups_supply_count": 0,
+    "scheduled_poweroff_record_present": false,
+    "usb_devices": 4,
+    "usb_non_root_hubs": 0
+  },
+  "power_sample": {
+    "boot_sd_overcurrent": 0,
+    "boot_usb_overcurrent": 0,
+    "bootloader_explicit_settings": {
+      "POWER_OFF_ON_HALT": "0"
+    },
+    "cpu_ceiling_khz": 2400000,
+    "documented_reset_event_property_present": false,
+    "exposed_power_reset_raw": 0,
+    "firmware_throttled": "0x50000",
+    "input_v": 4.85348,
+    "observed_hkt": "2026-11-23T15:19:38+08:00",
+    "reported_max_supply_ma": 3000,
+    "soc_temp_c": 54.9
+  },
+  "previous_boot": {
+    "confirmed_alarms": 6,
+    "exception": "RTC alarm readback did not match",
+    "failed_renewal_hkt": "2026-11-23T14:52:20+08:00",
+    "failed_renewal_uptime_s": 189.474,
+    "first_renewal_uptime_s": 4.823,
+    "hardware_deadline_after_failure": "unrecorded",
+    "id_prefix": "87cb3de5",
+    "kernel_undervoltage_uptime_s": 6.336,
+    "last_confirmed_alarm_hkt": "2026-11-23T14:54:49+08:00",
+    "last_confirmed_write_hkt": "2026-11-23T14:51:49+08:00",
+    "last_retained_journal_entry_hkt": "2026-11-23T14:52:32+08:00",
+    "last_retained_journal_uptime_s": 201.937,
+    "last_success_uptime_s": 158.45,
+    "orderly_poweroff_or_restart_marker_found": false,
+    "power_button_or_critical_thermal_shutdown_or_kernel_panic_or_oom_marker_found": false,
+    "service_exit_status": 1
+  },
+  "reference_application": "082002013fd375b7d3b66885e59ca5b781a26bc0",
+  "reference_rtc_policy": {
+    "alarm_lead_s": 180,
+    "systemd_interval_s": 30
+  },
+  "source_baseline_helper_sha256": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
+  "systemd": "257"
+}

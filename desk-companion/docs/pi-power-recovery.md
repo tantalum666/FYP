@@ -2,6 +2,12 @@
 
 17 November 2026. Owner explicitly rejects continued reduced performance and asks for powered-off automatic wake. Normal CPU maximum and app settings have been restored; the temporary hold below is historical. [Wake evidence](../../output/qa/2026-11-17-pi-auto-wake/verification.md) supersedes the prior reduced-load plan. [Earlier power evidence](../../output/qa/2026-11-16-pi-power-recovery/verification.md) remains valid within its recorded interval.
 
+## 23 November 2026 readback failure
+
+The installed helper cleared its previous deadline, wrote a replacement, then exited on the first differing read at 14:52:20 Hong Kong time. The previous boot’s last journal entry followed about 12 seconds later. The owner brought the Pi back at 15:16. The installed units then renewed the hardware deadline again. See the [incident timeline, repair and deployment status](../../output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).
+
+For an active owned alarm the revised helper uses Linux’s in-place wakealarm update. It retains the last verified future deadline during the operation, retries observation of a transient mismatch, and records the expected and observed values before reporting an error. It attempts to restore a still-valid earlier deadline only to an empty alarm slot. The period remains 30 seconds and the requested alarm lead remains 180 seconds. An explicit disarm clears the owned deadline. Unknown future deadlines remain with their owner.
+
 ## Current restore and wake state
 
 The recovery CPU unit and container hold were removed in the previous recovery work. The 17 November boot check covered release `8c67ddbe`. On 18 November the normal application and autostart entry moved to `c607759e`. The device compositor showed Alice on the connected kiosk page. The software ceiling remained 2400000 kHz and the RTC timer stayed enabled and active with matching unit files. This application rollout supplies a single displayed frame. Long-run power and animation stability remain open. [Rollout readback](../../output/qa/2026-11-18-three-end-rollout/verification.md).
