@@ -121,6 +121,7 @@ def assistant_routes(runtime, authenticated, operation_id):
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner",
             principal=principal, share_screen=payload.share_screen, share_itinerary=payload.share_itinerary,
             follow_mail_thread=payload.follow_mail_thread,
+            routine_id=payload.routine_id,
         )
 
     return router

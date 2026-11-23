@@ -18,10 +18,17 @@ export interface Proposal {
     | "email_send"
     | "browser_research"
     | "mail_followup"
+    | "routine_skip"
     | "shopping_advice"
     | "calendar_advice";
   expires_at: string;
   data: {
+    choices?: {
+      routine_id: string;
+      title: string;
+      occurrence_key: string;
+      timezone: string;
+    }[];
     mail_followup?: {
       provider: "gmail" | "outlook";
       account_email: string;
@@ -94,6 +101,7 @@ export interface Proposal {
   };
 }
 export interface ProposalDecisionOptions {
+  routine_id?: string;
   share_screen?: boolean;
   share_itinerary?: boolean;
   follow_mail_thread?: boolean;

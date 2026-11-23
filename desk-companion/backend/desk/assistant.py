@@ -47,6 +47,8 @@ from .owner_lookup import (
 from .owner_plan import ProposePlan, propose_plan
 from .tool_policy import audit_suppressed, memory_blocked, outcome_message
 from .next_step import answer_next_step
+from .routine_chat import TOOL as ROUTINE_SKIP_TOOL, RoutineSkipDraft, selected_choice
+from .routines import RoutineAction
 from .recall import cited_id, classify, matching, render, set_focus, zone_of
 
 
@@ -71,6 +73,7 @@ class AssistantMessage(StrictModel):
 
 class ProposalDecision(StrictModel):
     action: Literal["confirm", "cancel"]
+    routine_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     share_screen: bool = Field(default=False, strict=True)
     share_itinerary: bool = Field(default=False, strict=True)
     follow_mail_thread: bool = Field(default=False, strict=True)
@@ -94,6 +97,7 @@ TOOLS = [
     FLIGHT_QUOTE_TOOL,
     BOOKED_FLIGHT_CALENDAR_TOOL,
     SHOP_QUOTE_TOOL,
+    ROUTINE_SKIP_TOOL,
     {
         "name": "email_reply_draft",
         "description": "Prepare a reply to one existing Gmail/Outlook message using its exact returned message ID and the owner's requested plain-text body. Recipient, subject and thread come from a fresh bounded source read and are shown for owner review. Uses Reply-To when available; ask if recipient/source is ambiguous. This is a local draft, not a send. Only owner confirmation can send; do not substitute a new unrelated email when the thread is unavailable.",
@@ -328,18 +332,20 @@ class AssistantService:
 
     def proposals(self, *, allow_memory=True):
         with self.store.connection() as conn:
+            show_routines = allow_memory and not self.store.settings(conn)["hide_private"]
             return [
                 self._view(r)
                 for r in conn.execute(
                     "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? "
                     "AND NOT EXISTS (SELECT 1 FROM operations WHERE id='assistant-confirm/' || assistant_proposals.id) "
+                    "AND (kind != 'routine_skip' OR ?) "
                     + (
                         ""
                         if allow_memory
                         else "AND kind NOT LIKE 'memory_%' AND kind NOT IN ('email_send','browser_research','mail_followup') AND COALESCE(json_extract(data, '$.goal'),0)=0 "
                     )
                     + "ORDER BY created_at DESC LIMIT 20",
-                    (iso(self.store.clock()),),
+                    (iso(self.store.clock()), show_routines),
                 )
             ]
 
@@ -355,9 +361,12 @@ class AssistantService:
             raise DomainError("DRAFT_TTL_INVALID", 422)
 
         def apply(conn):
+            data = payload
+            if kind == "routine_skip":
+                data = {"choices": self.runtime.routines.skip_choices(conn, **payload)}
             # A corrected proposal for the same existing object replaces its
             # older unapproved draft. Different events/occurrences stay separate.
-            target = self.proposal_target(kind, payload)
+            target = self.proposal_target(kind, data)
             superseded = []
             if target:
                 for old in conn.execute(
@@ -384,7 +393,7 @@ class AssistantService:
                 (
                     proposal_id,
                     kind,
-                    encode(payload),
+                    encode(data),
                     iso(self.store.clock() + lifetime),
                     iso(self.store.clock()),
                 ),
@@ -420,6 +429,9 @@ class AssistantService:
 
     @staticmethod
     def proposal_target(kind, payload):
+        if kind == "routine_skip" and len(payload["choices"]) == 1:
+            choice = payload["choices"][0]
+            return (kind, choice["routine_id"], choice["occurrence_key"])
         if kind == "email_send" and payload.get("reply"):
             return ("email_reply", payload["provider"], payload["from"], payload["reply"]["message_id"])
         if kind == "mail_followup":
@@ -489,6 +501,11 @@ class AssistantService:
                 raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
             if not isinstance(arguments, dict):
                 raise DomainError("TOOL_ARGUMENTS_INVALID", 422)
+            if name == "routine_skip_draft":
+                draft = RoutineSkipDraft.model_validate(arguments)
+                result = self.propose("routine_skip", draft.model_dump(), call_key)
+                # Routine titles and choices are read locally on the owner's review card.
+                return {**result, "proposal": {**result["proposal"], "data": {}}}
             if name == "email_status":
                 return self.runtime.outbound_mail.snapshot()
             if name == "connected_app_query":
@@ -777,7 +794,8 @@ class AssistantService:
             raise failure from None
 
     def decide(self, proposal_id, action, key, *, allow_memory=True, permission_version=None,
-               principal=None, share_screen=False, share_itinerary=False, follow_mail_thread=False, automatic_follow_version=None):
+               principal=None, share_screen=False, share_itinerary=False, follow_mail_thread=False, automatic_follow_version=None,
+               routine_id=None):
         # A single runtime owns this SQLite database. Store.operation provides durable
         # repeat safety across crashes; the lock also prevents in-process cancel races.
         with self.lock:
@@ -795,6 +813,10 @@ class AssistantService:
                 ).fetchone()
                 if not row:
                     raise DomainError("DRAFT_NOT_FOUND", 404)
+                if row["kind"] == "routine_skip" and (action == "confirm" or principal is not None):
+                    self.runtime.personal_context.require_owner_transaction(conn, principal)
+                if routine_id is not None and (row["kind"] != "routine_skip" or action != "confirm"):
+                    raise DomainError("ROUTINE_SELECTION_INVALID", 422)
                 if permission_version is not None:
                     from .permissions import SOFTWARE_PROPOSALS
 
@@ -802,7 +824,7 @@ class AssistantService:
                         raise DomainError("OWNER_APPROVAL_REQUIRED", 403)
                 if not allow_memory and (
                     row["kind"].startswith("memory_")
-                    or row["kind"] in {"email_send", "browser_research", "mail_followup"}
+                    or row["kind"] in {"email_send", "browser_research", "mail_followup", "routine_skip"}
                     or json.loads(row["data"]).get("goal")
                 ):
                     raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
@@ -824,10 +846,18 @@ class AssistantService:
             if applied or row["state"] == "confirmed":
                 if action == "cancel":
                     raise DomainError("DRAFT_ALREADY_SAVED", 409)
+                receipt = json.loads(applied[0] if applied else row["result"])
+                if row["kind"] == "routine_skip":
+                    choice = selected_choice(json.loads(row["data"])["choices"], routine_id)
+                    if (
+                        receipt.get("routine", {}).get("id") != choice["routine_id"]
+                        or receipt.get("skipped_date") != choice["occurrence_key"].split("T")[0]
+                    ):
+                        raise DomainError("OPERATION_ID_CONFLICT")
                 return self._finish_confirmation(
                     proposal_id,
                     row["kind"],
-                    json.loads(applied[0] if applied else row["result"]),
+                    receipt,
                     approval_origin="existing_receipt",
                     recovered=True,
                 )
@@ -845,6 +875,8 @@ class AssistantService:
                     cancel_prepared(self.runtime, proposal_id)
 
                 def cancel(conn):
+                    if row["kind"] == "routine_skip" and principal is not None:
+                        self.runtime.personal_context.require_owner_transaction(conn, principal)
                     conn.execute(
                         "UPDATE assistant_proposals SET state='cancelled' WHERE id=?",
                         (proposal_id,),
@@ -874,7 +906,19 @@ class AssistantService:
                             (encode(payload), proposal_id),
                         )
                 apply_kind = "task_change"
-            if apply_kind == "mail_followup":
+            if apply_kind == "routine_skip":
+                choice = selected_choice(payload["choices"], routine_id)
+                result = self.runtime.routines.action(
+                    choice["routine_id"],
+                    RoutineAction(
+                        action="skip",
+                        local_date=choice["occurrence_key"].split("T")[0],
+                        expected_version=choice["expected_version"],
+                    ),
+                    internal_key,
+                    principal=principal,
+                )
+            elif apply_kind == "mail_followup":
                 result = self.runtime.mail_followups.start(payload, internal_key, principal, follow_mail_thread,
                     automatic_version=automatic_follow_version)
             elif apply_kind == "browser_research":

@@ -26,6 +26,7 @@ from .flight_booking.provider import SEARCH_WINDOW_SECONDS, BookedFlightCalendar
 from .shop_checkout.provider import ShopQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
+from .routine_chat import RoutineSkipDraft
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -65,6 +66,7 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("routine_skip_draft", "draft", RoutineSkipDraft),
         Capability("email_reply_draft", "draft", MailReplyDraft, timeout=20),
         Capability("mail_followup_draft", "draft", MailFollowupDraft, timeout=20),
         Capability("mail_followup_status", "read", MailFollowupQuery),

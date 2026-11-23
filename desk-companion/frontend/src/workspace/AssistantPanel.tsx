@@ -13,11 +13,14 @@ import "./composer-files.css";
 import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
 import { useAssistantFootprint } from "../companion/useAssistantFootprint";
 import { proposalDecisionNotice } from "./proposalDecision";
+import { ResponseFence } from "./personal/responseFence";
+import { personalContextVisible } from "./personal/types";
 import type { ReactNode } from "react";
 import {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -112,6 +115,12 @@ export function AssistantPanel({
   onClearTask?: () => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
+  const ownerView = data?.principal.kind === "owner";
+  const routineAccess = useRef(new ResponseFence()).current;
+  routineAccess.update(
+    data?.principal.id ?? "",
+    !suspended && personalContextVisible(ownerView, data?.personal_context_visible, offline, stale),
+  );
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
   const [view, setView] = useState<
     "chat" | "jobs" | "help" | "timing" | "activity"
@@ -198,9 +207,14 @@ export function AssistantPanel({
   const [reply, setReply] = useState<Reply | null>(null),
     [liveMessage, setLiveMessage] = useState(""),
     [progress, setProgress] = useState<ToolProgress[]>([]),
-    [proposals, setProposals] = useState<Proposal[]>([]),
+    [proposalRead, setProposalRead] = useState({ rows: [] as Proposal[], epoch: -1 }),
     [calls, setCalls] = useState<ToolCall[] | null>(null),
     [notice, setNotice] = useState("");
+  const showRoutineReviews = !readError && routineAccess.accepts(proposalRead.epoch);
+  const proposals = useMemo(
+    () => showRoutineReviews ? proposalRead.rows : proposalRead.rows.filter(p => p.kind !== "routine_skip"),
+    [proposalRead, showRoutineReviews],
+  );
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
   const interactionSource = useRef(Symbol("conversation"));
@@ -535,7 +549,6 @@ export function AssistantPanel({
   useEffect(() => {
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
-  const ownerView = data?.principal.kind === "owner";
   const showOrderUpdates = useCallback(
     (updates: CommerceReview[]) => {
       if (
@@ -593,13 +606,14 @@ export function AssistantPanel({
           const updates=await commerce.refresh(chat);
           if(alive.current && chat===conversationId.current) showOrderUpdates(updates);
         }
+        const epoch = routineAccess.capture();
         const next = await request<{ proposals: Proposal[] }>(
           "/assistant/proposals",
         );
         if (alive.current) {
           // Leaving the pending list can mean accepted, cancelled or expired.
           // Only the decision receipt can establish whether an action happened.
-          setProposals(next.proposals);
+          setProposalRead({ rows: next.proposals, epoch });
           setReadError(null);
         }
       } catch (e) {
@@ -624,7 +638,7 @@ export function AssistantPanel({
     } finally {
       reading.current = false;
     }
-  }, [language, ownerView, loadActivity, commerce.refresh, showOrderUpdates]);
+  }, [language, ownerView, loadActivity, commerce.refresh, showOrderUpdates, routineAccess]);
   useEffect(() => {
     alive.current = true;
     return () => {
