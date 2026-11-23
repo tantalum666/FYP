@@ -1,4 +1,63 @@
 {
+  "approved_clock_epoch_rollout": {
+    "activation_start_hkt": "2026-11-23T22:21:15+08:00",
+    "attempts": 1,
+    "boot_after": "a98fb674",
+    "boot_before": "a98fb674",
+    "both_units_enabled": true,
+    "cpu_ceiling_khz": 2400000,
+    "deliberate_shutdown_or_reboot": false,
+    "developer_funding_watcher_reopened": false,
+    "disposable_arm_installer_cases_passed": 8,
+    "earlier_rollback_filename": "rtc-helper-before-6fa58fb2fcda.py",
+    "earlier_rollback_sha256_preserved": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
+    "eeprom_and_boot_config_hashes_unchanged": true,
+    "epoch_aware_state_provenance_present": true,
+    "final_connection_cleanup": {
+      "developer_funding_control_socket_present": false,
+      "live_release_or_developer_funding_operator_tasks": 0,
+      "release_control_socket_present": false
+    },
+    "firmware_enabled": true,
+    "firmware_linux_and_owner_agree": true,
+    "fresh_read_pmic_lead_s": 176,
+    "guard_sha_with_only_hash_pins_changed": "3317a8174c220e141ebf07963d97387e72d4f2b575fc5c763ecec067d7944e01",
+    "helper_before_and_new_rollback_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
+    "independent_matching_service_journal": [
+      {
+        "deadline_hkt": "2026-11-23T22:24:34+08:00",
+        "lead_s": 180,
+        "observed_hkt": "2026-11-23T22:21:34+08:00",
+        "uptime_s": 4277.806
+      },
+      {
+        "deadline_hkt": "2026-11-23T22:25:05+08:00",
+        "lead_s": 180,
+        "observed_hkt": "2026-11-23T22:22:05+08:00",
+        "uptime_s": 4308.813
+      }
+    ],
+    "independent_post_read_hkt": "2026-11-23T22:22:10+08:00",
+    "installed_helper_sha256": "84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e",
+    "main_api_healthy_before_and_after": true,
+    "main_app_release": "082002013fd375b7d3b66885e59ca5b781a26bc0",
+    "main_service_active": true,
+    "main_service_pid_unchanged": true,
+    "main_service_restart_counter_after": "0",
+    "main_service_restart_counter_before": "0",
+    "normal_rtc_timer_active": true,
+    "paid_model_calls": 0,
+    "programmed_pmic_deadlines_hkt": [
+      "2026-11-23T22:24:34+08:00",
+      "2026-11-23T22:25:05+08:00"
+    ],
+    "release_used_only_finite_pinned_sessions": true,
+    "reviewed_source_commit": "8e86d64e12e9131fd4d90a6532b27b996cf083a3",
+    "separate_rollback_filename": "rtc-helper-before-84c7c9aa1438.py",
+    "surviving_first_rollback_sha_matches": true,
+    "timer_restarted": false,
+    "unit_hashes_unchanged": true
+  },
   "approved_helper_rollout": {
     "approved_source_commit": "ded3ecfd3566e872dc2292523fb0005c9100fea7",
     "boot_id_prefix": "a612ce21",
@@ -78,6 +137,7 @@
     "mac_pytest_passed": 29,
     "prior_candidate_failed_new_ownership_collisions": 2,
     "prior_candidate_stale_initial_read_failures": 2,
+    "scope": "first approved hardware release (ded3ecfd), prior to the subsequent clock-domain refinement",
     "verified_restoration_discards_disproven_intent": true
   },
   "device_change_from_this_diagnosis": false,
@@ -227,10 +287,9 @@
     "added_boundary_cases": 14,
     "candidate_helper_sha256": "84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e",
     "candidate_passed_all_new_cases": 14,
-    "device_configuration_or_hardware_writes_for_followup": false,
     "full_focused_policy_tests_passed": 43,
     "further_paid_calls": 0,
-    "installed_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
+    "installed_helper_sha256": "84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e",
     "local_linux_focused_test_files": {
       "executed_on_original_pi": false,
       "includes_both_unchanged_real_systemd_graph_cases": true,
@@ -242,6 +301,7 @@
     },
     "maximum_eligible_fallback_lead_s": 900,
     "normal_lead_s": 180,
+    "offline_regression_exercised_hardware": false,
     "old_and_new_differential": {
       "installed": {
         "foreign_distant_future_alarm": {
@@ -293,6 +353,7 @@
         }
       }
     },
+    "previously_installed_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
     "prior_version_failed_new_cases": 9,
     "prior_version_passed_new_controls": 5,
     "source_real_inputs": {
@@ -302,7 +363,7 @@
       ],
       "previous_programmed_epoch_s": 1795421401
     },
-    "status": "offline candidate pending separate review and installation"
+    "status": "separately approved and verified on the original Raspberry Pi"
   },
   "source_baseline_helper_sha256": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
   "systemd": "257"
