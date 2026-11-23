@@ -1,0 +1,294 @@
+{
+  "auth_data_and_backup": {
+    "all_private_copy_rows_preserved": true,
+    "cached_a3_sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
+    "existing_grant_versions_scopes_and_identities_preserved": {
+      "added_disconnected": [
+        "letsfg"
+      ],
+      "connected": [
+        "calendar",
+        "gmail"
+      ],
+      "removed_disconnected": [],
+      "retained_catalog_entries": 5
+    },
+    "integrity": "ok",
+    "live_tables_with_preexisting_owner_business_rows_checked": 56,
+    "migrated_tables": 134,
+    "new_tables": [
+      "letsfg_connection",
+      "letsfg_oauth",
+      "letsfg_oauth_client",
+      "live_flight_checkouts"
+    ],
+    "normal_budget_preserved": true,
+    "normal_fleet_ledger_preserved": true,
+    "normal_runtime_models": {
+      "background": false,
+      "browser_default": "managed",
+      "managed_browser": "gpt-6.2-sol",
+      "session_budget": "daily_local",
+      "text": "gpt-6.2-sol",
+      "text_engine": "openai_sessions",
+      "voice": "gpt-live-1.1",
+      "voice_delegate": "gpt-6.2-sol",
+      "voice_provider": "openai_live"
+    },
+    "old_cookie_after_restart": true,
+    "original_runtime_files_backed_up_and_bytes_verified": 10,
+    "previous_binary_read_migrated_copy": true,
+    "previous_schema_columns_expanded": {},
+    "previous_tables": 130,
+    "protected_live_table_fingerprints": 28,
+    "routine_and_skill_tables_in_check": 8,
+    "schema_version": 3,
+    "selected_voice_version": 9,
+    "verified_owner_database_and_normal_ledger_snapshots": true
+  },
+  "device": {
+    "api_active": true,
+    "api_automatic_restarts": 0,
+    "boot_continuous_during_switch": true,
+    "both_older_rtc_helper_backup_hashes_preserved": true,
+    "cpu_ceiling_khz": 2400000,
+    "existing_rtc_units_and_eeprom_boot_configuration_preserved": true,
+    "kiosk_automatic_restarts": 0,
+    "kiosk_service_active": true,
+    "model": "Raspberry Pi 5 Model B",
+    "original_data_and_profile_inode_preserved": true,
+    "persistent_autostart_selects_target": true,
+    "physical_panel": "1280x720",
+    "physical_visible_controls": [
+      "alice_home",
+      "connected",
+      "composer",
+      "avatar"
+    ],
+    "pmic_alarm_lead_at_read_s": 178,
+    "pmic_linux_owner_alarm_match": true,
+    "real_kiosk_profile_had_new_js_entry": true,
+    "rtc_helper_sha256": "84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e",
+    "rtc_timer_active": true
+  },
+  "final_pi_switch_accepted_hkt": "2026-11-23T23:35:31+08:00",
+  "git_tree": "b3ac084b013339787e6aeb278dbd416f0ef222b4",
+  "independent_pi_release_read_hkt": "2026-11-23T23:40:29+08:00",
+  "intermediate_builds_staged_only": [
+    "689d1d8e",
+    "ca01d23c"
+  ],
+  "listening_geometry_on_original_pi": {
+    "browser_qa_tool": "Regular Playwright, Browser plugin not available.",
+    "buttons": [
+      {
+        "height": 44,
+        "label": "Camera & microphone",
+        "width": 44
+      },
+      {
+        "height": 44,
+        "label": "Stop speaking",
+        "width": 44
+      },
+      {
+        "height": 44,
+        "label": "Turn off microphone and switch to text",
+        "width": 44
+      }
+    ],
+    "fixture": "Separate synthetic local desk and the original Pi Chromium. No external network and no physical microphone.",
+    "javascript_exceptions": 0,
+    "listening_row_height_css_px": 48,
+    "normal_renderer_overlapped": false,
+    "returned_to_text": true,
+    "row_bottom_css_px": 706,
+    "synthetic_screenshot_sha256": "1a91daae9bc2070734784cacca34a1198d85e22559f6adddc3c954b302a887c9",
+    "viewport_css_px": [
+      1280,
+      720
+    ]
+  },
+  "no_spend_or_booking": {
+    "commerce_tables_unchanged": true,
+    "developer_funding_control_socket_reopened": false,
+    "new_model_usage_rows": 0,
+    "normal_ledger_unchanged": true,
+    "paid_model_calls": 0,
+    "real_bookings": 0,
+    "real_payments": 0,
+    "row_changes_after_three_ordinary_weather_messages": {
+      "assistant_replies": 3,
+      "conversation_messages": 0,
+      "conversations": 0,
+      "gmail_connection": 0,
+      "google_connection": 0,
+      "live_flight_checkouts": 0,
+      "sandbox_flight_bookings": 0,
+      "sandbox_shop_orders": 0,
+      "text_ai_usage": 0,
+      "tool_calls": 3
+    }
+  },
+  "normal_mac_simulator_matched_same_revision": true,
+  "ordinary_weather_on_running_service": {
+    "hk": {
+      "checked_hong_kong": "2026-11-23T23:40:32+08:00",
+      "country_code": null,
+      "daily_outlook": {
+        "conditions": "毛毛雨",
+        "date": "2026-11-23",
+        "maximum_c": 24.0,
+        "minimum_c": 21.2,
+        "peak_precipitation_probability_pct": 37,
+        "precipitation_mm": 0.8,
+        "source": "Open-Meteo"
+      },
+      "destination_name": "香港",
+      "destination_timezone": "Asia/Hong_Kong",
+      "forecast_local_date": "2026-11-23",
+      "hko_local_outlook": {
+        "issued_at": "2026-11-23T23:15:00+08:00",
+        "period": "本港地区(十一月二十四日，星期二)天气预测",
+        "rain_paraphrase": "Cloudy with a few showers. Showers more frequent at first.",
+        "source": "Hong Kong Observatory",
+        "source_url": "https://www.hko.gov.hk/en/wxinfo/currwx/flw.htm"
+      },
+      "observation": {
+        "basis": "station",
+        "temperature_c": 23,
+        "time": "2026-11-23T23:00:00+08:00"
+      },
+      "ordinary_question": "帮我看一下香港的天气",
+      "ordinary_reply_sha256": "0d91651cdb1b32aac7c5fb8652232338b19b764cc66b675f006dfadc9a55570f",
+      "ordinary_route": "local_rules",
+      "region": null,
+      "source": "Hong Kong Observatory",
+      "source_bound_reply_matches_structured_summary": true,
+      "source_url": "https://www.hko.gov.hk/en/wxinfo/currwx/fnd.htm",
+      "tool_audit": [
+        {
+          "channel": "text",
+          "outcome": "ok",
+          "risk": "read",
+          "saved": false,
+          "tool": "weather_query"
+        }
+      ]
+    },
+    "narita": {
+      "checked_hong_kong": "2026-11-23T23:40:33+08:00",
+      "country_code": "JP",
+      "daily_outlook": {
+        "conditions": "大雨",
+        "date": "2026-11-24",
+        "maximum_c": 18.6,
+        "minimum_c": 7.9,
+        "peak_precipitation_probability_pct": 100,
+        "precipitation_mm": 14.5
+      },
+      "destination_name": "成田国际机场",
+      "destination_timezone": "Asia/Tokyo",
+      "forecast_local_date": "2026-11-24",
+      "observation": {
+        "basis": "model",
+        "conditions": "大致晴朗",
+        "temperature_c": 7.9,
+        "time": "2026-11-24T00:30:00+09:00"
+      },
+      "ordinary_question": "帮我查一下成田国际机场的天气",
+      "ordinary_reply_sha256": "36bc9a0eb8eb479000d43d8facc16a2634b8c0843e13932f4a8f1b7400d62065",
+      "ordinary_route": "local_rules",
+      "region": "千葉縣",
+      "source": "Open-Meteo",
+      "source_bound_reply_matches_structured_summary": true,
+      "source_url": "https://open-meteo.com/en/docs",
+      "tool_audit": [
+        {
+          "channel": "text",
+          "outcome": "ok",
+          "risk": "read",
+          "saved": false,
+          "tool": "weather_query"
+        }
+      ]
+    },
+    "tokyo": {
+      "checked_hong_kong": "2026-11-23T23:40:30+08:00",
+      "country_code": "JP",
+      "daily_outlook": {
+        "conditions": "大雨",
+        "date": "2026-11-24",
+        "maximum_c": 18.3,
+        "minimum_c": 6.8,
+        "peak_precipitation_probability_pct": 100,
+        "precipitation_mm": 16.5
+      },
+      "destination_name": "东京",
+      "destination_timezone": "Asia/Tokyo",
+      "forecast_local_date": "2026-11-24",
+      "observation": {
+        "basis": "model",
+        "conditions": "局部多云",
+        "temperature_c": 7.0,
+        "time": "2026-11-24T00:30:00+09:00"
+      },
+      "ordinary_question": "帮我查一下东京的天气",
+      "ordinary_reply_sha256": "cb402bfd35e55e28d2922462f3c73d464334b4e1f3e8a44a79f198ab2d88a18c",
+      "ordinary_route": "local_rules",
+      "region": "东京都",
+      "source": "Open-Meteo",
+      "source_bound_reply_matches_structured_summary": true,
+      "source_url": "https://open-meteo.com/en/docs",
+      "tool_audit": [
+        {
+          "channel": "text",
+          "outcome": "ok",
+          "risk": "read",
+          "saved": false,
+          "tool": "weather_query"
+        }
+      ]
+    }
+  },
+  "package": {
+    "arm_environment": {
+      "added": [
+        "opencc-data",
+        "opencc-py"
+      ],
+      "platform": "aarch64",
+      "python": "3.13",
+      "total_packages": 41,
+      "unchanged_installed": 39
+    },
+    "base_files_verified": 585,
+    "bootstrap_resources": 8,
+    "bytes": 1525045,
+    "changed_files": 75,
+    "current_entry_module": "/assets/index-BY913VZK.js",
+    "frontend_index_sha256": "2503fb9a5eabb6d4b6b0eff333a6bb42f1c045a05160083fa908777d6be6c53a",
+    "http_resources_verified": 11,
+    "isolated_runtime": true,
+    "locked_wheels": [
+      {
+        "distribution": "opencc-data",
+        "sha256": "60aa561acd3f0a122fad71ba141356a877bb3305c72573177c76ecb0b26e26ef",
+        "version": "1.4.2"
+      },
+      {
+        "distribution": "opencc-py",
+        "sha256": "ffdfd8cec7cd7661fcf959188c37b59e9e9bf9cea6c6a60b777396fb3117568f",
+        "version": "1.4.2"
+      }
+    ],
+    "retained_files": 556,
+    "sha256": "0466fb9165135ae497fe586f9bcae4e027c2522f2540c60120c3f043b7197820",
+    "target_files_verified": 631
+  },
+  "pi_reboot_or_power_change_requested": false,
+  "rolled_back": false,
+  "root_rtc_preservation_read_hkt": "2026-11-23T23:40:46+08:00",
+  "running_release": "a17ac3497eaa1a564768037554280336f4c24245",
+  "start_release": "082002013fd375b7d3b66885e59ca5b781a26bc0"
+}
