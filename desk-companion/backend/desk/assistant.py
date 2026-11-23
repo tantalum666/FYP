@@ -25,7 +25,7 @@ from .memory import MemoryDeleteDraft, MemoryQuery, MemoryReplaceDraft, MemorySa
 from .outbound_mail_models import MailDraft, MailReplyDraft
 from .app_connection_models import ConnectedAppQuery
 from .rank import rank_rows
-from .weather import WeatherQuery
+from .weather import WEATHER_TOOL_DESCRIPTION, WeatherQuery, weather_tool_schema
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
 from .flight_booking.conversation import TOOL as FLIGHT_QUOTE_TOOL
@@ -138,8 +138,8 @@ TOOLS = [
     },
     {
         "name": "weather_query",
-        "description": "Read current Hong Kong weather or up to nine forecast days directly from the Hong Kong Observatory. Use forecast with days=7 for the coming week. Return the actual dated forecast, source and issue time; never invent unavailable weather or convert rain categories into exact probabilities. Public weather only; does not enable location tracking.",
-        "parameters": WeatherQuery.model_json_schema(),
+        "description": WEATHER_TOOL_DESCRIPTION,
+        "parameters": weather_tool_schema(),
     },
     {
         "name": "connected_app_query",
@@ -740,6 +740,10 @@ class AssistantService:
             if name == "posture_status" and not arguments:
                 return self.runtime.posture.snapshot()
             if name == "weather_query":
+                # An incomplete new model call must ask for its place. The old explicit week
+                # and current requests remain valid at the HTTP/API entry point.
+                if not arguments.keys() - {"language"}:
+                    arguments = {**arguments, "period": "today"}
                 return self.runtime.data.weather_provider.query(WeatherQuery.model_validate(arguments))
             if name == "device_status" and not arguments:
                 return {

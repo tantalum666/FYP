@@ -55,6 +55,7 @@ from .schemas import StrictModel
 from .store import DomainError, encode
 from . import commerce_chat
 from .tool_policy import tool_visible
+from .weather_conversation import answer_city_weather
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
 
 DEFAULT_DAILY_CAP = 40
@@ -481,6 +482,7 @@ class TextAssistant:
                     payload, key, principal, conversation=conversation
                 )
         stepped = None
+        public_weather = None
         if (
             cached is None
             and admitted is None
@@ -490,17 +492,13 @@ class TextAssistant:
             stepped = self.runtime.assistant.next_step_turn(
                 payload, owner=principal is None or principal.get("kind") == "owner"
             )
+            if stepped is None:
+                public_weather = answer_city_weather(self.runtime, payload, key, on_event=on_event)
         if cached is not None:
             reply = cached
-        elif admitted is not None:
-            reply = present(admitted, self.runtime.data.preferences(), payload.language)
-            with self.store.connection(write=True) as conn:
-                conn.execute(
-                    "INSERT INTO assistant_replies VALUES(?,?,?)",
-                    (key, self._fingerprint(payload, allow_memory), encode(reply)),
-                )
-        elif stepped is not None:
-            reply = present(stepped, self.runtime.data.preferences(), payload.language)
+        elif admitted is not None or stepped is not None or public_weather is not None:
+            # Weather is already formatted with exact numbers and the precipitation outlook.
+            reply = public_weather or present(admitted or stepped, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)",

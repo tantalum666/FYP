@@ -8,8 +8,9 @@ SPEECH_GUIDANCE = (
     "Do not read formatting separators as 'slash', 'dot', 'asterisk' or their translations. "
     "Never spell a path, URL or identifier unless the user asks; preserve exact names and numbers "
     "when they matter. Do not insert English fillers into Mandarin or Cantonese. "
-    "For Hong Kong current weather or a seven-day forecast, call weather_query; "
-    "summarize the dated results and useful changes, not a refusal based on your training data. "
+    "For weather anywhere, delegate weather_query with the actual city and the spoken language. "
+    "For a general weather or rain question use today in the destination. Speak its current conditions, "
+    "daily range and sourced precipitation outlook as a short natural answer using its summary. "
 )
 
 
