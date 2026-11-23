@@ -977,3 +977,7 @@ The owner found the repeated on-screen text confusing and requested further pers
 ## 2026-11-22 Calendar-aware flight choice in ordinary Alice chat
 
 The owner asked to continue personal-agent work. Group 2 chose calendar-aware flight selection as the next cross-task behavior. Use the existing desk calendar and original Session Function to compare returned fares when the owner asks for a fit. Keep busy details local, consume airport-local times, preserve the date, budget and original flight constraints, and recheck before admitting a financial action. On a blocked unsubmitted quote the owner can request another flight in the same conversation. The receipt worker remains read-only. [Decision and evidence](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-23 Global weather in conversation and voice
+
+The owner reported that an ordinary Tokyo question was refused and a Hong Kong lookup supplied only a temperature. Resolve explicitly named places with Open-Meteo’s worldwide GeoNames geocoder and the OpenCC language dictionaries. Use destination-local dates, preserve official HKO station and forecast feeds and label modeled readings and supplementary ranges. Rainfall probability refers to published forecast probabilities or HKO’s category. The existing shared weather function serves ordinary text, Sessions and Live voice. This source branch was verified with public data and replayed model protocols. [Acceptance and receipts](output/qa/2026-11-23-global-weather/verification.md).

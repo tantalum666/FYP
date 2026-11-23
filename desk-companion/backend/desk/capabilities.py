@@ -73,7 +73,7 @@ def _capabilities() -> dict[str, Capability]:
         Capability("sandbox_flight_quote", "draft", FlightQuery, timeout=SEARCH_WINDOW_SECONDS+4),
         Capability("browser_research_draft", "draft", BrowserResearchDraft),
         Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),
-        Capability("weather_query", "read", WeatherQuery, timeout=8),
+        Capability("weather_query", "read", WeatherQuery, timeout=22),
         Capability("connected_app_query", "read", ConnectedAppQuery, timeout=12),
         Capability("email_status", "read", EmptyArgs),
         Capability("email_send_draft", "draft", MailDraft),

@@ -57,6 +57,9 @@ class ToolAudit:
         channel=None,
         message="",
     ):
+        if name == "weather_query" and isinstance(arguments, dict):
+            # The owner's public destination is needed for this read, not for diagnostics.
+            arguments = {k: v for k, v in arguments.items() if k not in {"location", "country_code"}}
         saved, ref_kind, ref_id = _effect(result)
         with self.store.connection(write=True) as conn:
             conn.execute(

@@ -813,7 +813,7 @@ class VoiceService:
                                 }
                                 if event.get("role") == "user":
                                     turns.transcript(
-                                        event.get("text", ""), visual_context=image_count > 0
+                                        (normalized or event).get("text", ""), visual_context=image_count > 0
                                     )
                                     if conversation and event.get("final"):
                                         conversation.append("user", event.get("text", ""))
@@ -846,6 +846,9 @@ class VoiceService:
                                 last_activity = time.monotonic()
                                 if not turns.current or turns.current.ended is None:
                                     await deliver_provider(turns.end())
+                                if event["name"] == "weather_query" and turns.current.weather_query:
+                                    # Bind a standalone spoken request to its actual place and local day.
+                                    event = {**event, "arguments": json.dumps(turns.current.weather_query)}
                                 event = {**event, "_turn_id": turns.tool(event["id"])}
                                 dispatcher.submit(event)
                                 continue

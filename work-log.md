@@ -1128,3 +1128,7 @@ Removed duplicate body/card presentation and the permanent stack of old orders i
 ## 2026-11-22 · Calendar-aware flight search and confirmation
 
 Connected the desk’s canonical busy occurrences to LetsFG fare selection, including recurrence exceptions, DST, date-line handling and disagreement between elapsed duration and published local times. Confirmations use an atomic local check before a provider submission. The original carrier, route and budget can be reused to find a different flight from a blocked quote. A real read timeout exposed the five-second search limit. The read-only adapter now shares one retry window. Mac Web and the iPhone 17 Pro Simulator run `08200201`. [Acceptance and cost breakdown](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-23 Global weather from ordinary Alice questions
+
+On the isolated global-weather branch, connected worldwide place resolution, destination-local current and daily model data, and HKO’s station, local and nine-day products to the existing weather tool. Standalone city questions use a public read directly. Ordinary Sessions and GPT-Live-1.1 register the same tool. The real loopback application returned public weather for Tokyo, Hong Kong, Cape Town, Reykjavík and Buenos Aires. The voice WebSocket accepted a two-part synthetic transcript and delivered the bound tool output using replayed provider events. [QA and external-data receipts](output/qa/2026-11-23-global-weather/verification.md). Installed client and physical speech acceptance belong to the integration release.
