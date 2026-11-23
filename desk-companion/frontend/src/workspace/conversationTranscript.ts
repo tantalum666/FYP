@@ -14,6 +14,7 @@ export type ConversationTurn = {
   jobId?: string;
   orderKey?: string;
   commerceChat?: string;
+  googleRefreshEpoch?: number;
   choices?: import("./commercePresentation").FlightAlternatives;
   voiceSession?: string;
   voiceGroup?: number;

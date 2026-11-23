@@ -28,6 +28,54 @@ def initialize(conn):
         """CREATE TABLE IF NOT EXISTS google_refresh_result(
             id INTEGER PRIMARY KEY CHECK(id=1), account_version TEXT NOT NULL, summary TEXT NOT NULL)"""
     )
+    conn.execute(
+        """CREATE TRIGGER IF NOT EXISTS forget_google_refresh AFTER DELETE ON google_connection
+           BEGIN DELETE FROM google_refresh_result; END"""
+    )
+
+
+def last_refresh(conn, account, session_hash):
+    row = conn.execute(
+        "SELECT summary FROM google_refresh_result WHERE account_version=?", (account,)
+    ).fetchone()
+    if not row:
+        return None
+    summary = json.loads(row[0])
+    owner = summary.pop("confirmed_session", None)
+    if owner is None:
+        # Older summaries did not identify the login. The successful apply and its
+        # range receipt retain that binding even after the temporary review expires.
+        receipt = conn.execute(
+            """SELECT a.request, a.response, p.request AS preview,
+                      COUNT(*) OVER () AS receipts,
+                      (SELECT COUNT(*) FROM records WHERE action='calendar_imported'
+                       AND json_extract(details,'$.kind')='google_refresh') AS confirmations
+               FROM operations a
+               JOIN operations p ON json_extract(p.response,'$.preview_id') =
+                                    json_extract(a.request,'$.preview_id')
+               WHERE json_extract(p.request,'$.kind')='google_refresh'
+                 AND json_extract(p.request,'$.type')='preview'
+                 AND json_extract(a.request,'$.type')='import_apply'
+                 AND json_extract(a.response,'$.applied')=1
+               ORDER BY json_extract(a.response,'$.revision') DESC LIMIT 1"""
+        ).fetchone()
+        # A missing approval could belong to a later login with identical counts.
+        if not receipt or receipt["receipts"] != receipt["confirmations"]:
+            return None
+        applied, preview = json.loads(receipt["response"]), json.loads(receipt["preview"])
+        approval = json.loads(receipt["request"])
+        fence = approval.get("google_fence", {})
+        counts = ("created", "updated", "removed", "kept", "conflicts", "unresolved")
+        if (
+            fence.get("account_version") != account
+            or fence != preview.get("fence")
+            or any(summary.get(k) != preview["range"].get(k) for k in ("start", "end"))
+            or any(k not in summary or summary[k] != applied.get(k) for k in counts)
+        ):
+            return None
+        owner = fence.get("session")
+        summary["confirmation_id"] = approval["preview_id"]
+    return summary if owner == session_hash else None
 
 
 def backup_events(conn, events):
@@ -286,6 +334,9 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
     if refresh:
         summary = {
             **result,
+            "unavailable": sum(row["status"] == "unavailable" for row in rows),
+            "confirmed_session": preview["google"]["fence"]["session"],
+            "confirmation_id": preview_id,
             "at": iso(store.clock()),
             "start": preview["metadata"]["start"],
             "end": preview["metadata"]["end"],

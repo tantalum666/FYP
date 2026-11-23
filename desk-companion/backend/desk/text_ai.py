@@ -53,8 +53,9 @@ from .voice_credentials import openai_key
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
-from . import commerce_chat
-from .tool_policy import tool_visible
+from . import commerce_chat, google_refresh_chat
+from .commerce_review import language_for
+from .tool_policy import execute_tool, tool_visible
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
 
 DEFAULT_DAILY_CAP = 40
@@ -450,11 +451,16 @@ class TextAssistant:
             key = "chat/" + hashlib.sha256(f"{scope}/{key}".encode()).hexdigest()
             cached = self._cached_reply(payload, key, allow_memory)
             revision, _ = memory_context(self.runtime, allow_memory)
+            chat_id = payload.conversation_id
+            if cached and cached.get("kind") == google_refresh_chat.KIND:
+                chat_id = cached.get("conversation_id") or chat_id
             try:
                 conversation = self.runtime.voice.conversations.open(
-                    principal, revision, payload.conversation_id, task_id=payload.task_id
+                    principal, revision, chat_id, task_id=payload.task_id
                 )
             except DomainError as error:
+                if cached and cached.get("kind") == google_refresh_chat.KIND:
+                    raise
                 if error.code == "CONVERSATION_NOT_FOUND" and commerce_chat.can_resume(self.runtime, principal, payload):
                     conversation = self.runtime.voice.conversations.open(
                         principal, revision, payload.conversation_id, task_id=payload.task_id,
@@ -471,7 +477,27 @@ class TextAssistant:
         admitted = None
         if cached is None:
             self.attachments.select(conversation, payload.attachment_ids, principal)
-        if cached is None and principal is not None:
+        if google_refresh_chat.asks_last_refresh(payload.message):
+            if principal is None:
+                return google_refresh_chat.present(self.runtime, None, {}, payload.language)
+            if cached is None:
+                result = execute_tool(
+                    self.runtime,
+                    "connected_app_query",
+                    google_refresh_chat.QUERY,
+                    key,
+                    scope=key,
+                    allow_memory=allow_memory,
+                    principal=principal,
+                    channel="text",
+                )
+                admitted = google_refresh_chat.reference(result)
+                if conversation:
+                    admitted["conversation_id"] = conversation.id
+            elif cached.get("kind") != google_refresh_chat.KIND:
+                # Pre-feature replies to this question may contain individual appointments.
+                cached = google_refresh_chat.reference({})
+        if cached is None and admitted is None and principal is not None:
             # An explicit goal change is owner authority. It never reaches the model.
             if payload.shopping_review and payload.flight_review:
                 raise DomainError("AMBIGUOUS_COMMERCE_REVIEW", 409)
@@ -515,6 +541,17 @@ class TextAssistant:
                 conversation=conversation,
                 principal=principal,
             )
+        if reply.get("kind") == google_refresh_chat.KIND:
+            # Read again after the tool/receipt write, including on same-key recovery.
+            # The private sentence never enters replayable chat or provider history.
+            rendered = google_refresh_chat.present(
+                self.runtime, principal, reply, language_for(payload.message, payload.language)
+            )
+            if conversation and rendered.get("google_refresh_scope"):
+                self.runtime.voice.conversations.open(
+                    principal, revision, conversation.id, task_id=payload.task_id
+                )
+            return {**rendered, "conversation_id": conversation.id} if conversation else rendered
         reply = commerce_chat.present(
             self.runtime, reply, key, principal, conversation, payload, cached=cached is not None
         )
@@ -768,8 +805,11 @@ class TextAssistant:
                     key=key,
                     language=payload.language,
                     allow_memory=allow_memory,
+                    principal=principal,
                     on_event=on_event,
                 )
+            if reply.get("kind") == google_refresh_chat.KIND and conversation:
+                reply["conversation_id"] = conversation.id
             reply = present(reply, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
                 if official:
@@ -800,7 +840,7 @@ class TextAssistant:
                 reply = self.message(
                     payload, key, allow_memory=allow_memory, on_event=on_event, principal=principal
                 )
-                if not live["final"]:
+                if not live["final"] and not reply.get("google_refresh_scope"):
                     for piece in text_chunks(str(reply.get("message") or "")):
                         pending.put({"type": "delta", "text": piece})
                 pending.put({"type": "done", "reply": reply})

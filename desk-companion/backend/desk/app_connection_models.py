@@ -18,6 +18,10 @@ class ConnectedAppQuery(StrictModel):
         "teams",
         "sharepoint",
     ]
+    view: Literal["items", "last_refresh"] = Field(
+        default="items",
+        description="Use last_refresh for the last confirmed refresh of imported Google Calendar copies.",
+    )
     resource_id: str | None = Field(
         default=None, min_length=1, max_length=400, pattern=r"^[A-Za-z0-9_!=.+:@,-]+$"
     )
@@ -28,6 +32,12 @@ class ConnectedAppQuery(StrictModel):
 
     @model_validator(mode="after")
     def scope(self):
+        if self.view == "last_refresh":
+            if self.service != "google_calendar" or any(
+                (self.start, self.end, self.resource_id, self.query)
+            ):
+                raise ValueError("The last refresh reads one local Google Calendar receipt")
+            return self
         if self.resource_id in {".", ".."}:
             raise ValueError("Use an item ID returned by the connected app")
         if self.service in {"google_calendar", "outlook_calendar"}:

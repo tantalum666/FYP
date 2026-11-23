@@ -162,7 +162,7 @@ class Runtime:
             except DomainError:
                 pass  # Screen feedback remains available when an output cannot execute.
 
-    def snapshot(self, principal):
+    def snapshot(self, principal, *, owner_session=None):
         result = {
             "personal_context_visible": self.personal_context.visible(principal),
             "computer": self.jobs.capabilities(),
@@ -176,7 +176,8 @@ class Runtime:
             "runtime": "mac_local" if platform.system() == "Darwin" else "linux_local",
             "voice": self.voice.snapshot(),
             "calendar_extras": self.data.snapshot(),
-            "google": self.google.snapshot(),
+            "google": self.google.import_status(owner_session, include_result=False)
+            if principal["kind"] == "owner" and owner_session else self.google.snapshot(),
             "output_history": self.outputs.history(),
         }
         if principal["kind"] == "owner":

@@ -105,6 +105,7 @@ export interface ProposalDecisionReply {
   job?: { id: string };
 }
 export interface Reply {
+  google_refresh_scope?: { review_version: string; last_refresh_ref: string };
   delivery?: import("../companion/delivery").Delivery;
   commerce_note?: boolean;
   flight_alternatives?: import("./commercePresentation").FlightAlternatives;

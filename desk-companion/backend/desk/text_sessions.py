@@ -203,7 +203,7 @@ class TextSessions:
         keep = False
         creating = False
         responder = TextFunctions(
-            self, payload, key, names, on_event, allow_memory, permission_version
+            self, payload, key, names, on_event, allow_memory, permission_version, principal, chat
         )
         try:
             record = self.sessions.claim(
@@ -496,7 +496,7 @@ class FunctionReceipt:
 class TextFunctions:
     """Bound one original message to already-registered application functions and their receipts."""
 
-    def __init__(self, sessions, payload, key, names, on_event, allow_memory, permission_version):
+    def __init__(self, sessions, payload, key, names, on_event, allow_memory, permission_version, principal, chat):
         self.sessions, self.payload, self.key = sessions, payload, key
         self.names, self.on_event, self.allow_memory = names, on_event, allow_memory
         self.budget_ids = []
@@ -508,6 +508,8 @@ class TextFunctions:
         self.reusable = True
         self.permission_version = permission_version
         self.preview = ""
+        self.principal = principal
+        self.chat = chat
 
     def respond(self, api, sid, turn_id, actions, check):
         if not isinstance(actions, list) or not 1 <= len(actions) <= 3:
@@ -578,6 +580,7 @@ class TextFunctions:
             "text/" + digest(encode([sid, tid, a["call_id"]])),
             scope=self.key,
             allow_memory=self.allow_memory,
+            principal=self.principal,
             language=self.payload.language,
             channel="text",
         )
@@ -603,6 +606,8 @@ class TextFunctions:
                     else "The action result is available."
                 )
             self.local_reply = text_effect_reply(message, result, self.payload.language)
+            if result.get("view") == "last_refresh" and self.chat:
+                self.local_reply["conversation_id"] = self.chat.id
             if self.plan:
                 self.local_reply["plan"] = self.plan
             with self.sessions.store.connection(write=True) as db:

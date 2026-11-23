@@ -2,10 +2,13 @@
 
 import json
 from urllib.parse import quote
+from . import google_refresh_chat
 from .store import DomainError
 
 
-def query_connected_app(runtime, request):
+def query_connected_app(runtime, request, *, principal=None):
+    if request.view == "last_refresh":
+        return google_refresh_chat.projection(runtime, principal)
     if request.service not in {"gmail", "google_calendar"}:
         return runtime.microsoft.query(request)
     auth = runtime.outbound_mail.auth if request.service == "gmail" else runtime.google

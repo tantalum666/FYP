@@ -49,6 +49,8 @@ import {
 import { progressLabel, type ToolProgress } from "../replyStream";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
+import { ResponseFence } from "./personal/responseFence";
+import type { GoogleStatus } from "./GoogleImportReview";
 import { VoiceAudio } from "./audio";
 import { handoverTicket } from "./voice-ticket";
 import type { TurnMeasurement } from "./voice-timing";
@@ -113,6 +115,25 @@ export function AssistantPanel({
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
+  const refreshScope =
+    data?.principal.kind === "owner" && data.personal_context_visible &&
+    data.google?.connected && !offline && !stale
+      ? data.google.review_version
+      : null;
+  const refreshFence = useRef(new ResponseFence()).current;
+  refreshFence.update(refreshScope ?? "", !!refreshScope);
+  useEffect(() => {
+    const invalidate = () => {
+      refreshFence.update("", false);
+      setTurns((old) => old.filter((turn) => turn.googleRefreshEpoch === undefined));
+    };
+    const events = ["desk:session", "desk:personal-context", "desk:auth-required", "offline"];
+    events.forEach((name) => window.addEventListener(name, invalidate));
+    return () => {
+      refreshFence.update("", false);
+      events.forEach((name) => window.removeEventListener(name, invalidate));
+    };
+  }, [refreshFence]);
   const [view, setView] = useState<
     "chat" | "jobs" | "help" | "timing" | "activity"
   >("chat");
@@ -236,6 +257,7 @@ export function AssistantPanel({
   const pendingHttp = useRef<{
     body: object;
     generation: number;
+    refreshEpoch: number;
     message: string;
     display?: string;
     fileKeys: string[];
@@ -487,6 +509,7 @@ export function AssistantPanel({
       chatFiles.clear();
       fileContext.current = false;
       submissionGeneration.current += 1;
+      if (pendingHttp.current) setBusy(false);
     }
   }, [data?.personal_context_visible, data?.principal.kind, chatFiles.clear]);
   useEffect(() => {
@@ -648,11 +671,24 @@ export function AssistantPanel({
     };
   }, [reload, suspended]);
   const showHttpReply = useCallback(
-    (submitted: string, result: Reply) => {
+    async (submitted: string, result: Reply) => {
+      const pending = pendingHttp.current;
+      const scope = result.google_refresh_scope;
+      if (scope) {
+        const current = () => pending && pending === pendingHttp.current &&
+          pending.generation === submissionGeneration.current &&
+          refreshFence.accepts(pending.refreshEpoch);
+        if (!current() || scope.review_version !== refreshScope) return;
+        // Recheck the exact receipt before displaying a delayed or recovered response.
+        const status = await request<GoogleStatus>("/google/status");
+        if (!current() || !status.last_refresh_ref || status.last_refresh_ref !== scope.last_refresh_ref)
+          return;
+      }
+      const googleRefreshEpoch = scope ? pending?.refreshEpoch : undefined;
       const submittedFiles = pendingHttp.current?.files ?? [];
       const userText = pendingHttp.current?.display ?? submitted;
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
-      setReply(result);
+      setReply(result.google_refresh_scope ? null : result);
       if (immersive && !suspended)
         showDelivery(result.kind === "reply" ? replyDelivery(result.delivery, result.message) : "neutral");
       conversationId.current = result.conversation_id;
@@ -679,6 +715,7 @@ export function AssistantPanel({
             id,
             role: "user" as const,
             body: userText,
+            googleRefreshEpoch,
             files: submittedFiles,
             commerceChat:
               card || result.flight_alternatives
@@ -688,6 +725,7 @@ export function AssistantPanel({
           {
             id: id + 1,
             role: "assistant" as const,
+            googleRefreshEpoch,
             body:
               card && !result.commerce_note
                 ? orderStatus(card, t)
@@ -712,7 +750,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent,commerce.receive,immersive,suspended,taskId,t],
+    [chatFiles.sent, commerce.receive, immersive, suspended, taskId, t, refreshScope, refreshFence],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -732,8 +770,7 @@ export function AssistantPanel({
         typeof result?.message !== "string"
       )
         return;
-      showHttpReply(pending.message, result);
-      void reload();
+      void showHttpReply(pending.message, result).then(reload).catch(setError);
     };
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
@@ -754,9 +791,14 @@ export function AssistantPanel({
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
     const review = choice ? choice.review : typedCommerceReview.current;
-    const useOmni = omni && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    // A typed Calendar refresh question needs the authenticated HTTP reply fence.
+    const refreshQuestion = /(?:google|谷歌)\s*(?:calendar|日[历曆])/i.test(submitted) &&
+      /(?:what|(?:last|latest|recent)\s+(?:confirmed\s+)?(?:refresh|sync)|什么|什麼|甚麼|哪些)/i.test(submitted) &&
+      /(?:chang|updat|refresh|sync|更新|刷新|同步|变更|變更|变化|變化|改动)/i.test(submitted);
+    const useOmni = omni && !refreshQuestion && !choice && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
+    const refreshEpoch = refreshFence.capture();
     setBusy(true);
     setError(null);
     setNotice("");
@@ -798,6 +840,7 @@ export function AssistantPanel({
       pendingHttp.current = {
         body,
         generation,
+        refreshEpoch,
         message: submitted,
         display: choice?.display,
         fileKeys: uploaded.keys,
@@ -808,13 +851,13 @@ export function AssistantPanel({
         body,
         (state) => {
           if (alive.current && generation === submissionGeneration.current) {
-            setLiveMessage(state.message);
+            setLiveMessage(state.reply?.google_refresh_scope ? "" : state.message);
             setProgress(state.tools);
           }
         },
       )) as Reply;
       if (!alive.current || generation !== submissionGeneration.current) return;
-      showHttpReply(submitted, result);
+      await showHttpReply(submitted, result);
       void reload();
       window.dispatchEvent(new Event("desk:jobs"));
     } catch (e) {
@@ -875,6 +918,7 @@ export function AssistantPanel({
       pendingHttp.current = {
         body: operation.body as object,
         generation,
+        refreshEpoch: refreshFence.capture(),
         message: body.message,
         fileKeys: [],
         files: [],
@@ -1324,8 +1368,11 @@ export function AssistantPanel({
     commerce.tracked.current === activeChat
       ? commerce.rows
       : [];
-  const lastTurn = turns.at(-1);
-  const focusTurn = focusedOrderTurn(turns, orderRows);
+  const visibleTurns = turns.filter(
+    (turn) => turn.googleRefreshEpoch === undefined || refreshFence.accepts(turn.googleRefreshEpoch),
+  );
+  const lastTurn = visibleTurns.at(-1);
+  const focusTurn = focusedOrderTurn(visibleTurns, orderRows);
   const focusedOrder = focusTurn
     ? orderRows.find((row) => orderKey(row) === focusTurn.orderKey)
     : orderRows.find(needsDecision);
@@ -1352,7 +1399,7 @@ export function AssistantPanel({
     !speechText.current.assistant;
   const homeAnswer = focusedOrder
     ? orderStatus(focusedOrder, t)
-    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
+    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(visibleTurns);
   function turnBody(turn: ConversationTurn) {
     if (
       turn === focusTurn &&
@@ -1578,7 +1625,7 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            turns.filter(turn=>!turn.commerceChat || (ownerView && data?.personal_context_visible)).map((turn) => (
+            visibleTurns.filter(turn=>!turn.commerceChat || (ownerView && data?.personal_context_visible)).map((turn) => (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>
                 {turn.files?.length ? (
                   <div className="message-files">

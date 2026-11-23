@@ -181,6 +181,7 @@ def execute_tool(
     *,
     scope: str,
     allow_memory: bool = True,
+    principal: dict | None = None,
     language: str = "en",
     channel: str | None = None,
     timeout: float | None = None,
@@ -238,6 +239,7 @@ def execute_tool(
         waiter or _wait,
         CAPABILITIES,
         cache=capability.risk != "read",
+        principal=principal,
     )
 
 
@@ -254,6 +256,7 @@ def _run_bounded(
     capabilities: dict,
     *,
     cache: bool,
+    principal: dict | None,
 ) -> dict:
     holder: dict[str, Any] = {}
     done = threading.Event()
@@ -277,9 +280,10 @@ def _run_bounded(
         try:
             try:
                 with suppress_tool_audit():
-                    # Positional only: voice tests replace tool() and reject new keywords.
-                    # Memory denial is handled before this call.
-                    value = runtime.assistant.tool(name, arguments, key)
+                    if name == "connected_app_query" and arguments.get("view") == "last_refresh":
+                        value = runtime.assistant.tool(name, arguments, key, principal=principal)
+                    else:
+                        value = runtime.assistant.tool(name, arguments, key)
                 produced = (
                     value if isinstance(value, dict) else {"error": "TOOL_FAILED", "saved": False}
                 )
@@ -394,6 +398,8 @@ def outcome_message(outcome: str, result, language: str = "en") -> str:
 def ends_text_turn(name: str, result: dict) -> bool:
     from .capabilities import CAPABILITIES
 
+    if name == "connected_app_query" and result.get("view") == "last_refresh":
+        return True
     if name == "propose_plan" and result.get("error"):
         return True
     if result.get("error") == "TOOL_TIMEOUT":
@@ -405,6 +411,10 @@ def ends_text_turn(name: str, result: dict) -> bool:
 
 
 def text_effect_reply(message: str, result: dict, language: str):
+    if result.get("view") == "last_refresh" and result.get("service") == "google_calendar":
+        from .google_refresh_chat import reference
+
+        return reference(result)
     error = result.get("error")
     if error:
         if error.startswith("SHOP_"):
