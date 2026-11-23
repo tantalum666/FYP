@@ -6,6 +6,8 @@ from typing import Annotated, Literal
 
 from pydantic import Field, ValidationError, model_validator
 
+from ..commerce_quotes import QuoteRequestBase
+from ..commerce_review import ReviewRef
 from ..schemas import StrictModel
 from ..store import DomainError
 
@@ -20,9 +22,18 @@ Minor = Annotated[int, Field(strict=True, ge=0, lt=10**11)]
 class ShopItem(StrictModel):
     product: ProductName
     quantity: Quantity
+    alternative_search: ProductName | None = Field(
+        default=None, description="Same product family to search if the exact item is unavailable."
+    )
+    allowed_quantities: list[Quantity] = Field(
+        default_factory=list, max_length=8, description="Other selling-unit counts explicitly allowed by the owner."
+    )
+    required_attributes: dict[ProductName, ProductName] = Field(
+        default_factory=dict, max_length=8, description="Required concrete variant attributes, e.g. Color: Blue."
+    )
 
 
-class ShopQuery(StrictModel):
+class ShopQuery(QuoteRequestBase):
     """Send all requested selling units in items, or use product and quantity for one item."""
 
     product: ProductName | None = None
@@ -39,6 +50,41 @@ class ShopQuery(StrictModel):
 
     def requested_items(self):
         return self.items or [ShopItem(product=self.product, quantity=self.quantity)]
+
+
+class ShopReviewRef(ReviewRef):
+    # A set of suggestions has no selected cart or payable amount.
+    amount_minor: int | None = Field(gt=0, strict=True)
+
+
+class ItemUnavailable(DomainError):
+    def __init__(self, product_id):
+        super().__init__("SHOP_ITEM_UNAVAILABLE", 409)
+        self.product_id = product_id
+
+
+class CheckoutItemsChanged(DomainError):
+    """The merchant's pre-payment guard rejected these final order lines."""
+
+    def __init__(self, approved, actual, names):
+        super().__init__("SHOP_CHECKOUT_ITEMS_CHANGED", 409)
+        before, after = selection(approved), selection(actual)
+
+        def changed(lines, other):
+            result = []
+            for ident, (sku, quantity) in lines.items():
+                if (sku, quantity) == other.get(ident):
+                    continue
+                name = names.get((ident, sku))
+                label = f"{name} ({sku})" if name and name != sku else sku
+                result.append(f"{label} × {quantity}")
+            return result
+
+        self.change = {
+            "removed": changed(before, after),
+            "added": changed(after, before),
+            "total_minor": actual["total_minor"],
+        }
 
 
 class OrderLine(StrictModel):

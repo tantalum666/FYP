@@ -57,12 +57,12 @@ class ChatReviews:
         self.runtime.personal_context.require_visible(principal)
         return owner
 
-    def insert(self, row, key, principal, chat):
+    def insert(self, row, key, principal, chat, *, state="quoted"):
         owner = self.owner(principal)
         if not chat or chat.owner != owner:
             raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
         ident = hashlib.sha256(key.encode()).hexdigest()[:32]
-        row.update(id=ident, task_id=chat.task_id, version=1, state="quoted")
+        row.update(id=ident, task_id=chat.task_id, version=1, state=state)
         with self.store.connection(write=True) as db:
             db.execute(
                 f"INSERT OR IGNORE INTO {self.table}(id,owner,chat,data) VALUES(?,?,?,?)",

@@ -60,7 +60,7 @@ def test_one_cart_one_review_then_original_full_refund(desk):
     tool = next(
         t for t in session.creations[0]["agent"]["tools"] if t["name"] == "sandbox_shop_quote"
     )
-    assert {"product", "quantity", "items"} == tool["parameters"]["properties"].keys()
+    assert {"product", "quantity", "items", "budget_minor", "currency"} == tool["parameters"]["properties"].keys()
     assert row["quote"]["terms"] == approved_basket()
     assert list(woo.carts.values()) == [[(21, 2), (43, 1)]]
     assert woo.addressed == ["cart-0"] and not woo.posts and not woo.stripe_reads

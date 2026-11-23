@@ -78,11 +78,16 @@ class WooFixture(WooSandbox):
             44: product(44, "FYP-QA-PEN-RED", "Stationery pen – Red", "variation"),
         }
         self.units = {21: 400, 43: 1700, 44: 1700}
+        self.stock = {}
         self.shipping = 800
         self.carts = {}
         self.addressed = []
         self.posts = []
         self.orders = {}
+        self.mapping_reads = []
+        self.payment_methods = {}
+        self.payment_intents = {}
+        self.charges = {}
         self.cancels = []
         self.stripe_reads = []
         self.cart_basis = approved_basket()
@@ -104,7 +109,7 @@ class WooFixture(WooSandbox):
         with httpx.Client(
             base_url="https://woo.invalid/", transport=httpx.MockTransport(self.woo_http)
         ) as client:
-            yield client, {}
+            yield client, {"X-FYP-Review-Key": "fixture-only"}
 
     @contextmanager
     def stripe(self):
@@ -188,11 +193,18 @@ class WooFixture(WooSandbox):
                 rows = [p for p in rows if params["search"].casefold() in p["name"].casefold()]
             return httpx.Response(200, json=rows)
         if path == "/wc/store/v1/cart":
+            # This shop resumes the guest session when its cookie is present.
+            if cookie := req.headers.get("cookie"):
+                token = cookie.removeprefix("woo_guest=")
+                assert token in self.carts
+                return httpx.Response(200, json={}, headers={"Cart-Token": token})
             token = f"cart-{len(self.carts)}"
             self.carts[token] = []
-            return httpx.Response(200, json={}, headers={"Cart-Token": token})
+            return httpx.Response(200, json={}, headers={
+                "Cart-Token": token, "Set-Cookie": f"woo_guest={token}; Path=/",
+            })
         if path == "/wc/store/v1/cart/add-item":
-            if not self.catalog[body["id"]]["is_in_stock"]:
+            if not self.catalog[body["id"]]["is_in_stock"] or body["quantity"] > self.stock.get(body["id"], 99):
                 return httpx.Response(409, json={"code": "out_of_stock"})
             self.carts[req.headers["Cart-Token"]].append((body["id"], body["quantity"]))
             return httpx.Response(200, json={})
@@ -202,12 +214,12 @@ class WooFixture(WooSandbox):
             self.addressed.append(token)
             return httpx.Response(200, json=self.full_cart(self.carts[token]))
         assert path.startswith("/fyp-alice/v1/orders/")
+        assert req.headers["X-FYP-Review-Key"] == "fixture-only"
         ref = path.split("/")[4]
         if req.method == "GET":
-            return httpx.Response(
-                200,
-                json=self.orders.get(ref, {"found": False}) if self.visible else {"found": False},
-            )
+            record = self.orders.get(ref, {"found": False}) if self.visible else {"found": False}
+            self.mapping_reads.append((ref, record["found"]))
+            return httpx.Response(200, json=record)
         if path.endswith("/cancel"):
             order = self.orders[ref]
             assert body == {"order": order["order_id"], "amount_minor": self.captured}
@@ -223,7 +235,7 @@ class WooFixture(WooSandbox):
             )
             return httpx.Response(200, json=order)
         token = req.headers["Cart-Token"]
-        assert token in self.addressed and body["test_method"] == "pm_fixture"
+        assert token in self.addressed and body["test_method"] == self.payment_methods[ref]
         assert body["cart_basis"] == self.cart_basis
         self.posts.append((ref, body["approved"]))
         if body["approved"] != self.gateway_terms:
@@ -247,6 +259,15 @@ class WooFixture(WooSandbox):
         return httpx.Response(200, json=self.orders[ref])
 
     def record_order(self, ref, terms):
+        method = self.payment_methods.get(ref)
+        self.payment_intents[self.intent_id] = {
+            "id": self.intent_id, "payment_method": method, "amount_received": terms["total_minor"],
+            "latest_charge": self.charge_id, "currency": "hkd", "livemode": False,
+        }
+        self.charges[self.charge_id] = {
+            "id": self.charge_id, "payment_method": method, "amount_captured": terms["total_minor"],
+            "payment_intent": self.intent_id, "currency": "hkd", "livemode": False,
+        }
         actual = deepcopy(terms)
         if "items" in actual:
             actual["items"].reverse()  # Woo order rows need not be in cart insertion order.
@@ -278,11 +299,18 @@ class WooFixture(WooSandbox):
         if path == "/payment_methods/pm_card_visa":
             return httpx.Response(200, json={"livemode": False})
         if path == "/payment_methods":
-            assert req.headers["Idempotency-Key"].startswith("fyp-woo-method-")
+            prefix = "fyp-woo-method-"
+            key = req.headers["Idempotency-Key"]
+            assert key.startswith(prefix)
+            ref = key.removeprefix(prefix)
+            method = self.payment_methods.setdefault(ref, "pm_" + ref)
             return httpx.Response(
-                200, json={"id": "pm_fixture", "livemode": False, "card": {"last4": "4242"}}
+                200, json={"id": method, "livemode": False, "card": {"last4": "4242"}}
             )
         assert req.method == "GET"
+        if path in {"/payment_intents", "/charges"}:
+            records = self.payment_intents if path == "/payment_intents" else self.charges
+            return httpx.Response(200, json={"data": list(records.values()), "has_more": False})
         if path == "/payment_intents/" + self.intent_id:
             return httpx.Response(
                 200,

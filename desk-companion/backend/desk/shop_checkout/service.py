@@ -7,14 +7,19 @@ from ..calendar import iso
 from ..commerce_review import ChatReviews
 from ..store import DomainError
 from .provider import WooSandbox
+from .terms import CheckoutItemsChanged, ShopQuery
 
 
 REFUND_STATES = {"refunded", "partially_refunded", "refund_pending", "refund_review"}
 RECEIPT_STATES = REFUND_STATES | {"completed", "refund_retry", "unverified"}
+UNAVAILABLE_CHOICES = {
+    "SHOP_ITEM_UNAVAILABLE", "SHOP_AMBIGUOUS", "SHOP_DELIVERY_UNAVAILABLE",
+    "SHOP_OVER_BUDGET", "SHOP_NO_MATCH",
+}
 
 
 def public_quote(quote):
-    result = {k: v for k, v in quote.items() if k != "checkout_basis"}
+    result = {k: v for k, v in quote.items() if k not in {"checkout_basis", "limits"}}
     terms = quote["terms"]
     if len(terms.get("items", [])) == 1:
         # Keep the original single-product display fields for earlier clients.
@@ -28,20 +33,35 @@ def public_quote(quote):
 
 
 def public(row):
-    quote = row["quote"]
+    quote = row.get("quote")
     receipt = row.get("receipt") if row["state"] in RECEIPT_STATES else None
     if receipt and (row.get("receipt_stale") or row["state"] == "unverified"):
         receipt = {**receipt, "last_verified": True, "can_cancel": False}
+    options = {}
+    if row["state"] == "choosing":
+        options["alternatives"] = [
+            {
+                "number": option.get("number", number),
+                **{k: option[k] for k in ("name", "sku", "quantity")},
+                **{k: option["quote"]["terms"][k] for k in ("shipping_minor", "total_minor")},
+            }
+            for number, option in enumerate(row["alternatives"], 1)
+        ]
     return {
         "id": row["id"],
         "version": row["version"],
         "state": row["state"],
-        "quote": public_quote(quote),
-        "review_minor": quote["terms"]["total_minor"],
+        "quote": public_quote(quote) if quote else None,
+        "review_minor": quote["terms"]["total_minor"] if quote else None,
         "previous": public_quote(row["previous"]) if row.get("previous") else None,
         "approved_minor": row.get("approved"),
         "receipt": receipt,
         "cancel_unavailable": row.get("cancel_unavailable", False),
+        **({"checkout_change": row["checkout_change"]} if "checkout_change" in row else {}),
+        **({"unavailable_product": row["unavailable_product"]} if not quote else {}),
+        **({"unavailable_reason": row["unavailable_reason"]} if row.get("unavailable_reason") else {}),
+        **({"can_search_again": True} if row["state"] == "unavailable" and row.get("request") else {}),
+        **options,
     }
 
 
@@ -60,15 +80,85 @@ class ShopOrders(ChatReviews):
         with self.store.connection() as db:
             if self.store.settings(db)["hide_private"]:
                 raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
-        return {"shop_quote": self.provider.quote(query), "saved": False}
+        quote = self.provider.quote(query)
+        return {
+            "shop_quote": {"request": query.model_dump(exclude_defaults=True), **quote},
+            "saved": False,
+        }
 
     def attach(self, quote, key, principal, chat):
         row = {
-            "quote": {k: v for k, v in quote.items() if k != "checkout_basis"},
+            "request": quote.get("request"),
             "expires": iso(self.store.clock() + timedelta(minutes=15)),
             "next_read": 0,
         }
+        if "alternatives" in quote:
+            row.update(unavailable_product=quote["unavailable_product"], alternatives=quote["alternatives"])
+            return public(self.insert(row, key, principal, chat, state="choosing"))
+        row["quote"] = {k: v for k, v in quote.items() if k not in {"checkout_basis", "request"}}
         return public(self.insert(row, key, principal, chat))
+
+    def search_again(self, ref, principal, chat):
+        with self.lock:
+            row = self._get(ref.id, self.owner(principal), chat)
+            if row["state"] != "unavailable" or ref.version != row["version"] or not row.get("request"):
+                raise DomainError("SHOP_REVIEW_CHANGED", 409)
+            return self.prepare(ShopQuery.model_validate(row["request"]))
+
+    def choose(self, ref, index, principal, chat):
+        """Select one offered cart for a fresh quote, or dismiss the offer set."""
+        with self.lock:
+            row = self._get(ref.id, self.owner(principal), chat)
+            choice = {**ref.model_dump(), "index": index}
+            if row.get("last_choice") == choice:
+                return public(row)
+            if row["state"] != "choosing" or row["version"] != ref.version or ref.amount_minor is not None:
+                raise DomainError("SHOP_REVIEW_CHANGED", 409)
+            now = self.store.clock()
+            if row["expires"] <= iso(now):
+                self._state(row, "expired")
+            elif index is None:
+                self._state(row, "cancelled")
+            else:
+                if not 0 <= index < len(row["alternatives"]):
+                    raise DomainError("SHOP_CHOICE_AMBIGUOUS", 409)
+                try:
+                    quote = self.provider.requote(row["alternatives"][index])
+                except DomainError as error:
+                    if error.code not in UNAVAILABLE_CHOICES:
+                        raise
+                    row["unavailable_reason"] = error.code
+                    row["alternatives"] = self._remaining_options(row["alternatives"], index)
+                    if row["alternatives"]:
+                        row["version"] += 1
+                    else:
+                        self._state(row, "unavailable")
+                else:
+                    row.update(quote=quote, expires=iso(now + timedelta(minutes=15)))
+                    row.pop("unavailable_reason", None)
+                    del row["alternatives"]
+                    self._state(row, "quoted")
+            row["last_choice"] = choice
+            self._save(row)
+            return public(row)
+
+    def _remaining_options(self, options, failed):
+        remaining = []
+        for index, option in enumerate(options):
+            if index == failed:
+                continue
+            try:
+                quote = self.provider.requote(option)
+            except DomainError as error:
+                if error.code in UNAVAILABLE_CHOICES:
+                    continue
+                raise
+            line = next(line for line in quote["terms"]["items"] if line["sku"] == option["sku"])
+            remaining.append({
+                **option, "quote": quote, "name": quote["item_names"][str(line["product_id"])],
+                "number": option.get("number", index + 1),
+            })
+        return remaining
 
     def _check(self, row):
         self._state(row, "checking")
@@ -93,7 +183,7 @@ class ShopOrders(ChatReviews):
             if row is None:
                 return None
             now = self.store.clock()
-            if row["state"] in {"quoted", "reprice"} and row["expires"] <= iso(now):
+            if row["state"] in {"choosing", "quoted", "reprice"} and row["expires"] <= iso(now):
                 self._state(row, "expired")
                 self._save(row)
             elif row["state"] in {"submitting", "checking"} and row["next_read"] <= now.timestamp():
@@ -223,6 +313,7 @@ class ShopOrders(ChatReviews):
             if review.action == "decline":
                 if row["state"] == "retry":
                     raise DomainError("SHOP_UNVERIFIED", 409)
+                row["last_review"] = review.model_dump()
                 self._state(row, "cancelled")
                 self._save(row)
                 return public(row)
@@ -238,8 +329,19 @@ class ShopOrders(ChatReviews):
             self._save(row)
             try:
                 revised = self.provider.checkout(row["id"], row["quote"])
+            except CheckoutItemsChanged as error:
+                if recovering:
+                    self._state(row, "unverified")
+                else:
+                    row["checkout_change"] = error.change
+                    self._state(row, "items_changed")
+                self._save(row)
+                return public(row)
             except DomainError as error:
-                if not recovering and error.code in {"SHOP_ITEM_UNAVAILABLE", "SHOP_DELIVERY_UNAVAILABLE"}:
+                if not recovering and error.code in {
+                    "SHOP_ITEM_UNAVAILABLE", "SHOP_AMBIGUOUS", "SHOP_DELIVERY_UNAVAILABLE", "SHOP_OVER_BUDGET",
+                }:
+                    row["unavailable_reason"] = error.code
                     self._state(row, "unavailable")
                     self._save(row)
                 elif error.code == "SHOP_UNVERIFIED":
