@@ -78,6 +78,7 @@ import "./assistant-minimal.css";
 import {
   appendLiveTranscript,
   appendOrderUpdates,
+  asksApprovalStatus,
   focusedOrderTurn,
   latestAssistantReply,
   type ConversationTurn,
@@ -453,6 +454,7 @@ export function AssistantPanel({
   }, [unavailable]);
   useEffect(() => {
     const renewed = (event: Event) => {
+      submissionGeneration.current += 1;
       if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") commerce.clear();
       typedCommerceReview.current=undefined;
       setTurns(old=>old.filter(turn=>!turn.commerceChat));
@@ -661,6 +663,9 @@ export function AssistantPanel({
         : result.flight_booking
           ? { ...result.flight_booking, kind: "flight" as const }
           : null;
+      const privateOverview = !!result.approval_summary;
+      const privateChat = card || result.flight_alternatives || privateOverview
+        ? result.conversation_id : undefined;
       if (card && result.conversation_id) {
         commerce.receive(result.conversation_id, card, taskId);
       }
@@ -680,10 +685,8 @@ export function AssistantPanel({
             role: "user" as const,
             body: userText,
             files: submittedFiles,
-            commerceChat:
-              card || result.flight_alternatives
-                ? result.conversation_id
-                : undefined,
+            commerceChat: privateChat,
+            approvalTask: privateOverview ? taskId ?? null : undefined,
           },
           {
             id: id + 1,
@@ -700,10 +703,9 @@ export function AssistantPanel({
             orderKey:
               card && !result.commerce_note ? orderKey(card) : undefined,
             choices: result.flight_alternatives,
-            commerceChat:
-              card || result.flight_alternatives
-                ? result.conversation_id
-                : undefined,
+            commerceChat: privateChat,
+            approvalTask: privateOverview ? taskId ?? null : undefined,
+            approvalSummary: result.approval_summary,
             kind: result.kind,
             jobId: result.job?.id,
           },
@@ -733,7 +735,7 @@ export function AssistantPanel({
       )
         return;
       showHttpReply(pending.message, result);
-      void reload();
+      if (result.kind !== "approval_status") void reload();
     };
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
@@ -753,12 +755,16 @@ export function AssistantPanel({
     const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
-    const review = choice ? choice.review : typedCommerceReview.current;
+    const statusAsk = asksApprovalStatus(submitted);
+    const review = choice ? choice.review : statusAsk ? undefined : typedCommerceReview.current;
     // Saved Work uses the local HTTP worker even when realtime text is available.
     const savedWork = submitted.split(/[\r\n]/).some((line) =>
       /^(?:continue the task from before|继续刚才那个任务|(?:continue work|继续工作)\s+[0-9a-f]{32}\s+v[0-9]+)[ .。]*$/i.test(line.trim())
     );
-    const useOmni = omni && !savedWork && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    // The local handler owns the overview and resolves short approval replies against current records.
+    const approvalContext = lastTurn?.approvalSummary || orderRows.some(needsDecision) || proposals.length;
+    const approvalReply = approvalContext && /^(?:yes\b|ok(?:ay)?\b|sure\b|approve\b|confirm\b|accept\b|decline\b|cancel\b|go ahead\b|do (?:it|them)\b|all of them\b|both\b|pay\b|book it\b|(?:全部|都|一起)?(?:好|确定|确认|同意|可以|拒绝|取消|接受))/i.test(submitted.normalize("NFKC").trim());
+    const useOmni = omni && !savedWork && !statusAsk && !approvalReply && !choice && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
@@ -776,7 +782,7 @@ export function AssistantPanel({
         setText("");
         return;
       }
-      const uploaded = await chatFiles.upload(
+      const uploaded = statusAsk ? { conversationId: conversationId.current, references: [], keys: [] } : await chatFiles.upload(
         conversationId.current,
         taskId,
         () => alive.current && generation === submissionGeneration.current,
@@ -812,15 +818,17 @@ export function AssistantPanel({
         body,
         (state) => {
           if (alive.current && generation === submissionGeneration.current) {
-            setLiveMessage(state.message);
+            if (!statusAsk) setLiveMessage(state.message);
             setProgress(state.tools);
           }
         },
       )) as Reply;
       if (!alive.current || generation !== submissionGeneration.current) return;
       showHttpReply(submitted, result);
-      void reload();
-      window.dispatchEvent(new Event("desk:jobs"));
+      if (result.kind !== "approval_status") {
+        if (!asksApprovalStatus(body.message ?? "")) void reload();
+        window.dispatchEvent(new Event("desk:jobs"));
+      }
     } catch (e) {
       if (!alive.current || generation !== submissionGeneration.current) return;
       if (
@@ -1328,8 +1336,13 @@ export function AssistantPanel({
     commerce.tracked.current === activeChat
       ? commerce.rows
       : [];
-  const lastTurn = turns.at(-1);
-  const focusTurn = focusedOrderTurn(turns, orderRows);
+  const visibleTurns = turns.filter(turn =>
+    (!turn.commerceChat || privateOrdersVisible) &&
+    (turn.approvalTask === undefined ||
+      (turn.approvalTask === (taskId ?? null) && turn.commerceChat === activeChat))
+  );
+  const lastTurn = visibleTurns.at(-1);
+  const focusTurn = focusedOrderTurn(visibleTurns, orderRows);
   const focusedOrder = focusTurn
     ? orderRows.find((row) => orderKey(row) === focusTurn.orderKey)
     : orderRows.find(needsDecision);
@@ -1350,13 +1363,13 @@ export function AssistantPanel({
     focusedOrder &&
     (needsDecision(focusedOrder) || focusedOrder.state === "refund_retry");
   const openOrder =
-    (needsOrderReview || hasChoices) &&
+    (needsOrderReview || hasChoices || focusTurn?.approvalTask !== undefined) &&
     !liveMessage &&
     !busy &&
     !speechText.current.assistant;
   const homeAnswer = focusedOrder
     ? orderStatus(focusedOrder, t)
-    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
+    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(visibleTurns);
   function turnBody(turn: ConversationTurn) {
     if (
       turn === focusTurn &&
@@ -1582,7 +1595,7 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            turns.filter(turn=>!turn.commerceChat || (ownerView && data?.personal_context_visible)).map((turn) => (
+            visibleTurns.map((turn) => (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>
                 {turn.files?.length ? (
                   <div className="message-files">

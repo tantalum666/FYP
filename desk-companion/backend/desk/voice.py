@@ -1241,8 +1241,8 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         with runtime.text_ai.lock:
             runtime.voice.conversations.forget(who, conversation_id)
             runtime.conversation_work.saved.forget(Conversations.owner(who), conversation_id)
-        runtime.flight_bookings.forget_chat(who, conversation_id)
-        runtime.shop_orders.forget_chat(who, conversation_id)
+            runtime.flight_bookings.forget_chat(who, conversation_id)
+            runtime.shop_orders.forget_chat(who, conversation_id)
         return {"cleared": True}
 
     @router.post("/voice/work-drafts")

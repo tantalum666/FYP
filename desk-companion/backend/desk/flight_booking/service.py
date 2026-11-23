@@ -54,6 +54,14 @@ def public(row):
 class FlightBookings(ChatReviews):
     follow_states = ("submitting", "processing", "answering", "stopping", "reprice")
 
+    def review_view(self, db, row):
+        if row["quote"].get("avoid_calendar_conflicts"):
+            if row.get("calendar_revision") != self.store.revision(db):
+                row["calendar_fit"] = check_itineraries(self.store, db, [row["quote"]])[0]
+            if row.get("calendar_fit") != "clear":
+                return None
+        return public(row)
+
     def __init__(self, runtime):
         super().__init__(runtime, "FLIGHT")
         self.provider = LetsFG()

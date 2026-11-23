@@ -14,6 +14,8 @@ export type ConversationTurn = {
   jobId?: string;
   orderKey?: string;
   commerceChat?: string;
+  approvalTask?: string | null;
+  approvalSummary?: string;
   choices?: import("./commercePresentation").FlightAlternatives;
   voiceSession?: string;
   voiceGroup?: number;
@@ -66,7 +68,11 @@ export function appendLiveTranscript(
 
 export function latestAssistantReply(turns: ConversationTurn[]): string {
   const latest = turns.at(-1);
-  return latest?.role === "assistant" ? latest.body : "";
+  return latest?.role === "assistant" ? latest.approvalSummary ?? latest.body : "";
+}
+
+export function asksApprovalStatus(text: string) {
+  return /^(?:what needs my approval|(?:现在)?有什么需要我确认)\s*[？?。.!！]*$/i.test(text.trim());
 }
 
 /** Replace a just-shown pending result in place. Keep later user turns and never
