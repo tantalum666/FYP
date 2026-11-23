@@ -1,0 +1,38 @@
+{
+  "reply": "东京当地 2026-11-24 00:00，Open-Meteo估算 7.2°C，局部多云。今天预计大雨，6.8 至 18.3°C，逐小时降水概率最高 100%，预计全天降水 16.5 毫米，预计降水时段包括 16:00–19:00。",
+  "events": [
+    {
+      "host": "geocoding-api.open-meteo.com",
+      "param": "东京",
+      "when": "2026-11-23T15:01:59+00:00",
+      "status": 200,
+      "connect_to_headers_s": 1.528
+    },
+    {
+      "host": "geocoding-api.open-meteo.com",
+      "param": "東京",
+      "when": "2026-11-23T15:01:59+00:00",
+      "status": 200,
+      "connect_to_headers_s": 1.639
+    },
+    {
+      "host": "api.open-meteo.com",
+      "param": "forecast",
+      "when": "2026-11-23T15:02:00+00:00",
+      "status": 200,
+      "connect_to_headers_s": 1.746
+    }
+  ],
+  "tool": [
+    {
+      "phase": "started",
+      "tool": "weather_query",
+      "outcome": null
+    },
+    {
+      "phase": "finished",
+      "tool": "weather_query",
+      "outcome": "ok"
+    }
+  ]
+}
