@@ -182,6 +182,13 @@ def check_removals(rows):
             raise DomainError("IMPORT_EXPIRED", 410)
 
 
+def checked_selection(ids, eligible):
+    selected = set(ids)
+    if len(selected) != len(ids) or not selected <= eligible:
+        raise DomainError("INVALID_IMPORT_SELECTION", 422)
+    return selected
+
+
 def apply_import(exchange, conn, kind, preview_id, preview, options):
     store = exchange.store
     refresh = kind == "google_refresh"
@@ -191,16 +198,18 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
     if refresh:
         check_removals(rows)
     copies = imported_copies(conn, account)
-    selected = set(options.resolve_event_ids)
-    eligible = {
+    resolvable = {
         item["existing_id"]
         for item in rows
         if refresh
         and item["status"] == "unverified"
         and item.get("proposed_status") in RESOLVABLE_STATUSES
     }
-    if not selected <= eligible or len(selected) != len(options.resolve_event_ids):
-        raise DomainError("INVALID_IMPORT_SELECTION", 422)
+    resolutions = checked_selection(options.resolve_event_ids, resolvable)
+    kept_changes = set()
+    if "selected_event_ids" in options.model_fields_set:
+        verified = {r["existing_id"] for r in rows if r["status"] in {"changed", "deleted"}}
+        kept_changes = verified - checked_selection(options.selected_event_ids, verified)
     new_count = sum(row["status"] == "new" for row in rows)
     if (
         new_count
@@ -210,8 +219,11 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
         raise DomainError("EVENT_LIMIT", 422)
     created = updated = removed = 0
     for item in rows:
-        resolve = item["existing_id"] in selected
+        resolve = item["existing_id"] in resolutions
         status = item["proposed_status"] if resolve else item["status"]
+        if item["existing_id"] in kept_changes:
+            # A keep decision still checks the snapshot and fences older reviews of this copy.
+            status = "kept"
         replace = status == "changed" and (refresh or options.replace_matching)
         if not refresh and status not in {"new", "unchanged"} and not replace:
             continue
@@ -267,7 +279,7 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
         "conflicts": sum(row["status"] == "conflict" for row in rows),
         "unresolved": sum(
             row["status"] in {"unresolved", "unsupported", "unavailable", "unverified"}
-            and row["existing_id"] not in selected
+            and row["existing_id"] not in resolutions
             for row in rows
         ),
     }

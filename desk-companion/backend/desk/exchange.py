@@ -38,6 +38,7 @@ class ImportFile(StrictModel):
 class ImportApply(StrictModel):
     replace_matching: bool = False
     resolve_event_ids: list[str] = Field(default_factory=list, max_length=50)
+    selected_event_ids: list[str] = Field(default_factory=list, max_length=50)
 
 
 class BackupInput(StrictModel):
@@ -317,6 +318,9 @@ class ExchangeService:
         }
         if payload.resolve_event_ids:
             request["resolve_event_ids"] = payload.resolve_event_ids
+        if "selected_event_ids" in payload.model_fields_set:
+            # Omission must still match old whole-batch receipts, distinct from choosing no changes.
+            request["selected_event_ids"] = sorted(payload.selected_event_ids)
 
         def authorize(conn):
             self.authorize_review(conn, key, request, owner_session, owner=allow_backup)
@@ -325,7 +329,9 @@ class ExchangeService:
             row = conn.execute("SELECT * FROM import_previews WHERE id=?", (preview_id,)).fetchone()
             if not row or row["expires_at"] <= iso(self.store.clock()) or row["state"] != "pending":
                 raise DomainError("IMPORT_EXPIRED", 410)
-            if payload.resolve_event_ids and row["kind"] != "google_refresh":
+            if row["kind"] != "google_refresh" and (
+                payload.resolve_event_ids or "selected_event_ids" in request
+            ):
                 raise DomainError("INVALID_IMPORT_SELECTION", 422)
             preview = json.loads(row["data"])
             if row["kind"] in {"google", "google_refresh"}:

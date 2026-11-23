@@ -311,6 +311,9 @@ def test_legacy_replacement_baseline_needs_an_applied_exact_version_or_individua
     path = f"/exchange/{review['preview_id']}/apply"
     assert desk.post(path, {"resolve_event_ids": [edited["id"]]}).status_code == 422
     selected = original["uncertain v2"]["id"]
+    assert desk.post(path, {"selected_event_ids": [selected]}).json()["error"]["code"] == (
+        "INVALID_IMPORT_SELECTION"
+    )
     assert desk.post(path, {"resolve_event_ids": [selected, selected]}).status_code == 422
     choices = {"resolve_event_ids": [selected]}
     receipt = desk.ok(path, choices, "selected")
@@ -408,6 +411,107 @@ def test_confirmed_refresh_updates_same_entry_removes_only_reviewed_copies_and_r
     again = desk.refresh()
     assert statuses(again) == {"same": "unchanged", "missing": "unchanged"}
     assert desk.apply(again)["updated"] == 0
+
+
+def test_select_independent_updates_and_cancellations_from_one_review(desk):
+    desk.import_events(*(event(name) for name in ("move", "stay", "remove", "keep", "edited")))
+    original = desk.calendar()
+    edited = original["edited"]
+    desk.ok(
+        f"/events/{edited['id']}/actions",
+        {
+            "action": "complete",
+            "scope": "occurrence",
+            "expected_version": edited["version"],
+            "occurrence_key": edited["occurrence_key"],
+        },
+    )
+    desk.events.update(
+        {
+            "move": event("move", "New time", day="2026-10-09"),
+            "stay": event("stay", "Other change"),
+            "remove": {"id": "remove", "status": "cancelled"},
+            "keep": provider_error(410, "deleted"),
+            "edited": {"id": "edited", "status": "cancelled"},
+        }
+    )
+    review = desk.refresh()
+    assert statuses(review) == {
+        "New time": "changed",
+        "Other change": "changed",
+        "remove": "deleted",
+        "keep": "deleted",
+        "edited": "conflict",
+    }
+    path = f"/exchange/{review['preview_id']}/apply"
+    selected = [original["move"]["id"], original["remove"]["id"]]
+    calls = list(desk.calls)
+    for invalid in ([*selected, edited["id"]], [*selected, "outside"], selected * 2):
+        rejected = desk.post(path, {"selected_event_ids": invalid})
+        assert (rejected.status_code, rejected.json()["error"]["code"]) == (
+            422, "INVALID_IMPORT_SELECTION",
+        )
+    receipt = desk.ok(path, {"selected_event_ids": selected}, "choose")
+    counts = {"updated": 1, "removed": 1, "kept": 3, "conflicts": 1}
+    assert counts.items() <= receipt.items()
+    assert counts.items() <= desk.status().items()
+    assert desk.ok(path, {"selected_event_ids": selected[::-1]}, "choose") == receipt
+    assert desk.post(path, {}, "choose").json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    after = desk.calendar()
+    assert set(after) == {"New time", "stay", "keep", "edited"}
+    assert after["New time"]["id"] == original["move"]["id"] and after["New time"]["version"] == 2
+    assert after["stay"]["version"] == after["keep"]["version"] == 1
+    assert after["edited"]["completed"] and after["edited"]["id"] == edited["id"]
+    assert desk.calls == calls
+    assert statuses(desk.refresh()) == {
+        "New time": "unchanged",
+        "Other change": "changed",
+        "keep": "deleted",
+        "edited": "conflict",
+    }
+
+
+def test_empty_refresh_selection_keeps_copies_and_fences_the_older_whole_batch(desk):
+    desk.import_events(event("cancel"))
+    original = desk.calendar()
+    date_range = desk.ok("/google/preview", RANGE)
+    keep_all = {"selected_event_ids": []}
+    wrong_kind = desk.post(f"/exchange/{date_range['preview_id']}/apply", keep_all)
+    assert wrong_kind.json()["error"]["code"] == "INVALID_IMPORT_SELECTION"
+    desk.events["cancel"] = {"id": "cancel", "status": "cancelled"}
+    older, current = desk.refresh(), desk.refresh()
+    path = f"/exchange/{current['preview_id']}/apply"
+    assert desk.post(path, {"selected_event_ids": None}).status_code == 422
+    receipt = desk.ok(path, keep_all, "keep-all")
+    assert (receipt["removed"], receipt["kept"]) == (0, 1)
+    assert desk.post(path, {}, "keep-all").json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    stale = desk.post(f"/exchange/{older['preview_id']}/apply", {})
+    assert stale.json()["error"]["code"] == "VERSION_CONFLICT"
+    assert desk.calendar() == original
+    assert desk.apply(desk.refresh())["removed"] == 1
+
+
+def test_selected_cancellations_roll_back_together_after_a_local_edit(desk):
+    desk.import_events(event("one"), event("two"))
+    desk.events = {name: {"id": name, "status": "cancelled"} for name in desk.events}
+    review = desk.refresh()
+    last = review["rows"][-1]
+    desk.ok(
+        f"/events/{last['existing_id']}/actions",
+        {
+            "action": "update",
+            "scope": "series",
+            "expected_version": last["expected_version"],
+            "event": {**last["event"], "notes": "Owner's newer notes"},
+        },
+    )
+    before_apply = desk.calendar()
+    rejected = desk.post(
+        f"/exchange/{review['preview_id']}/apply",
+        {"selected_event_ids": [row["existing_id"] for row in review["rows"]]},
+    )
+    assert (rejected.status_code, rejected.json()["error"]["code"]) == (409, "VERSION_CONFLICT")
+    assert desk.calendar() == before_apply and desk.status() is None
 
 
 def test_pending_pre_upgrade_404_review_cannot_be_recovered_or_applied(desk):

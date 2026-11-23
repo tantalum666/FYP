@@ -28,6 +28,17 @@ export interface ImportRow {
   proposed_status?: "changed" | "unchanged" | "deleted";
 }
 
+export function refreshAction(row: ImportRow) {
+  if (row.status === "changed" || row.status === "deleted") return row.status;
+  if (row.status === "unverified") return row.proposed_status;
+}
+
+export function verifiedChangeIds(rows: ImportRow[]) {
+  return rows.flatMap((row) =>
+    row.existing_id && row.status !== "unverified" && refreshAction(row) ? [row.existing_id] : [],
+  );
+}
+
 export function resolutionLabel(status: NonNullable<ImportRow["proposed_status"]>, t: Translate) {
   if (status === "deleted") return t("Remove this cancelled copy", "移除此已取消的副本");
   if (status === "unchanged") return t("Link this matching version to Google", "将此一致的版本关联至 Google");
@@ -44,12 +55,11 @@ export function refreshCounts(
   );
 }
 
-export function refreshPlan(rows: ImportRow[], t: Translate, resolutions: string[]) {
+export function refreshPlan(rows: ImportRow[], t: Translate, selectedIds: string[]) {
   if (!rows.length)
     return t("No verified Google imports in these dates.", "所选日期内没有已核实来源的 Google 副本。");
   const statuses = rows.map((row) =>
-    row.status === "unverified" && row.existing_id && resolutions.includes(row.existing_id)
-      ? row.proposed_status : row.status,
+    row.existing_id && selectedIds.includes(row.existing_id) ? refreshAction(row) : undefined,
   );
   const updates = statuses.filter((status) => status === "changed").length;
   const removals = statuses.filter((status) => status === "deleted").length;
@@ -64,7 +74,7 @@ export function importStatus(status: string, t: Translate) {
   switch (status) {
     case "new": return t("New", "新增");
     case "changed": return t("Changed", "已有变化");
-    case "deleted": return t("Cancelled on Google · remove local copy", "Google 已取消 · 将移除本地副本");
+    case "deleted": return t("Cancelled on Google", "Google 已取消");
     case "unavailable": return t("Unavailable on Google · keep local copy", "Google 已无法访问 · 保留本地副本");
     case "conflict": return t("Locally edited · keep local copy", "本地已编辑 · 保留本地副本");
     case "unverified": return t("Import history unverified · kept by default", "导入记录未核实 · 默认保留");

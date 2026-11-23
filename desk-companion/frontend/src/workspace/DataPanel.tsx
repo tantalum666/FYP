@@ -10,7 +10,8 @@ import { OwnerAccess } from "./OwnerAccess";
 import { apiOrigin } from "../native";
 import { ResponseFence } from "./personal/responseFence";
 import {
-  ChangedDetails, importStatus, refreshCounts, refreshPlan, resolutionLabel, type GoogleStatus, type ImportRow,
+  ChangedDetails, importStatus, refreshAction, refreshCounts, refreshPlan, resolutionLabel,
+  verifiedChangeIds, type GoogleStatus, type ImportRow,
 } from "./GoogleImportReview";
 
 interface Preview {
@@ -46,7 +47,7 @@ export function DataPanel({ t }: { t: Translate }) {
     [end, setEnd] = useState(DateTime.now().plus({ days: 30 }).toISODate()!);
   const [draft, setPreview] = useState<(Preview & { epoch?: number }) | null>(null),
     [replace, setReplace] = useState(false),
-    [resolutions, setResolutions] = useState<string[]>([]),
+    [selection, setSelection] = useState<{ review: string; ids: string[] } | null>(null),
     [activity, setBusy] = useState<boolean | number>(false),
     [error, setError] = useState<unknown>(null),
     [notice, setNotice] = useState<string | { session: string; epoch?: number; text: string }>("");
@@ -77,6 +78,9 @@ export function DataPanel({ t }: { t: Translate }) {
     isGoogle && (draft.epoch !== epoch || !canReview || draft.metadata.review_version !== google?.review_version)
       ? null : draft;
   const reviewingRefresh = preview?.kind === "google_refresh";
+  const verified = reviewingRefresh ? verifiedChangeIds(preview.rows) : [];
+  const reviewKey = `${epoch}/${preview?.preview_id}`;
+  const selectedIds = selection?.review === reviewKey ? selection.ids : verified;
   const lastRefresh = canReview ? google?.last_refresh : null;
   const message = typeof notice === "string"
     ? notice
@@ -147,7 +151,6 @@ export function DataPanel({ t }: { t: Translate }) {
         setError(null);
         setPreview({ ...result, epoch });
         setReplace(false);
-        setResolutions([]);
       } else if (preview && isGoogle && (
         operation.path === `/exchange/${preview.preview_id}/apply` ||
         operation.path === `/google/${preview.preview_id}/discard`
@@ -227,14 +230,15 @@ export function DataPanel({ t }: { t: Translate }) {
       }
       setPreview({ ...result, epoch });
       setReplace(false);
-      setResolutions([]);
     }, true);
   }
   async function confirmPreview() {
     if (!preview) return;
     const submit = isGoogle ? writeReview : write;
+    const resolutions = selectedIds.filter((id) => !verified.includes(id));
     const result = await submit<ImportResult>(`/exchange/${preview.preview_id}/apply`, {
       replace_matching: replace,
+      ...(verified.length ? { selected_event_ids: verified.filter((id) => selectedIds.includes(id)) } : {}),
       ...(reviewingRefresh && resolutions.length ? { resolve_event_ids: resolutions } : {}),
     });
     if (isGoogle && !fence.accepts(epoch)) return;
@@ -267,6 +271,117 @@ export function DataPanel({ t }: { t: Translate }) {
     }
     setPreview(null);
   }
+  function chooseCopy(id: string, checked: boolean) {
+    setSelection((previous) => {
+      const ids = previous?.review === reviewKey ? previous.ids : verified;
+      return { review: reviewKey, ids: checked ? [...ids, id] : ids.filter((other) => other !== id) };
+    });
+  }
+  const review = preview && (
+    <section className="workspace-section">
+      <h3>{reviewingRefresh ? t("Review refresh", "检查刷新") : t("Review import", "检查导入")}</h3>
+      {preview.kind !== "backup" && !reviewingRefresh && (
+        <p>
+          {t(
+            "New events are private, with reminders off.",
+            "新增事项默认私人，提醒关闭。",
+          )}
+        </p>
+      )}
+      {reviewingRefresh ? <p>
+        {String(preview.metadata.start)} → {String(preview.metadata.end)}
+        {" · "}{refreshPlan(preview.rows, t, selectedIds)}
+      </p> : <p>
+        {preview.rows.length} {t("entries", "项")} ·{" "}
+        {preview.rows.filter((r) => r.status === "new").length}{" "}
+        {t("new", "新增")} ·{" "}
+        {preview.rows.filter((r) => r.status === "changed").length}{" "}
+        {t("changed", "已有变化")}
+      </p>}
+      {preview.kind === "backup" && (
+        <p>
+          {t(
+            "Recovery merges missing events, tasks and saved facts. Existing data and preferences are kept. Restored tasks have follow-ups paused.",
+            "恢复合并缺少的日程、事务和已保存的事实，保留已有数据及当前偏好。恢复的事务暂不自动跟进。",
+          )}
+        </p>
+      )}
+      {preview.kind === "backup" && (
+        <p>
+          {Number(preview.metadata.tasks_count ?? 0)}{" "}
+          {t("tasks in this backup", "项事务在此备份中")}
+          {" · "}
+          {Number(preview.metadata.memories_count ?? 0)}{" "}
+          {t("saved facts in this backup", "条已保存的事实在此备份中")}
+        </p>
+      )}
+      <div className="import-preview-list">
+        {preview.rows.map((r, i) => {
+          const action = reviewingRefresh && refreshAction(r);
+          return (
+            <div key={r.existing_id ?? i}>
+              <strong>{r.event.title}</strong>
+              <small>
+                {r.event.start_local.replace("T", " ")} · {r.event.timezone} ·{" "}
+                {importStatus(r.status, t)}
+              </small>
+              {r.previous && <ChangedDetails previous={r.previous} event={r.event} t={t} />}
+              {action && r.existing_id && (
+                <label className="check-field">
+                  <input type="checkbox" disabled={busy} value={r.existing_id}
+                    aria-label={`${resolutionLabel(action, t)} · ${r.event.title}`}
+                    checked={selectedIds.includes(r.existing_id)}
+                    onChange={({ currentTarget }) => chooseCopy(currentTarget.value, currentTarget.checked)}
+                  />
+                  {resolutionLabel(action, t)}
+                </label>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {preview.warnings.map((message, i) => (
+        <p className="error-message" key={i}>
+          {message}
+        </p>
+      ))}
+      {preview.kind !== "backup" && !reviewingRefresh &&
+        preview.rows.some((r) => r.status === "changed") && (
+          <label className="check-field">
+            <input
+              type="checkbox"
+              checked={replace}
+              onChange={(e) => setReplace(e.target.checked)}
+            />
+            {t(
+              "Replace matching changed entries after checking them",
+              "检查后替换对应的已变化事项",
+            )}
+          </label>
+        )}
+      <div className="workspace-inline-actions">
+        <button
+          className="primary"
+          disabled={
+            busy ||
+            (!reviewingRefresh && !preview.rows.length &&
+              !Number(preview.metadata.tasks_count) &&
+              !Number(preview.metadata.memories_count))
+          }
+          onClick={() => void act(confirmPreview, isGoogle)}
+        >
+          {reviewingRefresh ? t("Confirm local refresh", "确认刷新本地副本") : t("Apply import", "确认导入")}
+        </button>
+        <button
+          className="secondary"
+          onClick={() => void act(discardPreview, isGoogle)}
+          disabled={busy}
+        >
+          {t("Discard preview", "放弃预览")}
+        </button>
+      </div>
+    </section>
+  );
   return (
     <div className="workspace-panel data-panel">
       <h3>{t("Calendar files", "日历文件")}</h3>
@@ -440,110 +555,10 @@ export function DataPanel({ t }: { t: Translate }) {
               )}
             </p>
           )}
+          {reviewingRefresh && review}
         </details>
       )}
-      {preview && (
-        <section className="workspace-section">
-          <h3>{reviewingRefresh ? t("Review refresh", "检查刷新") : t("Review import", "检查导入")}</h3>
-          {preview.kind !== "backup" && !reviewingRefresh && (
-            <p>
-              {t(
-                "New events are private, with reminders off.",
-                "新增事项默认私人，提醒关闭。",
-              )}
-            </p>
-          )}
-          {reviewingRefresh ? <p>
-            {String(preview.metadata.start)} → {String(preview.metadata.end)}
-            {" · "}{refreshPlan(preview.rows, t, resolutions)}
-          </p> : <p>
-            {preview.rows.length} {t("entries", "项")} ·{" "}
-            {preview.rows.filter((r) => r.status === "new").length}{" "}
-            {t("new", "新增")} ·{" "}
-            {preview.rows.filter((r) => r.status === "changed").length}{" "}
-            {t("changed", "已有变化")}
-          </p>}
-          {preview.kind === "backup" && (
-            <p>
-              {t(
-                "Recovery merges missing events, tasks and saved facts. Existing data and preferences are kept. Restored tasks have follow-ups paused.",
-                "恢复合并缺少的日程、事务和已保存的事实，保留已有数据及当前偏好。恢复的事务暂不自动跟进。",
-              )}
-            </p>
-          )}
-          {preview.kind === "backup" && (
-            <p>
-              {Number(preview.metadata.tasks_count ?? 0)}{" "}
-              {t("tasks in this backup", "项事务在此备份中")}
-              {" · "}
-              {Number(preview.metadata.memories_count ?? 0)}{" "}
-              {t("saved facts in this backup", "条已保存的事实在此备份中")}
-            </p>
-          )}
-          <div className="import-preview-list">
-            {preview.rows.map((r, i) => (
-              <div key={r.existing_id ?? i}>
-                <strong>{r.event.title}</strong>
-                <small>
-                  {r.event.start_local.replace("T", " ")} · {r.event.timezone} ·{" "}
-                  {importStatus(r.status, t)}
-                </small>
-                {r.previous && <ChangedDetails previous={r.previous} event={r.event} t={t} />}
-                {reviewingRefresh && r.status === "unverified" && r.proposed_status && r.existing_id && (
-                  <label className="check-field">
-                    <input type="checkbox" disabled={busy} value={r.existing_id}
-                      checked={resolutions.includes(r.existing_id)}
-                      onChange={({ currentTarget: { checked, value } }) =>
-                        setResolutions((ids) => checked ? [...ids, value] : ids.filter((id) => id !== value))}
-                    />
-                    {resolutionLabel(r.proposed_status, t)}
-                  </label>
-                )}
-              </div>
-            ))}
-          </div>
-          {preview.warnings.map((message, i) => (
-            <p className="error-message" key={i}>
-              {message}
-            </p>
-          ))}
-          {preview.kind !== "backup" && !reviewingRefresh &&
-            preview.rows.some((r) => r.status === "changed") && (
-              <label className="check-field">
-                <input
-                  type="checkbox"
-                  checked={replace}
-                  onChange={(e) => setReplace(e.target.checked)}
-                />
-                {t(
-                  "Replace matching changed entries after checking them",
-                  "检查后替换对应的已变化事项",
-                )}
-              </label>
-            )}
-          <div className="workspace-inline-actions">
-            <button
-              className="primary"
-              disabled={
-                busy ||
-                (!reviewingRefresh && !preview.rows.length &&
-                  !Number(preview.metadata.tasks_count) &&
-                  !Number(preview.metadata.memories_count))
-              }
-              onClick={() => void act(confirmPreview, isGoogle)}
-            >
-              {reviewingRefresh ? t("Confirm local refresh", "确认刷新本地副本") : t("Apply import", "确认导入")}
-            </button>
-            <button
-              className="secondary"
-              onClick={() => void act(discardPreview, isGoogle)}
-              disabled={busy}
-            >
-              {t("Discard preview", "放弃预览")}
-            </button>
-          </div>
-        </section>
-      )}
+      {!reviewingRefresh && review}
       {owner ? (
         <>
           <details className="workspace-details">
