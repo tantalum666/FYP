@@ -87,7 +87,12 @@ export type StatusMark = Pick<
 >;
 export const orderKey = (row: Pick<StatusMark, "kind" | "id">) =>
   row.kind + "/" + row.id;
-export const hkd = (minor: number) => `HK$${(minor / 100).toFixed(2)}`;
+const hongKongAmount = new Intl.NumberFormat("en-HK", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+export const hkd = (minor: number) => `HK$${hongKongAmount.format(minor / 100)}`;
 export const needsDecision = (row: { state: string }) =>
   ["quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
 export const reviewRef = (

@@ -9,6 +9,7 @@ from .calendar import iso
 from . import alice_delivery
 from .capabilities import CAPABILITIES
 from .context_budget import fit_context
+from . import hkd
 from .conversation import memory_context
 from .openai_transport import numeric_usage
 from .openai_spend import TEXT_STAGE, token_estimate
@@ -244,7 +245,11 @@ class TextSessions:
                 )
                 extra = items[last_index + 1 :]
                 context["turns"] = [
-                    {"role": v["role"], "body": v["text"][:500]} for v in reversed(extra[-16:])
+                    {
+                        "role": v["role"],
+                        "body": (hkd.display_message(v["text"]) if v["role"] == "assistant" else v["text"])[:500],
+                    }
+                    for v in reversed(extra[-16:])
                 ]
                 message["content"][0]["text"] = encode(context)
                 check()
@@ -594,7 +599,12 @@ class TextFunctions:
         if isinstance(result.get("plan"), dict):
             self.plan = result["plan"].get("summary")
         error = result.get("error")
-        if ends_text_turn(name, result):
+        fare_reply = None
+        if name == "browser_research_status" and result.get("record_verified") and hkd.asks_fare_amount(self.payload.message):
+            from .commerce_quotes import kiwi_fare_reply
+
+            fare_reply = kiwi_fare_reply(result.get("quote"))
+        if fare_reply or ends_text_turn(name, result):
             message = outcome_message(error or "ok", result, self.payload.language)
             if not message:
                 message = (
@@ -602,7 +612,7 @@ class TextFunctions:
                     if self.payload.language == "zh"
                     else "The action result is available."
                 )
-            self.local_reply = text_effect_reply(message, result, self.payload.language)
+            self.local_reply = fare_reply or text_effect_reply(message, result, self.payload.language)
             if self.plan:
                 self.local_reply["plan"] = self.plan
             with self.sessions.store.connection(write=True) as db:

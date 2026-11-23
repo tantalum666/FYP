@@ -14,7 +14,10 @@ import re
 import time
 from uuid import uuid4
 
+from . import hkd
 from .assistant import TOOLS
+from .commerce_quotes import kiwi_hkd_price
+from .live_fare_speech import LiveFareSpeech
 from .live_captions import LiveCaptionGroups, transcript_interval
 from .openai_voice import PCM16To24
 from .persona import ASSISTANT_IDENTITY
@@ -34,6 +37,10 @@ class OpenAILiveProtocol(RealtimeProtocol):
         self.clock = clock
         self.resampler = PCM16To24()
         self.language = "en"
+        self.fare_speech = LiveFareSpeech(clock)
+        self.input_words = ""
+        self.input_group = None
+        self.assistant_captions = {}
         self.initial_items = []
         self.wake_triggered = False
         self.voice_style = ""
@@ -146,17 +153,50 @@ class OpenAILiveProtocol(RealtimeProtocol):
         pcm = self.resampler.convert(base64.b64decode(value, validate=True))
         return {"type": "session.input_audio.append", "audio": base64.b64encode(pcm).decode()}
 
+    def fare_readback(self, minor, *, review_sentence=None):
+        """Prepare the selected Live voice to speak a locally verified HKD review."""
+        price = hkd.amount(minor)
+        if price is None:
+            return None
+        self.fare_speech.remember(price, "Kiwi.com 报价为 ")
+        return self.fare_instruction(review_sentence)
+
+    def fare_instruction(self, review_sentence=None):
+        instruction = self.fare_speech.start(review_sentence)
+        if instruction and review_sentence:
+            instruction += " Read this locally prepared review: " + hkd.present_text(review_sentence, spoken=True)
+        return self.spoken_instruction(instruction) if instruction else None
+
+    @staticmethod
+    def spoken_instruction(instruction):
+        return {
+            "type": "session.instructions.append", "event_id": uuid4().hex,
+            "delegation_id": None, "content": instruction,
+        }
+
     def result(self, call, value):
-        return [
+        spoken = speech_result(value)
+        price = None
+        if call.get("name") == "browser_research_status" and value.get("record_verified"):
+            price = kiwi_hkd_price(value.get("quote"))
+            if price:
+                spoken["fare_amount"] = price
+        responses = [
             {
                 "type": "response.item.create",
                 "item": {
                     "type": "function_call_output",
                     "call_id": call["id"],
-                    "output": json.dumps(speech_result(value), ensure_ascii=False),
+                    "output": json.dumps(spoken, ensure_ascii=False),
                 },
             }
         ]
+
+        if price:
+            self.fare_speech.remember(price, "Kiwi.com 报价为 ")
+            if hkd.chinese(self.input_words) or (not self.input_words and self.language == "zh"):
+                responses.append(self.fare_instruction())
+        return responses
 
     def usage_snapshot(self):
         return {
@@ -170,6 +210,14 @@ class OpenAILiveProtocol(RealtimeProtocol):
         }
 
     def poll(self):
+        started = self.fare_speech.started
+        if started is not None and (
+            self.clock() - started >= 8
+            or (self.last_output is not None and self.last_output >= started
+                and self.response_idle.is_set() and self.clock() - self.last_output >= 1.2)
+        ):
+            self.caption_group_open = False
+            return {"type": "turn_complete", "boundary": "local_caption_group"}
         activity = max(self.last_output or 0, self.last_input or 0)
         if (
             self.caption_group_open
@@ -265,6 +313,14 @@ class OpenAILiveProtocol(RealtimeProtocol):
                 return []
             self.caption_group_open = True
             if role == "user":
+                if group != self.input_group or (
+                    self.fare_speech.suppress_tail and self.last_input is not None
+                    and self.clock() - self.last_input >= 0.7
+                ):
+                    if self.input_group is not None:
+                        self.fare_speech.new_input()
+                    self.input_group, self.input_words = group, ""
+                self.input_words = (self.input_words + text)[-500:]
                 self.last_input = self.clock()
                 self.input_sequence += 1
             else:
@@ -276,6 +332,16 @@ class OpenAILiveProtocol(RealtimeProtocol):
                 "final": False,
                 "caption_group": group,
             }
+            if role == "assistant" and not self.fare_speech.expected and not self.fare_speech.suppress_tail:
+                full = (self.assistant_captions.get(group, "") + text)[:8000]
+                self.assistant_captions[group] = full
+                if len(self.assistant_captions) > 40:
+                    del self.assistant_captions[min(self.assistant_captions)]
+                display = hkd.display_message(full)
+                if self.fare_speech.last_price:
+                    self.fare_speech.previous_was_fare = hkd.last_spoken_amount(full) == self.fare_speech.last_price
+                if display != full:
+                    event.update(text=display, caption_replace=True)
             if interval:
                 event.update(start_ms=interval[0], end_ms=interval[1])
             if role == "user":
@@ -285,6 +351,11 @@ class OpenAILiveProtocol(RealtimeProtocol):
                     input_sequence=self.input_sequence,
                     boundary="unfinalized",
                 )
+            if (
+                role == "user" and self.fare_speech.last_price and not self.fare_speech.expected
+                and hkd.asks_spoken_readback(self.input_words, previous_was_fare=self.fare_speech.previous_was_fare)
+            ):
+                return [event, {"type": "fare_instruction", "wire": self.fare_instruction()}]
             return [event]
         if kind != "response.event":
             return []

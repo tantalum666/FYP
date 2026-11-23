@@ -12,6 +12,7 @@ import {
 
 export interface VoiceEvent extends Partial<TurnMeasurement> {
   caption_group?: number;
+  caption_replace?: boolean;
   start_ms?: number;
   end_ms?: number;
   continuous?: boolean;

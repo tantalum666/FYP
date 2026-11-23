@@ -4,6 +4,7 @@ No global transcript table. Unauthenticated/internal callers are stateless;
 only the server may resolve a Conversation from an authenticated session.
 """
 
+from . import hkd
 from .calendar import iso
 
 MAX_BODY = 500
@@ -26,7 +27,7 @@ def recent_turns(runtime, *, conversation=None, limit=16):
     return [
         {
             "role": item["role"],
-            "body": item["text"][:MAX_BODY],
+            "body": (hkd.display_message(item["text"]) if item["role"] == "assistant" else item["text"])[:MAX_BODY],
             "created_at": item.get("created_at", ""),
         }
         for item in reversed(conversation.items[-max(1, min(limit, 40)) :])

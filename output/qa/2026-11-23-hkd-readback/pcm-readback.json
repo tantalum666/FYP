@@ -1,0 +1,22 @@
+{
+  "mandarin": {
+    "source_voice": "macOS Meijia",
+    "source_rate_hz": 24000,
+    "source_pcm_bytes": 148572,
+    "pcm_sha256": "60e00899935d05b0c99b8865c8ed944a132e8a3941bc3dc1cda61c9a6a332fbf",
+    "owner_caption": "HK$3,389.59",
+    "openai_voice_id_matched_saved_A3": true,
+    "unprompted_offline_asr": "3389.59港元",
+    "websocket_output_pcm_bytes": 148572
+  },
+  "cantonese": {
+    "source_voice": "macOS Sinji",
+    "source_rate_hz": 24000,
+    "source_pcm_bytes": 153482,
+    "pcm_sha256": "ec8b22f3f4e5939180bdd5db73d3030827cce59e23740f7cdbb0a23ad8341c85",
+    "owner_caption": "HK$3,389.59",
+    "openai_voice_id_matched_saved_A3": true,
+    "unprompted_offline_asr": "3389.59港元",
+    "websocket_output_pcm_bytes": 153482
+  }
+}
