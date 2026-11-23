@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-23 Buy an identified fare from an ordinary conversation
+
+A request to buy a displayed fare opens the original signed-in owner's review. Alice can check the selected seller for missing luggage rules and total, and present a bookable supplier offer once available. Show the exact itinerary, party, baggage coverage, currency and total for the owner's decision. Reprice before submitting. A change requires a fresh decision, and a missing supplier acknowledgement must never trigger a second booking. Confirm completion from the original reservation and matching captured amount. Keep listening controls compact, display the numeric amount and use the same precise value in speech. [Release acceptance](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
 ## 2026-11-23 Ask Alice for the weather in any city
 
 Alice answers ordinary weather and rain questions in the conversation language. Use the destination’s local date and distinguish station readings, model estimates and forecasts. Include the range and precipitation outlook available for the requested day. Keep Hong Kong Observatory observations and official local and nine-day forecasts. Ask for a city when a name is broad or ambiguous. The Home weather preference and device location permission remain owner-controlled. [Public weather acceptance](output/qa/2026-11-23-global-weather/verification.md).

@@ -1132,3 +1132,7 @@ Connected the desk’s canonical busy occurrences to LetsFG fare selection, incl
 ## 2026-11-23 Global weather from ordinary Alice questions
 
 On the isolated global-weather branch, connected worldwide place resolution, destination-local current and daily model data, and HKO’s station, local and nine-day products to the existing weather tool. Standalone city questions use a public read directly. Ordinary Sessions and GPT-Live-1.1 register the same tool. The real loopback application returned public weather for Tokyo, Hong Kong, Cape Town, Reykjavík and Buenos Aires. The voice WebSocket accepted a two-part synthetic transcript and delivered the bound tool output using replayed provider events. [QA and external-data receipts](output/qa/2026-11-23-global-weather/verification.md). Installed client and physical speech acceptance belong to the integration release.
+
+## 2026-11-23 · Ordinary desk and installed iPhone acceptance
+
+Released global city forecasts and Hong Kong rain, compact listening, trusted HKD rendering and owner-scoped flight checkout on `689d1d8e`. The normal Mac and installed iPhone reopened external weather through their ordinary conversation and retained the existing accounts, A3 sample and original research job. The public LetsFG sandbox returned a simulated PNR on a different flight. The owner's Kiwi itinerary awaits verified luggage, a payable amount and an approved account. [Measured behavior, tested code and release scope](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
