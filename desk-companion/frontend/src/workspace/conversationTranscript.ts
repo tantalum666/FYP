@@ -24,7 +24,7 @@ export type ConversationTurn = {
 export function appendLiveTranscript(
   previous: ConversationTurn[],
   session: string,
-  fragment: { role?: string; text?: string; caption_group?: number },
+  fragment: { role?: string; text?: string; caption_group?: number; caption_replace?: boolean },
 ): ConversationTurn[] {
   const group = fragment.caption_group;
   if (!Number.isSafeInteger(group) || group! < 0 || !fragment.text)
@@ -41,7 +41,7 @@ export function appendLiveTranscript(
   if (existing >= 0)
     return previous.map((turn, index) =>
       index === existing
-        ? { ...turn, body: (turn.body + fragment.text).slice(0, 8000) }
+        ? { ...turn, body: (fragment.caption_replace && role === "assistant" ? fragment.text! : turn.body + fragment.text).slice(0, 8000) }
         : turn,
     );
   const turn: ConversationTurn = {

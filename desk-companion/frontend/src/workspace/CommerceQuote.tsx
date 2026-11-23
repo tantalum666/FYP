@@ -1,3 +1,4 @@
+import { hkd } from "./commercePresentation";
 import type { Translate } from "../types";
 
 type Budget = { currency?: string | null; budget_minor?: number | null };
@@ -60,6 +61,7 @@ export type Quote = {
 };
 
 function money(value: number, currency: string, t: Translate) {
+  if (currency === "HKD") return hkd(value);
   const format = new Intl.NumberFormat(t("en-HK", "zh-HK"), {
     style: "currency",
     currency,
