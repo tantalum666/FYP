@@ -282,7 +282,11 @@ def test_completed_receipt_requires_both_independent_records(desk, mismatch):
         terms["items"][1]["subtotal_minor"] += 100
         result = send(client, "lookup", "查回这笔购物订单的实际模拟扣款金额", chat)
     checked = result.json()["shopping_order"]
-    assert checked["state"] == "unverified" and checked["receipt"] is None
+    assert checked["state"] == "unverified"
+    if mismatch == "capture":
+        assert checked["receipt"] is None
+    else:
+        assert checked["receipt"]["last_verified"] and checked["receipt"]["charged_minor"] == 3300
     assert len(woo.posts) == 1 and not woo.cancels
 
 
@@ -322,7 +326,7 @@ def test_original_paid_single_row_reopens_without_catalog_or_checkout(desk):
     assert row["state"] == "completed" and row["quote"] == old["quote"]
     assert row["receipt"]["charged_minor"] == 4200 and "HK$42.00" in result["message"]
     assert "测试文具包" in render(row)["markup"] and not woo.posts and not woo.carts
-    assert woo.stripe_reads == ["/payment_intents/pi_fixture", "/charges/ch_fixture"]
+    assert woo.stripe_reads == ["/payment_intents/pi_fixture", "/charges/ch_fixture", "/refunds"]
 
 
 def test_pending_legacy_approval_gets_detailed_terms_before_payment():
@@ -417,4 +421,5 @@ def test_php_merchant_matches_concrete_variation_and_original_single_order():
         "inconsistent_shipping": [None, None],
         "substituted": False,
         "legacy": original_single_quote()["terms"],
+        "refund_totals": [1500, None, None, None],
     }

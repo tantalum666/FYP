@@ -45,5 +45,15 @@ $pen->fields['variation_id'] = 44;
 $substituted = \FYP\ReviewedCheckout\same_terms(\FYP\ReviewedCheckout\terms($order, true), $approved);
 $order->fields['items']['line_item'] = [line(15, 'FYP-QA-DELIVERY-PACK', 2, 34)];
 $order->fields['total'] = 42;
+$first_refund = new WooRecord(['parent_id' => 67, 'currency' => 'HKD', 'amount' => 7]);
+$second_refund = new WooRecord(['parent_id' => 67, 'currency' => 'HKD', 'amount' => 8]);
+$order->fields += ['id' => 67, 'refunds' => [$first_refund, $second_refund], 'total_refunded' => 15];
+$refund_totals = [\FYP\ReviewedCheckout\refunded_minor($order)];
+foreach (['parent_id' => 68, 'currency' => 'USD', 'amount' => 12] as $field => $changed) {
+    $before = $second_refund->fields[$field];
+    $second_refund->fields[$field] = $changed;
+    $refund_totals[] = \FYP\ReviewedCheckout\refunded_minor($order);
+    $second_refund->fields[$field] = $before;
+}
 echo json_encode(['basket' => $read, 'matches' => $matches, 'inconsistent_shipping' => $inconsistent_shipping, 'substituted' => $substituted,
-    'legacy' => \FYP\ReviewedCheckout\terms($order, false)], JSON_THROW_ON_ERROR);
+    'legacy' => \FYP\ReviewedCheckout\terms($order, false), 'refund_totals' => $refund_totals], JSON_THROW_ON_ERROR);

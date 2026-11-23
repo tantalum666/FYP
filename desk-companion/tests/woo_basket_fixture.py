@@ -92,6 +92,12 @@ class WooFixture(WooSandbox):
         self.visible = True
         self.captured = 3300
         self.charge_override = None
+        self.account = "acct_fixture"
+        self.intent_id = "pi_fixture"
+        self.charge_id = "ch_fixture"
+        self.amount_refunded = 0
+        self.refunds = []
+        self.page_size = 100
 
     @contextmanager
     def shop(self):
@@ -105,7 +111,7 @@ class WooFixture(WooSandbox):
         with httpx.Client(
             base_url="https://stripe.invalid/", transport=httpx.MockTransport(self.stripe_http)
         ) as client:
-            yield client
+            yield client, self.account
 
     def full_cart(self, units):
         lines = []
@@ -205,7 +211,10 @@ class WooFixture(WooSandbox):
         if path.endswith("/cancel"):
             order = self.orders[ref]
             assert body == {"order": order["order_id"], "amount_minor": self.captured}
+            assert not self.refunds and self.amount_refunded == 0
             self.cancels.append(ref)
+            self.amount_refunded = self.captured
+            self.refunds = [self.refund("re_fixture", self.captured)]
             order.update(
                 status="refunded",
                 refunded_minor=self.captured,
@@ -251,8 +260,16 @@ class WooFixture(WooSandbox):
             "paid": True,
             "status": "processing",
             "can_cancel": True,
-            "intent": "pi_fixture",
-            "transaction": "ch_fixture",
+            "refunded_minor": 0,
+            "intent": self.intent_id,
+            "transaction": self.charge_id,
+        }
+
+    def refund(self, ident, amount, status="succeeded"):
+        return {
+            "object": "refund", "id": ident, "charge": self.charge_id,
+            "payment_intent": self.intent_id, "livemode": False, "currency": "hkd",
+            "amount": amount, "status": status,
         }
 
     def stripe_http(self, req):
@@ -265,52 +282,38 @@ class WooFixture(WooSandbox):
             return httpx.Response(
                 200, json={"id": "pm_fixture", "livemode": False, "card": {"last4": "4242"}}
             )
-        if path == "/payment_intents/pi_fixture":
+        assert req.method == "GET"
+        if path == "/payment_intents/" + self.intent_id:
             return httpx.Response(
                 200,
                 json={
-                    "id": "pi_fixture",
+                    "id": self.intent_id,
                     "livemode": False,
-                    "latest_charge": "ch_fixture",
+                    "latest_charge": self.charge_id,
                     "status": "succeeded",
                     "amount_received": self.captured,
                     "currency": "hkd",
                 },
             )
-        refunded = any(order["status"] == "refunded" for order in self.orders.values())
-        if path == "/charges/ch_fixture":
+        if path == "/charges/" + self.charge_id:
             return httpx.Response(
                 200,
                 json={
-                    "id": "ch_fixture",
-                    "payment_intent": "pi_fixture",
+                    "id": self.charge_id,
+                    "payment_intent": self.intent_id,
                     "livemode": False,
                     "status": "succeeded",
                     "paid": True,
                     "captured": True,
                     "amount_captured": self.captured if self.charge_override is None else self.charge_override,
                     "currency": "hkd",
-                    "refunded": refunded,
-                    "amount_refunded": self.captured if refunded else 0,
+                    "refunded": self.amount_refunded == self.captured,
+                    "amount_refunded": self.amount_refunded,
                     "payment_method_details": {"card": {"brand": "visa", "last4": "4242"}},
                 },
             )
-        assert path == "/refunds" and req.url.params["charge"] == "ch_fixture" and refunded
-        return httpx.Response(
-            200,
-            json={
-                "has_more": False,
-                "data": [
-                    {
-                        "object": "refund",
-                        "id": "re_fixture",
-                        "charge": "ch_fixture",
-                        "payment_intent": "pi_fixture",
-                        "livemode": False,
-                        "currency": "hkd",
-                        "amount": self.captured,
-                        "status": "succeeded",
-                    }
-                ],
-            },
-        )
+        assert path == "/refunds" and req.url.params["charge"] == self.charge_id
+        cursor = req.url.params.get("starting_after")
+        start = [r["id"] for r in self.refunds].index(cursor) + 1 if cursor else 0
+        end = start + min(self.page_size, int(req.url.params["limit"]))
+        return httpx.Response(200, json={"has_more": end < len(self.refunds), "data": self.refunds[start:end]})

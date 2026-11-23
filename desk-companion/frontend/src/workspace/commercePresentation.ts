@@ -51,8 +51,10 @@ export interface SandboxShop {
     test_mode: boolean;
     can_cancel?: boolean;
     buyer_cancel_requested?: boolean;
-    refunded_minor?: number;
-    net_minor?: number;
+    refunded_minor?: number | null;
+    net_minor?: number | null;
+    pending_minor?: number | null;
+    last_verified?: boolean;
   } | null;
 }
 
@@ -166,6 +168,7 @@ const shopStates: Record<string, [string, string]> = {
   submitting: ["Placing test order", "正在提交测试单"],
   checking: ["Checking payment", "正在核对扣款"],
   refund_pending: ["Checking refund", "正在跟进退款"],
+  partially_refunded: ["Partially refunded", "已部分退款"],
   refund_review: ["Merchant review needed", "退款待商户核查"],
   refund_retry: ["Cancellation unconfirmed", "撤单尚未确认"],
   retry: ["Payment unconfirmed", "扣款尚未确认"],
@@ -187,6 +190,7 @@ export function shopTitle(q: ShopQuote, t: Translate): string {
 export function shopStatus(row: SandboxShop, t: Translate): string {
   const r = row.receipt,
     item = r ? `#${r.order}` : shopTitle(row.quote, t);
+  if (r?.last_verified) return `${item} · ${t("Receipt needs checking", "回执待核实")}`;
   if (row.state === "refunded" && r?.refunded_minor != null)
     return `${item} · ${t("Refunded", "已退款")} ${hkd(r.refunded_minor)}`;
   if (row.cancel_unavailable && row.state === "completed")
@@ -254,6 +258,7 @@ const importantStates = new Set([
   "reprice",
   "unavailable",
   "refunded",
+  "partially_refunded",
   "stopped",
   "completed",
   "failed",

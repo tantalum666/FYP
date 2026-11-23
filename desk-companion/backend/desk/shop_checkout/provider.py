@@ -191,14 +191,15 @@ class WooSandbox:
                 follow_redirects=False,
                 timeout=14,
             ) as stripe:
-                if _json(stripe.get("account")).get("id") != cfg["stripe_account"]:
+                account = _json(stripe.get("account"))
+                if not isinstance(account, dict) or account.get("id") != cfg["stripe_account"]:
                     raise DomainError("SHOP_TEST_CONFIG", 503)
-                yield stripe
+                yield stripe, account["id"]
         except httpx.HTTPError:
             raise DomainError("SHOP_PROVIDER_UNAVAILABLE", 503) from None
 
     def test_method(self, ref):
-        with self.stripe() as stripe:
+        with self.stripe() as (stripe, _):
             fixture = _json(stripe.get("payment_methods/pm_card_visa"))
             if fixture.get("livemode") is not False:
                 raise DomainError("SHOP_TEST_CONFIG", 503)
@@ -276,7 +277,9 @@ class WooSandbox:
     def receipt(self, ref, approved):
         with self.shop() as (shop, auth):
             order = _json(shop.get("fyp-alice/v1/orders/" + ref, headers=auth))
-        if not order.get("found"):
+        if not isinstance(order, dict) or type(order.get("found")) is not bool:
+            raise DomainError("SHOP_UNVERIFIED", 502)
+        if not order["found"]:
             return None
         actual = order.get("terms")
         if "items" in approved["terms"]:
@@ -286,14 +289,18 @@ class WooSandbox:
             or order.get("guest") is not True
             or order.get("gateway") != "stripe_cc"
             or actual != approved["terms"]
+            or actual.get("currency") != "HKD"
+            or not isinstance(order.get("status"), str)
             or type(order.get("order_id")) is not int
             or order["order_id"] <= 0
         ):
             raise DomainError("SHOP_UNVERIFIED", 502)
         requested = order.get("buyer_cancel_requested") is True
-        refund_path = requested or order.get("status") == "refunded"
-        if not refund_path and (
-            not order.get("paid") or order.get("status") not in {"processing", "completed"}
+        refund_indicated = (
+            requested or order["status"] == "refunded" or order.get("refunded_minor", 0) != 0
+        )
+        if not refund_indicated and (
+            order.get("paid") is not True or order.get("status") not in {"processing", "completed"}
         ):
             if order.get("status") in {"cancelled", "failed", "refunded"}:
                 raise DomainError("SHOP_PAYMENT_FAILED", 409)
@@ -303,92 +310,159 @@ class WooSandbox:
             r"ch_[a-zA-Z0-9]+", str(charge)
         ):
             raise DomainError("SHOP_UNVERIFIED", 502)
-        with self.stripe() as stripe:
+        total = approved["terms"]["total_minor"]
+        with self.stripe() as (stripe, account):
             intent = _json(stripe.get("payment_intents/" + pi))
             captured = _json(stripe.get("charges/" + charge))
-            refunds = (
-                _json(stripe.get("refunds", params={"charge": charge, "limit": 2}))
-                if refund_path
-                else None
-            )
-        total = approved["terms"]["total_minor"]
-        card = (captured.get("payment_method_details") or {}).get("card") or {}
-        if (
-            intent.get("id") != pi
-            or intent.get("livemode") is not False
-            or intent.get("latest_charge") != charge
-            or intent.get("status") != "succeeded"
-            or intent.get("amount_received") != total
-            or intent.get("currency") != "hkd"
-            or captured.get("id") != charge
-            or captured.get("payment_intent") != pi
-            or captured.get("livemode") is not False
-            or captured.get("status") != "succeeded"
-            or captured.get("paid") is not True
-            or captured.get("captured") is not True
-            or captured.get("amount_captured") != total
-            or captured.get("currency") != "hkd"
-            or (
-                not refund_path
-                and (captured.get("refunded") is not False or captured.get("amount_refunded") != 0)
-            )
-            or card.get("last4") != "4242"
-            or card.get("brand") != "visa"
-        ):
-            raise DomainError("SHOP_UNVERIFIED", 502)
-        receipt = {
+            if not isinstance(intent, dict) or not isinstance(captured, dict):
+                raise DomainError("SHOP_UNVERIFIED", 502)
+            method = captured.get("payment_method_details")
+            card = method.get("card") if isinstance(method, dict) else None
+            if (
+                intent.get("id") != pi
+                or intent.get("livemode") is not False
+                or intent.get("latest_charge") != charge
+                or intent.get("status") != "succeeded"
+                or type(intent.get("amount_received")) is not int
+                or intent["amount_received"] != total
+                or intent.get("currency") != "hkd"
+                or captured.get("id") != charge
+                or captured.get("payment_intent") != pi
+                or captured.get("livemode") is not False
+                or captured.get("status") != "succeeded"
+                or captured.get("paid") is not True
+                or captured.get("captured") is not True
+                or type(captured.get("amount_captured")) is not int
+                or captured["amount_captured"] != total
+                or captured.get("currency") != "hkd"
+                or not isinstance(card, dict)
+                or card.get("last4") != "4242"
+                or card.get("brand") != "visa"
+            ):
+                raise DomainError("SHOP_UNVERIFIED", 502)
+            # A newly pending Refund can precede both Woo's total and the Charge's counter.
+            try:
+                amounts = refund_receipt(order, captured, charge_refunds(stripe, charge), total)
+            except DomainError as error:
+                if error.code != "SHOP_UNVERIFIED":
+                    raise
+                amounts = {
+                    "refund_status": "needs_review", "refunded_minor": None,
+                    "net_minor": None, "pending_minor": None,
+                }
+        return {
             "order": order["order_id"],
             "order_status": order["status"],
             "charged_minor": total,
             "test_mode": True,
-            "can_cancel": order.get("can_cancel") is True and not refund_path,
+            "payment_fingerprint": hashlib.sha256(f"{account}/{pi}/{charge}".encode()).hexdigest(),
+            "can_cancel": order.get("can_cancel") is True and "refund_status" not in amounts,
+            "buyer_cancel_requested": requested,
+            **amounts,
         }
-        if refund_path:
-            receipt.update(
-                refund_receipt(order, captured, refunds, total), buyer_cancel_requested=requested
+
+
+def charge_refunds(stripe, charge_id):
+    params = {"charge": charge_id, "limit": 100}
+    cursors = set()
+    while True:
+        page = _json(stripe.get("refunds", params=params))
+        if (
+            not isinstance(page, dict)
+            or type(page.get("has_more")) is not bool
+            or not isinstance(page.get("data"), list)
+        ):
+            raise DomainError("SHOP_UNVERIFIED", 502)
+        yield from page["data"]
+        if not page["has_more"]:
+            return
+        # The consumer has validated every Refund ID before advancing the cursor.
+        if not page["data"] or (cursor := page["data"][-1]["id"]) in cursors:
+            raise DomainError("SHOP_UNVERIFIED", 502)
+        cursors.add(cursor)
+        params["starting_after"] = cursor
+
+
+def refund_receipt(order, charge, records, total):
+    """Recompute a snapshot of this capture. Pending funds still belong in its net."""
+    by_id = {}
+    for refund in records:
+        if (
+            not isinstance(refund, dict)
+            or refund.get("object") != "refund"
+            or not re.fullmatch(r"re_[a-zA-Z0-9]+", str(refund.get("id", "")))
+            or refund.get("livemode", False) is not False
+            or refund.get("charge") != charge["id"]
+            or refund.get("payment_intent") != charge["payment_intent"]
+            or refund.get("currency") != "hkd"
+            or type(refund.get("amount")) is not int
+            or not 0 < refund["amount"] <= total
+            or refund.get("status") not in (
+                "pending", "requires_action", "succeeded", "failed", "canceled"
             )
-        return receipt
+        ):
+            raise DomainError("SHOP_UNVERIFIED", 502)
+        entry = (refund["amount"], refund["status"])
+        if by_id.setdefault(refund["id"], entry) != entry:
+            raise DomainError("SHOP_UNVERIFIED", 502)
 
+    settled = sum(n for n, status in by_id.values() if status == "succeeded")
+    pending = sum(n for n, status in by_id.values() if status in {"pending", "requires_action"})
+    issued = settled + pending
+    if issued > total:
+        raise DomainError("SHOP_UNVERIFIED", 502)
+    amounts = {"refunded_minor": settled, "net_minor": total - settled, "pending_minor": pending}
+    recorded = charge.get("amount_refunded")
+    flag = charge.get("refunded")
+    status = order["status"]
+    statuses = {s for _, s in by_id.values()}
+    needs_review = "requires_action" in statuses or (
+        not pending and bool(statuses & {"failed", "canceled"})
+    )
+    # Woo records a buyer cancellation before dispatching to Stripe. Either read
+    # can arrive first, so keep following a recognized request while the counters catch up.
+    awaiting_buyer_refund = (
+        order.get("buyer_cancel_requested") is True
+        and status in {"on-hold", "processing", "refunded"}
+        and not needs_review
+    )
+    lag_status = "pending" if awaiting_buyer_refund else "needs_review"
+    if (
+        type(recorded) is not int or not 0 <= recorded <= total
+        or type(flag) is not bool or (flag and recorded != total)
+    ):
+        return {
+            "refund_status": "needs_review", "refunded_minor": None,
+            "net_minor": None, "pending_minor": pending,
+        }
+    if not settled <= recorded <= issued or (settled == total and not flag):
+        return {
+            "refund_status": lag_status, "refunded_minor": None,
+            "net_minor": None, "pending_minor": pending,
+        }
 
-def refund_receipt(order, charge, listing, total):
-    """A refund is final only when Woo, the captured charge and its single Refund agree."""
+    # Both ledgers can include a refund before Stripe completes it. Woo's order
+    # status/total alone cannot establish settlement or authorize a cancellation.
+    woo = order.get("refunded_minor", 0)
     if (
-        not isinstance(listing, dict)
-        or listing.get("has_more") is not False
-        or not isinstance(listing.get("data"), list)
+        type(woo) is not int or not 0 <= woo <= total
+        or status not in {"on-hold", "processing", "completed", "refunded"}
     ):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    records = listing["data"]
-    if (
-        not records
-        and order.get("buyer_cancel_requested")
-        and order["status"] in {"on-hold", "processing", "refunded"}
+        result = "needs_review"
+    elif (
+        not settled <= woo <= issued
+        or (settled == total and status != "refunded")
+        or (status == "refunded" and (woo != total or issued != total))
     ):
-        return {"refund_status": "pending"}
-    if len(records) != 1 or not isinstance(records[0], dict):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    refund = records[0]
-    if (
-        refund.get("object") != "refund"
-        or not re.fullmatch(r"re_[a-zA-Z0-9]+", str(refund.get("id", "")))
-        or refund.get("livemode", False) is not False
-        or refund.get("charge") != charge["id"]
-        or refund.get("payment_intent") != charge["payment_intent"]
-        or refund.get("currency") != "hkd"
-        or refund.get("amount") != total
-    ):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    status = refund.get("status")
-    if status in {"failed", "canceled", "requires_action"}:
-        return {"refund_status": "needs_review"}
-    if status not in {"pending", "succeeded"}:
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    if (
-        status == "succeeded"
-        and charge.get("refunded") is True
-        and charge.get("amount_refunded") == total
-        and order["status"] == "refunded"
-        and order.get("refunded_minor") == total
-    ):
-        return {"refund_status": "succeeded", "refunded_minor": total, "net_minor": 0}
-    return {"refund_status": "pending"}
+        result = lag_status
+    elif settled == total:
+        result = "succeeded"
+    elif needs_review:
+        result = "needs_review"
+    elif pending or (order.get("buyer_cancel_requested") and not settled):
+        result = "pending"
+    elif settled:
+        result = "partial"
+    else:
+        return amounts
+    return {**amounts, "refund_status": result}

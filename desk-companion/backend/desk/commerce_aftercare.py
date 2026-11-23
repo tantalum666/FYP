@@ -207,7 +207,7 @@ def turn(runtime, payload, principal, chat):
         }
     if action == "eligibility":
         row = service.reopen(ref.id, principal, chat.id)
-        if shop and row["state"] == "completed":
+        if shop and row["state"] == "completed" and not (row["receipt"] or {}).get("last_verified"):
             available = (row["receipt"] or {}).get("can_cancel") is True
             answer = (
                 (
@@ -247,7 +247,7 @@ def turn(runtime, payload, principal, chat):
     elif (
         shop
         and current["state"]
-        in {"completed", "refunded", "refund_pending", "refund_retry", "refund_review"}
+        in {"completed", "refunded", "partially_refunded", "refund_pending", "refund_retry", "refund_review"}
     ) or (
         not shop
         and current["state"]
