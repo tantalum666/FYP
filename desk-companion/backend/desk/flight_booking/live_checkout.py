@@ -56,6 +56,22 @@ class LiveFlightCheckouts(ChatReviews):
     def __init__(self, runtime):
         super().__init__(runtime, "LIVE_FLIGHT")
 
+    def has_pending_purchase(self, principal, chat):
+        """An inferred sandbox card cannot choose between two decisions for this owner and task."""
+        from ..conversation import Conversations
+
+        owner = Conversations.owner(principal)
+        if not owner or owner != chat.owner:
+            return False
+        with self.store.connection() as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            return db.execute(
+                """SELECT 1 FROM live_flight_checkouts WHERE owner=? AND chat=?
+                   AND json_extract(data,'$.task_id') IS ? AND json_extract(data,'$.active')=1
+                   AND json_extract(data,'$.state')='review' AND json_extract(data,'$.expires')>?
+                   LIMIT 1""", (owner, chat.id, chat.task_id, iso(self.store.clock())),
+            ).fetchone() is not None
+
     def forget_chat(self, principal, chat):
         from ..conversation import Conversations
 

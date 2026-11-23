@@ -45,6 +45,18 @@ def can_resume(runtime, principal, payload):
 
 
 def turn(runtime, payload, principal, chat):
+    ref = payload.shopping_review or payload.flight_review
+    if (
+        ref and not payload.selected_commerce_card and chat and principal
+        and (shopping.owner_decision(payload.message) or flights.owner_decision(payload.message))
+        and runtime.personal_context.visible(principal)
+        and runtime.live_flight_checkouts.has_pending_purchase(principal, chat)
+    ):
+        return {
+            "mode": "local_rules", "kind": "clarify", "saved": False, "acted": False,
+            "message": ("请选择要处理的原始报价卡。" if language_for(payload.message, payload.language) == "zh"
+                        else "Choose the original quote card you want to act on."),
+        }
     if result := live_chat.turn(runtime, payload, principal, chat):
         return result
     if result := commerce_aftercare.turn(runtime, payload, principal, chat):

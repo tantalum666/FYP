@@ -1869,7 +1869,10 @@ export function AssistantPanel({
                 onChange={(e) => {
                   if(!text.trim()){
                     const active=commerce.rows.filter(needsDecision);
-                    typedCommerceReview.current=active.length===1 && commerce.tracked.current===conversationId.current ? reviewRef(active[0],active[0].kind) : undefined;
+                    const pendingLiveFare = ownerFlight?.view.state === "review" &&
+                      ownerFlight.chat === conversationId.current && ownerFlight.task === taskId;
+                    typedCommerceReview.current = !pendingLiveFare && active.length === 1 &&
+                      commerce.tracked.current === conversationId.current ? reviewRef(active[0], active[0].kind) : undefined;
                   }
                   setText(e.target.value);
                 }}
