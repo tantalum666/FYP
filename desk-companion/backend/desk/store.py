@@ -374,6 +374,14 @@ class Store:
             }
 
     def create(self, payload, key, origin="manual"):
+        return self.operation(
+            key,
+            {"type": "create", **payload.model_dump(mode="json")},
+            lambda conn: self.insert_events(conn, payload, origin),
+        )
+
+    def insert_events(self, conn, payload, origin):
+        """Insert into an existing write transaction so the caller can bind a source receipt."""
         base = payload.event
         duration = base.end_local - base.start_local
         dates = [base.start_local.date(), *payload.additional_dates]
@@ -390,23 +398,20 @@ class Store:
             except ValueError:
                 raise DomainError("VALIDATION_FAILED", 422) from None
 
-        def apply(conn):
-            count = conn.execute("SELECT COUNT(*) FROM events WHERE deleted=0").fetchone()[0]
-            if count + len(documents) > 500:
-                raise DomainError("EVENT_LIMIT", 422)
-            ids = []
-            for document in documents:
-                event_id = uuid4().hex
-                document.update(origin=origin, batch_id=batch_id, provider=None, external_id=None)
-                conn.execute(
-                    "INSERT INTO events(id,data,version) VALUES(?,?,1)",
-                    (event_id, encode(document)),
-                )
-                self.record(conn, "created", event_id, {"origin": origin})
-                ids.append(event_id)
-            return {"event_ids": ids, "batch_id": batch_id}
-
-        return self.operation(key, {"type": "create", **payload.model_dump(mode="json")}, apply)
+        count = conn.execute("SELECT COUNT(*) FROM events WHERE deleted=0").fetchone()[0]
+        if count + len(documents) > 500:
+            raise DomainError("EVENT_LIMIT", 422)
+        ids = []
+        for document in documents:
+            event_id = uuid4().hex
+            document.update(origin=origin, batch_id=batch_id, provider=None, external_id=None)
+            conn.execute(
+                "INSERT INTO events(id,data,version) VALUES(?,?,1)",
+                (event_id, encode(document)),
+            )
+            self.record(conn, "created", event_id, {"origin": origin})
+            ids.append(event_id)
+        return {"event_ids": ids, "batch_id": batch_id}
 
     def event_action(self, event_id, payload, key):
         def apply(conn):

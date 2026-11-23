@@ -48,6 +48,12 @@ def public(row):
         "charged_minor": row.get("capture") if row["state"] == "completed" else None,
         "released": row["state"] in {"failed", "stopped"} and row.get("released", False),
         "stop_status": row.get("stop_status"),
+        **({"calendar_linked": True} if row.get("calendar_event_id") else {}),
+        **(
+            {"calendar_preview": row["calendar_preview"]["event"]}
+            if row.get("calendar_preview") and row["state"] == "completed"
+            else {}
+        ),
     }
 
 

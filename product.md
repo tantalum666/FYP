@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-23 Add a confirmed flight to the desk calendar
+
+Alice can use the verified flight receipt from this conversation to prepare a private local calendar event. Show the complete itinerary in the desk timezone, wait for a separate calendar confirmation and read the saved event back. A repeat action must preserve a later local edit or deletion. [Journey](desk-companion/docs/conversation-flight-booking.md#add-a-booked-test-flight-to-the-desk-calendar).
+
 ## 2026-11-22 Match flight choices to the owner’s calendar
 
 When asked to avoid existing commitments, Alice checks the published itinerary against the locally saved busy calendar. Show only verified fits within the owner’s search constraints, keep overnight arrival dates visible and recheck the calendar at confirmation. If the owner’s schedule changes, offer a different unbooked fare under the same constraints and ask for a fresh decision. The normal home remains one line. [Acceptance](output/qa/2026-11-22-calendar-aware-fares/verification.md).

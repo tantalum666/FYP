@@ -3,6 +3,7 @@
 from . import commerce_aftercare
 from .store import DomainError
 from .commerce_review import language_for
+from .flight_booking import calendar_handoff
 from .flight_booking import conversation as flights
 from .shop_checkout import conversation as shopping
 
@@ -40,6 +41,8 @@ def can_resume(runtime, principal, payload):
 
 
 def turn(runtime, payload, principal, chat):
+    if result := calendar_handoff.turn(runtime.flight_bookings, payload, principal, chat):
+        return result
     if result := commerce_aftercare.turn(runtime, payload, principal, chat):
         return result
     if payload.shopping_review:
@@ -136,6 +139,9 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
         else:
             continue
         result = {k: v for k, v in reply.items() if k != quote_field}
+        if cached and reply.get("flight_calendar_link") and result_field == "flight_booking":
+            message = calendar_handoff.linked_message(service, row["id"], principal, chat.id, lang == "zh")
+            return {**result, result_field: row, "message": message}
         if (
             cached
             and reply.get("commerce_note")

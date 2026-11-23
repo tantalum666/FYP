@@ -166,6 +166,33 @@ export function SandboxFlightCard({
                   )}
                 </div>
               )}
+              {flight.state === "completed" &&
+                flight.pnr &&
+                flight.charged_minor != null &&
+                !flight.calendar_preview && (
+                  <button
+                    type="button"
+                    className="secondary"
+                    disabled={busy}
+                    onClick={() =>
+                      choose(
+                        flight.calendar_linked
+                          ? t(
+                              "Check this flight on my calendar",
+                              "查看航班日程",
+                            )
+                          : t(
+                              "Add this flight to my desk calendar",
+                              "把这趟航班加入我的桌面日历",
+                            ),
+                      )
+                    }
+                  >
+                    {flight.calendar_linked
+                      ? t("Check calendar", "查看日程")
+                      : t("Add to calendar", "加入日历")}
+                  </button>
+                )}
               {flight.stop_status === "too_late" && (
                 <div>
                   {t(
@@ -190,6 +217,53 @@ export function SandboxFlightCard({
               )}
             </div>
           </details>
+          {flight.calendar_preview && flight.state === "completed" && (
+            <div className="commerce-detail-body">
+              <strong>{flight.calendar_preview.title}</strong>
+              <div>
+                {flight.calendar_preview.start_local
+                  .replace("T", " ")
+                  .slice(0, 16)}{" "}
+                →{" "}
+                {flight.calendar_preview.end_local
+                  .replace("T", " ")
+                  .slice(0, 16)}{" "}
+                · {flight.calendar_preview.timezone}
+              </div>
+              <div className="workspace-inline-actions">
+                <button
+                  className="primary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() =>
+                    choose(
+                      t(
+                        "Confirm adding this flight to my calendar",
+                        "确认加入日历",
+                      ),
+                    )
+                  }
+                >
+                  {t("Save to calendar", "确认加入日历")}
+                </button>
+                <button
+                  className="secondary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() =>
+                    choose(
+                      t(
+                        "Skip adding this flight to my calendar",
+                        "暂不加入日历",
+                      ),
+                    )
+                  }
+                >
+                  {t("Skip", "暂不加入")}
+                </button>
+              </div>
+            </div>
+          )}
           {canStop && (
             <button
               className="secondary"

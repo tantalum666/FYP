@@ -1,5 +1,5 @@
 import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
-import { orderKey, orderStatus, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
+import { needsOwnerReview, orderKey, orderStatus, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
 import { useCommerceReviews, needsDecision, reviewRef, type CommerceRef } from "./commerceReviews";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
@@ -698,7 +698,7 @@ export function AssistantPanel({
                     )
                   : result.message,
             orderKey:
-              card && !result.commerce_note ? orderKey(card) : undefined,
+              card && (!result.commerce_note || (card.kind === "flight" && card.calendar_preview)) ? orderKey(card) : undefined,
             choices: result.flight_alternatives,
             commerceChat:
               card || result.flight_alternatives
@@ -1328,7 +1328,7 @@ export function AssistantPanel({
   const focusTurn = focusedOrderTurn(turns, orderRows);
   const focusedOrder = focusTurn
     ? orderRows.find((row) => orderKey(row) === focusTurn.orderKey)
-    : orderRows.find(needsDecision);
+    : orderRows.find(needsOwnerReview);
   const otherOrders = focusedOrder
     ? orderRows.filter((row) => row !== focusedOrder)
     : orderRows;
@@ -1344,14 +1344,16 @@ export function AssistantPanel({
     !!focusTurn?.choices;
   const needsOrderReview =
     focusedOrder &&
-    (needsDecision(focusedOrder) || focusedOrder.state === "refund_retry");
+    needsOwnerReview(focusedOrder);
   const openOrder =
     (needsOrderReview || hasChoices) &&
     !liveMessage &&
     !busy &&
     !speechText.current.assistant;
   const homeAnswer = focusedOrder
-    ? orderStatus(focusedOrder, t)
+    ? focusedOrder.kind === "flight" && focusedOrder.calendar_preview
+      ? t("Review flight calendar times", "核对航班日程")
+      : orderStatus(focusedOrder, t)
     : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
   function turnBody(turn: ConversationTurn) {
     if (

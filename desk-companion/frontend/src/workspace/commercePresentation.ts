@@ -48,6 +48,13 @@ export function calendarFitLabel(fit: CalendarFit, t: Translate) {
 }
 
 export interface SandboxFlight {
+  calendar_linked?: boolean;
+  calendar_preview?: {
+    title: string;
+    start_local: string;
+    end_local: string;
+    timezone: string;
+  };
   calendar_fit?: CalendarFit;
   can_find_other?: boolean;
   id: string;
@@ -90,6 +97,10 @@ export const orderKey = (row: Pick<StatusMark, "kind" | "id">) =>
 export const hkd = (minor: number) => `HK$${(minor / 100).toFixed(2)}`;
 export const needsDecision = (row: { state: string }) =>
   ["quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
+export const needsOwnerReview = (row: CommerceReview) =>
+  needsDecision(row) ||
+  row.state === "refund_retry" ||
+  (row.kind === "flight" && !!row.calendar_preview);
 export const reviewRef = (
   row: Pick<CommerceReview, "id" | "version" | "review_minor">,
   kind: CommerceReview["kind"],

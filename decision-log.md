@@ -977,3 +977,7 @@ The owner found the repeated on-screen text confusing and requested further pers
 ## 2026-11-22 Calendar-aware flight choice in ordinary Alice chat
 
 The owner asked to continue personal-agent work. Group 2 chose calendar-aware flight selection as the next cross-task behavior. Use the existing desk calendar and original Session Function to compare returned fares when the owner asks for a fit. Keep busy details local, consume airport-local times, preserve the date, budget and original flight constraints, and recheck before admitting a financial action. On a blocked unsubmitted quote the owner can request another flight in the same conversation. The receipt worker remains read-only. [Decision and evidence](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-23 Parallel API development and local flight calendar handoff
+
+The owner authorized a separately metered OpenAI API developer using GPT-6.2 Astra at maximum reasoning effort, with a fixed retained-credit floor. Its actual contributions use a named Git author and a separate review branch. Regular Alice clients retain their configured provider and budgets. The integrating engineer chose a confirmed-flight handoff: the existing booking review supplies the authority and identity, and the existing calendar writer inserts one local event alongside the source binding in a single transaction. Require a fresh provider read and an explicit event confirmation. [Source and local checks](output/qa/2026-11-23-api-astra-team/verification.md).

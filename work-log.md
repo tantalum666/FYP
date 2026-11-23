@@ -1128,3 +1128,7 @@ Removed duplicate body/card presentation and the permanent stack of old orders i
 ## 2026-11-22 · Calendar-aware flight search and confirmation
 
 Connected the desk’s canonical busy occurrences to LetsFG fare selection, including recurrence exceptions, DST, date-line handling and disagreement between elapsed duration and published local times. Confirmations use an atomic local check before a provider submission. The original carrier, route and budget can be reused to find a different flight from a blocked quote. A real read timeout exposed the five-second search limit. The read-only adapter now shares one retry window. Mac Web and the iPhone 17 Pro Simulator run `08200201`. [Acceptance and cost breakdown](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-23 · Parallel API contributor and booked-flight calendar handoff
+
+The named OpenAI API contributor published the itinerary projection and its 33 focused tests in [PR 143](https://github.com/tantalum666/FYP/pull/143). In parallel, the integrating engineer connected the ordinary conversation, original receipt, calendar review and atomic local event write. Five new authenticated API journeys and frontend type checking passed. The recorded supplier fixture covered an approved price increase and one original booking. [Verification and scope](output/qa/2026-11-23-api-astra-team/verification.md).
