@@ -32,6 +32,10 @@ def public(row):
 class ShopOrders(ChatReviews):
     follow_states = ("submitting", "checking", "refund_pending")
 
+    @staticmethod
+    def review_view(db, row):
+        return public(row)
+
     def __init__(self, runtime):
         super().__init__(runtime, "SHOP")
         config = os.getenv("DESK_WOO_SANDBOX_CONFIG")

@@ -326,20 +326,23 @@ class AssistantService:
 
     def proposals(self, *, allow_memory=True):
         with self.store.connection() as conn:
-            return [
-                self._view(r)
-                for r in conn.execute(
-                    "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? "
-                    "AND NOT EXISTS (SELECT 1 FROM operations WHERE id='assistant-confirm/' || assistant_proposals.id) "
-                    + (
-                        ""
-                        if allow_memory
-                        else "AND kind NOT LIKE 'memory_%' AND kind NOT IN ('email_send','browser_research','mail_followup') AND COALESCE(json_extract(data, '$.goal'),0)=0 "
-                    )
-                    + "ORDER BY created_at DESC LIMIT 20",
-                    (iso(self.store.clock()),),
+            return self.pending_proposals(conn, allow_memory=allow_memory)
+
+    def pending_proposals(self, conn, *, allow_memory=True):
+        return [
+            self._view(r)
+            for r in conn.execute(
+                "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? "
+                "AND NOT EXISTS (SELECT 1 FROM operations WHERE id='assistant-confirm/' || assistant_proposals.id) "
+                + (
+                    ""
+                    if allow_memory
+                    else "AND kind NOT LIKE 'memory_%' AND kind NOT IN ('email_send','browser_research','mail_followup') AND COALESCE(json_extract(data, '$.goal'),0)=0 "
                 )
-            ]
+                + "ORDER BY created_at DESC,rowid DESC LIMIT 20",
+                (iso(self.store.clock()),),
+            )
+        ]
 
     @staticmethod
     def _view(row):
