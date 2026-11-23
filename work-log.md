@@ -1150,3 +1150,7 @@ Released global city forecasts and Hong Kong rain, compact listening, trusted HK
 ## 2026-11-23 · Cold-start weather and overlapping approvals on the installed application
 
 The weather release is `a17ac349` on Mac, the installed iPhone 17 Pro Simulator and the original Raspberry Pi. The first Tokyo request after restart succeeded in 2.756 seconds. Alice obtained separate city and airport forecasts, preserved the destination's date across midnight and read the Observatory’s dated rain bulletin on the phone. A failed source and a missing rain forecast have distinct, truthful readbacks. When a flight and an unrelated shop quote both await approval, generic assent asks for the original card. The exact previous failure, changed behavior and retained state are recorded in the [ordinary release](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 · Continue an expired flight quote under the current login
+
+On `92acac8e` a buyer without an eligible current quote now gets one short request for a new itinerary in ordinary text, Live and the card. An isolated expiry-to-consent journey used the newly supplied destination, dates and party. The normal Mac returned the new prompt with zero new itinerary transmissions or supplier operations. The installed iPhone retained its normal origin, account state and verified bundle. [Expiry and installation evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).

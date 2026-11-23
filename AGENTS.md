@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 23 November 2026. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. The [handoff](handoff.md) records running revisions separately from [personal-agent integration](output/qa/2026-11-23-api-astra-team/verification.md), [ordinary Web and native acceptance](output/qa/2026-11-23-owner-flow-hotfix/verification.md) and the [original Pi's wake service](output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).
+> 24 November 2026. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. The [handoff](handoff.md) records running revisions separately from [personal-agent integration](output/qa/2026-11-23-api-astra-team/verification.md), [ordinary Web and native acceptance](output/qa/2026-11-23-owner-flow-hotfix/verification.md) and the [original Pi's wake service](output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).
 <!-- /FYP-CONTEXT-20261027 -->
 
 21 November shopping follow-up. Amazon Pay completed the US$14.30 demo order and the separate US$1.00 merchant-controlled full refund. Link's approved FYP test allowance is US$500 monthly for 180 days, capped at US$10 per order. The Link API returned its published CLI test example, which fails the merchant's card-number check. Start with the [no-wallet reproduction and local scope fix](output/qa/2026-11-20-link-wallet-diagnosis/verification.md) before another checkout attempt. eBay rejected registration and the owner confirmed submission of one [developer-account review](output/qa/2026-11-21-shopping-next-step/verification.md). [Provider receipts](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).

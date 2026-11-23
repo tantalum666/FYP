@@ -10,7 +10,7 @@ Alice can use the verified flight receipt from this conversation to prepare a pr
 
 ## 2026-11-23 Buy an identified fare from an ordinary conversation
 
-A request to buy a displayed fare opens the original signed-in owner's review. Alice can check the selected seller for missing luggage rules and total, and present a bookable supplier offer once available. Show the exact itinerary, party, baggage coverage, currency and total for the owner's decision. Reprice before submitting. A change requires a fresh decision, and a missing supplier acknowledgement must never trigger a second booking. Confirm completion from the original reservation and matching captured amount. Keep listening controls compact, display the numeric amount and use the same precise value in speech. [Release acceptance](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+A request to buy a displayed fare opens the original signed-in owner's review. If its login has expired, ask for the trip in the current conversation and obtain a new decision before sharing it with a seller. Alice can check the selected seller for missing luggage rules and total, and present a bookable supplier offer once available. Show the exact itinerary, party, baggage coverage, currency and total for the owner's decision. Reprice before submitting. A change requires a fresh decision, and a missing supplier acknowledgement must never trigger a second booking. Confirm completion from the original reservation and matching captured amount. Keep listening controls compact, display the numeric amount and use the same precise value in speech. [Release acceptance](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
 
 ## 2026-11-23 Ask Alice for weather at a destination
 
