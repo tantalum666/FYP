@@ -80,6 +80,15 @@
     "isolated_real_native_card_verified": true,
     "A3_v9_settings_and_audio_preserved": true,
     "account_grants_preserved": true,
-    "letsfg_connected": false
+    "letsfg_connected": false,
+    "original_pi": {
+      "source": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+      "observed_at": "2026-11-24T00:18:35+08:00",
+      "normal_api_and_kiosk_active": true,
+      "both_language_variants_returned_no_source": true,
+      "kiosk_used_compiled_translation": true,
+      "model_seller_or_booking_changes": 0,
+      "original_grants_and_A3_preserved": true
+    }
   }
 }
