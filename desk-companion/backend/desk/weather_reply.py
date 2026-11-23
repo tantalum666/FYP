@@ -140,6 +140,27 @@ def weather_summary(result, language):
                 + _day_line(row, zh, timed=len(days) == 1 and not supplement, supplement=supplement)
             )
         sentences.append(("。" if zh else ". ").join(lines) + ("。" if zh else "."))
+    if (
+        current
+        and result.get("period") != "current"
+        and result.get("requested_days", 1) == 1
+        and not outlook
+    ):
+        rain_outlook = any(
+            row["date"] == result.get("local_date")
+            and (
+                row.get("conditions")
+                or row.get("significant_rain_category")
+                or row.get("precipitation_windows")
+                or row.get("peak_precipitation_probability_pct") is not None
+                or row.get("precipitation_mm") is not None
+            )
+            for row in days
+        )
+        if not rain_outlook:
+            sentences.append(
+                "暂时查不到今天的降雨预报。" if zh else "Today's rain forecast is unavailable."
+            )
     if missing := result.get("uncovered_days"):
         sentences.append(
             f"另外 {missing} 天还没有可用预报。"
