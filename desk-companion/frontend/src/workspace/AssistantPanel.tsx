@@ -12,6 +12,7 @@ import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
 import "./composer-files.css";
 import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
 import { useAssistantFootprint } from "../companion/useAssistantFootprint";
+import { ConversationScroll } from "./ConversationScroll";
 import { proposalDecisionNotice } from "./proposalDecision";
 import type { ReactNode } from "react";
 import {
@@ -177,10 +178,8 @@ export function AssistantPanel({
     document.addEventListener("pointerdown", close);
     return () => document.removeEventListener("pointerdown", close);
   }, [menu]);
-  const conversation = useRef<HTMLDivElement>(null);
   const panelFootprint = useAssistantFootprint(immersive);
   const followLatest = useRef(true);
-  const jobRevision = jobs.map((job) => `${job.id}:${job.version}`).join(",");
   const composer = useRef<HTMLTextAreaElement>(null);
 
   const [text, setText] = useState(""),
@@ -419,24 +418,6 @@ export function AssistantPanel({
     setView("jobs");
     setMenu(false);
   };
-  useEffect(() => {
-    if (!followLatest.current) return;
-    conversation.current?.scrollTo({
-      top: conversation.current.scrollHeight,
-      behavior: "instant",
-    });
-  }, [
-    turns,
-    proposals,
-    transcript,
-    liveMessage,
-    notice,
-    error,
-    view,
-    jobRevision,
-    expanded,
-    voiceActive,
-  ]);
   function endVoice() {
     const engine = audio.current;
     audio.current = null;
@@ -1563,16 +1544,7 @@ export function AssistantPanel({
         hidden={view !== "chat"}
         aria-label={t("Conversation", "对话")}
       >
-        <div
-          className="assistant-conversation"
-          ref={conversation}
-          onScroll={(event) => {
-            const node = event.currentTarget;
-            if (node.clientHeight > 0)
-              followLatest.current =
-                node.scrollHeight - node.scrollTop - node.clientHeight <= 2;
-          }}
-        >
+        <ConversationScroll followLatest={followLatest}>
           {(!immersive || expanded) && <InitiativeMessages t={t} />}
           {(!immersive || expanded) &&
             jobs
@@ -1720,7 +1692,7 @@ export function AssistantPanel({
               {errorText(error, t)}
             </p>
           )}
-        </div>
+        </ConversationScroll>
         <div
           className="assistant-input-area"
           id={workspace ? "desktop-chat-composer" : undefined}

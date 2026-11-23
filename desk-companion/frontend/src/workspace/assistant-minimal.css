@@ -80,6 +80,9 @@
   scrollbar-width: thin;
   padding: 8px 2px 22px;
 }
+.assistant-transcript-content {
+  display: flow-root;
+}
 .assistant-welcome {
   min-height: 100%;
   display: grid;
