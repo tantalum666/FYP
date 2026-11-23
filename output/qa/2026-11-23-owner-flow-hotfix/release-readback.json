@@ -42,5 +42,44 @@
         "summary": "悉尼当地 2026-11-24 02:00，Open-Meteo估算 20.7°C，晴。今天预计毛毛雨，18.2 至 23.8°C，逐小时降水概率最高 100%，预计全天降水 3.2 毫米，预计降水时段包括 08:00–14:00、15:00–23:00。"
       }
     ]
+  },
+  "after_hong_kong_midnight": {
+    "source": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+    "at_utc": "2026-11-23T16:02:10.368716+00:00",
+    "environment": "isolated ordinary streaming conversation, live public providers",
+    "response": "香港当地 2026-11-23 23:00，香港天文台实测 23°C。本港地区(十一月二十四日，星期二)天气预测，多云，有几阵雨。初时雨势较为频密，气温由约23度，逐步下降至晚上市区最低约18度，新界再低一两度。今天预计多云，有几阵雨，初时雨势较为频密。天气逐步转凉，18 至 23°C，显著降雨概率中。",
+    "public_tool_events": [
+      [
+        "started",
+        "weather_query"
+      ],
+      [
+        "finished",
+        "weather_query"
+      ]
+    ]
+  },
+  "fresh_quote_release": {
+    "source": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+    "mac_health": "ok",
+    "release_files": 641,
+    "index_sha256": "874979b0be745aefa85cae5bad73f727afc90cc54d7235e005909332f5026ff2",
+    "normal_web_readback": {
+      "state": "no_source",
+      "response": "告诉我出发地、目的地和出发日期，往返请加上回程日期，我帮你查新报价。",
+      "http_status": 200,
+      "real_itinerary_sent": false,
+      "seller_or_airline_operations": 0,
+      "operational_counts_unchanged": true
+    },
+    "installed_native_files_verified": 77,
+    "installed_native_revision": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+    "protected_native_data_preserved": true,
+    "native_installed_in_background": true,
+    "normal_native_foreground_rerun": false,
+    "isolated_real_native_card_verified": true,
+    "A3_v9_settings_and_audio_preserved": true,
+    "account_grants_preserved": true,
+    "letsfg_connected": false
   }
 }

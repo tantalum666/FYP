@@ -985,3 +985,7 @@ The owner reported that an ordinary Tokyo question was refused and a Hong Kong l
 ## 2026-11-23 Respond to the owner’s actual weather and purchase questions
 
 The owner requested a worldwide city lookup with rain, a compact listening area, natural currency speech and a flight agent that continues after showing a research price. The application reuses the original signed-in conversation, trusted amount, selected source and supplier-controlled checkout. No owner consent transfers between the public weather read, optional seller inspection, live flight OAuth and the specific payment. [Behavior and evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 Continue from an expired flight-research login
+
+The original seller receipt outlived its owner login. The engineering recovery asks the current owner for a new itinerary in ordinary conversation and reuses the existing itinerary-sharing decision. A still-accessible original quote keeps its existing review. No previous traveller or trip fields transfer into a different login. [Observed transition](output/qa/2026-11-23-owner-flow-hotfix/verification.md).

@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 23 November 2026. Start with the [current handoff](handoff.md). The ordinary Mac and installed iPhone share the [owner-facing flight, weather and conversation release](output/qa/2026-11-23-owner-flow-hotfix/verification.md). Device and supplier receipts establish their own deployment and transaction states.
+> 24 November 2026. Start with the [current handoff](handoff.md). The ordinary Mac and installed iPhone share the [owner-facing flight, weather and conversation release](output/qa/2026-11-23-owner-flow-hotfix/verification.md). Device and supplier receipts establish their own deployment and transaction states.
 <!-- /FYP-CONTEXT-20261027 -->
 
 21 November shopping follow-up. Amazon Pay completed the US$14.30 demo order and the separate US$1.00 merchant-controlled full refund. Link's approved FYP test allowance is US$500 monthly for 180 days, capped at US$10 per order. The Link API returned its published CLI test example, which fails the merchant's card-number check. Start with the [no-wallet reproduction and local scope fix](output/qa/2026-11-20-link-wallet-diagnosis/verification.md) before another checkout attempt. eBay rejected registration and the owner confirmed submission of one [developer-account review](output/qa/2026-11-21-shopping-next-step/verification.md). [Provider receipts](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
