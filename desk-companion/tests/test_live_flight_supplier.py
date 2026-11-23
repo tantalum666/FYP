@@ -445,15 +445,13 @@ def test_ambiguous_start_fenced_across_processes_and_second_review(setup):
         == first
     )
     changed_contacts = dict(PAX, address_city="Another test city")
-    assert (
-        restarted.submit(
-            a.model_copy(update={"approval_id": "corrected-contact"}),
-            [changed_contacts],
-            "changed@example.test",
-            principal=principal,
-        )
-        == first
+    another = restarted.submit(
+        a.model_copy(update={"approval_id": "corrected-contact"}),
+        [changed_contacts],
+        "changed@example.test",
+        principal=principal,
     )
+    assert another["state"] == "uncertain" and another["booking_ref"] is None
     assert lane.requests.count(("POST", "/api/agent-book")) == 1
     assert not official_url("https://letsfg.co@evil.example/connect")
     assert not official_url("https://letsfg.co/redirect?u=https%3A%2F%2Fevil.example")
@@ -543,3 +541,28 @@ def test_bank_challenge_and_untrusted_ref_do_not_create_ticket(setup):
         and "pnr" not in guarded
         and "charged_minor" not in guarded
     )
+
+
+def test_first_price_change_invalidates_approval_and_previous_payment_stays_on_its_offer(setup):
+    _, _, lane, supplier, principal = setup
+    authorize(setup)
+    query = LiveFlightQuery(**REQUEST)
+    original = supplier.search(query, principal=principal)["offers"][0]
+    initial = LiveApprovedFare(approval_id="initial-price", query=query, offer=original)
+    lane.offer["price"] = "3530"
+    change = supplier.submit(initial, [PAX], MAIL, principal=principal)
+    assert change["state"] == "reprice"
+    lane.offer["price"] = "3389.59"
+    assert supplier.submit(initial, [PAX], MAIL, principal=principal) == change
+    assert ("POST", "/api/agent-book") not in lane.requests
+    approved = initial.model_copy(update={"approval_id": "owner-agreed-again"})
+    assert supplier.submit(approved, [PAX], MAIL, principal=principal)["state"] == "held"
+    assert (
+        supplier.status(approved.approval_id, original, principal=principal)["state"] == "completed"
+    )
+    lane.offer["price"] = "3530"
+    different = LiveApprovedFare(approval_id="higher-fare", query=query, offer=change["offer"])
+    result = supplier.submit(different, [PAX], MAIL, principal=principal)
+    assert result["state"] == "needs_attention" and result["booking_ref"] is None
+    assert "charged_minor" not in result and "pnr" not in result
+    assert lane.requests.count(("POST", "/api/agent-book")) == 1

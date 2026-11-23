@@ -280,6 +280,22 @@ class LiveFlightProvider:
             return self._unseal(old)["public"]
         return None
 
+    def _close_unsubmitted_review(self, key, request, result):
+        # A material change invalidates this approval even if the fare later
+        # returns to the same amount. A conflicting in-flight submission wins.
+        with self.store.connection(write=True) as db:
+            if prior := self._existing(db, key, request):
+                return prior
+            db.execute(
+                "INSERT INTO operations VALUES(?,?,?)",
+                (
+                    key,
+                    encode(request),
+                    self._envelope({"public": result}),
+                ),
+            )
+        return result
+
     def submit(self, approval: LiveApprovedFare, passengers, contact_email, *, principal):
         offer, query, handle = approval.offer, approval.query, approval.approval_id
         owner = Conversations.owner(principal or {})
@@ -321,13 +337,20 @@ class LiveFlightProvider:
             query, offer.get("search_id"), principal, token, version, offer.get("offer_id")
         )
         if not fresh["offers"]:
-            return record("unavailable", reason=fresh.get("reason", "offer_unavailable"))
+            unavailable = record("unavailable", reason=fresh.get("reason", "offer_unavailable"))
+            if fresh["state"] in {"expired", "no_verified_offer"}:
+                return self._close_unsubmitted_review(key, request, unavailable)
+            return unavailable
         current = fresh["offers"][0]
         if terms(current) != terms(offer):
-            return record(
-                "reprice" if current["ready"] else "unavailable",
-                offer=current,
-                reason=current.get("reason") or "offer_changed",
+            return self._close_unsubmitted_review(
+                key,
+                request,
+                record(
+                    "reprice" if current["ready"] else "unavailable",
+                    offer=current,
+                    reason=current.get("reason") or "offer_changed",
+                ),
             )
         token, _ = self.auth.grant(principal, version)
         public = record("uncertain", handle, reason="check_original_booking")
@@ -343,9 +366,12 @@ class LiveFlightProvider:
             for candidate in earlier:
                 previous = self._unseal(candidate)["public"]
                 if previous["state"] in _REUSABLE:
-                    if json.loads(candidate["request"])["owner"] != owner:
+                    earlier_request = json.loads(candidate["request"])
+                    if earlier_request != request:
+                        # A previous charge or PNR belongs only to its own approved fare.
                         return record(
-                            "uncertain", reason="check_original_booking_in_original_login"
+                            "uncertain" if previous["state"] == "uncertain" else "needs_attention",
+                            reason="check_original_booking_in_original_login",
                         )
                     return previous
             db.execute(
