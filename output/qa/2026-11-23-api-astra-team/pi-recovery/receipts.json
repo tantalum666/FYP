@@ -8,6 +8,20 @@
     "mac_pytest_passed": 24
   },
   "device_change_from_this_diagnosis": false,
+  "independent_read_only_pmic_probe": {
+    "boot_short": "ef43e8a8",
+    "firmware_alarm_enabled": true,
+    "firmware_alarm_in_saved_ownership": true,
+    "firmware_deadline_utc": "2026-11-23T07:47:26+00:00",
+    "firmware_lead_seconds": 156,
+    "firmware_matches_linux_alarm": true,
+    "firmware_read_ok": true,
+    "linux_alarm_in_saved_ownership": true,
+    "observed_utc": "2026-11-23T07:44:50+00:00",
+    "opt_in_marker_present": true,
+    "owner_record_initialized": true,
+    "rtc_minus_os_approx_seconds": -1.0
+  },
   "installed_component_sha256": {
     "helper": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
     "service": "b0f2e75434496c75d117d87b2655e0cbc1a54bf4146eda7ce399a56cb8a701bc",
