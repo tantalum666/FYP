@@ -1,4 +1,4 @@
-"""Recognize a standalone city weather question; other requests keep the normal model route."""
+"""Recognize a standalone weather question about one explicit destination; other requests keep the normal model route."""
 
 import re
 import unicodedata

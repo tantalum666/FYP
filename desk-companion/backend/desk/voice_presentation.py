@@ -11,7 +11,7 @@ SPEECH_GUIDANCE = (
     "when they matter. Do not insert English fillers into Mandarin or Cantonese. "
     "When saying HKD in Mandarin or Cantonese use a single decimal amount followed by 港元. "
     "For a verified fare use its fare_amount.spoken_zh exactly. Keep cent digits in order, including a leading zero. "
-    "For weather anywhere, delegate weather_query with the actual city and the spoken language. "
+    "For weather anywhere, delegate weather_query with the explicit city or named site and the spoken language. "
     "For a general weather or rain question use today in the destination. Speak its current conditions, "
     "daily range and sourced precipitation outlook as a short natural answer using its summary. "
 )

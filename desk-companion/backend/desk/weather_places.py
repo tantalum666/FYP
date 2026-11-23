@@ -14,6 +14,23 @@ PLACE_READS = ThreadPoolExecutor(max_workers=6, thread_name_prefix="weather-plac
 GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
 HK_NAMES = {"hong kong", "hong_kong", "hongkong", "香港", "香港特别行政区", "香港特別行政區"}
 COORDINATES = re.compile(r"([+-]?\d+(?:\.\d+)?)\s*,\s*([+-]?\d+(?:\.\d+)?)")
+# GeoNames point features with a meaningful single forecast location. Regions,
+# countries, ranges and other extended features need a more specific destination.
+FIXED_SITE_CODES = {
+    "AIRB",
+    "AIRF",
+    "AIRH",
+    "AIRP",
+    "AIRT",
+    "RSTN",  # airfields, terminals and stations
+    "LTHSE",
+    "MUS",
+    "OBS",
+    "STDM",  # fixed landmarks
+    "MT",
+    "PK",
+    "VLC",  # mountains, peaks and volcanoes
+}
 HAN = re.compile(r"[\u3400-\u9fff]")
 
 
@@ -53,6 +70,22 @@ def _label(row):
     )
 
 
+def _choices(rows, language):
+    labels = [_label(row) for row in rows]
+    repeated = {label for label in labels if labels.count(label) > 1}
+    for i, row in enumerate(rows):
+        if labels[i] in repeated:
+            town = str(row.get("feature_code", "")).startswith("PPL")
+            kind = (
+                ("城镇" if town else "地点") if language == "zh" else ("town" if town else "site")
+            )
+            if isinstance(row.get("latitude"), (int, float)) and isinstance(
+                row.get("longitude"), (int, float)
+            ):
+                labels[i] += f" ({kind}, {row['latitude']:.3f}, {row['longitude']:.3f})"
+    return labels
+
+
 def _weight(row):
     value = row.get("population")
     return value if type(value) is int and value > 0 else 0
@@ -87,8 +120,12 @@ def resolve_place(read, location, country_code, language):
     if HAN.search(text):
         variants = list(dict.fromkeys([_converter("s2t").convert(text), simplified(text)]))
 
+    # The returned place name is localized. Use the input's script for an exact site
+    # comparison, even when the requested weather reply is in the other language.
+    place_language = "zh" if HAN.search(text) else "en" if text.isascii() else language
+
     def search(name):
-        params = {"name": name, "count": 12, "language": language}
+        params = {"name": name, "count": 12, "language": place_language}
         if country_code:
             params["countryCode"] = country_code
         return read(GEOCODING_URL, params, ttl=86400).get("results", [])
@@ -138,24 +175,38 @@ def resolve_place(read, location, country_code, language):
         for r in cities
     ):
         raise PlaceProblem("specify_city")
-    if not cities:
-        raise PlaceProblem("specify_city" if broad else "not_found")
-
-    # Exact display names precede fuzzy matches. The service also matches aliases in
-    # other languages, so retain its ranking when the returned language differs.
+    # The geocoder also returns fuzzy names. A similarly named airport is not
+    # evidence for a mountain, and an airport and its nearby city have distinct coordinates.
     bare = simplified(text.partition(",")[0].strip().casefold())
-    exact = [r for r in cities if simplified(r["name"].casefold()) == bare]
-    candidates = exact or cities
+    exact_cities = [r for r in cities if simplified(r["name"].casefold()) == bare]
+    sites = [r for r in found.values() if r.get("feature_code") in FIXED_SITE_CODES]
+    exact_sites = [r for r in sites if simplified(r["name"].casefold()) == bare]
+    short_code = bool(re.fullmatch(r"[A-Za-z]{3,4}", text.partition(",")[0].strip()))
+    if exact_sites:
+        candidates = [*exact_sites, *exact_cities]
+    elif not cities or (
+        not exact_cities
+        and (
+            first in sites or (short_code and sites) or simplified(first["name"].casefold()) == bare
+        )
+    ):
+        raise PlaceProblem("not_found")
+    else:
+        # Populated places retain their existing multilingual alias/population ranking.
+        candidates = exact_cities or cities
     candidates.sort(key=_weight, reverse=True)
     top = candidates[0]
     if failed_variant and top.get("feature_code") != "PPLC" and _weight(top) < 100_000:
-        # A village in one script is insufficient when we could not resolve the other.
         raise failed_variant
     if len(candidates) > 1:
         second = candidates[1]
-        dominant = _weight(top) >= 100_000 and _weight(top) >= 8 * max(1, _weight(second))
-        if not dominant:
-            raise PlaceProblem("ambiguous", [_label(r) for r in candidates[:3]])
+        dominant_city = (
+            not exact_sites
+            and _weight(top) >= 100_000
+            and _weight(top) >= 8 * max(1, _weight(second))
+        )
+        if not dominant_city:
+            raise PlaceProblem("ambiguous", _choices(candidates[:3], language))
     lat, lon = float(top["latitude"]), float(top["longitude"])
     if not (math.isfinite(lat) and math.isfinite(lon) and -90 <= lat <= 90 and -180 <= lon <= 180):
         raise ValueError("Invalid public coordinates")
