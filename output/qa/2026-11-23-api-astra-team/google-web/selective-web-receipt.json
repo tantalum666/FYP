@@ -1,0 +1,31 @@
+{
+  "revision": "c3e0fb2bdd67189610713854e76b9fc97738e85b",
+  "surface": "normal Web device settings / Import & share",
+  "transport": "synthetic Google HTTP",
+  "excluded_cancelled_copy": "Sandbox visit",
+  "before": {
+    "titles": [
+      "Sandbox copy",
+      "Sandbox lesson",
+      "Sandbox visit"
+    ],
+    "provider_calls": 0
+  },
+  "preview": {
+    "titles": [
+      "Sandbox copy",
+      "Sandbox lesson",
+      "Sandbox visit"
+    ],
+    "provider_calls": 3
+  },
+  "after_confirm": {
+    "titles": [
+      "Sandbox copy",
+      "Sandbox lesson revised",
+      "Sandbox visit"
+    ],
+    "provider_calls": 3
+  },
+  "page_errors": []
+}

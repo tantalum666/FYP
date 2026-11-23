@@ -23,3 +23,9 @@ Cost and credential evidence are retained privately by the operator. Published c
 ## Scoped Google Calendar refresh
 
 At `401e0fb2` the authenticated owner can review changes to imported copies. The API author repaired a reproduced backup conflict when two grants shared a remote occurrence ID, kept an inaccessible 404 copy, recovered an original local ID on a later verified read and preserved a genuine manual edit on upgrade. Two independent calendar accounts and the previous version's actual SQLite writer were reproduced with synthetic Google HTTP. [Differential results and reproducible cases](google-review/verification.md). The ordinary [Web settings journey](google-web/verification.md) independently verified the approved result in SQLite and after reopening the UI. The combined integration at `efd0b064` passed the frontend typecheck and targeted normal-chat Function and single-item compatibility checks.
+
+## Installed stable release and new draft branches
+
+The original Raspberry Pi now runs the same stable `08200201` release as the normal Mac and iPhone Simulator. Its physical kiosk, software, original Google grants and A3 v9 were independently read back after a tested rollback. [Physical Pi evidence](pi-stable-release/verification.md). New API development is reviewed on separate GitHub branches.
+
+The shop aftercare revision `2686b0dc` reconciles distinct partial refunds. In an isolated merchant, order #31 was charged HK$25.00 and three separate Stripe test refunds returned HK$5.25, HK$7.75 and HK$12.00. Reopened net amounts were HK$19.75, HK$12.00 and HK$0.00. The pending-refund evidence is a synthetic replay. [Refund receipts](basket/partial-refunds.md).
