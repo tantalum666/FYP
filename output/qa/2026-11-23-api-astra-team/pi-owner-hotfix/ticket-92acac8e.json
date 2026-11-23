@@ -1,0 +1,124 @@
+{
+  "fresh_normal_login": {
+    "en": {
+      "displayed_payment_action": false,
+      "empty_sources": true,
+      "exact_copy": "Tell me your origin, destination and departure date, plus the return date for a round trip, and I’ll check a fresh fare.",
+      "mode": "local",
+      "saved": false,
+      "state": "no_source"
+    },
+    "fresh_authenticated_login_with_no_Kiwi_bindings": true,
+    "live_checkout_rows_added": 0,
+    "model_usage_rows_added": 0,
+    "new_local_reply_receipts": 2,
+    "no_previous_source_or_itinerary_disclosed": true,
+    "normal_ledger_unchanged": true,
+    "other_protected_effect_audit_tables_unchanged": [
+      "agent_runs",
+      "assistant_proposals",
+      "computer_jobs",
+      "letsfg_connection",
+      "letsfg_oauth",
+      "live_flight_checkouts",
+      "purchase_claims",
+      "sandbox_flight_bookings",
+      "sandbox_shop_orders",
+      "text_ai_usage",
+      "text_provider_sessions",
+      "tool_calls",
+      "tool_effects"
+    ],
+    "previous_real_owner_session_untouched": true,
+    "sandbox_booking_rows_added": 0,
+    "seller_job_rows_added": 0,
+    "supplier_searches_or_payments_requested": false,
+    "tested_through": "POST /api/assistant/messages on the current normal Pi backend",
+    "zh": {
+      "displayed_payment_action": false,
+      "empty_sources": true,
+      "exact_copy": "告诉我出发地、目的地和出发日期，往返请加上回程日期，我帮你查新报价。",
+      "mode": "local",
+      "saved": false,
+      "state": "no_source"
+    }
+  },
+  "guarded_switch_hong_kong": "2026-11-24T00:10:43+08:00",
+  "independent_pi_read_hong_kong": "2026-11-24T00:18:35+08:00",
+  "installed_revision": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+  "isolated_expiry_control": {
+    "external_network_enabled": false,
+    "new_synthetic_owner_received_exact_copy": true,
+    "normal_store_modified_by_expiry_control": false,
+    "prior_synthetic_owner_session_expired": true,
+    "unavailable_states_and_languages_checked": 6
+  },
+  "normal_assistant_read_hong_kong": "2026-11-24T00:18:33+08:00",
+  "original_device": {
+    "a3_voice_version": 9,
+    "api_authenticated_and_healthy": true,
+    "automatic_api_restarts": 0,
+    "automatic_kiosk_restarts": 0,
+    "cached_a3_sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
+    "connected_grants": [
+      "calendar",
+      "gmail"
+    ],
+    "current_tables": 134,
+    "data_files_in_verified_rollback": 10,
+    "existing_business_and_session_tables_read_back": 57,
+    "installed_rtc_helper_sha256": "84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e",
+    "kiosk_active": true,
+    "original_tables": 134,
+    "physical_panel": "1280x720",
+    "physical_visible_controls": [
+      "alice_home",
+      "avatar",
+      "composer",
+      "connected",
+      "header",
+      "more",
+      "plan"
+    ],
+    "previous_release_retained_for_rollback": true,
+    "protected_table_fingerprints_matched": 28,
+    "retained_old_cookie_after_restart": true,
+    "same_device_boot": true,
+    "unchanged_existing_grant_entries": 6
+  },
+  "previous_revision": "a17ac3497eaa1a564768037554280336f4c24245",
+  "receipt": "Original Pi ticket-only supplement following the a17 owner weather, listening and RTC release",
+  "release_delta": {
+    "archive_bytes": 401648,
+    "archive_sha256": "4b30c21c9ce07556867e1970c4754a255ba766accf9d8908f14833abf31ff8a2",
+    "changed_files": 13,
+    "dependency_lock_sha256": "16b11466868a8b1abe9a5a09c7981f443d3f26072e8eb19a2056192c3d341ceb",
+    "existing_python_environment_reused": true,
+    "new_dependencies": 0,
+    "retained_files": 628,
+    "verified_base_files": 631,
+    "verified_target_files": 641
+  },
+  "scope": {
+    "developer_funding_watcher_reopened": false,
+    "operator_note": "A private observer was corrected to use the normal port-scoped loopback cookie before either production ticket question was sent.",
+    "paid_model_calls": 0,
+    "previous_weather_listening_and_rtc_receipt": "receipts.json",
+    "release_only_transient_units_running_at_close": 0,
+    "voice_call_or_hardware_experiment": false,
+    "weather_suite_rerun": false
+  },
+  "shared_copy": {
+    "both_literals_matched_the_served_JS_and_canonical_source_file": true,
+    "current_bootstrap_resources_checked": 8,
+    "index_sha256": "874979b0be745aefa85cae5bad73f727afc90cc54d7235e005909332f5026ff2",
+    "json_sha256": "a3cd4bf3c1c481b0773d8f7caed738c5db0af02f0e3ee5a5eb34881b72fca6cc",
+    "original_card_instruction_absent_from_new_entry": true,
+    "original_kiosk_profile_contains_new_entry": true,
+    "packaged_json": "backend/desk/data/fresh-flight-quote.json",
+    "production_frontend_entry_and_hash": {
+      "/assets/index-svsBuChN.js": "8c9210d13b5d653cd2920eb7fae539b333570d2f23d0e7860448da7ae1b68a8d"
+    }
+  },
+  "tree": "9ee86cb38c5965a9e51cfa2703f666b7e1e7432d"
+}
