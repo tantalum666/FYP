@@ -29,6 +29,7 @@ type Published = {
 type Source = Published & {
   url: string;
   bags: number | null;
+  bag_kg: number | null;
   outbound: LiveLeg[];
   inbound: LiveLeg[];
 };
@@ -310,6 +311,17 @@ export function LiveFlightCheckout({
           </p>
         </>
       )}
+      {src &&
+        view.state === "source" &&
+        src.request.checked_bag_kg > 0 &&
+        src.bag_kg == null && (
+          <p>
+            {t(
+              "Kiwi has not verified the checked weight or final charge.",
+              "Kiwi 原报价尚未核实托运重量和最终扣款。",
+            )}
+          </p>
+        )}
       {view.state === "choose_source" && (
         <p>
           {t(
@@ -496,6 +508,38 @@ export function LiveFlightCheckout({
           {t(
             "LetsFG could not verify a payable match with the required flights and baggage.",
             "LetsFG 暂未核实符合原班次及行李要求的可付总价。",
+          )}
+        </p>
+      )}
+      {view.state === "bank_approval" && (
+        <p role="status">
+          {t(
+            "Complete the seller’s bank verification, then check this original booking.",
+            "请完成卖方的银行验证，然后查回这笔原订单。",
+          )}
+        </p>
+      )}
+      {view.state === "card_required" && (
+        <p role="status">
+          {t(
+            "This wallet needs a valid payment method. Update it with LetsFG, then recheck the fare for fresh approval.",
+            "这个钱包需要有效付款方式。请在 LetsFG 更新后重新核价并确认。",
+          )}
+        </p>
+      )}
+      {view.state === "missing_details" && (
+        <p role="status">
+          {t(
+            "The supplier requested more passenger details. Recheck the fare to complete the private booking form.",
+            "卖方需要补充乘客资料。请重新核价后在安全表格中补充。",
+          )}
+        </p>
+      )}
+      {["uncertain", "needs_attention"].includes(view.state) && (
+        <p role="status">
+          {t(
+            "The original order needs verification. Check it before initiating another purchase.",
+            "原订单仍待核实，请先查回结果。",
           )}
         </p>
       )}

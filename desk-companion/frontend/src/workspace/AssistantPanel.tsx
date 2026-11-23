@@ -2262,6 +2262,7 @@ export function AssistantPanel({
         <section hidden={view !== "jobs"} className="assistant-secondary">
           <ComputerJobsPanel
             t={t}
+            onBuyFlight={(id)=>void selectOriginal({job_id:id}).catch(setError)}
             taskId={taskId}
             computerGoal={computerGoal}
             active={view === "jobs" && !suspended}

@@ -21,6 +21,8 @@ def app_connections_routes(runtime, owner):
     router = APIRouter(prefix="/api/apps")
 
     def resolve(app_id):
+        if app_id == "letsfg":
+            return runtime.letsfg_auth
         if app_id == "gmail":
             return runtime.outbound_mail.auth
         if app_id == "calendar":
@@ -38,9 +40,8 @@ def app_connections_routes(runtime, owner):
                     "name": spec["name"],
                     "provider": spec["provider"],
                     "auth": "oauth2_pkce",
-                    "transport": "google_api"
-                    if spec["provider"] == "google"
-                    else "microsoft_graph",
+                    "transport": spec.get("transport")
+                    or ("google_api" if spec["provider"] == "google" else "microsoft_graph"),
                     "capabilities": list(spec["capabilities"]),
                     "organization_only": bool(spec.get("organization_only")),
                     "scopes": list(SCOPES[name]),
@@ -88,6 +89,10 @@ def app_connections_routes(runtime, owner):
             if auth.account()["version"] != payload.expected_version:
                 raise DomainError("VERSION_CONFLICT", 409)
             return {**auth.disconnect(), **auth.account()}
+
+    @router.get("/letsfg/callback")
+    def letsfg_callback(state: str = "", code: str = "", error: str = ""):
+        return complete("letsfg", state, code, error)
 
     @router.get("/gmail/callback")
     def gmail_callback(state: str = "", code: str = "", error: str = ""):
