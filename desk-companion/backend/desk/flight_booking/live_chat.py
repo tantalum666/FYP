@@ -1,7 +1,15 @@
 """Language-facing entry to the original Kiwi result. No conversational payment tool."""
 
+import json
+from pathlib import Path
+
 from ..commerce_review import language_for
 from .checkout_source import purchase_intent
+
+
+_FRESH_QUOTE = json.loads(
+    (Path(__file__).parents[1] / "data" / "fresh-flight-quote.json").read_text(encoding="utf-8")
+)
 
 
 def describe(view, zh):
@@ -16,23 +24,13 @@ def describe(view, zh):
             if zh
             else "Choose the original Kiwi quote so I can recheck that itinerary."
         )
-    if state == "no_source":
-        return (
-            "请打开原来那张 Kiwi 航班结果，点「准备购买」，我会接着核价。"
-            if zh
-            else "Open the original Kiwi result and choose Prepare purchase so I can recheck that flight."
-        )
+    if state in {"no_source", "source_unavailable", "source_changed"}:
+        return _FRESH_QUOTE["zh" if zh else "en"]
     if state == "waiting_source":
         return (
             "原航班查询还在进行，结果回来后我会更新这张卡。"
             if zh
             else "The original search is still running. I’ll update this card when its fare arrives."
-        )
-    if state in {"source_unavailable", "source_changed"}:
-        return (
-            "原报价已失效或无法核对。请重新查看原查询，再选择可用航班。"
-            if zh
-            else "The original fare is no longer verifiable. Reopen the original search to choose a current flight."
         )
     if state == "source":
         if view.get("reason") in {
