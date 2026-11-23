@@ -8,7 +8,7 @@ The installed helper cleared its previous deadline, wrote a replacement, then ex
 
 For an active owned alarm the revised helper uses Linux’s in-place wakealarm update. It retains the last verified future deadline during the operation, retries observation of a transient mismatch, and records the expected and observed values before reporting an error. It attempts to restore a still-valid earlier deadline only to an empty alarm slot. The period remains 30 seconds and the requested alarm lead remains 180 seconds. An explicit disarm clears the owned deadline. Unknown future deadlines remain with their owner.
 
-The subsequent clock-epoch follow-up is under separate review. Loss of RTC calendar time invalidates prior-generation fallback dates. The candidate restores only an owned deadline within the supported 900-second horizon and rejects a known backwards clock jump. The deployed helper and candidate are identified separately in the [cross-boot and differential evidence](../../output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md#rtc-clock-reset-follow-up-tested-offline).
+The subsequent clock-epoch helper was separately approved, installed on the original Pi and independently read back after two normal timer firings. Loss of RTC calendar time invalidates prior-generation fallback dates. The helper restores only an owned deadline within the supported 900-second horizon and rejects a known backwards clock jump. Both successive installed helper hashes, distinct rollback copies, normal firings and offline clock-failure cases are recorded in the [cross-boot and differential evidence](../../output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md#approved-clock-domain-helper-rollout).
 
 ## Current restore and wake state
 
