@@ -1,0 +1,40 @@
+{
+  "captured_utc": "2026-11-23T15:00:47+00:00",
+  "cold_geocoding_tls_delay_s": 4.2,
+  "provider_data": "fixture",
+  "openai_requests": 0,
+  "first_request_elapsed_s": 7.47,
+  "first_normal_reply": "东京当地 2026-11-23 00:30，Open-Meteo估算 9.5°C，阴天。今天预计小雨，6 至 13°C，逐小时降水概率最高 73%，预计全天降水 2.2 毫米，预计降水时段包括 03:00–05:00。",
+  "public_get_attempts": [
+    {
+      "stage": "geocoding",
+      "connect_limit_s": 3.0,
+      "failure": "ConnectTimeout",
+      "elapsed_s": 3.0
+    },
+    {
+      "stage": "geocoding",
+      "connect_limit_s": 3.0,
+      "failure": "ConnectTimeout",
+      "elapsed_s": 3.0
+    },
+    {
+      "stage": "geocoding",
+      "connect_limit_s": 6.0,
+      "status": 200,
+      "elapsed_s": 4.21
+    },
+    {
+      "stage": "geocoding",
+      "connect_limit_s": 6.0,
+      "status": 200,
+      "elapsed_s": 4.21
+    },
+    {
+      "stage": "forecast",
+      "connect_limit_s": 3.0,
+      "status": 200,
+      "elapsed_s": 0.0
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 from collections import OrderedDict
 from concurrent.futures import Future, ThreadPoolExecutor
 from datetime import UTC, date, datetime, timedelta
+from email.utils import parsedate_to_datetime
 import json
 import threading
 import time
@@ -109,16 +110,54 @@ def weather_tool_schema():
     return {**WeatherQuery.model_json_schema(), "required": ["location", "period", "language"]}
 
 
-def read_weather_json(url, params, *, transport=None):
-    with httpx.Client(
-        timeout=httpx.Timeout(4.0, connect=7.0 if url == HKO_URL else 3.0),
-        follow_redirects=False,
-        trust_env=False,
-        transport=transport,
-    ) as client:
-        for attempt in range(2):
+RETRYABLE_STATUS = {408, 500, 502, 503, 504}
+TRANSIENT_NETWORK = (httpx.TimeoutException, httpx.NetworkError, httpx.RemoteProtocolError)
+
+
+class WeatherReadFailure(ValueError):
+    def __init__(self, detail):
+        super().__init__(detail["reason"])
+        self.detail = detail
+
+
+def read_failure(error, now):
+    if isinstance(error, httpx.HTTPStatusError):
+        status = error.response.status_code
+        backoff = 5 if status in RETRYABLE_STATUS else 45
+        retry = error.response.headers.get("Retry-After")
+        if retry:
             try:
-                with client.stream("GET", url, params=params) as response:
+                seconds = (
+                    int(retry)
+                    if retry.isdecimal()
+                    else (parsedate_to_datetime(retry) - now).total_seconds()
+                )
+                backoff = max(backoff, min(86400, seconds))
+            except (TypeError, ValueError, OverflowError):
+                pass
+        return {"reason": "http_status", "http_status": status}, backoff
+    if isinstance(error, TRANSIENT_NETWORK):
+        return {
+            "reason": "timeout" if isinstance(error, httpx.TimeoutException) else "connection"
+        }, 5
+    return {"reason": "invalid_data"}, 45
+
+
+def read_weather_json(url, params, *, transport=None):
+    # Fast first connection, one longer cold TLS retry for an idempotent public GET.
+    connect_limits = (7.0, 7.0) if url == HKO_URL else (3.0, 6.0)
+    with httpx.Client(follow_redirects=False, trust_env=False, transport=transport) as client:
+        for index, connect in enumerate(connect_limits):
+            try:
+                with client.stream(
+                    "GET", url, params=params, timeout=httpx.Timeout(4.0, connect=connect)
+                ) as response:
+                    if (
+                        index == 0
+                        and response.status_code in RETRYABLE_STATUS
+                        and "Retry-After" not in response.headers
+                    ):
+                        continue
                     response.raise_for_status()
                     body = bytearray()
                     for chunk in response.iter_bytes():
@@ -129,8 +168,8 @@ def read_weather_json(url, params, *, transport=None):
                 if not isinstance(result, dict):
                     raise ValueError("Invalid public weather response")
                 return result
-            except (httpx.ConnectError, httpx.ConnectTimeout):
-                if attempt:
+            except TRANSIENT_NETWORK:
+                if index:
                     raise
 
 
@@ -166,25 +205,31 @@ class WeatherService:
             cached = self.cache.get(key)
             if cached and self.clock() < cached[0]:
                 self.cache.move_to_end(key)
-                if cached[1] is None:
-                    raise ValueError("Weather source unavailable")
+                if cached[2]:
+                    raise WeatherReadFailure(cached[2])
                 return cached[1]
             future = self.pending.get(key)
             leader = future is None
             if leader:
                 if len(self.pending) >= 12:
-                    raise ValueError("Weather source busy")
+                    raise WeatherReadFailure({"reason": "busy"})
                 self.pending[key] = future = Future()
         if not leader:
             try:
-                return future.result(timeout=16 if url == HKO_URL else 8)
+                return future.result(timeout=16 if url == HKO_URL else 12)
             except TimeoutError as exc:
-                raise ValueError("Weather source timeout") from exc
-        data = None
+                raise WeatherReadFailure({"reason": "timeout"}) from exc
+        data, failure, lifetime = None, None, 0
         try:
             data = self.fetch(url, params)
+            lifetime = self._cache_lifetime(data, params, ttl)
             future.set_result(data)
             return data
+        except DATA_ERRORS as error:
+            failure, lifetime = read_failure(error, self.now())
+            failed = WeatherReadFailure(failure)
+            future.set_exception(failed)
+            raise failed from None
         except Exception as error:
             future.set_exception(error)
             raise
@@ -192,7 +237,7 @@ class WeatherService:
             with self.lock:
                 if len(self.cache) >= 64 and key not in self.cache:
                     self.cache.popitem(last=False)
-                self.cache[key] = (self.clock() + self._cache_lifetime(data, params, ttl), data)
+                self.cache[key] = (self.clock() + lifetime, data, failure)
                 self.pending.pop(key)
 
     def _hko(self, data_type, language):
@@ -369,6 +414,7 @@ class WeatherService:
             "place": query.location,
             "days": [],
         }
+        stage = "geocoding"
         try:
             if "location" not in query.model_fields_set and (
                 query.period == "today" or query.start_date
@@ -376,6 +422,7 @@ class WeatherService:
                 raise PlaceProblem("missing_city")
             place = resolve_place(self._read, query.location, query.country_code, query.language)
             now = self.now()
+            stage = "hong_kong_weather" if place == HONG_KONG else "global_forecast"
             result.update(
                 self._hong_kong(query, now)
                 if place == HONG_KONG
@@ -388,8 +435,10 @@ class WeatherService:
             result.update(status=error.reason, choices=error.choices)
         except StaleWeather as error:
             result.update(last_report_at=error.stamp)
+        except WeatherReadFailure as error:
+            result["source_failure"] = {"stage": stage, **error.detail}
         except DATA_ERRORS:
-            pass
+            result["source_failure"] = {"stage": stage, "reason": "invalid_data"}
         if not result["available"] and "status" not in result:
             result["status"] = "stale" if result.get("last_report_at") else "unavailable"
         if result["available"] and query.current_day and "current" not in result:

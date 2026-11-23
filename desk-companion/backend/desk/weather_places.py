@@ -1,5 +1,6 @@
 """Resolve explicit public destinations without storing or requesting the owner's location."""
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from functools import lru_cache
 import math
@@ -9,6 +10,7 @@ import unicodedata
 import httpx
 from opencc import OpenCC
 
+PLACE_READS = ThreadPoolExecutor(max_workers=6, thread_name_prefix="weather-place")
 GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
 HK_NAMES = {"hong kong", "hong_kong", "hongkong", "香港", "香港特别行政区", "香港特別行政區"}
 COORDINATES = re.compile(r"([+-]?\d+(?:\.\d+)?)\s*,\s*([+-]?\d+(?:\.\d+)?)")
@@ -84,16 +86,24 @@ def resolve_place(read, location, country_code, language):
     variants = [text]
     if HAN.search(text):
         variants = list(dict.fromkeys([_converter("s2t").convert(text), simplified(text)]))
-    found = {}
-    failed_variant = False
-    for name in variants:
+
+    def search(name):
         params = {"name": name, "count": 12, "language": language}
         if country_code:
             params["countryCode"] = country_code
+        return read(GEOCODING_URL, params, ttl=86400).get("results", [])
+
+    # Both scripts are needed for ambiguous names; overlap their independent public reads.
+    futures = (
+        {name: PLACE_READS.submit(search, name) for name in variants} if len(variants) > 1 else {}
+    )
+    found = {}
+    failed_variant = None
+    for name in variants:
         try:
-            matches = read(GEOCODING_URL, params, ttl=86400).get("results", [])
-        except (httpx.HTTPError, ValueError):
-            failed_variant = True
+            matches = futures[name].result() if futures else search(name)
+        except (httpx.HTTPError, ValueError) as error:
+            failed_variant = error
             continue
         for row in matches:
             if isinstance(row, dict) and row.get("id") and row.get("name"):
@@ -116,7 +126,7 @@ def resolve_place(read, location, country_code, language):
         }
     if not found:
         if failed_variant:
-            raise ValueError("Place service unavailable")
+            raise failed_variant
         raise PlaceProblem("not_found")
     first = next(iter(found.values()))
     cities = [r for r in found.values() if str(r.get("feature_code", "")).startswith("PPL")]
@@ -140,7 +150,7 @@ def resolve_place(read, location, country_code, language):
     top = candidates[0]
     if failed_variant and top.get("feature_code") != "PPLC" and _weight(top) < 100_000:
         # A village in one script is insufficient when we could not resolve the other.
-        raise ValueError("Incomplete place search")
+        raise failed_variant
     if len(candidates) > 1:
         second = candidates[1]
         dominant = _weight(top) >= 100_000 and _weight(top) >= 8 * max(1, _weight(second))
