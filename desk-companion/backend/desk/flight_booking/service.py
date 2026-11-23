@@ -50,7 +50,12 @@ def public(row):
         "stop_status": row.get("stop_status"),
         **({"calendar_linked": True} if row.get("calendar_event_id") else {}),
         **(
-            {"calendar_preview": row["calendar_preview"]["event"]}
+            {
+                "calendar_preview": {
+                    **row["calendar_preview"]["event"],
+                    "fit": row["calendar_preview"].get("fit", "unknown"),
+                }
+            }
             if row.get("calendar_preview") and row["state"] == "completed"
             else {}
         ),

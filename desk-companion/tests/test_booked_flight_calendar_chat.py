@@ -195,3 +195,41 @@ def test_calendar_function_cannot_supply_a_charge_an_event_or_a_confirmation(des
     assert result.is_success and not result.json().get("saved")
     assert "flight_booking" not in result.json()
     assert len(stored_events(runtime)) == count and supplier.calls == original
+
+
+def test_new_busy_appointment_after_preview_requires_a_fresh_calendar_decision(desk):
+    from desk.schemas import CreateEvents
+
+    runtime, client, _ = desk
+    chat, _ = ticketed(client)
+    initial = calendar_turn(client, chat, "clear-preview", "把这趟航班加入我的桌面日历").json()[
+        "flight_booking"
+    ]
+    preview = initial["calendar_preview"]
+    assert preview["fit"] == "clear"
+    day = preview["start_local"][:10]
+    runtime.store.create(
+        CreateEvents.model_validate(
+            {
+                "event": {
+                    "title": "Private fixture appointment",
+                    "start_local": day + "T19:15",
+                    "end_local": day + "T19:30",
+                    "timezone": "Asia/Hong_Kong",
+                    "visibility": "private",
+                }
+            }
+        ),
+        "synthetic-appointment",
+    )
+    after = calendar_turn(client, chat, "new-overlap", "确认加入日历", initial).json()
+    revised = after["flight_booking"]
+    assert (
+        revised["calendar_preview"]["fit"] == "conflict" and revised["version"] > initial["version"]
+    )
+    assert "Private fixture appointment" not in json.dumps(after)
+    assert all("FR4315" not in e["title"] for _, e in stored_events(runtime))
+    assert calendar_turn(client, chat, "accept-overlap", "确认加入日历", revised).json()[
+        "flight_booking"
+    ]["calendar_linked"]
+    assert sum("FR4315" in e["title"] for _, e in stored_events(runtime)) == 1

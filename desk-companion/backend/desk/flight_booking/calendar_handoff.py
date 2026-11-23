@@ -7,6 +7,7 @@ from ..calendar import iso
 from ..commerce_review import language_for
 from ..store import DomainError
 from .calendar_event import build_calendar_event
+from .calendar_fit import check_itineraries
 from .provider import BookedFlightCalendarQuery
 from .service import public
 
@@ -163,12 +164,18 @@ def _review(service, payload, principal, chat, action, flight_number=None):
             with service.store.connection(write=True) as db:
                 zone = _scope(service, db, principal, owner, chat.id, row)
                 event = build_calendar_event(row, zone).event.model_dump(mode="json")
+                fit = check_itineraries(service.store, db, [row["quote"]])[0]
                 now = service.store.clock()
                 draft = row.get("calendar_preview") or {}
-                reviewed = draft.get("event") == event and draft.get("expires", "") > iso(now)
+                reviewed = (
+                    draft.get("event") == event
+                    and draft.get("fit") == fit
+                    and draft.get("expires", "") > iso(now)
+                )
                 if not reviewed:
                     row["calendar_preview"] = {
                         "event": event,
+                        "fit": fit,
                         "expires": iso(now + timedelta(minutes=5)),
                     }
                     row["version"] += 1
@@ -193,9 +200,11 @@ def _review(service, payload, principal, chat, action, flight_number=None):
             zone = _scope(service, db, principal, owner, chat.id, row)
             create = build_calendar_event(row, zone)
             preview = row["calendar_preview"]
-            if create.event.model_dump(mode="json") != preview["event"] or preview[
-                "expires"
-            ] <= iso(service.store.clock()):
+            if (
+                create.event.model_dump(mode="json") != preview["event"]
+                or preview["expires"] <= iso(service.store.clock())
+                or check_itineraries(service.store, db, [row["quote"]])[0] != preview["fit"]
+            ):
                 raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
             result = service.store.insert_events(db, create, "assistant")
             row["calendar_event_id"] = result["event_ids"][0]

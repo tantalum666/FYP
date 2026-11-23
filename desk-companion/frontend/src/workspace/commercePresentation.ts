@@ -50,6 +50,7 @@ export function calendarFitLabel(fit: CalendarFit, t: Translate) {
 export interface SandboxFlight {
   calendar_linked?: boolean;
   calendar_preview?: {
+    fit?: CalendarFit;
     title: string;
     start_local: string;
     end_local: string;

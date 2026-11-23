@@ -12,4 +12,6 @@ In ordinary chat, the integrating branch reopened the supplier record before pre
 
 A fixture at the official Sessions/Functions protocol boundary exercised two additional cases. A colloquial request with FR4315 produced the existing local draft via the named Function, and the model received only the minimal review acknowledgement. Unknown flight numbers and injected confirmation/time arguments produced zero calendar writes. These were replayed protocol calls.
 
+The [isolated iOS 26.5 Simulator journey](simulator/verification.md) used real Home controls and the Calendar screen at integration commit `bc2796cc`. Saving and replaying returned the same event ID and version 1. Both the screen and the independent SQLite reader found exactly one event. The native bridge also read a 14-second synthetic Google refresh followed by a successful health check. A later regression checked an appointment arriving after flight preview: the original Save returned a new conflict review and only a second consent saved the trip. Private appointment text stayed on the desk.
+
 Cost and credential evidence are retained privately by the operator. Published changes contain no owner credit amount, credentials, actual account identifiers or production database.

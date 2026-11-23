@@ -230,6 +230,12 @@ export function SandboxFlightCard({
                   .slice(0, 16)}{" "}
                 · {flight.calendar_preview.timezone}
               </div>
+              {flight.calendar_preview.fit &&
+                flight.calendar_preview.fit !== "clear" && (
+                  <span role="status">
+                    {calendarFitLabel(flight.calendar_preview.fit, t)}
+                  </span>
+                )}
               <div className="workspace-inline-actions">
                 <button
                   className="primary"
