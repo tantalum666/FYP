@@ -1,6 +1,14 @@
 # LetsFG test bookings in Alice’s ordinary conversation
 
+For a real ticket, the separate [live supplier connection and booking contract](live-flight-agent.md) covers original offers, return journeys, checked baggage, owner approval and independently verified payment.
+
 An owner can ask Alice to book one fictional adult on a one-way base fare in HKD. Supply the airports and date. A flight number, airline, nonstop requirement or maximum HKD total narrows the search. If the sandbox has no exact match or cannot verify a required checked weight, Alice asks for a change. A real-market price lookup continues through the existing public research tools. [Conversation acceptance](../../output/qa/2026-11-19-alice-flight-conversation/verification.md) · [LetsFG sandbox contract](https://letsfg.co/developers/docs/api-sandbox/index.html).
+
+## Hong Kong fare amounts
+
+An imported Kiwi result supplies its currency and integer minor units. Chinese chat and the quote card show a listed amount such as **HK$3,389.59**. Mandarin and Cantonese read the same amount as **三千三百八十九点五九港元**. A zero directly after the decimal is spoken when it changes the amount. Baggage and final checkout totals retain their own verification status.
+
+A Chinese fare readback sends the verified amount into the owner's existing Live voice session. The desk buffers that utterance before playback and compares the provider's caption with the expected decimal wording. It releases the original PCM for a match. An uncertain or mixed-unit attempt can request one correction in the same session, followed by the written price if the wording remains unconfirmed. [Regression and audio-readback evidence](../../output/qa/2026-11-23-hkd-readback/verification.md).
 
 ## Owner journey
 

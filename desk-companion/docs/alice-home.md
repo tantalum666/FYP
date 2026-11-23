@@ -48,7 +48,7 @@ HomeConditions uses the existing workspace preference: automatic, Hong Kong or o
 
 Successful coordinates are rounded to 0.1 degree before being sent in a POST body to the same desk. A ten-minute memory cache avoids repeated positioning. Revoked permission prevents cache reuse. A manual location request is consumed once; later refreshes recheck permission and location. If location or nearby weather is unavailable, the display falls back to Hong Kong. The label identifies Nearby or Hong Kong and links to the actual weather source. No synthetic temperature is shown as live weather.
 
-`weather.py` owns fixed HKO/Open-Meteo requests, validation, a bounded shared memory cache, timeouts and fallback. WorkspaceData and HomeConditions reuse this service, rather than starting a second weather backend. The server coarsens coordinates again, does not log them, and uses neither redirects nor an ambient proxy. Existing weather-off preference prevents requests. Permissions-Policy permits same-origin geolocation; browser permission remains required.
+`weather.py` owns fixed HKO/Open-Meteo requests, validation, a bounded shared memory cache, timeouts and fallback. WorkspaceData and HomeConditions reuse this service, rather than starting a second weather backend. The server coarsens coordinates again, does not log them, and uses neither redirects nor an ambient proxy. The weather-off preference suppresses automatic Home requests. An explicit city question uses a separate destination scoped to that read and leaves this preference untouched. [Conversation weather](daily-presence.md#spoken-work-and-weather). Permissions-Policy permits same-origin geolocation; browser permission remains required.
 
 ## Wake and voice
 

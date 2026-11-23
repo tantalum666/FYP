@@ -8,6 +8,7 @@ from urllib.parse import unquote
 
 from pydantic import AfterValidator, Field, model_validator
 
+from . import hkd
 from .browser_policy import canonical_https
 from .purchase_cards import offer_total
 from .schemas import StrictModel
@@ -112,8 +113,18 @@ class FlightPage(StrictModel):
     note: ShortText
 
 
+class KiwiSegment(StrictModel):
+    origin: Airport
+    destination: Airport
+    flight: str | None = Field(pattern=r"^[A-Z0-9]{2,3}\d{1,5}[A-Z]?$", default=None)
+    departs: str | None = Field(default=None, max_length=40)
+    arrives: str | None = Field(default=None, max_length=40)
+
+
 class FlightSupplier(StrictModel):
     provider: Literal["Kiwi.com"]
+    outbound: list[KiwiSegment] | None = Field(default=None, max_length=12, exclude_if=lambda value: value is None)
+    inbound: list[KiwiSegment] | None = Field(default=None, max_length=12, exclude_if=lambda value: value is None)
     matching_offers: int = Field(ge=0, le=500, strict=True)
     tool_result_sha256: str = Field(pattern="^[a-f0-9]{64}$")
     checked_bags_for_party: int | None = Field(ge=0, le=18, strict=True)
@@ -238,6 +249,47 @@ def read_quote(request, raw_report, observed_at):
     return card
 
 
+def kiwi_hkd_price(quote):
+    """Only a verified provider quote can give a price to the local chat/voice renderer."""
+    if not isinstance(quote, dict):
+        return None
+    request = quote.get("request") or {}
+    supplier = quote.get("supplier") or {}
+    offer = quote.get("offer") or quote  # Full stored receipt or its bounded projection.
+    if not all(isinstance(part, dict) for part in (request, supplier, offer)):
+        return None
+    if (
+        request.get("kind") != "flight" or request.get("provider") != "kiwi"
+        or supplier.get("provider") != "Kiwi.com" or offer.get("currency") != "HKD"
+        or offer.get("basis") != "listed" or type(offer.get("price_minor")) is not int
+        or offer["price_minor"] != quote.get("subtotal_minor") or not isinstance(offer.get("label"), str)
+    ):
+        return None
+    return hkd.amount(quote.get("subtotal_minor"))
+
+
+def kiwi_fare_reply(quote):
+    price = kiwi_hkd_price(quote)
+    if not price:
+        return None
+    offer = quote.get("offer") or quote
+    display = price["display"]
+    label = offer["label"]
+    details = []
+    if (quote.get("request") or {}).get("checked_bag_kg") and offer.get("checked_bag_kg_per_adult") is None:
+        details.append("托运行李重量未确认")
+    total = hkd.amount(quote.get("total_minor"))
+    if total:
+        details.append(f"已核实的总额为 {total['display']}")
+    else:
+        details.append("最终应付金额仍待卖家确认")
+    suffix = "，".join(details) + "。" if details else ""
+    return {
+        "kind": "reply", "mode": "local_rules", "saved": False,
+        "message": f"Kiwi.com 列出的 {label} 票价是 {display}。{suffix}",
+    }
+
+
 def brief_quote(quote):
     """Keep the price basis and unanswered questions together in bounded model context."""
     offer = quote["offer"] or {}
@@ -264,4 +316,8 @@ def brief_quote(quote):
         summary["source_url"] = offer["source_url"]
     if supplier := quote.get("supplier"):
         summary["supplier"] = {k:supplier[k] for k in ("provider", "checked_bags_for_party", "terms_url", "airline_bag_rules")}
+    if price := kiwi_hkd_price(quote):
+        summary["price_display"] = price["display"]
+        if total := hkd.amount(quote.get("total_minor")):
+            summary["total_display"] = total["display"]
     return summary

@@ -1,3 +1,5 @@
+import { LiveFlightCheckout, startsFlightCheckout } from "./LiveFlightCheckout";
+import { useLiveFlightReview } from "./useLiveFlightReview";
 import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
 import { needsDecision, needsOwnerReview, orderKey, orderStatus, typedReviewRef, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
 import { useCommerceReviews, type CommerceRef } from "./commerceReviews";
@@ -13,6 +15,7 @@ import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
 import "./composer-files.css";
 import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
 import { useAssistantFootprint } from "../companion/useAssistantFootprint";
+import { ConversationScroll } from "./ConversationScroll";
 import { proposalDecisionNotice } from "./proposalDecision";
 import { personalContextVisible } from "./personal/types";
 import type { ReactNode } from "react";
@@ -214,10 +217,8 @@ export function AssistantPanel({
     document.addEventListener("pointerdown", close);
     return () => document.removeEventListener("pointerdown", close);
   }, [menu]);
-  const conversation = useRef<HTMLDivElement>(null);
   const panelFootprint = useAssistantFootprint(immersive);
   const followLatest = useRef(true);
-  const jobRevision = jobs.map((job) => `${job.id}:${job.version}`).join(",");
   const composer = useRef<HTMLTextAreaElement>(null);
 
   const [text, setText] = useState(""),
@@ -271,6 +272,16 @@ export function AssistantPanel({
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const conversationId = useRef<string | undefined>(undefined);
+  const liveFlight = useLiveFlightReview(conversationId, taskId, data ? ownerView : undefined,
+    !!data?.personal_context_visible, !suspended && !offline && !stale);
+  const {current: ownerFlight, receive: receiveFlight, update: updateFlight} = liveFlight;
+  async function selectOriginal(source: {proposal_id?: string; job_id?: string}) {
+    if (await liveFlight.select(source)) {
+      setView("chat");
+      if (immersive && !suspended) onExpandedChange?.(true);
+    }
+  }
+
   const contextTouched = useRef(0);
   const voiceRevision = useRef<string | undefined>(undefined);
   const pendingSubmission = useRef<string | null>(null);
@@ -389,6 +400,7 @@ export function AssistantPanel({
       <JobActionCard
         key={job.id}
         job={job}
+        onBuyFlight={(id)=>void selectOriginal({job_id:id}).catch(setError)}
         t={t}
         busy={!!jobBusy}
         cancelling={!!jobCancelling || offline}
@@ -462,22 +474,6 @@ export function AssistantPanel({
     setView("jobs");
     setMenu(false);
   };
-  useEffect(() => {
-    if (!followLatest.current) return;
-    conversation.current?.scrollTo({
-      top: conversation.current.scrollHeight,
-      behavior: "instant",
-    });
-  }, [
-    turns,
-    proposals,
-    transcript,
-    liveMessage,
-    notice,
-    error,
-    view,
-    jobRevision,
-  ]);
   function endVoice() {
     const engine = audio.current;
     audio.current = null;
@@ -717,6 +713,10 @@ export function AssistantPanel({
       if (immersive && !suspended)
         showDelivery(result.kind === "reply" ? replyDelivery(result.delivery, result.message) : "neutral");
       conversationId.current = result.conversation_id;
+      if(result.conversation_id && result.live_flight_checkout){
+        receiveFlight(result.conversation_id,result.live_flight_checkout);
+        if(immersive && !suspended) onExpandedChange?.(true);
+      }
       const card = result.shopping_order
         ? { ...result.shopping_order, kind: "shop" as const }
         : result.flight_booking
@@ -725,7 +725,7 @@ export function AssistantPanel({
       const shortlist = !!result.flight_shortlist_chat;
       const catchUp = result.kind === "quiet_catch_up";
       const privateOverview = !!result.approval_summary;
-      const privateChat = card || shortlist || result.flight_alternatives || catchUp || privateOverview
+      const privateChat = card || shortlist || result.flight_alternatives || result.live_flight_checkout || catchUp || privateOverview
         ? result.conversation_id : undefined;
       if ((card || shortlist) && result.conversation_id) {
         commerce.receive(result.conversation_id, card, taskId, shortlist);
@@ -782,7 +782,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent, commerce.receive, immersive, suspended, taskId, t, refreshScope, refreshFence],
+    [chatFiles.sent, commerce.receive, receiveFlight, immersive, suspended, onExpandedChange, taskId, t, refreshScope, refreshFence],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -844,7 +844,7 @@ export function AssistantPanel({
     const refreshQuestion = /(?:google|谷歌)\s*(?:calendar|日[历曆])/i.test(submitted) &&
       /(?:what|(?:last|latest|recent)\s+(?:confirmed\s+)?(?:refresh|sync)|什么|什麼|甚麼|哪些)/i.test(submitted) &&
       /(?:chang|updat|refresh|sync|更新|刷新|同步|变更|變更|变化|變化|改动)/i.test(submitted);
-    const useOmni = omni && !statusAsk && !approvalReply && !refreshQuestion && !catchUp && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    const useOmni = omni && !startsFlightCheckout(submitted) && !statusAsk && !approvalReply && !refreshQuestion && !catchUp && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
     if (catchUp && immersive && !suspended) onExpandedChange?.(true);
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
@@ -998,17 +998,17 @@ export function AssistantPanel({
     action: "confirm" | "cancel",
     kind?: string,
   ) {
-    const message = proposalDecisionNotice(result, action, kind, t);
-    setNotice(message);
-    if (result.kind === "browser_research" && result.job) {
-      const jobId = result.job.id;
+    setNotice(proposalDecisionNotice(result, action, kind, t));
+    const jobId = result.job?.id;
+    if (
+      action === "confirm" &&
+      (result.kind ?? kind) === "browser_research" &&
+      jobId
+    ) {
       setTurns((old) =>
         old.some((turn) => turn.jobId === jobId)
           ? old
-          : [
-              ...old,
-              { id: Date.now(), role: "assistant", body: message, jobId },
-            ],
+          : [...old, { id: Date.now(), role: "assistant", body: "", jobId }],
       );
     }
   }
@@ -1067,30 +1067,22 @@ export function AssistantPanel({
     setTranscript("");
   }
   async function switchToText() {
-    if (wake.enabled) {
-      endVoice();
-      return;
-    }
-    if (!omni) {
-      endVoice();
-      return;
-    }
     // Cancelling permission/connection setup must stop late capture immediately.
-    if (voiceState === "connecting") {
+    if (wake.enabled || !omni || voiceState === "connecting") {
       endVoice();
-      return;
+    } else {
+      modeSwitching.current = true;
+      setBusy(true);
+      setMicrophone(false);
+      setVoiceState("connecting");
+      try {
+        await audio.current?.setMode("text");
+      } catch (e) {
+        endVoice();
+        setError(e);
+      }
     }
-    modeSwitching.current = true;
-    setBusy(true);
-    setMicrophone(false);
-    setVoiceState("connecting");
-    try {
-      await audio.current?.setMode("text");
-    } catch (e) {
-      endVoice();
-      setError(e);
-    }
-    queueMicrotask(() => composer.current?.focus());
+    requestAnimationFrame(() => composer.current?.focus());
   }
   async function newConversation() {
     submissionGeneration.current += 1;
@@ -1098,10 +1090,10 @@ export function AssistantPanel({
     const id = conversationId.current;
     endVoice();
     try {
-      if (id)
-        await request(`/voice/conversations/${encodeURIComponent(id)}`, {
-          method: "DELETE",
-        });
+      if (id) {
+        await request(`/voice/conversations/${encodeURIComponent(id)}`, {method: "DELETE"});
+      }
+      liveFlight.clear();
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
@@ -1230,6 +1222,10 @@ export function AssistantPanel({
                 ? t("Companion: ", "助理：") + speechText.current.assistant
                 : ""),
           );
+        }
+        if(event.type === "flight_checkout" && event.conversation_id && event.conversation_id === conversationId.current && event.live_flight_checkout){
+          receiveFlight(event.conversation_id,event.live_flight_checkout);
+          if(immersive && !suspended) onExpandedChange?.(true);
         }
         if (event.type === "proposal" || event.type === "proposals_changed")
           void reload();
@@ -1466,7 +1462,11 @@ export function AssistantPanel({
     ? homeOrder.kind === "flight" && homeOrder.calendar_preview
       ? t("Review flight calendar times", "核对航班日程")
       : orderStatus(homeOrder, t)
-    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(visibleTurns);
+    : hasChoices && focusTurn ? focusTurn.body : (lastTurn?.jobId && !lastTurn.body ? turnText(lastTurn) : latestAssistantReply(visibleTurns));
+  const liveTurn = visibleTurns.filter(turn=>turn.kind === "live_flight_checkout" && turn.commerceChat===activeChat).at(-1);
+  const liveCard = !suspended && !stale && !offline && privateOrdersVisible && ownerFlight && ownerFlight.chat === activeChat && ownerFlight.task === taskId
+    ? <LiveFlightCheckout key={ownerFlight.view.id ?? ownerFlight.chat} view={ownerFlight.view} chat={ownerFlight.chat} t={t} onUpdate={updateFlight} onSource={(id)=>selectOriginal({proposal_id:id})}/>
+    : null;
   function turnBody(turn: ConversationTurn) {
     if (turn.catchUpRef && turn === latestCatchUp) {
       const label = t("Mark these updates as read", "把这些进展标为已读");
@@ -1477,6 +1477,15 @@ export function AssistantPanel({
           {label}
         </button>
       </>;
+    }
+    if (turn === liveTurn && liveCard) return liveCard;
+    if (turn.jobId && !turn.body) {
+      if (jobs.some((job) => job.id === turn.jobId)) return null;
+      return (
+        <button className="text-button" onClick={openJobs}>
+          {t("View research activity", "查看查询进度")}
+        </button>
+      );
     }
     if (
       turn === focusTurn &&
@@ -1681,16 +1690,7 @@ export function AssistantPanel({
         hidden={view !== "chat"}
         aria-label={t("Conversation", "对话")}
       >
-        <div
-          className="assistant-conversation"
-          ref={conversation}
-          onScroll={(event) => {
-            const node = event.currentTarget;
-            if (node.clientHeight > 0)
-              followLatest.current =
-                node.scrollHeight - node.scrollTop - node.clientHeight < 80;
-          }}
-        >
+        <ConversationScroll followLatest={followLatest}>
           {(!immersive || expanded) && <InitiativeMessages t={t} />}
           {(!immersive || expanded) &&
             jobs
@@ -1717,6 +1717,7 @@ export function AssistantPanel({
                   jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
               </div>
             ))}
+          {(!immersive || expanded) && !liveTurn && liveCard}
           {immersive && !expanded && (openOrder
             ? <button type="button" className="assistant-latest commerce-open" aria-live="polite" onClick={()=>onExpandedChange?.(true)}>
                 {homeAnswer} <span aria-hidden="true"> ›</span>
@@ -1838,7 +1839,7 @@ export function AssistantPanel({
               {errorText(error, t)}
             </p>
           )}
-        </div>
+        </ConversationScroll>
         <div
           className="assistant-input-area"
           id={workspace ? "desktop-chat-composer" : undefined}
@@ -1872,37 +1873,34 @@ export function AssistantPanel({
               role="group"
               aria-label={t("Voice conversation", "语音对话")}
             >
-              <div
-                className={`assistant-voice-orb state-${voiceState}`}
-                aria-hidden="true"
-              >
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
+              <div className="assistant-call-status" role="status">
+                <span
+                  className={`assistant-voice-orb state-${voiceState}`}
+                  aria-hidden="true"
+                >
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <span>
+                  {voiceSlow
+                    ? t("Waiting for a reply…", "正在等候回复…")
+                    : voiceState === "connecting"
+                      ? t("Connecting…", "正在连接…")
+                      : voiceState === "speaking"
+                        ? t("Speaking…", "正在说话…")
+                        : voiceState === "thinking"
+                          ? t("Thinking…", "正在思考…")
+                          : t("Listening…", "正在聆听…")}
+                </span>
               </div>
-              <p role="status">
-                {voiceState === "connecting"
-                  ? t("Connecting…", "正在连接…")
-                  : voiceState === "speaking"
-                    ? t("Speaking · you can interrupt", "正在说话，可以插话")
-                    : voiceState === "thinking"
-                      ? t("Thinking…", "正在思考…")
-                      : t("Listening…", "正在聆听…")}
-              </p>
-              {voiceSlow && (
-                <p role="status">
-                  {t(
-                    "Still waiting for a reply. You can also use text.",
-                    "回答仍在准备中，也可以改用文字输入。",
-                  )}
-                </p>
-              )}
               <div className="assistant-call-actions">
                 <button
                   className="icon-button"
                   aria-label={t("Camera & microphone", "摄像头与麦克风")}
+                  title={t("Camera & microphone", "摄像头与麦克风")}
                   onClick={() => setMediaOpen(true)}
                 >
                   <Camera size={20} />
@@ -1916,6 +1914,7 @@ export function AssistantPanel({
                         "分享图片或屏幕",
                       )}
                       aria-expanded={attachments}
+                      title={t("Share an image or screen", "分享图片或屏幕")}
                       onClick={() => setAttachments(!attachments)}
                     >
                       <Plus size={20} />
@@ -1924,6 +1923,7 @@ export function AssistantPanel({
                 <button
                   className="icon-button"
                   aria-label={t("Stop speaking", "停止播报")}
+                  title={t("Stop speaking", "停止播报")}
                   onClick={() => audio.current?.interrupt()}
                   disabled={voiceState === "connecting"}
                 >
@@ -1931,11 +1931,8 @@ export function AssistantPanel({
                 </button>
                 <button
                   className="assistant-mic end-call"
-                  aria-label={
-                    omni
-                      ? t("Switch to text", "改为文字")
-                      : t("End conversation", "结束交谈")
-                  }
+                  aria-label={t("Turn off microphone and switch to text", "关闭麦克风并改用文字")}
+                  title={t("Turn off microphone and switch to text", "关闭麦克风并改用文字")}
                   onClick={() => void switchToText()}
                 >
                   <MicOff size={20} />
@@ -2228,7 +2225,7 @@ export function AssistantPanel({
               </label>
             )}
           </div>
-          {(wake.enabled || wake.state === "error") && (
+          {((wake.enabled && wake.state !== "active") || wake.state === "error") && (
             <p className="alice-wake-status" role="status">
               {wake.state === "waiting"
                 ? t(
@@ -2242,12 +2239,7 @@ export function AssistantPanel({
                         "Wake listening stopped. You can use the microphone button.",
                         "唤醒监听已停止，可用麦克风按钮交谈。",
                       )
-                    : wake.state === "off"
-                      ? t("Local listening paused", "本地监听已暂停")
-                      : t(
-                          "Conversation active · returns to local listening when idle",
-                          "交谈中 · 安静后回到本地监听",
-                        )}
+                    : t("Local listening paused", "本地监听已暂停")}
             </p>
           )}
 
@@ -2360,6 +2352,7 @@ export function AssistantPanel({
         <section hidden={view !== "jobs"} className="assistant-secondary">
           <ComputerJobsPanel
             t={t}
+            onBuyFlight={(id)=>void selectOriginal({job_id:id}).catch(setError)}
             taskId={taskId}
             computerGoal={computerGoal}
             active={view === "jobs" && !suspended}

@@ -39,12 +39,14 @@ export function ComputerJobsPanel({
   taskId,
   computerGoal,
   onComputerPrepared,
+  onBuyFlight,
   active = true,
 }: {
   t: Translate;
   taskId?: string;
   computerGoal?: { text: string; key: number };
   onComputerPrepared?: () => void;
+  onBuyFlight?: (id:string) => void;
   active?: boolean;
 }) {
   const { data, offline, stale } = useWorkspace();
@@ -614,6 +616,7 @@ export function ComputerJobsPanel({
         <JobActionCard
           key={job.id}
           job={job}
+          onBuyFlight={onBuyFlight}
           t={t}
           busy={busy}
           cancelling={cancelling || offline}

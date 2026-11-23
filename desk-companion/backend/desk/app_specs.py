@@ -21,6 +21,14 @@ SPECS = {
         "callback": "/api/google/callback",
         "capabilities": ("calendar_read",),
     },
+    "letsfg": {
+        "name": "LetsFG Flights",
+        "provider": "letsfg",
+        "transport": "letsfg_agent",
+        "scopes": ("flights:search", "flights:book"),
+        "callback": "/api/apps/letsfg/callback",
+        "capabilities": ("flight_search", "owner_reviewed_flight_booking"),
+    },
     "microsoft365": {
         "name": "Microsoft 365",
         "provider": "microsoft",

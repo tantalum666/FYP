@@ -128,4 +128,6 @@ def assistant_routes(runtime, authenticated, operation_id):
             routine_id=payload.routine_id,
         )
 
+    from .flight_booking.checkout_routes import routes as checkout_routes
+    router.include_router(checkout_routes(runtime, authenticated))
     return router

@@ -1,0 +1,37 @@
+.live-flight-checkout {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.live-flight-checkout p {
+  margin: 0;
+}
+.live-flight-checkout a,
+.live-flight-checkout button {
+  justify-self: start;
+}
+.live-flight-checkout form,
+.live-flight-checkout fieldset {
+  display: grid;
+  gap: 0.7rem;
+}
+.live-flight-checkout form {
+  margin-top: 0.6rem;
+}
+.live-flight-checkout fieldset {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  min-width: 0;
+  padding: 0.6rem;
+  border: 1px solid var(--device-line, #9ba8ab55);
+}
+.live-flight-checkout label {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.live-flight-checkout label input,
+.live-flight-checkout label select {
+  max-width: 100%;
+  min-width: 0;
+}

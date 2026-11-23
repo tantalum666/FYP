@@ -369,16 +369,100 @@
   overflow-wrap: anywhere;
 }
 .alice-home .phone-assistant.expanded .assistant-chat {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   overflow: hidden;
+}
+.alice-home .phone-assistant.expanded .assistant-chat[hidden] {
+  display: none;
 }
 .alice-home .phone-assistant.expanded .assistant-input-area {
   flex-shrink: 0;
   padding-top: 10px;
   background: #172431;
 }
-.alice-home .assistant-call,
-.alice-home .assistant-call p {
+.alice-home .phone-assistant .assistant-call {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 2px 4px;
   color: #e1eaf0;
+}
+.alice-home .assistant-call-status {
+  flex-direction: row;
+  min-width: 0;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.alice-home .assistant-call .assistant-voice-orb {
+  display: flex;
+  flex: none;
+  width: 19px;
+  height: 22px;
+  gap: 2px;
+  background: transparent;
+}
+.alice-home .assistant-voice-orb span {
+  width: 2px;
+  height: 7px;
+  background: #acd5c1;
+}
+.alice-home .assistant-voice-orb span:nth-child(2),
+.alice-home .assistant-voice-orb span:nth-child(4) {
+  height: 12px;
+}
+.alice-home .assistant-voice-orb span:nth-child(3) {
+  height: 18px;
+}
+.alice-home .assistant-call-actions {
+  flex: none;
+  gap: 2px;
+}
+.alice-home .assistant-call-actions button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+.alice-home .assistant-call-actions .icon-button {
+  color: #d0dce3;
+}
+.alice-home .permission-popover {
+  width: min(360px, calc(100vw - 92px));
+}
+.alice-home .assistant-input-area:has(> .assistant-call) .permission-control {
+  margin-top: 0;
+}
+.alice-home .assistant-input-area:has(> .assistant-call) .assistant-input-preferences {
+  margin: 0 4px;
+}
+.alice-home .assistant-input-area:has(> .assistant-call) .permission-control > summary,
+.alice-home .assistant-input-area:has(> .assistant-call) .alice-wake-toggle {
+  min-height: 44px;
+}
+@media (min-width: 700px) {
+  .alice-home .assistant-input-area:has(> .assistant-call) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "call preferences";
+    align-items: center;
+    column-gap: 16px;
+  }
+  .alice-home .assistant-input-area:has(> .assistant-call) > * {
+    grid-column: 1 / -1;
+  }
+  .alice-home .assistant-input-area > .assistant-call {
+    grid-area: call;
+  }
+  .alice-home .assistant-input-area:has(> .assistant-call) > .assistant-input-preferences {
+    grid-area: preferences;
+    margin: 0;
+  }
+  .alice-home .assistant-input-area:has(> .assistant-call) .permission-popover {
+    left: auto;
+    right: 0;
+  }
 }
 .alice-home .phone-assistant.expanded .assistant-conversation {
   min-height: 0;
@@ -614,6 +698,14 @@
   }
 }
 @media (max-height: 620px) and (min-width: 601px) {
+  .alice-home .phone-assistant.expanded {
+    height: calc(100dvh - 76px);
+    max-height: calc(100dvh - 76px);
+    padding-block: 4px;
+  }
+  .alice-home .phone-assistant.expanded .assistant-input-area {
+    padding-top: 2px;
+  }
   .alice-home-header {
     padding: 16px 24px;
   }

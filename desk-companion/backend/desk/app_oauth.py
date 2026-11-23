@@ -1,4 +1,4 @@
-"""Shared browser OAuth lifecycle for registered Google/Microsoft app manifests."""
+"""Owner-bound browser OAuth and encrypted grants for registered app manifests."""
 
 import base64
 import hashlib
@@ -38,6 +38,8 @@ class ProviderResponseError(DomainError):
 
 
 def app_client_config(resource):
+    if SPECS[resource]["provider"] == "letsfg":
+        return {"client_id": "", "redirect_uri": "", "client_secret": ""}
     prefix = "DESK_GOOGLE_" if SPECS[resource]["provider"] == "google" else "DESK_MICROSOFT_"
     config = {
         name: os.environ.get(prefix + name.upper(), "")
@@ -91,6 +93,9 @@ class AppOAuth:
             if self.provider == "google"
             else f"https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token"
         )
+        if self.provider == "letsfg":
+            self.authorization_url = "https://letsfg.co/connect"
+            self.token_url = "https://letsfg.co/developers/api/oauth/token"
         self.state_table = "google_oauth" if resource == "calendar" else resource + "_oauth"
         self.account_table = (
             "google_connection" if resource == "calendar" else resource + "_connection"
@@ -130,6 +135,15 @@ class AppOAuth:
             and not parts.username
         )
 
+    def mode(self):
+        if self.provider == "letsfg":
+            return "book_after_review"
+        return (
+            "send_after_review"
+            if self.resource in {"gmail", "microsoft365"}
+            else "read_only_preview"
+        )
+
     def snapshot(self):
         with self.store.connection() as conn:
             row = conn.execute(
@@ -141,9 +155,7 @@ class AppOAuth:
         return {
             "configured": self.configured(),
             "connected": bool(row),
-            "mode": "send_after_review"
-            if self.resource in {"gmail", "microsoft365"}
-            else "read_only_preview",
+            "mode": self.mode(),
             "connected_at": row["connected_at"] if row else None,
             "last_read": row["last_read"] if row else None,
         }
@@ -191,7 +203,13 @@ class AppOAuth:
                 (
                     digest(state),
                     self.vault.encrypt(
-                        encode({"verifier": verifier, "redirect_uri": redirect_uri})
+                        encode(
+                            {
+                                "verifier": verifier,
+                                "redirect_uri": redirect_uri,
+                                "client_id": self.config["client_id"],
+                            }
+                        )
                     ),
                     digest(owner_session),
                     iso(self.store.clock() + timedelta(minutes=10)),
@@ -221,11 +239,11 @@ class AppOAuth:
                     "scope": " ".join(SCOPES[self.resource]),
                     "state": state,
                     **(
-                        {"access_type": "offline"}
-                        if self.provider == "google"
-                        else {"response_mode": "query"}
+                        {
+                            "google": {"access_type": "offline", "prompt": "consent"},
+                            "microsoft": {"response_mode": "query", "prompt": "select_account"},
+                        }.get(self.provider, {})
                     ),
-                    "prompt": "consent" if self.provider == "google" else "select_account",
                     "code_challenge": challenge,
                     "code_challenge_method": "S256",
                 }
@@ -304,11 +322,12 @@ class AppOAuth:
             or not self.valid_redirect(binding.get("redirect_uri", ""))
         ):
             raise DomainError("OAUTH_EXPIRED", 403)
+        client_id = binding.get("client_id", self.config["client_id"])
         data = self._request(
             "POST",
             self.token_url,
             data={
-                "client_id": self.config["client_id"],
+                "client_id": client_id,
                 **(
                     {"client_secret": self.config["client_secret"]}
                     if self.config.get("client_secret")
@@ -331,6 +350,8 @@ class AppOAuth:
         if not active:
             raise DomainError("OAUTH_EXPIRED", 403)
         tokens.update(self.identity(tokens["access_token"]))
+        if self.provider == "letsfg":
+            tokens["client_id"] = client_id
         tokens["connection_id"] = uuid4().hex
         with self.lock, self.store.connection(write=True) as conn:
             if not conn.execute(
@@ -351,8 +372,8 @@ class AppOAuth:
                 conn,
                 ("google" if self.resource == "calendar" else self.resource) + "_connected",
                 details={
-                    "mode": "read_only_preview"
-                    if self.resource == "calendar"
+                    "mode": self.mode()
+                    if self.provider == "letsfg" or self.resource == "calendar"
                     else "send_after_review"
                 },
             )

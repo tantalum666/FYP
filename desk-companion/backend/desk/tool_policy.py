@@ -109,6 +109,7 @@ OWNER_ONLY_TOOLS = frozenset(
         "browser_research_draft",
         "browser_research_status",
         *SCOPED_COMMERCE_TOOLS,
+        "flight_purchase_review",
         "email_status",
         "connected_app_query",
         "email_send_draft",
@@ -408,6 +409,8 @@ def ends_text_turn(name: str, result: dict) -> bool:
     from .capabilities import CAPABILITIES
 
     if name == "connected_app_query" and result.get("view") == "last_refresh":
+        return True
+    if name == "flight_purchase_review" and result.get("live_flight_review"):
         return True
     if name == "propose_plan" and result.get("error"):
         return True

@@ -10,6 +10,7 @@ dependencies = [
     "python-dateutil>=2.9,<4",
     "pwdlib[argon2]>=0.2,<1",
     "httpx>=0.28,<1",
+    "opencc-py==1.4.2",
     "websockets>=15,<17",
     "icalendar>=6,<8",
     "recurring-ical-events>=3,<4",

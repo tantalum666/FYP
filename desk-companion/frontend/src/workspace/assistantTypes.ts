@@ -116,6 +116,7 @@ export interface Reply {
   catch_up_ref?: string;
   google_refresh_scope?: { review_version: string; last_refresh_ref: string };
   approval_summary?: string;
+  live_flight_checkout?: import("./LiveFlightCheckout").LiveCheckout;
   delivery?: import("../companion/delivery").Delivery;
   commerce_note?: boolean;
   flight_shortlist_chat?: string | null;

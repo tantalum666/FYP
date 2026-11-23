@@ -6,9 +6,15 @@ import { ProposalActionCard } from "./ProposalActionCard";
 import { proposalDecisionNotice } from "./proposalDecision";
 import { useDraftGuard } from "../components/DraftGuard";
 
+const authorizationProviders = {
+  google: { name: "Google", origin: "https://accounts.google.com", path: /^\/o\/oauth2\/v2\/auth$/ },
+  microsoft: { name: "Microsoft", origin: "https://login.microsoftonline.com", path: /^\/(common|organizations)\/oauth2\/v2\.0\/authorize$/ },
+  letsfg: { name: "LetsFG", origin: "https://letsfg.co", path: /^\/connect$/ },
+} as const;
+
 type ConnectedApp = {
-  id: "gmail" | "calendar" | "microsoft365" | "teams" | "sharepoint";
-  provider: "google" | "microsoft";
+  id: "gmail" | "calendar" | "letsfg" | "microsoft365" | "teams" | "sharepoint";
+  provider: keyof typeof authorizationProviders;
   organization_only?: boolean;
   name: string;
   configured: boolean;
@@ -142,15 +148,11 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
           { method: "POST", body: "{}" },
         );
         const target = new URL(result.url);
-        const valid =
-          app.provider === "google"
-            ? target.origin === "https://accounts.google.com" &&
-              target.pathname === "/o/oauth2/v2/auth"
-            : target.origin === "https://login.microsoftonline.com" &&
-              /^\/(common|organizations)\/oauth2\/v2\.0\/authorize$/.test(
-                target.pathname,
-              );
-        if (!valid) throw new Error("Invalid authorization destination");
+        const provider = authorizationProviders[app.provider];
+        if (!provider || target.origin !== provider.origin || !provider.path.test(target.pathname)
+            || target.username || target.password || target.hash) {
+          throw new Error("Invalid authorization destination");
+        }
         if (!alive.current) {
           popup?.close();
           return;
@@ -158,7 +160,7 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
         if (popup) popup.location.href = result.url;
         setAuthorization({
           app: app.id,
-          providerName: app.provider === "google" ? "Google" : "Microsoft",
+          providerName: provider.name,
           flow: result.flow_id,
           initialVersion: app.version,
           popup,
@@ -186,6 +188,7 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
                       "Prepare and send email after review.",
                       "准备邮件，确认后发送。",
                     ),
+                    letsfg: t("Search fares and review an exact flight before booking.", "查询机票，核对具体航班后确认预订。"),
                     calendar: t(
                       "Preview your Google calendar.",
                       "查看并导入 Google 日历。",
@@ -273,6 +276,8 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
                     "Read email previews and send reviewed email.",
                     "读取邮件摘要及发送已确认的邮件。",
                   )
+                : app.id === "letsfg"
+                  ? t("Search flights and submit the itinerary you approve. Card setup and bank approval happen with LetsFG.", "查询航班并提交你已确认的行程。绑卡及银行批准在 LetsFG 完成。")
                 : app.id === "calendar"
                   ? t(
                       "Read-only calendar events; preview before local import.",
