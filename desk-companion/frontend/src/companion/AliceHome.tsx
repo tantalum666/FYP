@@ -10,6 +10,7 @@ import { AliceAgenda } from "./AliceAgenda";
 
 export function AliceHome({
   visible = true,
+  conversationRequest = 0,
   surface,
   t,
   language,
@@ -28,6 +29,7 @@ export function AliceHome({
   onClearTask,
 }: {
   visible?: boolean;
+  conversationRequest?: number;
   surface: "web" | "device";
   t: Translate;
   language: Language;
@@ -47,10 +49,19 @@ export function AliceHome({
 }) {
   const scene = useSceneActivity();
   const { data } = useWorkspace();
-  const [expanded, setExpanded] = useState(() => new URLSearchParams(location.search).get("conversation") === "open");
+  const [expanded, setExpanded] = useState(
+    () => new URLSearchParams(location.search).get("conversation") === "open",
+  );
+  useEffect(() => {
+    if (conversationRequest) setExpanded(true);
+  }, [conversationRequest]);
   useEffect(() => {
     const wake = (event: MessageEvent) => {
-      if (event.origin === location.origin && event.data?.type === "alice-open-conversation") setExpanded(true);
+      if (
+        event.origin === location.origin &&
+        event.data?.type === "alice-open-conversation"
+      )
+        setExpanded(true);
     };
     navigator.serviceWorker?.addEventListener("message", wake);
     return () => navigator.serviceWorker?.removeEventListener("message", wake);

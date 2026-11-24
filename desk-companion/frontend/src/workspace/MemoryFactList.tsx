@@ -167,55 +167,61 @@ export function MemoryFactList({
                     </button>
                   </>
                 ) : (
-                  <>
-                    {actions.includes("correct") && (
-                      <button
-                        className="secondary"
-                        type="button"
-                        disabled={busy || !!editing}
-                        onClick={() =>
-                          onEdit({
-                            id: fact.id,
-                            body: fact.body,
-                            version: fact.version,
-                          })
-                        }
-                      >
-                        {t(knowledgeCopy.correct[0], knowledgeCopy.correct[1])}
-                      </button>
-                    )}
-                    {actions.includes("forget") && (
-                      <button
-                        className="secondary"
-                        type="button"
-                        disabled={busy || !!editing}
-                        onClick={() => onDelete(fact)}
-                      >
-                        {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
-                      </button>
-                    )}
-                    {(actions.includes("expire_week") ||
-                      actions.includes("clear_expiry")) && (
-                      <button
-                        className="secondary"
-                        type="button"
-                        disabled={busy || !!editing}
-                        onClick={() =>
-                          void onExpiry(fact, fact.expires_at ? null : 7)
-                        }
-                      >
-                        {fact.expires_at
-                          ? t(
-                              knowledgeCopy.clearExpiry[0],
-                              knowledgeCopy.clearExpiry[1],
-                            )
-                          : t(
-                              knowledgeCopy.expireWeek[0],
-                              knowledgeCopy.expireWeek[1],
-                            )}
-                      </button>
-                    )}
-                  </>
+                  <details className="memory-actions">
+                    <summary>{t("Manage", "管理")}</summary>
+                    <div className="workspace-inline-actions">
+                      {actions.includes("correct") && (
+                        <button
+                          className="secondary"
+                          type="button"
+                          disabled={busy || !!editing}
+                          onClick={() =>
+                            onEdit({
+                              id: fact.id,
+                              body: fact.body,
+                              version: fact.version,
+                            })
+                          }
+                        >
+                          {t(
+                            knowledgeCopy.correct[0],
+                            knowledgeCopy.correct[1],
+                          )}
+                        </button>
+                      )}
+                      {actions.includes("forget") && (
+                        <button
+                          className="secondary"
+                          type="button"
+                          disabled={busy || !!editing}
+                          onClick={() => onDelete(fact)}
+                        >
+                          {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
+                        </button>
+                      )}
+                      {(actions.includes("expire_week") ||
+                        actions.includes("clear_expiry")) && (
+                        <button
+                          className="secondary"
+                          type="button"
+                          disabled={busy || !!editing}
+                          onClick={() =>
+                            void onExpiry(fact, fact.expires_at ? null : 7)
+                          }
+                        >
+                          {fact.expires_at
+                            ? t(
+                                knowledgeCopy.clearExpiry[0],
+                                knowledgeCopy.clearExpiry[1],
+                              )
+                            : t(
+                                knowledgeCopy.expireWeek[0],
+                                knowledgeCopy.expireWeek[1],
+                              )}
+                        </button>
+                      )}
+                    </div>
+                  </details>
                 )}
               </div>
             </li>

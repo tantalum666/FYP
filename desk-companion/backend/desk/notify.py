@@ -234,13 +234,38 @@ class Notifier:
             self.push.dispatch(notice.payload()["push"])
         return results
 
-    def listing(self) -> dict:
+    def listing(self, *, open_only=False, before=None) -> dict:
+        import json
+
         with self.store.connection() as conn:
+            if open_only:
+                scope = "source IS NULL AND state='open'"
+                total = conn.execute(f"SELECT count(*) FROM notice_inbox WHERE {scope}").fetchone()[0]
+                params = ()
+                if before:
+                    anchor = conn.execute(
+                        "SELECT created_at,id FROM notice_inbox WHERE id=? AND source IS NULL", (before,)
+                    ).fetchone()
+                    if not anchor:
+                        raise DomainError("NOTICE_NOT_FOUND", 404)
+                    scope += " AND (created_at < ? OR (created_at = ? AND id > ?))"
+                    params = (anchor["created_at"], anchor["created_at"], anchor["id"])
+                rows = conn.execute(
+                    f"SELECT * FROM notice_inbox WHERE {scope} ORDER BY created_at DESC,id LIMIT 21",
+                    params,
+                ).fetchall()
+                return {
+                    "total": total,
+                    "next": rows[19]["id"] if len(rows) > 20 else None,
+                    "notices": [
+                        {**self.owner_projection({**json.loads(row["content"]), "state": row["state"]}),
+                         "created_at": row["created_at"]}
+                        for row in rows[:20]
+                    ],
+                }
             rows = conn.execute(
                 "SELECT * FROM notice_inbox WHERE source IS NULL ORDER BY created_at DESC, id LIMIT 20"
             ).fetchall()
-        import json
-
         return {
             "notices": [
                 self.owner_projection({**json.loads(row["content"]), "state": row["state"]})
@@ -257,6 +282,7 @@ class Notifier:
                 raise DomainError("NOTICE_NOT_FOUND", 404)
             if row["state"] != "dismissed":
                 conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
+                self.store.bump(conn)
             import json
 
             return {"notice": {**json.loads(row["content"]), "state": "dismissed"}, "saved": True}
@@ -312,8 +338,8 @@ def notice_routes(runtime, owner, operation_id):
     router = APIRouter(prefix="/api/notices", dependencies=[Depends(owner)])
 
     @router.get("")
-    def listing():
-        return runtime.notify.listing()
+    def listing(open_only: bool = False, before: str | None = None):
+        return runtime.notify.listing(open_only=open_only, before=before)
 
     @router.post("/{notice_id}/dismissals")
     def dismiss(notice_id: str, key=Depends(operation_id)):

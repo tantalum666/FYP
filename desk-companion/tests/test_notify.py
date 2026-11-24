@@ -111,3 +111,22 @@ def test_display_cannot_read_the_inbox(tmp_path):
         }
     )
     assert display.get("/api/notices").status_code == 403
+    assert display.get("/api/notices?open_only=true").status_code == 403
+
+
+def test_open_notice_pages_keep_history_after_one_dismissal(tmp_path):
+    store = Store(tmp_path, password="fixture-only", clock=lambda: datetime(2026, 11, 24, tzinfo=UTC))
+    notifier = Notifier(store)
+    for index in range(25):
+        notice = Notice(f"same-time-{index:02}", "evening_check", "Evening", "晚间", "Body", "正文", "", "")
+        notifier.publish(notice, quiet=False)
+    initial = notifier.listing(open_only=True)
+    assert initial["total"] == 25 and len(initial["notices"]) == 20
+    first_ids = [row["id"] for row in initial["notices"]]
+    assert all(row["created_at"] for row in initial["notices"])
+    notifier.dismiss(initial["next"], "handled-one")
+    last = notifier.listing(open_only=True, before=initial["next"])
+    assert last["total"] == 24 and last["next"] is None and len(last["notices"]) == 5
+    assert not set(first_ids).intersection(row["id"] for row in last["notices"])
+    assert all(row["state"] == "open" for row in notifier.listing(open_only=True)["notices"])
+    assert any(row["state"] == "dismissed" for row in notifier.listing()["notices"])

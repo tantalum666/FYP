@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   browserPayload,
   openNotices,
+  newlyArrived,
   showBrowserNotice,
   type DeskNotice,
 } from "../src/workspace/notices.ts";
@@ -49,4 +50,14 @@ test("morning facts never reach an operating-system notification", () => {
   };
   assert.doesNotMatch(browserPayload(notice, "en").options.body, /Private dentist/);
   assert.equal(browserPayload(notice, "zh").options.body, "请打开记忆页查看早晨核对。");
+});
+
+
+test("opening the inbox and filling an old page slot do not replay desktop notifications", () => {
+  const item = (id: string, day: number) => ({ ...notice("open"), id, created_at: new Date(2026, 10, day).toISOString() });
+  const old = [item("b", 3), item("c", 2)];
+  assert.deepEqual(newlyArrived(null, old), []);
+  assert.deepEqual(newlyArrived(old, [old[1], item("older", 1)]), []);
+  assert.deepEqual(newlyArrived(old, [item("older", 1)]), []);
+  assert.deepEqual(newlyArrived(old, [item("a", 4), ...old]).map(i => i.id), ["a"]);
 });

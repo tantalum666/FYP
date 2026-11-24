@@ -1,3 +1,5 @@
+import type { SettingsCategory } from "../components/Views";
+import { useDeskInbox } from "../workspace/useDeskInbox";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { DateTime } from "luxon";
@@ -48,9 +50,18 @@ export function PhoneApp() {
   };
   const [error, setError] = useState<unknown>(null);
   const { session, recoverSession } = useWorkspaceSession(setError);
-  const [panel, setPanel] = useState<PhonePanel | null>(null);
+  const [settingsCategory, setSettingsCategory] =
+    useState<SettingsCategory>("general");
+  const [trail, setTrail] = useState<PhonePanel[]>([]);
+  const panel = trail.at(-1) ?? null;
+  const parentPanel = trail.at(-2);
+  const setRootPanel = (next: PhonePanel | null) =>
+    setTrail(next ? [next] : []);
+  const pushPanel = (next: PhonePanel) =>
+    setTrail((old) => (old.at(-1) === next ? old : [...old, next]));
   const [planTab, setPlanTab] = useState<"calendar" | "tasks">("calendar");
   const [reminders, setReminders] = useState(false);
+  const [inboxCanNavigate, setInboxCanNavigate] = useState(false);
   const [conversation, setConversation] = useState(false);
   const [task, setTask] = useState<{ id: string; title: string }>();
   const [notice, setNotice] = useState("");
@@ -62,6 +73,12 @@ export function PhoneApp() {
     environment.visible,
   );
   const { zone, todayKey, snapshot, homeSnapshot } = calendar;
+  const inbox = useDeskInbox(
+    !!panel || reminders,
+    snapshot?.revision,
+    reminders,
+    language,
+  );
   const {
     editor,
     setEditor,
@@ -102,7 +119,7 @@ export function PhoneApp() {
       else {
         setPlanTab("calendar");
         calendar.setDate(todayKey);
-        setPanel("plan");
+        setRootPanel("plan");
       }
     };
     window.addEventListener("desk:route", route);
@@ -118,7 +135,7 @@ export function PhoneApp() {
       history.replaceState(null, "", "?" + query.toString());
     } else if (query.get("page") === "today") {
       intentHandled.current = true;
-      setPanel("plan");
+      setRootPanel("plan");
     }
   }, [session]);
   useEffect(() => {
@@ -129,10 +146,10 @@ export function PhoneApp() {
   }, [notice]);
   const choosePanel = (value: PhonePanel) => {
     setConversation(false);
-    setPanel(value);
+    setRootPanel(value);
   };
   const showConversation = () => {
-    setPanel(null);
+    setRootPanel(null);
     setConversation(true);
   };
   const changeDiscussion = (next?: { id: string; title: string }) => {
@@ -269,16 +286,33 @@ export function PhoneApp() {
             panel === "plan"
               ? planTab === "calendar"
                 ? t("Calendar", "日历")
-                : t("Tasks", "事务")
+                : t("Tasks", "待办")
               : phoneHeadings(t)[panel]
           }
-          onBack={() =>
-            setPanel(panel === "plan" || panel === "more" ? null : "more")
-          }
+          onBack={() => setTrail((old) => old.slice(0, -1))}
           backLabel={
-            panel === "plan" || panel === "more"
-              ? t("Back to Alice", "返回 Alice")
-              : t("Back to workspace", "返回工作空间")
+            parentPanel
+              ? t(
+                  `Back to ${phoneHeadings(t)[parentPanel]}`,
+                  `返回${phoneHeadings(t)[parentPanel]}`,
+                )
+              : t("Back to Alice", "返回 Alice")
+          }
+          currentTab={panel === "plan" ? planTab : "more"}
+          onTab={(tab) => {
+            if (tab === "more") setRootPanel("more");
+            else {
+              setPlanTab(tab);
+              setRootPanel("plan");
+            }
+          }}
+          onReminders={(canNavigate) => {
+            setInboxCanNavigate(canNavigate);
+            setReminders(true);
+          }}
+          notificationCount={
+            (snapshot?.reminders.filter((item) => item.status === "due")
+              .length ?? 0) + inbox.total
           }
           footer={
             notice ? (
@@ -295,7 +329,6 @@ export function PhoneApp() {
               language={language}
               offline={offline || stale}
               planTab={planTab}
-              setPlanTab={setPlanTab}
               onNew={() => newEvent()}
               onOpen={setDetail}
               onPlan={(event) => setEditor({ initial: event, scope: "series" })}
@@ -306,9 +339,8 @@ export function PhoneApp() {
               t={t}
               language={language}
               setLanguage={setLanguage}
-              onNavigate={setPanel}
+              onNavigate={pushPanel}
               onConversation={showConversation}
-              onReminders={() => setReminders(true)}
             />
           ) : (
             <PhoneManagement
@@ -317,8 +349,10 @@ export function PhoneApp() {
               language={language}
               setLanguage={setLanguage}
               settings={snapshot?.settings ?? session.settings}
+              settingsCategory={settingsCategory}
+              onSettingsCategory={setSettingsCategory}
               revision={snapshot?.revision ?? 0}
-              onNavigate={setPanel}
+              onNavigate={pushPanel}
               onConversation={showConversation}
               onRefresh={refresh}
               onNotice={setNotice}
@@ -359,7 +393,7 @@ export function PhoneApp() {
             calendar.setDate(savedEventPosition(event, zone).date);
             setEditor(null);
             setPlanTab("calendar");
-            setPanel("plan");
+            setRootPanel("plan");
             calendar.setMonth(false);
             refresh();
             setNotice(t("Event saved", "日程已保存"));
@@ -382,6 +416,20 @@ export function PhoneApp() {
       )}
       {reminders && (
         <ReminderDialog
+          onReview={
+            inboxCanNavigate
+              ? (target) => {
+                  setReminders(false);
+                  if (target === "assistant") showConversation();
+                  else if (target === "memory") pushPanel("memory");
+                  else {
+                    setPlanTab("tasks");
+                    setRootPanel("plan");
+                  }
+                }
+              : undefined
+          }
+          inbox={inbox}
           reminders={homeSnapshot?.reminders ?? []}
           language={language}
           zone={zone}

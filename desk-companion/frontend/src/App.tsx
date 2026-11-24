@@ -1,21 +1,21 @@
 import { usePendingWrite } from "./usePendingWrite";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { DateTime } from "luxon";
 import {
   Bell,
   Menu,
-  MessageSquare,
-  CalendarDays,
-  FileText,
-  Globe,
-  House,
-  Activity,
-  Brain,
-  ListTodo,
+  ChevronRight,
+  PanelLeft,
+  ArrowLeft,
   LoaderCircle,
-  Sparkles,
   RefreshCw,
-  Settings as SettingsIcon,
 } from "lucide-react";
 import {
   ApiError,
@@ -41,8 +41,8 @@ import {
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
 import { MemoryPanel } from "./workspace/MemoryPanel";
-import { MomentCard } from "./workspace/MomentCard";
-import { NoticeInbox } from "./workspace/NoticeInbox";
+import { useDeskInbox } from "./workspace/useDeskInbox";
+import { WorkspaceNav, destinations as nav } from "./workspace/WorkspaceNav";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
@@ -57,17 +57,11 @@ import { useWorkspaceSession } from "./useWorkspaceSession";
 import { classifyFailure } from "./surfaceStatus";
 import { failureNotice, loadingNotice, offlineNotice } from "./surfaceNotice";
 
-const nav = [
-  { id: "assistant", en: "Chat", zh: "对话", Icon: MessageSquare },
-  { id: "today", en: "Today", zh: "今天", Icon: House },
-  { id: "calendar", en: "Calendar", zh: "日历", Icon: CalendarDays },
-  { id: "tasks", en: "Tasks", zh: "事务", Icon: ListTodo },
-  { id: "memory", en: "Memory", zh: "记忆", Icon: Brain },
-  { id: "persona", en: "Style", zh: "风格", Icon: Sparkles },
-  { id: "records", en: "Records", zh: "记录", Icon: FileText },
-  { id: "device", en: "Settings", zh: "设置", Icon: SettingsIcon },
-  { id: "diagnostics", en: "Diagnostics", zh: "诊断", Icon: Activity },
-] as const;
+const desktopRail = window.matchMedia("(min-width: 960px)");
+function watchDesktopRail(notify: () => void) {
+  desktopRail.addEventListener("change", notify);
+  return () => desktopRail.removeEventListener("change", notify);
+}
 
 export function App() {
   const pendingOperation = usePendingWrite();
@@ -127,6 +121,31 @@ export function App() {
     "posture" | "connections" | "extras" | "data" | null
   >(() => query.get("settings") === "connections" ? "connections" : query.get("settings") === "reminders" ? "extras" : null);
   const [navigationOpen, setNavigationOpen] = useState(false);
+  const wide = useSyncExternalStore(
+    watchDesktopRail,
+    () => desktopRail.matches,
+  );
+  const pinned = wide && page !== "assistant";
+  const [railCollapsed, setRailCollapsed] = useState(
+    () => localStorage.getItem("desk.sidebar") === "compact",
+  );
+  function toggleRail() {
+    const next = !railCollapsed;
+    setRailCollapsed(next);
+    localStorage.setItem("desk.sidebar", next ? "compact" : "full");
+  }
+  const drawer = navigationOpen && !pinned;
+  const destination = nav.find((item) => item.id === page)!;
+  const inbox = useDeskInbox(
+    page !== "assistant" || showReminders,
+    snapshot?.revision,
+    showReminders || page === "inbox",
+    language,
+  );
+  useEffect(() => {
+    if (pinned) setNavigationOpen(false);
+  }, [pinned]);
+  const [taskToOpen, setTaskToOpen] = useState<string>();
   const [chatState, setChatState] = useState({ dirty: false, busy: false });
   const [assistantTask, setAssistantTask] = useState<{
     id: string;
@@ -135,7 +154,13 @@ export function App() {
   useEffect(() => {
     if (session === null) setAssistantTask(undefined);
   }, [session]);
+  const [conversationRequest, requestConversation] = useState(0);
   const openAssistant = () => goPage("assistant");
+  function reviewNotice(target: "assistant" | "memory" | "tasks") {
+    setShowReminders(false);
+    goPage(target);
+    if (target === "assistant") requestConversation((n) => n + 1);
+  }
   const discussTask = (id: string, title: string) => {
     if (chatState.busy) {
       setNotice(
@@ -297,13 +322,15 @@ export function App() {
 
   function closeNavigation() {
     setNavigationOpen(false);
-    document
-      .querySelector<HTMLButtonElement>(
-        ".alice-home:not([hidden]) .alice-more-button, .workspace-menu-toggle",
-      )
-      ?.focus();
+    requestAnimationFrame(() => {
+      const trigger =
+        page === "assistant"
+          ? ".alice-home:not([hidden]) .alice-more-button"
+          : ".workspace-menu-toggle";
+      document.querySelector<HTMLButtonElement>(trigger)?.focus();
+    });
   }
-  function goPage(p: Page) {
+  function goPage(p: Page, taskId?: string) {
     if (p === page) {
       closeNavigation();
       return;
@@ -313,6 +340,7 @@ export function App() {
       setLeavePage(p);
       return;
     }
+    setTaskToOpen(p === "tasks" ? taskId : undefined);
     setPage(p);
     if (navigationOpen) closeNavigation();
     setError(null);
@@ -388,7 +416,7 @@ export function App() {
     snapshot?.reminders.filter((r) => r.status === "due").length ?? 0;
   return (
     <div
-      className={`app-shell conversation-shell ${page === "assistant" ? "home-open" : ""} ${deviceLayout ? "device-layout" : ""} ${navigationOpen ? "navigation-open" : ""}`}
+      className={`app-shell conversation-shell ${page === "assistant" ? "home-open" : "desk-workspace"} ${deviceLayout ? "device-layout" : ""} ${navigationOpen ? "navigation-open" : ""} ${pinned && railCollapsed ? "rail-compact" : ""}`}
       onKeyDown={(event) => {
         if (
           navigationOpen &&
@@ -400,112 +428,75 @@ export function App() {
         }
       }}
     >
-      <aside className="sidebar" inert={!navigationOpen}>
-        <div className="app-name">Desk Companion</div>
-        <div className="sidebar-scroll">
-          <nav aria-label={t("Main navigation", "主导航")}>
-            {pages.map(({ id, en, zh, Icon }, index) => (
-              <div className="sidebar-nav-item" key={id}>
-                {(index === 4 || index === 6) && (
-                  <p className="sidebar-group-label">
-                    {index === 4
-                      ? t("Assistant", "助理")
-                      : t("Workspace", "工作空间")}
-                  </p>
-                )}
-                <button
-                  className={page === id ? "selected" : ""}
-                  onClick={() => goPage(id)}
-                  aria-current={page === id ? "page" : undefined}
-                >
-                  <Icon />
-                  {id === "memory"
-                    ? t("Saved memories", "已保存记忆")
-                    : id === "persona"
-                      ? t("Assistant style", "助理风格")
-                      : t(en, zh)}
-                </button>
-              </div>
-            ))}
-          </nav>
-          {(page === "today" || page === "calendar") && (
-            <details className="sidebar-calendar-tools">
-              <summary>{t("Calendar shortcuts", "日历快捷操作")}</summary>
-              <MiniMonth
-                anchor={DateTime.fromISO(pickerDate, { zone })}
-                selected={anchor}
-                language={language}
-                onSelect={selectDay}
-                onMonth={(n) =>
-                  setPickerDate(
-                    dayISO(
-                      DateTime.fromISO(pickerDate, { zone }).plus({
-                        months: n,
-                      }),
-                    ),
-                  )
-                }
-              />
-              <div className="calendar-filters">
-                <h3>{t("Calendars", "日历分类")}</h3>
-                {(["personal", "study"] as const).map((c) => (
-                  <label key={c}>
-                    <span className={`filter-dot ${c}`} />
-                    <span>
-                      {c === "personal"
-                        ? t("Personal", "个人")
-                        : t("Study", "学习")}
-                    </span>
-                    <input
-                      type="checkbox"
-                      checked={filters[c]}
-                      onChange={(e) =>
-                        setFilters({ ...filters, [c]: e.target.checked })
-                      }
-                    />
-                  </label>
-                ))}
-                {snapshot?.has_samples && (
-                  <p className="sample-note">
-                    {t("Example calendar", "含示例日程")}
-                  </p>
-                )}
-              </div>
-            </details>
-          )}
-        </div>
-        <footer className="sidebar-footer">
-          <label>
-            <Globe />
-            <select
-              aria-label="Language"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as Language)}
-            >
-              <option value="en">English</option>
-              <option value="zh">简体中文</option>
-            </select>
-          </label>
-        </footer>
-      </aside>
-      <div className="mobile-top">
-        <strong>Desk Companion</strong>
-        <select
-          aria-label="Language"
-          value={language}
-          onChange={(e) => setLanguage(e.target.value as Language)}
-        >
-          <option value="en">EN</option>
-          <option value="zh">中文</option>
-        </select>
-      </div>
-      <main className={`main-content page-${page}`}>
+      <WorkspaceNav
+        page={page}
+        visible={pinned || drawer}
+        drawer={drawer}
+        collapsed={railCollapsed}
+        onCollapse={toggleRail}
+        connection={connection}
+        count={dueCount + inbox.total}
+        showDiagnostics={!deviceLayout}
+        language={language}
+        onLanguage={setLanguage}
+        onPage={goPage}
+        onClose={closeNavigation}
+        t={t}
+      >
+        {(page === "today" || page === "calendar") && (
+          <details className="sidebar-calendar-tools">
+            <summary>{t("Calendar shortcuts", "日历快捷操作")}</summary>
+            <MiniMonth
+              anchor={DateTime.fromISO(pickerDate, { zone })}
+              selected={anchor}
+              language={language}
+              onSelect={selectDay}
+              onMonth={(n) =>
+                setPickerDate(
+                  dayISO(
+                    DateTime.fromISO(pickerDate, { zone }).plus({
+                      months: n,
+                    }),
+                  ),
+                )
+              }
+            />
+            <div className="calendar-filters">
+              <h3>{t("Calendars", "日历分类")}</h3>
+              {(["personal", "study"] as const).map((c) => (
+                <label key={c}>
+                  <span className={`filter-dot ${c}`} />
+                  <span>
+                    {c === "personal"
+                      ? t("Personal", "个人")
+                      : t("Study", "学习")}
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={filters[c]}
+                    onChange={(e) =>
+                      setFilters({ ...filters, [c]: e.target.checked })
+                    }
+                  />
+                </label>
+              ))}
+              {snapshot?.has_samples && (
+                <p className="sample-note">
+                  {t("Example calendar", "含示例日程")}
+                </p>
+              )}
+            </div>
+          </details>
+        )}
+      </WorkspaceNav>
+      <main className={`main-content page-${page}`} inert={drawer}>
         <div className="workspace-topbar">
           <div className="workspace-topbar-title">
             <button
               className="icon-button workspace-menu-toggle"
               aria-label={t("Navigation", "导航")}
-              aria-expanded={navigationOpen}
+              aria-expanded={drawer}
+              aria-controls="workspace-navigation"
               onClick={() => {
                 if (navigationOpen) closeNavigation();
                 else {
@@ -520,7 +511,28 @@ export function App() {
             >
               <Menu size={20} />
             </button>
-            {page === "assistant" && <h1>Alice</h1>}
+            {page !== "assistant" && (
+              <button
+                className="workspace-home-link"
+                onClick={openAssistant}
+                aria-label={t("Open assistant", "打开助理")}
+              >
+                <ArrowLeft size={15} />
+                Alice
+              </button>
+            )}
+            {page === "assistant" ? (
+              <h1>Alice</h1>
+            ) : (
+              <div className="workspace-crumb">
+                <PanelLeft size={16} />
+                <span>{t("Workspace", "工作空间")}</span>
+                <ChevronRight size={13} />
+                <strong>{t(destination.en, destination.zh)}</strong>
+              </div>
+            )}
+          </div>
+          <div className="workspace-topbar-actions">
             <span
               className={`workspace-connection ${connection}`}
               role="status"
@@ -532,25 +544,18 @@ export function App() {
                   ? t("Desk offline", "桌面已离线")
                   : t("Connecting to desk…", "正在连接桌面…")}
             </span>
-          </div>
-          <div className="workspace-topbar-actions">
-            {page !== "assistant" && (
-              <button
-                className="assistant-open"
-                onClick={openAssistant}
-                aria-label={t("Open assistant", "打开助理")}
-              >
-                <Sparkles size={18} />
-                <span>{t("Chat", "对话")}</span>
-              </button>
-            )}
             <button
-              className={`reminder-button ${dueCount ? "has-due" : ""}`}
+              className={`reminder-button ${dueCount + inbox.total ? "has-due" : ""}`}
               aria-label={t("Open reminders", "打开提醒")}
-              onClick={() => setShowReminders(true)}
+              title={t("Reminders and updates", "提醒与动态")}
+              onClick={() =>
+                page === "assistant" ? setShowReminders(true) : goPage("inbox")
+              }
             >
               <Bell size={19} />
-              {dueCount > 0 && <span>{dueCount}</span>}
+              {dueCount + inbox.total > 0 && (
+                <span>{dueCount + inbox.total}</span>
+              )}
             </button>
           </div>
         </div>
@@ -564,9 +569,6 @@ export function App() {
             refresh,
             <RefreshCw size={14} aria-hidden="true" />,
           )}
-        {page !== "assistant" && (
-          <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
-        )}
         {pendingOperation &&
           pendingOperation.path !== "/assistant/messages/stream" &&
           !editor && (
@@ -583,6 +585,7 @@ export function App() {
           )}
         <AliceHome
           surface="web"
+          conversationRequest={conversationRequest}
           t={t}
           language={language}
           now={now}
@@ -679,7 +682,6 @@ export function App() {
               )}
               {page === "today" && (
                 <>
-                  <MomentCard t={t} />
                   <TodayView
                     snapshot={visible}
                     language={language}
@@ -692,14 +694,28 @@ export function App() {
                       setView("day");
                     }}
                     onDevice={() => goPage("device")}
-                    onTasks={() => goPage("tasks")}
+                    onTasks={(id) => goPage("tasks", id)}
                     t={t}
                   />
                 </>
               )}
+              {page === "inbox" && (
+                <ReminderDialog
+                  inline
+                  onReview={reviewNotice}
+                  reminders={visible.reminders}
+                  inbox={inbox}
+                  language={language}
+                  zone={zone}
+                  t={t}
+                  onClose={openAssistant}
+                  onSaved={refresh}
+                />
+              )}
               {page === "tasks" && (
                 <>
                   <TaskPanel
+                    initialTaskId={taskToOpen}
                     t={t}
                     zone={zone}
                     onDiscuss={discussTask}
@@ -754,26 +770,37 @@ export function App() {
             </>
           ))}
       </main>
-      {navigationOpen && (
+      {drawer && (
         <button
           className="workspace-nav-scrim"
+          tabIndex={-1}
           aria-label={t("Close navigation", "关闭导航")}
           onClick={closeNavigation}
         />
       )}
-      <nav className="bottom-nav" aria-label={t("Main navigation", "主导航")}>
+      <nav
+        className="bottom-nav"
+        inert={drawer}
+        aria-label={t("Main navigation", "主导航")}
+      >
         {pages
           .filter(({ id }) =>
-            ["assistant", "calendar", "tasks", "device"].includes(id),
+            ["today", "tasks", "calendar", "inbox"].includes(id),
           )
           .map(({ id, en, zh, Icon }) => (
             <button
               key={id}
+              aria-label={t(en, zh)}
               onClick={() => goPage(id)}
               className={page === id ? "selected" : ""}
               aria-current={page === id ? "page" : undefined}
             >
-              <Icon />
+              <span className="dock-icon">
+                <Icon />
+                {id === "inbox" && dueCount + inbox.total > 0 && (
+                  <small>{dueCount + inbox.total}</small>
+                )}
+              </span>
               {t(en, zh)}
             </button>
           ))}
@@ -794,7 +821,9 @@ export function App() {
             <button
               className="secondary"
               onClick={() => {
+                setTaskToOpen(undefined);
                 setPage(leavePage);
+                setNavigationOpen(false);
                 setLeavePage(null);
               }}
             >
@@ -838,6 +867,8 @@ export function App() {
       )}
       {showReminders && (
         <ReminderDialog
+          onReview={reviewNotice}
+          inbox={inbox}
           reminders={snapshot?.reminders ?? []}
           language={language}
           zone={zone}

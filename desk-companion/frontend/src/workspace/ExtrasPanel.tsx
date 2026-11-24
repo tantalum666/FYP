@@ -57,7 +57,7 @@ export function ExtrasPanel({ t }: { t: Translate }) {
   }
   return (
     <form className="workspace-panel" onSubmit={save}>
-      <h3>{t("Make this desk yours", "适合你的桌面")}</h3>
+      <h3>{t("Calendar display", "日历显示")}</h3>
       <div className="workspace-form-grid">
         <label className="field">
           {t("Weather location", "天气地区")}
@@ -242,11 +242,18 @@ export function ExtrasPanel({ t }: { t: Translate }) {
             "Alice 会联系新信息与手头的事，主动提醒值得关注的变化。较少只提示重要发现；关闭会暂停主动分析和邮件跟进。发信与购买仍单独控制。",
           )}
         </p>
-        {form.proactivity !== "off" && data?.initiative?.mail_check && <small>
-          {data.initiative.mail_check.available
-            ? t("Last Gmail check", "上次查看 Gmail") + " · " + new Date(data.initiative.mail_check.at).toLocaleString()
-            : t("Gmail could not be checked. Review the connection in Apps.", "暂时查不到 Gmail，请到应用连接查看授权状态。")}
-        </small>}
+        {form.proactivity !== "off" && data?.initiative?.mail_check && (
+          <small>
+            {data.initiative.mail_check.available
+              ? t("Last Gmail check", "上次查看 Gmail") +
+                " · " +
+                new Date(data.initiative.mail_check.at).toLocaleString()
+              : t(
+                  "Gmail could not be checked. Review the connection in Apps.",
+                  "暂时查不到 Gmail，请到应用连接查看授权状态。",
+                )}
+          </small>
+        )}
       </section>
       <section className="workspace-section">
         <h3>{t("Companion", "桌面助理")}</h3>

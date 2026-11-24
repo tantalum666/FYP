@@ -2,7 +2,6 @@ import {
   CalendarDays,
   ChevronLeft,
   ChevronRight,
-  ListTodo,
   Plus,
 } from "lucide-react";
 import { dayISO, eventTime, locale, title } from "../dates";
@@ -18,7 +17,6 @@ export function PhonePlan({
   language,
   offline,
   planTab,
-  setPlanTab,
   onNew,
   onOpen,
   onPlan,
@@ -29,7 +27,6 @@ export function PhonePlan({
   language: Language;
   offline: boolean;
   planTab: "calendar" | "tasks";
-  setPlanTab: (tab: "calendar" | "tasks") => void;
   onNew: () => void;
   onOpen: (event: Occurrence) => void;
   onPlan: (event: EventInput) => void;
@@ -50,28 +47,6 @@ export function PhonePlan({
   } = calendar;
   return (
     <>
-      <div
-        className="phone-segments"
-        role="group"
-        aria-label={t("Plan section", "计划分类")}
-      >
-        <button
-          aria-pressed={planTab === "calendar"}
-          disabled={planTab !== "calendar" && changingBlocked}
-          onClick={() => setPlanTab("calendar")}
-        >
-          <CalendarDays size={17} />
-          {t("Calendar", "日历")}
-        </button>
-        <button
-          aria-pressed={planTab === "tasks"}
-          disabled={planTab !== "tasks" && changingBlocked}
-          onClick={() => setPlanTab("tasks")}
-        >
-          <ListTodo size={17} />
-          {t("Tasks", "事务")}
-        </button>
-      </div>
       {changingBlocked && (
         <p className="phone-plan-edit-status" role="status">
           {t(
@@ -183,16 +158,7 @@ export function PhonePlan({
             ) : (
               <div className="phone-empty">
                 <CalendarDays size={28} />
-                <h3>{t("A little room in your day.", "这天还有一些空闲。")}</h3>
-                <p>
-                  {t(
-                    "Add something when you have a plan.",
-                    "有新计划时，随手记下来。",
-                  )}
-                </p>
-                <button className="secondary" onClick={() => onNew()}>
-                  {t("Add an event", "添加日程")}
-                </button>
+                <h3>{t("No events on this day", "当天没有日程")}</h3>
               </div>
             )}
           </div>

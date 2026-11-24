@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { ApiError, errorText, pendingWrite, request, write } from "../api";
 import type { EventInput, Translate } from "../types";
-import { useDraftGuard } from "../components/DraftGuard";
+import { useDraftGuard, useDraftState } from "../components/DraftGuard";
 import { Modal } from "../components/Dialogs";
 import { useWorkspace } from "./WorkspaceContext";
 import { TaskJobs } from "./TaskJobs";
@@ -153,7 +153,7 @@ function TaskEditor({
   }
   return (
     <Modal
-      title={task ? t("Edit task", "编辑事务") : t("New task", "新建事务")}
+      title={task ? t("Edit task", "编辑事务") : t("New task", "新建待办")}
       onClose={closeEditor}
       closeLabel={t("Close", "关闭")}
       busy={saving}
@@ -439,14 +439,17 @@ export function TaskPanel({
   onPlan,
   onDiscuss,
   displayMode = false,
+  initialTaskId,
 }: {
   t: Translate;
   zone?: string;
   onPlan?: (event: EventInput) => void;
   onDiscuss?: (id: string, title: string) => void;
   displayMode?: boolean;
+  initialTaskId?: string;
 }) {
   const workspace = useWorkspace();
+  const guard = useDraftState();
   const { refresh: refreshWorkspace } = workspace;
   const [data, setData] = useState<TaskList | null>(null),
     [error, setError] = useState<unknown>(null),
@@ -454,8 +457,8 @@ export function TaskPanel({
     [busy, setBusy] = useState(false);
   const [query, setQuery] = useState(""),
     [filter, setFilter] = useState("active"),
-    [selected, setSelected] = useState<string | null>(null),
-    [detail, setDetail] = useState<TaskDetail | null>(null);
+    [selected, setSelected] = useState<string | null>(initialTaskId ?? null),
+    [loadedDetail, setDetail] = useState<TaskDetail | null>(null);
   const [edit, setEdit] = useState<Task | null | undefined>(undefined),
     [note, setNote] = useState(""),
     [notice, setNotice] = useState(""),
@@ -465,7 +468,36 @@ export function TaskPanel({
     loading = useRef(false),
     detailVersion = useRef("");
   useDraftGuard(!!note.trim(), busy);
-  const [leaveNote, setLeaveNote] = useState(false);
+  const [leaveFor, setLeaveFor] = useState<string | null | undefined>(
+    undefined,
+  );
+  const panelRef = useRef<HTMLDivElement>(null);
+  function openDetail(id: string | null) {
+    const previous = panelRef.current?.querySelector<HTMLButtonElement>(
+      ".task-row[aria-current=true]",
+    );
+    setSelected(id);
+    setConfirm(null);
+    setError(null);
+    setNotice("");
+    setAssistant(null);
+    requestAnimationFrame(() => {
+      if (id)
+        panelRef.current
+          ?.querySelector<HTMLElement>("[data-inspect-title]")
+          ?.focus();
+      else previous?.focus();
+    });
+  }
+  function chooseTask(id: string | null) {
+    if (busy || guard.busy || id === selected) return;
+    if (guard.dirty && !note.trim()) {
+      setNotice(t("Finish the open edit first.", "请先完成当前编辑。"));
+      return;
+    }
+    if (note.trim()) setLeaveFor(id);
+    else openDetail(id);
+  }
   const load = useCallback(async () => {
     if (loading.current) return;
     loading.current = true;
@@ -548,6 +580,7 @@ export function TaskPanel({
       : x,
   );
   const task = tasks?.find((x) => x.id === selected);
+  const detail = loadedDetail?.task.id === selected ? loadedDetail : null;
   useEffect(() => {
     let live = true;
     if (!selected) {
@@ -642,15 +675,7 @@ export function TaskPanel({
       setBusy(false);
     }
   }
-  function back() {
-    if (note.trim()) {
-      setLeaveNote(true);
-      return;
-    }
-    setSelected(null);
-    setConfirm(null);
-    setError(null);
-  }
+  const back = () => chooseTask(null);
   const filtered = (tasks ?? []).filter(
     (x) =>
       (filter === "closed"
@@ -664,24 +689,27 @@ export function TaskPanel({
           .includes(query.toLocaleLowerCase())),
   );
   return (
-    <div className="workspace-panel task-panel">
-      {leaveNote && (
+    <div
+      ref={panelRef}
+      className={`workspace-panel task-panel ${task ? "has-detail" : ""}`}
+    >
+      {leaveFor !== undefined && (
         <Modal
           title={t("Keep your progress note?", "保留进展记录？")}
           closeLabel={t("Close", "关闭")}
-          onClose={() => setLeaveNote(false)}
+          onClose={() => setLeaveFor(undefined)}
         >
           <p>{t("Your note has not been saved.", "这段记录还没有保存。")}</p>
           <div className="workspace-inline-actions">
-            <button className="primary" onClick={() => setLeaveNote(false)}>
+            <button className="primary" onClick={() => setLeaveFor(undefined)}>
               {t("Keep editing", "继续编辑")}
             </button>
             <button
               className="secondary"
               onClick={() => {
                 setNote("");
-                setSelected(null);
-                setLeaveNote(false);
+                openDetail(leaveFor);
+                setLeaveFor(undefined);
               }}
             >
               {t("Discard note", "放弃记录")}
@@ -689,441 +717,54 @@ export function TaskPanel({
           </div>
         </Modal>
       )}
-      {selected && task?.redacted ? (
-        <section className="workspace-panel">
-          <button className="text-button" onClick={back}>
-            {t("All tasks", "全部事务")}
-          </button>
-          <p>
-            {t(
-              "Private details are hidden. Your unsaved progress note is kept until this task is visible again.",
-              "私人详情已隐藏。未保存的进展会保留，待事务重新可见后继续。",
-            )}
-          </p>
-        </section>
-      ) : selected && task && !task.redacted ? (
-        <>
+      <div className="task-heading">
+        <div>
+          <h1>{t("Tasks", "待办")}</h1>
+        </div>
+        <div className="task-heading-actions">
+          <label className="task-search">
+            <Search size={17} />
+            <input
+              aria-label={t("Search tasks", "搜索待办")}
+              placeholder={t("Search tasks", "搜索待办")}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
           <button
-            className="text-button task-back"
-            onClick={back}
-            disabled={busy}
+            className="primary"
+            disabled={offline || busy || !!note.trim()}
+            onClick={() => setEdit(null)}
           >
-            <ChevronLeft size={18} />
-            {t("All tasks", "全部事务")}
+            <Plus size={17} />
+            {t("New task", "新建待办")}
           </button>
-          <div className="task-detail-heading">
-            <span className={`task-status ${task.status}`}>
-              {taskStatus(task.status, t)}
-            </span>
-            <h2>{task.title || t("Private task", "私人事务")}</h2>
-            <p>
-              {t("Deadline", "截止")} ·{" "}
-              {dateLabel(task.due_at, task.timezone, t)}{" "}
-              {task.overdue && (
-                <strong className="task-overdue">
-                  {t("Overdue", "已逾期")}
-                </strong>
-              )}
-            </p>
-          </div>
-          {task.followup && (
-            <aside className="task-checkin">
-              <strong>{t("Time for an update", "更新一下进展")}</strong>
-              <p>{t(task.followup.en, task.followup.zh)}</p>
-              {task.followup.reason_en && (
-                <small>
-                  {t(task.followup.reason_en, task.followup.reason_zh ?? "")}
-                </small>
-              )}
-              <small>
-                {task.followup.mode === "ai"
-                  ? t(
-                      "AI suggestion · review before acting",
-                      "AI建议 · 行动前请核对",
-                    )
-                  : t("Based on your saved task", "依据已保存的事务")}
-              </small>
-            </aside>
-          )}
-          {task.next_step && (
-            <section className="task-next-step">
-              <h3>{t("Next step", "下一步")}</h3>
-              <p>{task.next_step}</p>
-            </section>
-          )}
-          {task.waiting_for && task.status === "waiting" && (
-            <p>
-              {t("Waiting for: ", "正在等待：")}
-              {task.waiting_for}
-            </p>
-          )}
-          {task.steps.length > 0 && (
-            <ul className="task-checklist">
-              {task.steps.map((step, index) => (
-                <li key={index}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={step.done}
-                      disabled={
-                        busy || offline || !openTask(task) || !!note.trim()
-                      }
-                      onChange={() => void toggleStep(index)}
-                    />
-                    <span>{step.title}</span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-          )}
-          <p className="workspace-hint">
-            <Clock3 size={15} />{" "}
-            {!openTask(task)
-              ? t("Follow-ups ended", "跟进已结束")
-              : !task.follow_up_enabled
-                ? t("Task check-ins off", "事务定时检查未开启")
-                : task.paused
-                  ? t("Follow-ups paused", "跟进已暂停")
-                  : task.followup
-                    ? t("Waiting for your update", "等待你更新进展")
-                    : t("Next check-in: ", "下次检查：") +
-                      dateLabel(task.next_check_at, task.timezone, t)}
-          </p>
-          {openTask(task) ? (
-            <>
-              <label className="field">
-                {t("Progress update", "进展记录")}
-                <textarea
-                  rows={3}
-                  value={note}
-                  maxLength={2000}
-                  disabled={busy}
-                  onChange={(e) => {
-                    setNote(e.target.value);
-                    setNotice("");
-                  }}
-                  placeholder={t(
-                    "Data arrived; the charts still need work.",
-                    "数据收到了，图表还没做。",
-                  )}
-                />
-              </label>
-              <div className="workspace-inline-actions">
-                <button
-                  className="primary"
-                  disabled={busy || !note.trim() || offline}
-                  onClick={() => void action("note")}
-                >
-                  {t("Save progress", "保存进展")}
-                </button>
-                <button
-                  className="secondary"
-                  disabled={busy || offline}
-                  onClick={() =>
-                    onDiscuss
-                      ? onDiscuss(task.id, task.title)
-                      : setAssistant(task.id)
-                  }
-                >
-                  <Sparkles size={16} />
-                  {t("Discuss this task", "讨论这件事")}
-                </button>
-              </div>
-
-              <div className="workspace-inline-actions">
-                <button
-                  className="secondary"
-                  disabled={busy || offline || !!note.trim()}
-                  onClick={() => setEdit(task)}
-                >
-                  <Pencil size={16} />
-                  {t("Edit", "编辑")}
-                </button>
-                {task.follow_up_enabled && (
-                  <>
-                    <button
-                      className="secondary"
-                      disabled={busy || offline}
-                      onClick={() => void action("snooze", 60)}
-                    >
-                      {t("Check in in 1 hour", "1小时后检查")}
-                    </button>
-                    <button
-                      className="secondary"
-                      disabled={busy || offline}
-                      onClick={() =>
-                        void action(task.paused ? "resume" : "pause", 60)
-                      }
-                    >
-                      <Pause size={16} />
-                      {task.paused
-                        ? t("Resume in 1 hour", "1小时后恢复")
-                        : t("Pause follow-ups", "暂停跟进")}
-                    </button>
-                  </>
-                )}
-              </div>
-              {onPlan && (
-                <button
-                  className="text-button"
-                  disabled={busy || offline || !!note.trim()}
-                  onClick={() => {
-                    const start = DateTime.now()
-                      .setZone(task.timezone)
-                      .plus({ hours: 1 })
-                      .startOf("hour");
-                    onPlan({
-                      title: task.title,
-                      start_local: start.toFormat("yyyy-MM-dd'T'HH:mm"),
-                      end_local: start
-                        .plus({ minutes: 30 })
-                        .toFormat("yyyy-MM-dd'T'HH:mm"),
-                      timezone: task.timezone,
-                      all_day: false,
-                      calendar: "personal",
-                      color: "lavender",
-                      visibility: task.visibility,
-                      busy: true,
-                      location: "",
-                      notes: task.next_step,
-                      recurrence: {
-                        frequency: "none",
-                        interval: 1,
-                        until: null,
-                      },
-                      reminder_minutes: [10],
-                    });
-                  }}
-                >
-                  {t("Choose time in calendar…", "在日历中选择时间…")}
-                </button>
-              )}
-              <div className="workspace-inline-actions">
-                <button
-                  className="primary"
-                  disabled={busy || offline}
-                  onClick={() => setConfirm("complete")}
-                >
-                  <Check size={17} />
-                  {t("Mark complete", "标记完成")}
-                </button>
-                <button
-                  className="text-button"
-                  disabled={busy || offline}
-                  onClick={() => setConfirm("cancel")}
-                >
-                  <Trash2 size={16} />
-                  {t("Cancel task", "取消事务")}
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="workspace-inline-actions">
-              <button
-                className="secondary"
-                disabled={busy || offline}
-                onClick={() => void action("reopen")}
-              >
-                {t("Reopen task", "恢复事务")}
-              </button>
-              <span>
-                {task.status === "completed"
-                  ? task.completion_source === "owner_policy"
-                    ? t(
-                        "Completed using your full-access permission.",
-                        "已按你的完整权限设置完成。",
-                      )
-                    : task.completion_source === "backup"
-                      ? t(
-                          "Completion state restored from backup.",
-                          "完成状态从备份恢复。",
-                        )
-                      : t(
-                          "Completion was confirmed by you.",
-                          "完成状态由你确认。",
-                        )
-                  : t(
-                      "Cancelled tasks are kept in history.",
-                      "已取消事务保留在历史中。",
-                    )}
-              </span>
-            </div>
-          )}
-          {confirm && (
-            <div className="task-confirm" role="alert">
-              <p>
-                {confirm === "complete"
-                  ? t(
-                      "Mark this task complete and stop its follow-ups?",
-                      "确认这件事已完成，并停止跟进？",
-                    )
-                  : t(
-                      "Cancel this task and stop its follow-ups? You can reopen it later.",
-                      "取消事务并停止跟进？以后可以恢复。",
-                    )}
-              </p>
-              <div className="workspace-inline-actions">
-                <button
-                  className="primary"
-                  disabled={busy}
-                  onClick={() => void action(confirm)}
-                >
-                  {t("Confirm", "确认")}
-                </button>
-                <button
-                  className="secondary"
-                  disabled={busy}
-                  onClick={() => setConfirm(null)}
-                >
-                  {t("Keep working", "继续处理")}
-                </button>
-              </div>
-            </div>
-          )}
-          {!displayMode && workspace.data?.principal.kind === "owner" && (
-            <MailFollowupsPanel
-              key={`mail-${task.id}`}
-              t={t}
-              taskId={task.id}
-              refreshToken={data?.revision}
-              visible={!!workspace.data.personal_context_visible}
-              fresh={!offline && !workspace.offline && !workspace.stale}
-              blocked={busy || !!note.trim()}
-              onDiscuss={() =>
-                onDiscuss
-                  ? onDiscuss(task.id, task.title)
-                  : setAssistant(task.id)
-              }
-            />
-          )}
-          {!displayMode && workspace.data?.principal.kind === "owner" && (
-            <TaskJobs
-              key={task.id}
-              t={t}
-              onDiscuss={() =>
-                onDiscuss
-                  ? onDiscuss(task.id, task.title)
-                  : setAssistant(task.id)
-              }
-              timezone={task.timezone}
-              jobs={detail?.task.id === task.id ? detail.jobs : undefined}
-              application={
-                detail?.task.id === task.id ? detail.application : undefined
-              }
-              blocked={
-                busy ||
-                offline ||
-                workspace.offline ||
-                workspace.stale ||
-                !!note.trim()
-              }
-            />
-          )}
-          <section className="workspace-section">
-            <h3>{t("Progress history", "进展历史")}</h3>
-            {detail?.evidence.map((e) => (
-              <article className="task-history" key={e.id}>
-                <small>
-                  {dateLabel(e.at, task.timezone, t)} ·{" "}
-                  {e.source === "owner_policy"
-                    ? t(
-                        "With your full-access permission",
-                        "根据你的完整权限设置",
-                      )
-                    : e.source === "user_confirmed"
-                      ? t("Confirmed by you", "由你确认")
-                      : e.source === "local_rules"
-                        ? t("Scheduled check-in", "计划检查")
-                        : t("Saved update", "已保存更新")}
-                </small>
-                <p>
-                  {e.kind === "mail_update"
-                    ? t("New email update received", "收到新的邮件更新")
-                    : e.note ||
-                      ({
-                        created: t("Task created", "事务已创建"),
-                        complete: t("Marked complete", "标记为完成"),
-                        cancel: t("Task cancelled", "事务已取消"),
-                        reopen: t("Task reopened", "事务已恢复"),
-                        pause: t("Follow-ups paused", "跟进已暂停"),
-                        resume: t("Follow-ups resumed", "跟进已恢复"),
-                        restored: t("Restored from backup", "从备份恢复"),
-                        snooze: t("Check-in postponed", "检查已延后"),
-                        update: t("Task details updated", "事务详情已更新"),
-                        followup: t("Progress check ready", "已准备进展检查"),
-                      }[e.kind] ??
-                        taskStatus(e.kind, t))}
-                </p>
-                {e.kind === "mail_update" && (
-                  <details>
-                    <summary>{t("Source details", "来源详情")}</summary>
-                    <pre className="mail-followup-source">{e.note}</pre>
-                  </details>
-                )}
-              </article>
-            ))}
-          </section>
-        </>
-      ) : (
-        <>
-          <div className="task-heading">
-            <div>
-              <span className="workspace-eyebrow">
-                {t("Stay on top of what matters", "持续跟进重要的事")}
-              </span>
-              <h1>{t("Tasks", "事务")}</h1>
-            </div>
+        </div>
+      </div>
+      <div className="task-toolbar">
+        <div className="task-filters" aria-label={t("Task status", "待办状态")}>
+          {[
+            ["active", t("Open", "全部待办")],
+            ["waiting", t("Waiting", "等待中")],
+            ["closed", t("History", "已结束")],
+          ].map(([value, label]) => (
             <button
-              className="primary"
-              disabled={offline}
-              onClick={() => setEdit(null)}
+              key={value}
+              aria-pressed={filter === value}
+              disabled={busy || !!note.trim()}
+              className={filter === value ? "selected" : ""}
+              onClick={() => {
+                setFilter(value);
+                if (selected) openDetail(null);
+              }}
             >
-              <Plus size={17} />
-              {t("New task", "新建事务")}
+              {label}
             </button>
-          </div>
-          <WorkToolsEntry t={t} />
-          <MailFollowupsPanel
-            t={t}
-            refreshToken={data?.revision}
-            visible={
-              !displayMode &&
-              workspace.data?.principal.kind === "owner" &&
-              !!workspace.data.personal_context_visible
-            }
-            fresh={!offline && !workspace.offline && !workspace.stale}
-            onOpenTask={(id) => setSelected(id)}
-          />
-          <div className="task-toolbar">
-            <div
-              className="task-filters"
-              aria-label={t("Task status", "事务状态")}
-            >
-              {[
-                ["active", t("Active", "待处理")],
-                ["waiting", t("Waiting", "等待中")],
-                ["closed", t("History", "已结束")],
-              ].map(([value, label]) => (
-                <button
-                  key={value}
-                  aria-pressed={filter === value}
-                  className={filter === value ? "selected" : ""}
-                  onClick={() => setFilter(value)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            <label className="task-search">
-              <Search size={17} />
-              <input
-                aria-label={t("Search tasks", "搜索事务")}
-                placeholder={t("Search tasks", "搜索事务")}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </label>
-          </div>
+          ))}
+        </div>
+      </div>
+      <div className="task-split">
+        <div className="task-master">
           {!data ? (
             <p role="status">
               {offline
@@ -1141,14 +782,10 @@ export function TaskPanel({
                   ? t("No matching tasks", "没有匹配的事务")
                   : filter === "closed"
                     ? t("No completed or cancelled tasks", "还没有已结束的事务")
-                    : t("Nothing to follow up yet", "还没有需要跟进的事务")}
+                    : filter === "waiting"
+                      ? t("No tasks waiting on someone", "暂无等待他人的待办")
+                      : t("No active tasks", "暂无待办")}
               </h3>
-              <p>
-                {t(
-                  "Add a task with a next step and choose when to check in.",
-                  "添加一件事、写下下一步，并选择检查时间。",
-                )}
-              </p>
             </div>
           ) : (
             <div className="task-list">
@@ -1156,24 +793,24 @@ export function TaskPanel({
                 <button
                   key={x.id}
                   className="task-row"
-                  disabled={x.redacted}
-                  onClick={() => {
-                    setSelected(x.id);
-                    setNote("");
-                    setNotice("");
-                    setError(null);
-                  }}
+                  disabled={x.redacted || busy}
+                  aria-current={selected === x.id ? "true" : undefined}
+                  onClick={() => chooseTask(x.id)}
                 >
-                  <span className={`task-status ${x.status}`}>
-                    {x.redacted ? (
-                      <LockKeyhole size={15} />
-                    ) : (
-                      taskStatus(x.status, t)
-                    )}
+                  <span
+                    className={`task-row-dot ${x.status}`}
+                    aria-hidden="true"
+                  >
+                    {x.redacted && <LockKeyhole size={12} />}
                   </span>
                   <span className="task-row-main">
                     <strong>{x.title || t("Private task", "私人事务")}</strong>
                     <small>
+                      {!x.redacted && (
+                        <span className="task-row-state">
+                          {taskStatus(x.status, t)} ·{" "}
+                        </span>
+                      )}
                       {x.redacted
                         ? t(
                             "Private details are hidden on this screen.",
@@ -1204,8 +841,438 @@ export function TaskPanel({
               ))}
             </div>
           )}
-        </>
-      )}
+        </div>
+        {task && (
+          <aside
+            className="task-inspector"
+            aria-label={t("Task details", "待办详情")}
+            key={task.id}
+          >
+            {task.redacted ? (
+              <section className="workspace-panel">
+                <button className="text-button" onClick={back}>
+                  {t("All tasks", "全部事务")}
+                </button>
+                <p>
+                  {t(
+                    "Private details are hidden. Your unsaved progress note is kept until this task is visible again.",
+                    "私人详情已隐藏。未保存的进展会保留，待事务重新可见后继续。",
+                  )}
+                </p>
+              </section>
+            ) : (
+              <>
+                <button
+                  className="text-button task-back"
+                  onClick={back}
+                  disabled={busy}
+                >
+                  <ChevronLeft size={18} />
+                  {t("All tasks", "全部事务")}
+                </button>
+                <div className="task-detail-heading">
+                  <span className={`task-status ${task.status}`}>
+                    {taskStatus(task.status, t)}
+                  </span>
+                  <h2 tabIndex={-1} data-inspect-title>
+                    {task.title || t("Private task", "私人事务")}
+                  </h2>
+                  <p>
+                    {t("Deadline", "截止")} ·{" "}
+                    {dateLabel(task.due_at, task.timezone, t)}{" "}
+                    {task.overdue && (
+                      <strong className="task-overdue">
+                        {t("Overdue", "已逾期")}
+                      </strong>
+                    )}
+                  </p>
+                </div>
+                {task.followup && (
+                  <aside className="task-checkin">
+                    <strong>{t("Time for an update", "更新一下进展")}</strong>
+                    <p>{t(task.followup.en, task.followup.zh)}</p>
+                    {task.followup.reason_en && (
+                      <small>
+                        {t(
+                          task.followup.reason_en,
+                          task.followup.reason_zh ?? "",
+                        )}
+                      </small>
+                    )}
+                    <small>
+                      {task.followup.mode === "ai"
+                        ? t(
+                            "AI suggestion · review before acting",
+                            "AI建议 · 行动前请核对",
+                          )
+                        : t("Based on your saved task", "依据已保存的事务")}
+                    </small>
+                  </aside>
+                )}
+                {task.next_step && (
+                  <section className="task-next-step">
+                    <h3>{t("Next step", "下一步")}</h3>
+                    <p>{task.next_step}</p>
+                  </section>
+                )}
+                {openTask(task) && (
+                  <button
+                    className="discuss-task-action"
+                    disabled={busy || offline || !!note.trim()}
+                    onClick={() =>
+                      onDiscuss
+                        ? onDiscuss(task.id, task.title)
+                        : setAssistant(task.id)
+                    }
+                  >
+                    <Sparkles size={16} />
+                    {t("Discuss with Alice", "与 Alice 讨论")}
+                  </button>
+                )}
+
+                {task.waiting_for && task.status === "waiting" && (
+                  <p>
+                    {t("Waiting for: ", "正在等待：")}
+                    {task.waiting_for}
+                  </p>
+                )}
+                {task.steps.length > 0 && (
+                  <ul className="task-checklist">
+                    {task.steps.map((step, index) => (
+                      <li key={index}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={step.done}
+                            disabled={
+                              busy ||
+                              offline ||
+                              !openTask(task) ||
+                              !!note.trim()
+                            }
+                            onChange={() => void toggleStep(index)}
+                          />
+                          <span>{step.title}</span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <p className="workspace-hint">
+                  <Clock3 size={15} />{" "}
+                  {!openTask(task)
+                    ? t("Follow-ups ended", "跟进已结束")
+                    : !task.follow_up_enabled
+                      ? t("Task check-ins off", "事务定时检查未开启")
+                      : task.paused
+                        ? t("Follow-ups paused", "跟进已暂停")
+                        : task.followup
+                          ? t("Waiting for your update", "等待你更新进展")
+                          : t("Next check-in: ", "下次检查：") +
+                            dateLabel(task.next_check_at, task.timezone, t)}
+                </p>
+                <section className="workspace-section inspector-timeline">
+                  <h3>{t("Progress history", "进展历史")}</h3>
+                  {detail?.evidence.map((e) => (
+                    <article className="task-history" key={e.id}>
+                      <small>
+                        {dateLabel(e.at, task.timezone, t)} ·{" "}
+                        {e.source === "owner_policy"
+                          ? t(
+                              "With your full-access permission",
+                              "根据你的完整权限设置",
+                            )
+                          : e.source === "user_confirmed"
+                            ? t("Confirmed by you", "由你确认")
+                            : e.source === "local_rules"
+                              ? t("Scheduled check-in", "计划检查")
+                              : t("Saved update", "已保存更新")}
+                      </small>
+                      <p>
+                        {e.kind === "mail_update"
+                          ? t("New email update received", "收到新的邮件更新")
+                          : e.note ||
+                            ({
+                              created: t("Task created", "事务已创建"),
+                              complete: t("Marked complete", "标记为完成"),
+                              cancel: t("Task cancelled", "事务已取消"),
+                              reopen: t("Task reopened", "事务已恢复"),
+                              pause: t("Follow-ups paused", "跟进已暂停"),
+                              resume: t("Follow-ups resumed", "跟进已恢复"),
+                              restored: t("Restored from backup", "从备份恢复"),
+                              snooze: t("Check-in postponed", "检查已延后"),
+                              update: t(
+                                "Task details updated",
+                                "事务详情已更新",
+                              ),
+                              followup: t(
+                                "Progress check ready",
+                                "已准备进展检查",
+                              ),
+                            }[e.kind] ??
+                              taskStatus(e.kind, t))}
+                      </p>
+                      {e.kind === "mail_update" && (
+                        <details>
+                          <summary>{t("Source details", "来源详情")}</summary>
+                          <pre className="mail-followup-source">{e.note}</pre>
+                        </details>
+                      )}
+                    </article>
+                  ))}
+                </section>
+                {openTask(task) ? (
+                  <>
+                    <details className="task-note-entry" key={task.id}>
+                      <summary>
+                        {t("Add a progress update", "记录进展")}
+                      </summary>
+                      <label className="field">
+                        {t("Progress update", "进展记录")}
+                        <textarea
+                          rows={3}
+                          value={note}
+                          maxLength={2000}
+                          disabled={busy}
+                          onChange={(e) => {
+                            setNote(e.target.value);
+                            setNotice("");
+                          }}
+                          placeholder={t(
+                            "Data arrived; the charts still need work.",
+                            "数据收到了，图表还没做。",
+                          )}
+                        />
+                      </label>
+                      <div className="workspace-inline-actions">
+                        <button
+                          className="primary"
+                          disabled={busy || !note.trim() || offline}
+                          onClick={() => void action("note")}
+                        >
+                          {t("Save progress", "保存进展")}
+                        </button>
+                      </div>
+                    </details>
+                    <details className="task-manage">
+                      <summary>
+                        {t("Edit or schedule", "编辑或安排时间")}
+                      </summary>
+                      <div className="workspace-inline-actions">
+                        <button
+                          className="secondary"
+                          disabled={busy || offline || !!note.trim()}
+                          onClick={() => setEdit(task)}
+                        >
+                          <Pencil size={16} />
+                          {t("Edit", "编辑")}
+                        </button>
+                        {task.follow_up_enabled && (
+                          <>
+                            <button
+                              className="secondary"
+                              disabled={busy || offline}
+                              onClick={() => void action("snooze", 60)}
+                            >
+                              {t("Check in in 1 hour", "1小时后检查")}
+                            </button>
+                            <button
+                              className="secondary"
+                              disabled={busy || offline}
+                              onClick={() =>
+                                void action(
+                                  task.paused ? "resume" : "pause",
+                                  60,
+                                )
+                              }
+                            >
+                              <Pause size={16} />
+                              {task.paused
+                                ? t("Resume in 1 hour", "1小时后恢复")
+                                : t("Pause follow-ups", "暂停跟进")}
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {onPlan && (
+                        <button
+                          className="text-button"
+                          disabled={busy || offline || !!note.trim()}
+                          onClick={() => {
+                            const start = DateTime.now()
+                              .setZone(task.timezone)
+                              .plus({ hours: 1 })
+                              .startOf("hour");
+                            onPlan({
+                              title: task.title,
+                              start_local: start.toFormat("yyyy-MM-dd'T'HH:mm"),
+                              end_local: start
+                                .plus({ minutes: 30 })
+                                .toFormat("yyyy-MM-dd'T'HH:mm"),
+                              timezone: task.timezone,
+                              all_day: false,
+                              calendar: "personal",
+                              color: "lavender",
+                              visibility: task.visibility,
+                              busy: true,
+                              location: "",
+                              notes: task.next_step,
+                              recurrence: {
+                                frequency: "none",
+                                interval: 1,
+                                until: null,
+                              },
+                              reminder_minutes: [10],
+                            });
+                          }}
+                        >
+                          {t("Choose time in calendar…", "在日历中选择时间…")}
+                        </button>
+                      )}
+                    </details>
+                    <div className="workspace-inline-actions">
+                      <button
+                        className="primary"
+                        disabled={busy || offline}
+                        onClick={() => setConfirm("complete")}
+                      >
+                        <Check size={17} />
+                        {t("Mark complete", "标记完成")}
+                      </button>
+                      <button
+                        className="text-button"
+                        disabled={busy || offline}
+                        onClick={() => setConfirm("cancel")}
+                      >
+                        <Trash2 size={16} />
+                        {t("Cancel task", "取消事务")}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="workspace-inline-actions">
+                    <button
+                      className="secondary"
+                      disabled={busy || offline}
+                      onClick={() => void action("reopen")}
+                    >
+                      {t("Reopen task", "恢复事务")}
+                    </button>
+                    <span>
+                      {task.status === "completed"
+                        ? task.completion_source === "owner_policy"
+                          ? t(
+                              "Completed using your full-access permission.",
+                              "已按你的完整权限设置完成。",
+                            )
+                          : task.completion_source === "backup"
+                            ? t(
+                                "Completion state restored from backup.",
+                                "完成状态从备份恢复。",
+                              )
+                            : t(
+                                "Completion was confirmed by you.",
+                                "完成状态由你确认。",
+                              )
+                        : t(
+                            "Cancelled tasks are kept in history.",
+                            "已取消事务保留在历史中。",
+                          )}
+                    </span>
+                  </div>
+                )}
+                {confirm && (
+                  <div className="task-confirm" role="alert">
+                    <p>
+                      {confirm === "complete"
+                        ? t(
+                            "Mark this task complete and stop its follow-ups?",
+                            "确认这件事已完成，并停止跟进？",
+                          )
+                        : t(
+                            "Cancel this task and stop its follow-ups? You can reopen it later.",
+                            "取消事务并停止跟进？以后可以恢复。",
+                          )}
+                    </p>
+                    <div className="workspace-inline-actions">
+                      <button
+                        className="primary"
+                        disabled={busy}
+                        onClick={() => void action(confirm)}
+                      >
+                        {t("Confirm", "确认")}
+                      </button>
+                      <button
+                        className="secondary"
+                        disabled={busy}
+                        onClick={() => setConfirm(null)}
+                      >
+                        {t("Keep working", "继续处理")}
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {!displayMode && workspace.data?.principal.kind === "owner" && (
+                  <MailFollowupsPanel
+                    key={`mail-${task.id}`}
+                    t={t}
+                    taskId={task.id}
+                    refreshToken={data?.revision}
+                    visible={!!workspace.data.personal_context_visible}
+                    fresh={!offline && !workspace.offline && !workspace.stale}
+                    blocked={busy || !!note.trim()}
+                    onDiscuss={() =>
+                      onDiscuss
+                        ? onDiscuss(task.id, task.title)
+                        : setAssistant(task.id)
+                    }
+                  />
+                )}
+                {!displayMode && workspace.data?.principal.kind === "owner" && (
+                  <TaskJobs
+                    key={task.id}
+                    t={t}
+                    onDiscuss={() =>
+                      onDiscuss
+                        ? onDiscuss(task.id, task.title)
+                        : setAssistant(task.id)
+                    }
+                    timezone={task.timezone}
+                    jobs={detail?.task.id === task.id ? detail.jobs : undefined}
+                    application={
+                      detail?.task.id === task.id
+                        ? detail.application
+                        : undefined
+                    }
+                    blocked={
+                      busy ||
+                      offline ||
+                      workspace.offline ||
+                      workspace.stale ||
+                      !!note.trim()
+                    }
+                  />
+                )}
+              </>
+            )}{" "}
+          </aside>
+        )}
+      </div>
+      <div className="task-queue-tools">
+        <WorkToolsEntry t={t} />
+        <MailFollowupsPanel
+          t={t}
+          refreshToken={data?.revision}
+          visible={
+            !task &&
+            !displayMode &&
+            workspace.data?.principal.kind === "owner" &&
+            !!workspace.data.personal_context_visible
+          }
+          fresh={!offline && !workspace.offline && !workspace.stale}
+          onOpenTask={chooseTask}
+        />
+      </div>
       {offline && (
         <p className="error-message" role="status">
           {t(

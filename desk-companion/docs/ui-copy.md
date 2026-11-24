@@ -1,5 +1,11 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Workspace navigation and notices
+
+On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.
+
+Use the page header for the primary action. Today shows upcoming events and tasks with a next step. Task details lead with the deadline and next action, followed by progress and editing. Settings presents one category at a time. In Connections, make app search and current access visible before the app’s account actions. Keep user-entered drafts on screen when navigating away would discard them. [Rendered examples and verified routes](../../output/qa/2026-11-25-workspace-redesign/verification.md).
+
 ## 23 November · Listening inside the conversation
 
 While the microphone is active, the expanded Home conversation reserves one row for its current voice state and controls. The transcript uses the remaining height and keeps the reader’s position when a later caption arrives. Turning off the microphone returns focus to the text composer. The permission and wake controls stay available. On narrow screens they sit below the voice row.

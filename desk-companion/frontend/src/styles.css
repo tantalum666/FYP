@@ -437,7 +437,7 @@ a {
 }
 .today {
   background: var(--accent) !important;
-  color: white !important;
+  color: var(--today-foreground, white) !important;
 }
 .weekend {
   background: #f7f8fa;

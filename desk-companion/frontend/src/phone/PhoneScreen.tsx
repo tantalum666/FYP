@@ -1,6 +1,12 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarDays,
+  Inbox,
+  LayoutGrid,
+  ListTodo,
+} from "lucide-react";
 import {
   GuardContextProvider,
   useGuardRegistry,
@@ -15,6 +21,10 @@ export function PhoneScreen({
   t,
   children,
   footer,
+  onReminders,
+  notificationCount,
+  currentTab,
+  onTab,
 }: {
   title: string;
   backLabel: string;
@@ -22,6 +32,10 @@ export function PhoneScreen({
   t: Translate;
   children: ReactNode;
   footer?: ReactNode;
+  onReminders: (canNavigate: boolean) => void;
+  notificationCount: number;
+  currentTab: "calendar" | "tasks" | "more";
+  onTab: (tab: "calendar" | "tasks" | "more") => void;
 }) {
   const guard = useGuardRegistry();
   const [leaving, setLeaving] = useState(false);
@@ -40,7 +54,7 @@ export function PhoneScreen({
     else onBack();
   };
   return (
-    <section className="phone-screen" aria-labelledby={id}>
+    <section className="phone-screen workspace-surface" aria-labelledby={id}>
       <header className="phone-screen-header">
         <button
           className="icon-button"
@@ -79,6 +93,42 @@ export function PhoneScreen({
         </div>
       </GuardContextProvider>
       {footer && <div className="phone-screen-footer">{footer}</div>}
+      <nav
+        className="phone-work-tabs"
+        aria-label={t("Workspace tabs", "工作空间分页")}
+      >
+        {(
+          [
+            { id: "calendar", name: t("Calendar", "日历"), Icon: CalendarDays },
+            { id: "tasks", name: t("Tasks", "待办"), Icon: ListTodo },
+            { id: "inbox", name: t("Inbox", "通知"), Icon: Inbox },
+            { id: "more", name: t("More", "更多"), Icon: LayoutGrid },
+          ] as const
+        ).map(({ id, name, Icon }) => (
+          <button
+            key={id}
+            type="button"
+            disabled={
+              guard.busy || (guard.dirty && id !== currentTab && id !== "inbox")
+            }
+            aria-label={name}
+            aria-current={id === currentTab ? "page" : undefined}
+            onClick={() =>
+              id === "inbox"
+                ? onReminders(!guard.dirty && !guard.busy)
+                : onTab(id)
+            }
+          >
+            <span className="dock-icon">
+              <Icon size={18} />
+              {id === "inbox" && notificationCount > 0 && (
+                <small>{notificationCount}</small>
+              )}
+            </span>
+            <span>{name}</span>
+          </button>
+        ))}
+      </nav>
     </section>
   );
 }
