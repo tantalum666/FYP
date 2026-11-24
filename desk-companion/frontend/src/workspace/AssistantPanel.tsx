@@ -6,7 +6,9 @@ import { useCommerceReviews, type CommerceRef } from "./commerceReviews";
 import { quietChatIntent } from "./quietChat";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
-import { InitiativeMessages } from "./InitiativeMessages";
+import { HomeCaption } from "./HomeCaption";
+import { useHomeTranscript, withSavedTurns } from "./useHomeTranscript";
+import { InitiativeMessage } from "./InitiativeMessages";
 import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
 import { replyDelivery, SpokenDelivery } from "../companion/delivery";
 import { ComposerMenu } from "./ComposerMenu";
@@ -88,6 +90,7 @@ import {
   appendOrderUpdates,
   asksApprovalStatus,
   focusedOrderTurn,
+  conversationWithFindings,
   latestAssistantReply,
   showOrderOnHome,
   type ConversationTurn,
@@ -272,6 +275,8 @@ export function AssistantPanel({
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const conversationId = useRef<string | undefined>(undefined);
+  const home = useHomeTranscript(!!(ownerView && data?.personal_context_visible &&
+    data.home_history?.enabled && !taskId && !offline && !stale), data?.home_history?.generation, conversationId);
   const liveFlight = useLiveFlightReview(conversationId, taskId, data ? ownerView : undefined,
     !!data?.personal_context_visible, !suspended && !offline && !stale);
   const {current: ownerFlight, receive: receiveFlight, update: updateFlight} = liveFlight;
@@ -497,7 +502,7 @@ export function AssistantPanel({
       setLiveMessage("");
       if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") commerce.clear();
       typedCommerceReview.current=undefined;
-      setTurns(old=>old.filter(turn=>!turn.commerceChat));
+      setTurns([]);
       conversationId.current = undefined;
       fileContext.current = false;
       if (
@@ -525,7 +530,7 @@ export function AssistantPanel({
     ) {
       commerce.clear();
       typedCommerceReview.current=undefined;
-      setTurns(old=>old.filter(turn=>!turn.commerceChat));
+      setTurns([]);
       chatFiles.clear();
       fileContext.current = false;
       submissionGeneration.current += 1;
@@ -742,7 +747,8 @@ export function AssistantPanel({
         [
           ...old,
           {
-            id,
+            id: result.history_ids?.[0] ?? id,
+            at: result.history_at ?? new Date(id).toISOString(),
             role: "user" as const,
             body: userText,
             googleRefreshEpoch,
@@ -752,7 +758,8 @@ export function AssistantPanel({
             approvalTask: privateOverview ? taskId ?? null : undefined,
           },
           {
-            id: id + 1,
+            id: result.history_ids?.[1] ?? id + 1,
+            at: result.history_at ?? new Date(id).toISOString(),
             role: "assistant" as const,
             googleRefreshEpoch,
             body:
@@ -1090,8 +1097,15 @@ export function AssistantPanel({
     const id = conversationId.current;
     endVoice();
     try {
+      let archived = false;
       if (id) {
-        await request(`/voice/conversations/${encodeURIComponent(id)}`, {method: "DELETE"});
+        const cleared = await request<{home_archived?: boolean}>(`/voice/conversations/${encodeURIComponent(id)}`, {method: "DELETE"});
+        archived = !!cleared.home_archived;
+      }
+      if (!taskId && data?.home_history?.enabled) {
+        if (!archived) await write("/assistant/continuity/new", {generation: data.home_history.generation});
+        home.clear();
+        await refresh();
       }
       liveFlight.clear();
       conversationId.current = undefined;
@@ -1213,7 +1227,7 @@ export function AssistantPanel({
             event.final
               ? (event.text ?? "")
               : speechText.current[role] + (event.text ?? "")
-          ).slice(-3000);
+          ).slice(0,8000);
           setTranscript(
             (speechText.current.user
               ? t("You: ", "你：") + speechText.current.user + "\n"
@@ -1419,7 +1433,7 @@ export function AssistantPanel({
     commerce.tracked.current === activeChat
       ? commerce.rows
       : [];
-  const visibleTurns = turns.filter(turn =>
+  const visibleTurns = withSavedTurns(home.saved, turns).filter(turn =>
     (turn.googleRefreshEpoch === undefined || refreshFence.accepts(turn.googleRefreshEpoch)) &&
     (!turn.commerceChat || (privateOrdersVisible &&
       (turn.kind !== "quiet_catch_up" || turn.commerceChat === activeChat))) &&
@@ -1462,7 +1476,7 @@ export function AssistantPanel({
     ? homeOrder.kind === "flight" && homeOrder.calendar_preview
       ? t("Review flight calendar times", "核对航班日程")
       : orderStatus(homeOrder, t)
-    : hasChoices && focusTurn ? focusTurn.body : (lastTurn?.jobId && !lastTurn.body ? turnText(lastTurn) : latestAssistantReply(visibleTurns));
+    : hasChoices && focusTurn ? focusTurn.body : (lastTurn?.jobId && !lastTurn.body ? turnText(lastTurn) : latestAssistantReply(visibleTurns.filter(turn => !home.saved.some(saved => saved.id === turn.id))));
   const liveTurn = visibleTurns.filter(turn=>turn.kind === "live_flight_checkout" && turn.commerceChat===activeChat).at(-1);
   const liveCard = !suspended && !stale && !offline && privateOrdersVisible && ownerFlight && ownerFlight.chat === activeChat && ownerFlight.task === taskId
     ? <LiveFlightCheckout key={ownerFlight.view.id ?? ownerFlight.chat} view={ownerFlight.view} chat={ownerFlight.chat} t={t} onUpdate={updateFlight} onSource={(id)=>selectOriginal({proposal_id:id})}/>
@@ -1691,7 +1705,9 @@ export function AssistantPanel({
         aria-label={t("Conversation", "对话")}
       >
         <ConversationScroll followLatest={followLatest}>
-          {(!immersive || expanded) && <InitiativeMessages t={t} />}
+          {(!immersive || expanded) && home.failed && <button type="button" className="text-button" onClick={home.retry}>
+            {t("Retry loading the conversation", "重新读取对话记录")}
+          </button>}
           {(!immersive || expanded) &&
             jobs
               .filter(
@@ -1702,7 +1718,10 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            visibleTurns.map((turn) => (
+            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? (data?.initiative?.findings ?? []) : []).map(item => {
+              if ("finding" in item) return <InitiativeMessage t={t} finding={item.finding} key={item.finding.id}/>;
+              const turn = item.turn;
+              return (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>
                 {turn.files?.length ? (
                   <div className="message-files">
@@ -1716,14 +1735,14 @@ export function AssistantPanel({
                   (!immersive || expanded) &&
                   jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
               </div>
-            ))}
+            );})}
           {(!immersive || expanded) && !liveTurn && liveCard}
           {immersive && !expanded && (openOrder
             ? <button type="button" className="assistant-latest commerce-open" aria-live="polite" onClick={()=>onExpandedChange?.(true)}>
                 {homeAnswer} <span aria-hidden="true"> ›</span>
               </button>
-            : <p className="assistant-latest" aria-live="polite">{liveMessage || speechText.current.assistant ||
-                (!speechText.current.user ? homeAnswer : "")}</p>)}
+            : <HomeCaption text={liveMessage || speechText.current.assistant ||
+                (!speechText.current.user ? homeAnswer : "")} />)}
           {(!immersive || expanded) && liveMessage && (
             <p className="assistant-turn assistant" aria-live="polite">
               {liveMessage}

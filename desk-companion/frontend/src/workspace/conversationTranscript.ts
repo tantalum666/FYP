@@ -5,11 +5,13 @@ import {
   type CommerceReview,
 } from "./commercePresentation.ts";
 import type { Translate } from "../types";
+import type { InitiativeFinding } from "./InitiativeMessages";
 
 export type ConversationTurn = {
   id: number | string;
   role: "user" | "assistant";
   body: string;
+  at?: string;
   kind?: string;
   jobId?: string;
   orderKey?: string;
@@ -24,6 +26,21 @@ export type ConversationTurn = {
   voiceGroup?: number;
   files?: Array<{ id: string; name: string }>;
 };
+
+type TimelineItem = { turn: ConversationTurn } | { finding: InitiativeFinding };
+export function conversationWithFindings(turns: ConversationTurn[], findings: InitiativeFinding[]): TimelineItem[] {
+  const byTime = [...findings].sort((a, b) => (a.created_at || "").localeCompare(b.created_at || ""));
+  const rows: TimelineItem[] = [];
+  let next = 0;
+  for (const turn of turns) {
+    const at = turn.at ? Date.parse(turn.at) : typeof turn.id === "number" ? turn.id : 0;
+    while (next < byTime.length && Date.parse(byTime[next].created_at || "") < at) {
+      rows.push({finding: byTime[next++]});
+    }
+    rows.push({turn});
+  }
+  return rows.concat(byTime.slice(next).map(finding => ({finding})));
+}
 
 /** Streaming Live text updates a speaker turn; playback never owns its history. */
 export function appendLiveTranscript(
@@ -51,6 +68,7 @@ export function appendLiveTranscript(
     );
   const turn: ConversationTurn = {
     id,
+    at: new Date().toISOString(),
     role,
     body: fragment.text.slice(0, 8000),
     voiceSession: session,

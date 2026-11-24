@@ -16,10 +16,15 @@ from .store import DomainError, encode
 class ContextSettings(StrictModel):
     expected_version: int = Field(ge=1)
     save_text_history: bool
+    save_voice_transcripts: bool | None = None
     use_text_history_in_ai: bool
     use_memory_in_ai: bool
     share_business_context: bool = False
     approved_destinations: list[str] = Field(default_factory=list, max_length=2)
+
+
+class NewHomeConversation(StrictModel):
+    generation: int = Field(ge=1)
 
 
 def fingerprint(value):
@@ -49,6 +54,8 @@ class PersonalContext:
                 conn.execute(
                     "ALTER TABLE personal_settings ADD COLUMN share_business_context INTEGER NOT NULL DEFAULT 0"
                 )
+            if "save_voice_transcripts" not in {r[1] for r in conn.execute("PRAGMA table_info(personal_settings)")}:
+                conn.execute("ALTER TABLE personal_settings ADD COLUMN save_voice_transcripts INTEGER NOT NULL DEFAULT 0")
 
     def revision(self):
         with self.store.connection() as conn:
@@ -141,6 +148,7 @@ class PersonalContext:
                 k: bool(row[k])
                 for k in (
                     "save_text_history",
+                    "save_voice_transcripts",
                     "use_text_history_in_ai",
                     "use_memory_in_ai",
                     "share_business_context",
@@ -190,13 +198,15 @@ class PersonalContext:
                 raise DomainError("CONTEXT_DESTINATION_CHANGED", 409)
             conn.execute(
                 """UPDATE personal_settings SET version=version+1,save_text_history=?,
-                use_text_history_in_ai=?,use_memory_in_ai=?,share_business_context=?,approved_destinations=? WHERE id=1""",
+                use_text_history_in_ai=?,use_memory_in_ai=?,share_business_context=?,approved_destinations=?,
+                save_voice_transcripts=COALESCE(?,save_voice_transcripts) WHERE id=1""",
                 (
                     payload.save_text_history,
                     payload.use_text_history_in_ai,
                     payload.use_memory_in_ai,
                     payload.share_business_context,
                     encode(payload.approved_destinations),
+                    payload.save_voice_transcripts,
                 ),
             )
             self.invalidate(conn, exclude_history=False)
@@ -264,6 +274,14 @@ def personal_routes(runtime, owner, operation_id):
     @router.get("/context-settings")
     def settings():
         return runtime.personal_context.settings()
+
+    @router.get("/continuity", dependencies=[Depends(visible)])
+    def continuity(request: Request, principal=Depends(owner)):
+        return runtime.home_history.view({**principal, "session": request.cookies.get("desk_companion_session")})
+
+    @router.post("/continuity/new", dependencies=[Depends(visible)])
+    def new_continuity(payload: NewHomeConversation, request: Request, principal=Depends(owner), key=Depends(operation_id)):
+        return runtime.home_history.start_new({**principal, "session": request.cookies.get("desk_companion_session")}, payload.generation, key)
 
     @router.post("/context-settings")
     def settings_update(payload: ContextSettings, key=Depends(operation_id)):

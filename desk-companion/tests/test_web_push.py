@@ -119,7 +119,7 @@ def test_the_http_sender_builds_a_request_on_a_fake_transport(tmp_path):
         seen["body"] = request.content
         return httpx.Response(201)
 
-    service = PushService(store, HttpPushSender(httpx.MockTransport(handler)), tmp_path / "key.pem")
+    service = PushService(store, HttpPushSender(httpx.MockTransport(handler), extra_origins={"https://push.example.test"}), tmp_path / "key.pem")
     service.save(ENDPOINT, p256dh, auth_b64, "sub")
     assert service.dispatch({"title": "Morning briefing", "body": "1 open task."}) == 1
     assert seen["url"] == ENDPOINT

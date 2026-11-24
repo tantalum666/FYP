@@ -49,7 +49,11 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  home_history?: { enabled: boolean; generation: number };
   initiative?: {
+    last_checked_at?: string | null;
+    last_mode?: string | null;
+    mail_check?: {at: string; available: boolean; count?: number} | null;
     enabled: boolean;
     research_ready: boolean;
     findings: import("./InitiativeMessages").InitiativeFinding[];

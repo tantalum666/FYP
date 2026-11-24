@@ -13,6 +13,20 @@ self.addEventListener("push", (event) => {
     }),
   );
 });
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  event.waitUntil((async () => {
+    const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    const desk = windows.find(client => new URL(client.url).origin === self.location.origin &&
+      ["/", "/index.html"].includes(new URL(client.url).pathname));
+    if (desk) {
+      await desk.focus();
+      desk.postMessage({ type: "alice-open-conversation" });
+    } else {
+      await self.clients.openWindow("/?page=assistant&conversation=open");
+    }
+  })());
+});
 const SHELL_CACHE = "desk-shell-v1";
 const SHELL_FILES = [
   "/index.html",

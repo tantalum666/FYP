@@ -8,6 +8,7 @@ export interface ContextDestination {
 export interface ContextSettings {
   version: number;
   save_text_history: boolean;
+  save_voice_transcripts?: boolean;
   use_text_history_in_ai: boolean;
   use_memory_in_ai: boolean;
   share_business_context: boolean;
@@ -73,6 +74,7 @@ export function contextChoices(settings: ContextSettings) {
   return {
     expected_version: settings.version,
     save_text_history: settings.save_text_history,
+    save_voice_transcripts: !!settings.save_voice_transcripts,
     use_text_history_in_ai: settings.use_text_history_in_ai,
     use_memory_in_ai: settings.use_memory_in_ai,
     share_business_context: settings.share_business_context,

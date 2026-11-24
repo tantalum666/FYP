@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { DateTime } from "luxon";
 import type { Language, Occurrence, Translate } from "../types";
 import { ConversationWorkspace } from "../workspace/ConversationWorkspace";
@@ -47,7 +47,14 @@ export function AliceHome({
 }) {
   const scene = useSceneActivity();
   const { data } = useWorkspace();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(() => new URLSearchParams(location.search).get("conversation") === "open");
+  useEffect(() => {
+    const wake = (event: MessageEvent) => {
+      if (event.origin === location.origin && event.data?.type === "alice-open-conversation") setExpanded(true);
+    };
+    navigator.serviceWorker?.addEventListener("message", wake);
+    return () => navigator.serviceWorker?.removeEventListener("message", wake);
+  }, []);
   return (
     <section
       className={`alice-home alice-home-${surface} ${expanded ? "conversation-expanded" : ""}`}
