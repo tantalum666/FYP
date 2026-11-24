@@ -1185,3 +1185,9 @@ A real authorized re-query reused a prior supplier ID, and a completed reply sti
 ### 24 November · Airline-direct baggage and total
 
 The corresponding airline guest page published each selected leg’s checked weight and the complete fare, surcharge and taxes for the return journey. The exact price and screenshot are retained privately for the owner. No payment, ticket or reservation was created. [Redacted verification](output/qa/2026-11-24-continuity/verification.md).
+
+## 25 November 2026 · Alice’s workspace redesign
+
+Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
+
+Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
