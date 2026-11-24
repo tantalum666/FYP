@@ -30,6 +30,20 @@ ASSETS = {
 }
 
 
+def decode_frame(value, error_message):
+    if not isinstance(value, str) or not value:
+        raise ValueError(error_message)
+    encoded = value.split(",", 1)[-1]
+    try:
+        raw = base64.b64decode(encoded, validate=True)
+        image = cv2.imdecode(np.frombuffer(raw, np.uint8), cv2.IMREAD_COLOR)
+    except (ValueError, cv2.error) as exc:
+        raise ValueError(error_message) from exc
+    if image is None or max(image.shape[:2]) > 4096:
+        raise ValueError(error_message)
+    return image
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         if not self.path.startswith("/api/frame"):
@@ -101,10 +115,7 @@ class Handler(BaseHTTPRequestHandler):
             if mode not in ('image', 'table'):
                 raise ValueError('请选择像素演示或桌面定位模式。')
             layout = validate_layout(payload['layout']) if mode == 'table' else {}
-            encoded = payload["image"].split(",", 1)[-1]
-            image = cv2.imdecode(np.frombuffer(base64.b64decode(encoded, validate=True), np.uint8), cv2.IMREAD_COLOR)
-            if image is None or max(image.shape[:2]) > 4096:
-                raise ValueError("无法读取图像，或分辨率超过 4096。")
+            image = decode_frame(payload.get("image"), "无法读取图像，或分辨率超过 4096。")
             started = time.perf_counter()
             detector = cv2.aruco.ArucoDetector(cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50))
             markers = detect(image, detector)
@@ -141,11 +152,9 @@ class Handler(BaseHTTPRequestHandler):
             result['generic_message'] = '未知物品检测已关闭。'
             if payload.get('detect_unknown',False):
                 reference = None
-                if payload.get('background_image'):
-                    encoded_reference = payload['background_image'].split(',',1)[-1]
-                    reference = cv2.imdecode(np.frombuffer(base64.b64decode(encoded_reference,validate=True),np.uint8),cv2.IMREAD_COLOR)
-                    if reference is None or max(reference.shape[:2])>4096:
-                        raise ValueError('空桌参考图像无效，请重新记录。')
+                background = payload.get('background_image')
+                if background not in (None, ""):
+                    reference = decode_frame(background, '空桌参考图像无效，请重新记录。')
                 changes,state,hint = change_candidates(image,reference,region,markers,result['obstacles'])
                 result['generic_status'],result['generic_message'] = state,hint
                 result['obstacles'] += project_obstacles(changes,result.get('homography'),layout)

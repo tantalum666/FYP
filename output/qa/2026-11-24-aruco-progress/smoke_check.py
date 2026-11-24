@@ -9,6 +9,7 @@ import sys
 import tempfile
 from threading import Thread
 from unittest.mock import patch
+from urllib.error import HTTPError
 from urllib.request import ProxyHandler, Request, build_opener
 
 import cv2
@@ -111,8 +112,9 @@ try:
         with local_open(url + route, timeout=10) as response:
             assert response.status == 200 and response.read()
     _, encoded = cv2.imencode('.jpg', fixture)
+    frame = base64.b64encode(encoded).decode()
     for mode in ['image', 'table']:
-        data = {'coordinate_mode': mode, 'image': base64.b64encode(encoded).decode(), 'detect_objects': False}
+        data = {'coordinate_mode': mode, 'image': frame, 'detect_objects': False}
         if mode == 'table':
             data['layout'] = lcfg
         request = Request(url + '/api/frame', json.dumps(data).encode(), {'Content-Type': 'application/json'})
@@ -122,6 +124,18 @@ try:
             assert result['coordinate_units'] == ('px' if mode == 'image' else 'mm')
             if mode == 'image':
                 assert all(item['table_mm'] is None for item in result['marker_positions'])
+    for images in [
+        {'image': None},
+        {'image': frame, 'detect_unknown': True, 'background_image': {}},
+    ]:
+        data = {'coordinate_mode': 'image', 'detect_objects': False, **images}
+        request = Request(url + '/api/frame', json.dumps(data).encode(), {'Content-Type': 'application/json'})
+        try:
+            local_open(request, timeout=10)
+        except HTTPError as error:
+            assert error.code == 400 and json.load(error)['error']
+        else:
+            raise AssertionError('The camera must receive a JSON error for incomplete frame data')
 finally:
     server.shutdown()
     server.server_close()
@@ -131,6 +145,7 @@ report = {'date': '2026-11-24', 'synthetic_only': True, 'opencv': cv2.__version_
           'four_reference_video_frames': dict(counts), 'l_shape_fixture': 'passed',
           'pixel_unit_isolation': 'passed', 'boundary_and_proximity': states,
           'model_sha_and_blank_inference': 'passed', 'shared_http_assets_and_modes': 'passed',
+          'incomplete_frame_response': 'passed',
           'model_download_hash_reuse_and_invalid_download_preservation': 'passed',
           'physical_accuracy_tested': False, 'camera_accessed': False}
 (QA / 'smoke-results.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
