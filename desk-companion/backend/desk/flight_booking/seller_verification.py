@@ -21,9 +21,11 @@ def target(row, number, original=False):
         if url:
             parts = urlsplit(url)
             query = parse_qs(parts.query)
-            if offer["offer_id"] in parts.path.split("/") or any(
-                offer["offer_id"] in query.get(key, []) for key in ("offer", "offer_id")
-            ):
+            search_matches = "sid" not in query or query["sid"] == [offer["search_id"]]
+            offer_matches = offer["offer_id"] in parts.path.split("/") or any(
+                query.get(key) == [offer["offer_id"]] for key in ("offer", "offer_id")
+            )
+            if search_matches and offer_matches:
                 return "LetsFG", url, offer
     return "Kiwi.com", source["url"], offer
 

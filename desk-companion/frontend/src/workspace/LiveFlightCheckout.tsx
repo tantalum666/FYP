@@ -50,6 +50,13 @@ type Option = {
   fare_conditions?: { refundable?: string; changeable?: string };
   conditions_source?: string;
 };
+
+function quoteLabel(option: Option, t: Translate) {
+  if (option.total_minor != null) return currency(option.total_minor, option.currency);
+  if (option.fare_minor == null) return t("Total unverified", "总价待核实");
+  const fare = currency(option.fare_minor, option.currency);
+  return t(`Fare ${fare} · total pending`, `票价 ${fare} · 总价待核实`);
+}
 export type LiveCheckout = {
   id?: string;
   version?: number;
@@ -425,18 +432,13 @@ export function LiveFlightCheckout({
           >
             {flights(o.outbound)}
             {o.inbound.length ? ` / ${flights(o.inbound)}` : ""} ·{" "}
-            {o.total_minor != null
-              ? currency(o.total_minor, o.currency)
-              : t("Total unverified", "总价待核实")}
+            {quoteLabel(o, t)}
           </button>
         ))}
       {selected && ["review", "seller_only"].includes(view.state) && (
         <div>
           <p>
-            <b>LetsFG</b> ·{" "}
-            {selected.total_minor != null
-              ? currency(selected.total_minor, selected.currency)
-              : t("Total unverified", "总价待核实")}
+            <b>LetsFG</b> · {quoteLabel(selected, t)}
           </p>
           {[...selected.outbound, ...selected.inbound].map((seg, i) => (
             <p key={i}>

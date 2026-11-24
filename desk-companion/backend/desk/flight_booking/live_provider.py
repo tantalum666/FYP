@@ -151,7 +151,12 @@ class LiveFlightProvider:
                 res = client.request(
                     method,
                     path,
-                    headers={"Authorization": "Bearer " + token},
+                    headers={
+                        "Authorization": "Bearer " + token,
+                        "User-Agent": "FYP-Desk-Companion/1.0",
+                        "X-Client-Type": "fyp-desk-companion",
+                        "Accept": "application/json",
+                    },
                     **({"json": body} if body is not None else {}),
                 )
             if len(res.content) > 5_000_000:
@@ -194,7 +199,10 @@ class LiveFlightProvider:
             "parsed" in data and not party_matches(data["parsed"], query)
         ):
             raise DomainError("LETSFG_OFFER_UNVERIFIED", 502)
-        if data.get("status") in {"searching", "pending", "in_progress"}:
+        if data.get("status") in {"searching", "running", "pending", "in_progress"} or (
+            data.get("status") == "completed"
+            and (data.get("gf_enrich_pending") is True or data.get("split_ticket_pending") is True)
+        ):
             return {**result, "state": "searching", "reason": "supplier_search_pending"}
         if data.get("status") != "completed" or not isinstance(data.get("offers"), list):
             raise DomainError("LETSFG_OFFER_UNVERIFIED", 502)
