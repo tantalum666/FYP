@@ -1175,3 +1175,8 @@ Released `86753289` on normal Mac Web and the installed iPhone Simulator. Closed
 ### 24 November · Verify the exact seller link
 
 A refreshed live search exposed a missing channel marker in reconstructed offer links. The supplier’s own connector and two real browser offers verified the correction. Application `2f7f5be5` contains the targeted change. [Acceptance](output/qa/2026-11-24-continuity/verification.md).
+
+
+### 24 November · Cached search scope and supplier expiry
+
+A real authorized re-query reused a prior supplier ID, and a completed reply still contained a past expiry. Preserved old per-login access, bound genuine new requests independently and checked the expiry on both lookup and reprice. An additional direct-flight search returned current market quotes. Released `cc759345` to the normal Mac and installed Simulator. [Checks](output/qa/2026-11-24-continuity/verification.md).
