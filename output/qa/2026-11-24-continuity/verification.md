@@ -58,3 +58,8 @@ The next authenticated supplier read returned a settled set of 596 offers. A lin
 ## A cached identifier and an expired price
 
 During the final price check the provider returned the same search identifier to a separately authorized query. Its completed result also retained a past expiry. Application `cc759345` keys a fresh search by the initiating login, connection and complete query. It still reads a matching pre-upgrade entry and checks the provider’s timestamp before offering any price. A targeted regression covered an unauthorized lookup before reissuance, two independent legitimate searches, a changed bag request, an expired quote and an invalid timestamp. An additional live direct-flight query returned 263 options with a future expiry. The original supplier page showed the chosen itinerary and one bag with its fee still unknown. No order was placed. Normal Mac Web and the installed Simulator both reported this release. The directly applicable Pi kit was rebuilt; the physical device remains unverified.
+
+
+## Independent airline-direct quote
+
+The owner continued the price-only check. A live airline guest search found the same two nonstop flights as the agent quote. For the selected outbound and return, each fare-family card explicitly included one 20 kg checked bag. After selecting both directions, the airline displayed one tax-inclusive return price for one adult. Its fare, carrier surcharge and tax amounts independently summed to that exact total. The selection stopped before passenger information. The screenshots and actual travel details belong to the private owner receipt. This airline-direct total and its baggage terms apply to that seller. The earlier aggregator listing still lacked a confirmed weight. No funds were held or captured.
