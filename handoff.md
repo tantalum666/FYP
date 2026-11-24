@@ -32,4 +32,8 @@ The standard storefront is the WooCommerce sandbox. Stripe’s original test-mod
 
 The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
 
+## Local page handoff
+
+On source `cc8350c5`, one local Playwright page can stay open when a password, OTP, captcha, or payment control appears. The admitting owner uses that same page from the job card and hands it back for one fresh read. This is implemented and locally verified. It is not merged, not deployed, and not acceptance of a live merchant or account sign-in. It is not a headed operating-system window or the hosted OpenAI desktop.
+
 **Next step** — When the original Pi comes back on its pinned owner relay, apply its saved update from `92acac8e` and verify its existing store, accounts, A3 profile and kiosk build on the device.

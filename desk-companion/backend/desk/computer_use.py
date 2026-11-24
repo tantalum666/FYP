@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import queue
 import struct
 
 from .application_runtime import read_regular
@@ -17,6 +18,7 @@ from .computer_use_models import (
     MAX_SCREEN_BYTES,
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
+    classify_owner_wall,
     wall_from_reason,
 )
 from .computer_use_protocol import OpenAIComputerProtocol
@@ -32,11 +34,267 @@ class OwnerWallPause(Exception):
         self.record = record
 
 
+class PageLost(Exception):
+    """The parked page can no longer be read. Do not open another browser."""
+
+
+class OwnerHoldEnded(Exception):
+    """The live page closed. The job must not be queued again."""
+
+    def __init__(self, state, code, cleanup=False):
+        self.state, self.code, self.cleanup = state, code, cleanup
+
+
 class ComputerSupervisor(BrowserSupervisor):
     worker_module = "desk.computer_use_worker"
     stage_names = {"computer_open", "computer_observe", "computer_action"}
     stage_limit = 180
     protocol_limit = 1_000_000
+
+    def __init__(self, executable=None):
+        super().__init__(executable)
+        self.live_page = None
+
+    @property
+    def supports_owner_takeover(self):
+        page = self.live_page
+        return bool(page is not None and page.alive())
+
+
+def _safe_observation(observation):
+    return {
+        key: observation[key]
+        for key in ("sequence", "screen", "sha256", "url", "title", "text")
+        if isinstance(observation, dict) and key in observation
+    }
+
+
+class LiveOwnerPage:
+    """App-mediated control of the one Playwright page already open for this job."""
+
+    def __init__(self, job_id, channel, executor):
+        self.job_id, self.channel, self.executor = job_id, channel, executor
+        self.commands = queue.Queue()
+        self.receipts = {}
+
+    def alive(self):
+        return self.channel.alive()
+
+    def peek(self):
+        if not self.alive():
+            raise PageLost()
+        box = queue.Queue(1)
+        self.commands.put(("peek", box))
+        self._wait(box)
+
+    def owner_input(self, payload, key, principal):
+        box = queue.Queue(1)
+        self.commands.put(("input", payload, key, principal, box))
+        return self._wait(box)
+
+    def hand_back(self, payload, key, principal):
+        box = queue.Queue(1)
+        self.commands.put(("return", payload, key, principal, box))
+        return self._wait(box)
+
+    @staticmethod
+    def _wait(box):
+        try:
+            kind, payload = box.get(timeout=20)
+        except queue.Empty as exc:
+            raise PageLost() from exc
+        if kind == "error":
+            raise payload
+        return payload
+
+    def serve(self):
+        while True:
+            terminal = self._terminal()
+            if terminal:
+                self._release(*terminal)
+            if not self.alive():
+                raise OwnerHoldEnded(
+                    "unknown", "BROWSER_PAGE_LOST", cleanup=self.channel.cleanup_seen
+                )
+            try:
+                item = self.commands.get(timeout=0.2)
+            except queue.Empty:
+                continue
+            kind = item[0]
+            if kind == "peek":
+                self._peek(item[1])
+            elif kind == "input":
+                self._input(*item[1:])
+            elif kind == "return":
+                if self._hand_back(*item[1:]):
+                    return
+
+    def _terminal(self):
+        jobs = self.executor.runtime.jobs
+        with jobs.store.connection() as conn:
+            row = jobs._row(conn, self.job_id)
+            if row["cancel_requested"] or row["state"] == "cancelled":
+                return "cancelled", "USER_CANCELLED"
+            if row["state"] == "expired" or (
+                row["deadline"] and row["deadline"] <= iso(jobs.store.clock())
+            ):
+                return "expired", "JOB_DEADLINE_EXCEEDED"
+            if row["state"] not in {"running", "owner_takeover"}:
+                return "unknown", "BROWSER_PAGE_LOST"
+        return None
+
+    def _release(self, state, code):
+        if self.alive():
+            try:
+                self.channel.write({"release": True})
+                self.channel.drain(5)
+            except (OSError, DomainError):
+                pass
+        raise OwnerHoldEnded(state, code, cleanup=self.channel.cleanup_seen)
+
+    def _peek(self, box):
+        message = self.channel.exchange({"peek": True}, {"peek_result"})
+        if message.get("type") != "peek_result":
+            self.channel.drain(5)
+            box.put(("error", PageLost()))
+            raise OwnerHoldEnded("unknown", "BROWSER_PAGE_LOST", cleanup=self.channel.cleanup_seen)
+        box.put(("ok", {"closed": False}))
+
+    def _authorize(self, conn, principal):
+        jobs = self.executor.runtime.jobs
+        jobs.runtime.personal_context.require_owner_transaction(conn, principal)
+        jobs._computer_owner(conn, jobs._row(conn, self.job_id), principal, local_takeover=False)
+
+    def _input(self, payload, key, principal, box):
+        jobs = self.executor.runtime.jobs
+        action = payload.action.model_dump()
+        digest = hashlib.sha256(encode(action).encode()).hexdigest()
+        try:
+            with jobs.store.connection() as conn:
+                self._authorize(conn, principal)
+                row = jobs._row(conn, self.job_id)
+                if row["state"] != "owner_takeover":
+                    raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+                record = json.loads(row["result"]) if row["result"] else {}
+                if record.get("phase") != "held":
+                    raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+                if row["version"] != payload.expected_version:
+                    raise DomainError("VERSION_CONFLICT", 409)
+            cached = self.receipts.get(key)
+            if cached:
+                with jobs.store.connection() as conn:
+                    self._authorize(conn, principal)
+                if cached["digest"] != digest:
+                    raise DomainError("OPERATION_ID_CONFLICT")
+                box.put(("ok", cached["public"]))
+                return
+            message = self.channel.exchange({"owner_action": action}, {"owner_view"})
+            if message.get("type") != "owner_view":
+                self.channel.drain(5)
+                box.put(("error", PageLost()))
+                raise OwnerHoldEnded(
+                    "unknown", "BROWSER_PAGE_LOST", cleanup=self.channel.cleanup_seen
+                )
+            safe = _safe_observation(message.get("value") or {})
+            directory = self.executor.root / self.job_id
+            from .computer_use_files import refresh_file
+
+            refresh_file(directory, "latest.json", encode(safe).encode())
+            with jobs.store.connection(write=True) as conn:
+                self._authorize(conn, principal)
+                row = jobs._row(conn, self.job_id)
+                if row["version"] != payload.expected_version:
+                    raise DomainError("VERSION_CONFLICT", 409)
+                record = json.loads(row["result"]) if row["result"] else {}
+                if row["state"] != "owner_takeover" or record.get("phase") != "held":
+                    raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+                record["observation"] = safe
+                record["takeover_available"] = True
+                jobs._state(conn, self.job_id, "owner_takeover", record.get("reason"), record)
+                view = jobs._view(jobs._row(conn, self.job_id), review=True)
+            public = {"applied": True, "job": view, "operation_id": key}
+            self.receipts[key] = {"digest": digest, "public": public}
+            box.put(("ok", public))
+        except DomainError as exc:
+            box.put(("error", exc))
+
+    def _hand_back(self, payload, key, principal, box):
+        jobs = self.executor.runtime.jobs
+        body = {
+            "type": "computer_return",
+            "id": self.job_id,
+            "expected_version": payload.expected_version,
+        }
+
+        def authorize(conn):
+            self._authorize(conn, principal)
+
+        try:
+            with jobs.store.connection() as conn:
+                authorize(conn)
+                _, old = jobs.store.operation_receipt(conn, key, body)
+                if old is not None:
+                    authorize(conn)
+                    box.put(("ok", old))
+                    return False
+                row = jobs._row(conn, self.job_id)
+                record = json.loads(row["result"]) if row["result"] else {}
+                if row["state"] != "owner_takeover" or record.get("phase") != "held":
+                    raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+                if row["version"] != payload.expected_version:
+                    raise DomainError("VERSION_CONFLICT", 409)
+            message = self.channel.exchange({"snapshot": True}, {"snapshot_result"})
+            if message.get("type") != "snapshot_result":
+                self.channel.drain(5)
+                box.put(("error", PageLost()))
+                raise OwnerHoldEnded(
+                    "unknown", "BROWSER_PAGE_LOST", cleanup=self.channel.cleanup_seen
+                )
+            view = message.get("value") or {}
+            observation = view.get("observation") or {}
+            wall = classify_owner_wall(
+                observation.get("text") or "", observation.get("controls") or ()
+            )
+            if view.get("url") and observation.get("url") and view["url"] != observation["url"]:
+                wall = wall or {"wall": "login", "reason": "login_needs_owner"}
+            safe = _safe_observation(observation)
+
+            def apply(conn):
+                authorize(conn)
+                row = jobs._row(conn, self.job_id)
+                record = json.loads(row["result"]) if row["result"] else {}
+                if row["version"] != payload.expected_version:
+                    raise DomainError("VERSION_CONFLICT", 409)
+                if row["state"] != "owner_takeover" or record.get("phase") != "held":
+                    raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+                record["observation"] = safe
+                record["takeover_available"] = True
+                if wall:
+                    record["phase"] = "paused"
+                    record["verified"] = False
+                    jobs._state(
+                        conn, self.job_id, "owner_takeover", record.get("reason"), record
+                    )
+                    resumed = False
+                else:
+                    record["phase"] = "returning"
+                    jobs._state(conn, self.job_id, "running", None, record)
+                    resumed = True
+                viewed = jobs._view(jobs._row(conn, self.job_id), review=True)
+                return {"job": viewed, "held": False, "resumed": resumed, "stayed": not resumed}
+
+            try:
+                stored = jobs.store.operation(key, body, apply, authorize=authorize)
+            except DomainError:
+                self.channel.write({"continue": False})
+                raise
+            continued = stored.get("resumed") is True and wall is None
+            self.channel.write({"continue": continued})
+            box.put(("ok", stored))
+            return continued
+        except DomainError as exc:
+            box.put(("error", exc))
+            return False
 
 
 class ComputerUseExecutor:
@@ -61,6 +319,7 @@ class ComputerUseExecutor:
         self.protocol_factory = OpenAIComputerProtocol
         self.blocker = self.root / "cleanup-required"
         self.active_job = None
+        self.launches = 0
 
     def provider_config(self):
         return self.runtime.text_ai.config
@@ -163,7 +422,24 @@ class ComputerUseExecutor:
         finally:
             self.active_job = None
 
+    def _park_owner_page(self, value, channel):
+        directory = self.root / self.active_job
+        wall = wall_from_reason(value.get("reason"))
+        if wall is None:
+            raise RuntimeError("Computer hold is not an owner wall")
+        page = LiveOwnerPage(self.active_job, channel, self)
+        self.supervisor.live_page = page
+        try:
+            record = self._owner_wall(directory, value, wall)
+            record["takeover_available"] = True
+            self.runtime.jobs.project_hold(self.active_job, record)
+            page.serve()
+        finally:
+            if self.supervisor.live_page is page:
+                self.supervisor.live_page = None
+
     def _execute(self, request, checkpoint):
+        self.launches += 1
         directory = self.root / request["artifact_id"]
         same_job = (directory / "owner-wall.json").is_file() and not request["source_job_id"]
         directory.mkdir(parents=True, mode=0o700, exist_ok=same_job)
@@ -203,11 +479,12 @@ class ComputerUseExecutor:
             nonlocal calls, next_sequence
             calls += 1
             sequence = value["sequence"]
+            wall_open = (directory / "owner-wall.json").is_file()
             if (
                 calls > request["max_steps"]
                 or not isinstance(sequence, int)
                 or value["screen"] != f"screen-{sequence}.png"
-                or (next_sequence is None and sequence != 1 and not same_job)
+                or (next_sequence is None and sequence != 1 and not same_job and not wall_open)
                 or (next_sequence is not None and sequence != next_sequence)
             ):
                 raise ValueError("Unexpected computer observation")
@@ -253,22 +530,29 @@ class ComputerUseExecutor:
                     )
             return response
 
-        outcome = self.supervisor.run(
-            {
-                "operation": "execute",
-                "intent": {
-                    key: request[key] for key in ("start_url", "allowed_origins", "max_steps")
+        try:
+            outcome = self.supervisor.run(
+                {
+                    "operation": "execute",
+                    "intent": {
+                        key: request[key] for key in ("start_url", "allowed_origins", "max_steps")
+                    },
+                    "resume_state": bool(request["source_job_id"]),
+                    "resume_same_job": same_job,
+                    "interactive_hold": True,
+                    "browser_proxy": self.browser_proxy,
+                    "http1_only": self.http1_only,
                 },
-                "resume_state": bool(request["source_job_id"]),
-                "resume_same_job": same_job,
-                "browser_proxy": self.browser_proxy,
-                "http1_only": self.http1_only,
-            },
-            directory,
-            fence,
-            timeout=180,
-            on_observation=observe,
-        )
+                directory,
+                fence,
+                timeout=180,
+                on_observation=observe,
+                on_hold=self._park_owner_page,
+            )
+        except OwnerHoldEnded as ended:
+            if ended.cleanup:
+                self.blocker.unlink(missing_ok=True)
+            raise
         if outcome.cleanup_confirmed:
             self.blocker.unlink(missing_ok=True)
             if not outcome.value:

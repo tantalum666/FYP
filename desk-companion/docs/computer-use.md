@@ -50,15 +50,23 @@ A login, SMS/OTP, captcha, or payment-confirmation wall pauses the same job in
 `owner_takeover`. The owner receives a reason; it is not a verified result.
 A normal public navigation link labelled Sign in does not itself establish a wall.
 
-**11 November reviewed capability:** the shipped headless worker closes the browser
-and has no owner-input transport. Its takeover/return APIs reject
-`COMPUTER_TAKEOVER_UNAVAILABLE`, and the UI shows the limitation instead of offering
-an unusable button. Only a driver explicitly implementing `supports_owner_takeover`
-can expose those actions. The current positive tests use a synthetic driver; they
-are not real login/OTP/payment acceptance. A future interactive driver must preserve
-admitting-session ownership, versioned operations, no model observation/input during
-owner control, explicit return and independent cleared-wall evidence. Paired clients
-and other sessions cannot take over. Cancellation and deadlines remain effective.
+**24 November local page handoff:** when the local worker sees a password, OTP,
+captcha, or payment control, it leaves that Chromium context running.
+`supports_owner_takeover` is true only while that page is alive. The admitting owner
+takes over, then clicks and types on that same page from the job card. This is
+app-mediated control of the Playwright page Alice already opened. It is not a headed
+operating-system window, not the hosted OpenAI desktop, and not a merchant or
+account sign-in. Hand back reads that document once. The original goal continues
+only when `classify_owner_wall` is clear on that snapshot, and `wall-evidence.json`
+is written from it. A wall that is still present stays paused. If the page is gone
+or the read fails, the job is `unknown` and no second browser or model call starts.
+A repeated Hand back with the same operation id returns the stored result. A stale
+version conflicts. A paired session, a revoked session, and hidden private context
+get no screen and no handoff; those checks run again at the read, write, replay,
+and commit. The 180-second job deadline still closes the page without continuing.
+A navigation link labelled Sign in is not a wall. Typed values are not stored on
+the job or in logs, and no model request runs during the hold. The synthetic driver
+remains for API fences. Real local Chromium fixtures cover the live page.
 
 
 An explicit continuation copies only a verified same-task/site browser state

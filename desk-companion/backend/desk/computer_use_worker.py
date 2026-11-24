@@ -2,6 +2,7 @@
 
 import asyncio
 from contextlib import ExitStack
+import hashlib
 import json
 import re
 import signal
@@ -109,6 +110,146 @@ async def input_target(page, action):
     }""",
         action,
     )
+
+
+async def read_command():
+    raw = await asyncio.to_thread(sys.stdin.buffer.readline, 32001)
+    if not raw.endswith(b"\n"):
+        raise ValueError("Incomplete computer command")
+    return json.loads(raw)
+
+
+async def apply_owner_action(page, action):
+    """Owner input reaches the page only. The value is never copied into a result."""
+    kind = action.get("type")
+    if kind == "click":
+        await page.mouse.click(int(action["x"]), int(action["y"]))
+    elif kind == "type":
+        text = action.get("text")
+        if not isinstance(text, str) or not text or len(text) > 80:
+            raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
+        await page.keyboard.insert_text(text)
+    elif kind == "keypress":
+        if action.get("key") not in {"Enter", "Tab", "Backspace", "Escape"}:
+            raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
+        await page.keyboard.press(action["key"])
+    else:
+        raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
+
+
+def public_view(observation):
+    kept = {
+        key: observation[key]
+        for key in (
+            "sequence",
+            "screen",
+            "sha256",
+            "url",
+            "title",
+            "text",
+            "controls",
+            "document_generation",
+            "width",
+            "height",
+        )
+        if key in observation
+    }
+    return kept
+
+
+async def persist_state(context, directory, boundary, resume_same_job):
+    state = scoped_storage(await context.storage_state(), boundary.origins)
+    body = encode(state).encode()
+    if (directory / "browser-state.json").is_file() or resume_same_job:
+        refresh_file(directory, "browser-state.json", body)
+    else:
+        exclusive_write(directory, "browser-state.json", body)
+    return hashlib.sha256(body).hexdigest()
+
+
+async def owner_hold(
+    page,
+    context,
+    directory,
+    boundary,
+    observation,
+    reason,
+    sequence,
+    *,
+    resume_same_job,
+    demo,
+    counters,
+    browser_version,
+):
+    """Keep this Chromium context open until the owner hands the same page back."""
+    await persist_state(context, directory, boundary, resume_same_job)
+    emit(
+        "hold",
+        value={
+            "observation": observation,
+            "outcome": "needs_owner",
+            "reason": reason,
+            "demo_submissions": counters["submissions"] if counters else None,
+            "demo": demo,
+            "browser_version": browser_version,
+            "network_boundary": "public_request_routing_only",
+        },
+    )
+    while True:
+        command = await read_command()
+        if command.get("release") is True:
+            return "release", observation, reason, sequence + 1
+        if command.get("peek") is True:
+            try:
+                if page.is_closed():
+                    raise DomainError("BROWSER_PAGE_LOST", 409)
+                await page.evaluate("() => document.readyState")
+            except Exception:
+                emit("page_lost")
+                return "lost", observation, reason, sequence + 1
+            emit("peek_result", value={"closed": False})
+            continue
+        if command.get("owner_action"):
+            try:
+                await apply_owner_action(page, command["owner_action"])
+                sequence += 1
+                if sequence > 98:
+                    raise DomainError("BROWSER_PAGE_LOST", 409)
+                observation = await snapshot(page, directory, sequence, boundary)
+            except Exception:
+                emit("page_lost")
+                return "lost", observation, reason, sequence + 1
+            emit("owner_view", value=public_view(observation))
+            continue
+        if command.get("snapshot") is True:
+            try:
+                if page.is_closed():
+                    raise DomainError("BROWSER_PAGE_LOST", 409)
+                sequence += 1
+                if sequence > 98:
+                    raise DomainError("BROWSER_PAGE_LOST", 409)
+                observation = await snapshot(page, directory, sequence, boundary)
+                state_sha = await persist_state(context, directory, boundary, True)
+            except Exception:
+                emit("page_lost")
+                return "lost", observation, reason, sequence + 1
+            wall = classify_owner_wall(
+                observation.get("text", ""), observation.get("controls") or []
+            )
+            emit(
+                "snapshot_result",
+                value={
+                    "observation": public_view(observation),
+                    "wall": wall,
+                    "state_sha256": state_sha,
+                    "url": observation.get("url"),
+                },
+            )
+            decision = await read_command()
+            if decision.get("continue") is True and wall is None:
+                return "clear", observation, reason, sequence + 1
+            continue
+        raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
 
 
 async def act(page, action, check_document=lambda: None):
@@ -331,46 +472,75 @@ async def run(request):
                         if (match := re.fullmatch(r"screen-([0-9]{1,2})\.png", path.name))
                     ]
                     start = max(numbers, default=0) + 1
-                final_sequence = start + job["max_steps"]
-                if final_sequence > 99:
-                    raise ValueError("Too many computer observations")
-                for sequence in range(start, final_sequence):
-                    try:
-                        current_observation = await snapshot(page, directory, sequence, boundary)
-                    except DomainError:
-                        if observation is None:
-                            exclusive_write(
-                                directory,
-                                "navigation.json",
-                                encode(
-                                    {
-                                        "stage": "initial_page",
-                                        "http_status": None,
-                                        "network_error": "DOCUMENT_CHANGED_DURING_OBSERVATION",
-                                        "origin": origin_of(url),
-                                    }
-                                ).encode(),
+                next_sequence = start
+                cleared_note = None
+                steps = 0
+                pending = None
+                while steps < job["max_steps"]:
+                    if pending is not None:
+                        observation = pending
+                        pending = None
+                    else:
+                        try:
+                            observation = await snapshot(page, directory, next_sequence, boundary)
+                        except DomainError:
+                            if observation is None:
+                                exclusive_write(
+                                    directory,
+                                    "navigation.json",
+                                    encode(
+                                        {
+                                            "stage": "initial_page",
+                                            "http_status": None,
+                                            "network_error": "DOCUMENT_CHANGED_DURING_OBSERVATION",
+                                            "origin": origin_of(url),
+                                        }
+                                    ).encode(),
+                                )
+                                raise
+                            outcome, reason = (
+                                "needs_owner",
+                                boundary.reason or "page_changed_before_observation",
                             )
-                            raise
-                        outcome, reason = (
-                            "needs_owner",
-                            boundary.reason or "page_changed_before_observation",
+                            break
+                        next_sequence = observation["sequence"] + 1
+                        wall = classify_owner_wall(
+                            observation.get("text", ""), observation.get("controls") or []
                         )
-                        break
-                    observation = current_observation
-                    wall = classify_owner_wall(
-                        observation.get("text", ""), observation.get("controls") or []
-                    )
-                    if wall and not boundary.reason:
-                        boundary.reason = wall["reason"]
-                    if boundary.reason:
-                        outcome, reason = "needs_owner", boundary.reason
-                        break
+                        if wall and not boundary.reason:
+                            boundary.reason = wall["reason"]
+                        if boundary.reason:
+                            if request.get("interactive_hold"):
+                                status, observation, reason, next_sequence = await owner_hold(
+                                    page,
+                                    context,
+                                    directory,
+                                    boundary,
+                                    observation,
+                                    boundary.reason,
+                                    observation["sequence"],
+                                    resume_same_job=bool(request.get("resume_same_job")),
+                                    demo=demo,
+                                    counters=counters,
+                                    browser_version=browser.version,
+                                )
+                                if status == "clear":
+                                    cleared_note = {
+                                        "text": observation.get("text") or "",
+                                        "wall": reason,
+                                    }
+                                    boundary.reason = None
+                                elif status == "lost":
+                                    raise DomainError("BROWSER_PAGE_LOST", 409)
+                                else:
+                                    outcome, reason = "needs_owner", reason
+                                    break
+                            else:
+                                outcome, reason = "needs_owner", boundary.reason
+                                break
                     emit("observation", value=observation)
-                    raw = await asyncio.to_thread(sys.stdin.buffer.readline, 32001)
-                    if not raw.endswith(b"\n"):
-                        raise ValueError("Incomplete computer command")
-                    command = json.loads(raw)
+                    steps += 1
+                    command = await read_command()
                     if command.get("finish") is True:
                         outcome = command.get("outcome", "review_ready")
                         if outcome not in {"review_ready", "needs_owner"}:
@@ -387,7 +557,7 @@ async def run(request):
                             break
                         boundary.action_note = "The previous input batch was not executed because the document navigated. Inspect the new page."
                         continue
-                    if command.get("observation") != sequence:
+                    if command.get("observation") != observation["sequence"]:
                         raise ValueError("Stale computer observation")
                     applied = 0
                     boundary.action_note = ""
@@ -416,10 +586,36 @@ async def run(request):
                             break
                         applied += 1
                     if boundary.reason:
+                        if request.get("interactive_hold") and origin_of(page.url) in boundary.origins:
+                            status, observation, reason, next_sequence = await owner_hold(
+                                page,
+                                context,
+                                directory,
+                                boundary,
+                                observation,
+                                boundary.reason,
+                                observation["sequence"],
+                                resume_same_job=True,
+                                demo=demo,
+                                counters=counters,
+                                browser_version=browser.version,
+                            )
+                            if status == "clear":
+                                cleared_note = {
+                                    "text": observation.get("text") or "",
+                                    "wall": reason,
+                                }
+                                boundary.reason = None
+                                pending = observation
+                                continue
+                            if status == "lost":
+                                raise DomainError("BROWSER_PAGE_LOST", 409)
+                            outcome, reason = "needs_owner", reason
+                            break
                         if origin_of(page.url) in boundary.origins:
                             try:
                                 observation = await snapshot(
-                                    page, directory, sequence + 1, boundary
+                                    page, directory, observation["sequence"] + 1, boundary
                                 )
                             except DomainError:
                                 pass  # Keep only the last admitted observation.
@@ -427,15 +623,25 @@ async def run(request):
                         break
                 else:
                     try:
-                        observation = await snapshot(page, directory, final_sequence, boundary)
+                        observation = await snapshot(page, directory, next_sequence, boundary)
                     except DomainError:
                         outcome, reason = "needs_owner", "page_changed_before_observation"
-                state = scoped_storage(await context.storage_state(), boundary.origins)
-                state_body = encode(state).encode()
-                if request.get("resume_same_job"):
-                    refresh_file(directory, "browser-state.json", state_body)
-                else:
-                    exclusive_write(directory, "browser-state.json", state_body)
+                state_sha = await persist_state(
+                    context, directory, boundary, bool(request.get("resume_same_job") or cleared_note)
+                )
+                if cleared_note and (cleared_note.get("text") or "").strip():
+                    refresh_file(
+                        directory,
+                        "wall-evidence.json",
+                        encode(
+                            {
+                                "cleared": True,
+                                "wall": cleared_note["wall"],
+                                "state_sha256": state_sha,
+                                "observed_text": cleared_note["text"],
+                            }
+                        ).encode(),
+                    )
                 value = {
                     "observation": observation,
                     "outcome": outcome,

@@ -12,7 +12,7 @@ from .flight_search import KIWI_SITES
 from .schemas import StrictModel
 
 COMPUTER_USE_ACTIONS = {"computer_use"}
-COMPUTER_DEMOS = {"demo:shopping", "demo:flights"}
+COMPUTER_DEMOS = {"demo:shopping", "demo:flights", "demo:verification", "demo:public-nav"}
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 800
 MAX_SCREEN_BYTES = 2_000_000
 

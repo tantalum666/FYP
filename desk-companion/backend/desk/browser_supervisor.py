@@ -43,6 +43,55 @@ class WorkerOutcome:
     forced_stop: bool = False
 
 
+class HoldChannel:
+    """Stdin/stdout for one parked browser. The supervisor thread is the only writer."""
+
+    def __init__(self, process, write, read_message):
+        self.process = process
+        self.write = write
+        self._read = read_message
+        self.cleanup_seen = False
+
+    def alive(self):
+        return self.process.poll() is None
+
+    def exchange(self, payload, accept, timeout=20):
+        self.write(payload)
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            if not self.alive() and self.process.poll() is not None:
+                message = self._read(0.2)
+                if message is None:
+                    return {"type": "page_lost"}
+            else:
+                message = self._read(0.2)
+                if message is None:
+                    continue
+            kind = message.get("type")
+            if kind == "checkpoint":
+                self.write({"allow": True})
+                continue
+            if kind == "cleanup" and message.get("closed") is True:
+                self.cleanup_seen = True
+                continue
+            if kind in accept or kind in {"page_lost", "error"}:
+                return message
+            raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
+        return {"type": "page_lost"}
+
+    def drain(self, timeout=5):
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            message = self._read(0.2)
+            if message is None:
+                if not self.alive():
+                    return
+                continue
+            if message.get("type") == "cleanup" and message.get("closed") is True:
+                self.cleanup_seen = True
+                return
+
+
 class BrowserSupervisor:
     worker_module = "desk.browser_worker"
     stage_names = STAGES
@@ -74,6 +123,7 @@ class BrowserSupervisor:
         timeout=180,
         grace=5,
         on_observation=None,
+        on_hold=None,
     ):
         reason = self.readiness()
         if reason:
@@ -110,6 +160,46 @@ class BrowserSupervisor:
             buffers = {"stdout": b"", "stderr": b""}
             total, stages = 0, 0
             selector = selectors.DefaultSelector()
+
+            def write_stdin(payload):
+                encoded = (json.dumps(payload, ensure_ascii=True) + "\n").encode()
+                if len(encoded) > 32000:
+                    raise DomainError("BROWSER_PROTOCOL_LIMIT", 409)
+                process.stdin.write(encoded)
+                process.stdin.flush()
+
+            def pull_message(wait):
+                nonlocal total
+                deadline = time.monotonic() + wait
+                while True:
+                    if b"\n" in buffers["stdout"]:
+                        line, buffers["stdout"] = buffers["stdout"].split(b"\n", 1)
+                        return json.loads(line)
+                    if process.poll() is not None and not selector.get_map():
+                        return None
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        return None
+                    for key, _ in selector.select(min(0.05, remaining)):
+                        try:
+                            part = os.read(key.fileobj.fileno(), 8192)
+                        except BlockingIOError:
+                            continue
+                        if not part:
+                            try:
+                                selector.unregister(key.fileobj)
+                            except KeyError:
+                                pass
+                            continue
+                        total += len(part)
+                        if total > self.protocol_limit:
+                            raise DomainError("BROWSER_PROTOCOL_LIMIT", 409)
+                        name = key.data
+                        if name == "stderr":
+                            buffers[name] = (buffers[name] + part)[-2048:]
+                            continue
+                        buffers[name] += part
+
             try:
                 on_start(process.pid)
                 request = {**payload, "directory": str(directory), "executable": self.executable}
@@ -172,8 +262,7 @@ class BrowserSupervisor:
                                     raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
                                 checkpoint(stage)  # Parent journals dispatch before allowing input.
                                 dispatched = dispatched or payload["operation"] == "execute"
-                                process.stdin.write(b'{"allow":true}\n')
-                                process.stdin.flush()
+                                write_stdin({"allow": True})
                             elif kind == "observation" and on_observation is not None:
                                 try:
                                     checkpoint(None)
@@ -192,8 +281,14 @@ class BrowserSupervisor:
                                 encoded = (json.dumps(answer, ensure_ascii=True) + "\n").encode()
                                 if len(encoded) > 32000:
                                     raise DomainError("BROWSER_PROTOCOL_LIMIT", 409)
-                                process.stdin.write(encoded)
-                                process.stdin.flush()
+                                write_stdin(answer)
+                            elif kind == "hold":
+                                if on_hold is None:
+                                    raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
+                                on_hold(
+                                    message.get("value") or {},
+                                    HoldChannel(process, write_stdin, pull_message),
+                                )
                             elif kind == "result" and value is None:
                                 value = message["value"]
                             elif kind == "error":
@@ -208,6 +303,7 @@ class BrowserSupervisor:
                                         "BROWSER_CANCELLED",
                                         "BROWSER_PUBLIC_DNS_REQUIRED",
                                         "BROWSER_CONTENT_MISMATCH",
+                                        "BROWSER_PAGE_LOST",
                                     }
                                     else "BROWSER_WORKER_FAILED"
                                 )

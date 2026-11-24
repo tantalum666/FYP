@@ -157,6 +157,11 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
       "Your automatic permission changed before this action started. Ask Alice to prepare it again.",
       "操作开始前自动权限已改变，请让 Alice 重新准备。",
     ];
+  if (job.error === "BROWSER_PAGE_LOST")
+    return [
+      "The page closed. Alice did not open another one. Check the result before trying again.",
+      "页面已关闭。Alice 没有再打开新的页面。请先核验结果再重试。",
+    ];
   if (job.error === "COMPUTER_SCOPE_CHANGED") {
     return [
       "Next step: prepare a new job for the current folder. This card stays as the record.",
