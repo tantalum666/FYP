@@ -1,38 +1,24 @@
 import { useCallback, useEffect, useState } from "react";
 import { errorText, request, write } from "../api";
 import type { Translate } from "../types";
+import { momentView, type MomentSnapshot } from "./momentView";
 import { useWorkspace } from "./WorkspaceContext";
-
-interface Suggestion {
-  id: string;
-  title: string;
-  reason_en: string;
-  reason_zh: string;
-}
-
-interface Moments {
-  suggestion: Suggestion | null;
-  dismissals: Array<{ id: string }>;
-  paused: boolean;
-  pause_reason_en: string;
-  pause_reason_zh: string;
-}
 
 export function MomentCard({ t }: { t: Translate }) {
   const { data } = useWorkspace();
   const owner = data?.principal.kind === "owner";
-  const [moments, setMoments] = useState<Moments | null>(null);
+  const [moments, setMoments] = useState<MomentSnapshot | null>(null);
   const [error, setError] = useState<unknown>(null);
   const reload = useCallback(async () => {
     if (!owner) return;
-    setMoments(await request<Moments>("/moments"));
+    setMoments(await request<MomentSnapshot>("/moments"));
   }, [owner]);
   useEffect(() => {
     void reload().catch((reason) => setError(reason));
   }, [reload]);
-  if (!owner || !moments) return null;
-  const suggestion = moments.suggestion;
-  if (!suggestion && !moments.paused && !moments.dismissals.length) return null;
+  const view = momentView(moments, !!owner);
+  if (!view) return null;
+  const suggestion = view.suggestion;
   return (
     <section className="today-moment" role="status">
       {suggestion && (
@@ -50,10 +36,8 @@ export function MomentCard({ t }: { t: Translate }) {
           </button>
         </p>
       )}
-      {moments.paused && (
-        <p>{t(moments.pause_reason_en, moments.pause_reason_zh)}</p>
-      )}
-      {moments.dismissals.length > 0 && (
+      {view.paused && <p>{t(view.paused.en, view.paused.zh)}</p>}
+      {view.canReset && (
         <button
           type="button"
           onClick={() =>
