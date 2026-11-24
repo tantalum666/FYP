@@ -15,6 +15,12 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.task-job-result .task-recovery {
+  display: block;
+  min-width: 0;
 }
 .task-job-result code {
   display: block;
