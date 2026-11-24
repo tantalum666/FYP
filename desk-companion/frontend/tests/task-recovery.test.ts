@@ -4,7 +4,13 @@ import { taskRecoveryGuidance } from "../src/workspace/jobTypes.ts";
 
 test("an unknown file result is distinct from a write that never happened", () => {
   const unknown = taskRecoveryGuidance({ state: "unknown", action: "save_note" });
-  const cancelled = taskRecoveryGuidance({ state: "cancelled", action: "save_note" });
+  const cancelled = taskRecoveryGuidance({
+    state: "cancelled",
+    action: "save_note",
+    error: "USER_CANCELLED",
+  });
+  const failed = taskRecoveryGuidance({ state: "failed", action: "save_note" });
+  const expired = taskRecoveryGuidance({ state: "expired", action: "computer_use" });
   const review = taskRecoveryGuidance({ state: "review", action: "save_note" });
   const checked = taskRecoveryGuidance({
     state: "succeeded",
@@ -13,6 +19,10 @@ test("an unknown file result is distinct from a write that never happened", () =
   });
   assert.equal(unknown?.kind, "unknown");
   assert.equal(cancelled?.kind, "nothing_written");
+  assert.equal(failed?.kind, "unconfirmed");
+  assert.equal(expired?.kind, "unconfirmed");
+  assert.doesNotMatch(failed?.text[0] ?? "", /No new file was written/);
+  assert.doesNotMatch(expired?.text[0] ?? "", /No new file was written/);
   assert.equal(review?.kind, "needs_approval");
   assert.equal(checked?.kind, "checked");
   assert.notEqual(unknown?.text[0], cancelled?.text[0]);

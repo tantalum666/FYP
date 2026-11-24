@@ -28,7 +28,7 @@ export function TaskJobs({
   const notes = jobs?.filter((job) => job.action !== "application");
   const hold = notes?.some((job) => {
     const kind = taskRecoveryGuidance(job)?.kind;
-    return kind === "unknown" || kind === "needs_approval";
+    return kind === "unknown" || kind === "needs_approval" || kind === "unconfirmed";
   });
   return (
     <section

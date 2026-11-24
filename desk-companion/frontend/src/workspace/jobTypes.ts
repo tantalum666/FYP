@@ -225,9 +225,10 @@ export type ComputerJobSummary = Omit<ComputerJob, "request" | "intent_hash">;
 export function taskRecoveryGuidance(job: {
   state: string;
   action?: string;
+  error?: string | null;
   result?: { verified?: boolean } | null;
 }): {
-  kind: "unknown" | "needs_approval" | "checked" | "nothing_written" | "stopped";
+  kind: "unknown" | "needs_approval" | "checked" | "nothing_written" | "stopped" | "unconfirmed";
   text: [string, string];
 } | null {
   if (job.state === "unknown")
@@ -262,12 +263,26 @@ export function taskRecoveryGuidance(job: {
         "浏览器已停止，之前的步骤可能已经生效。打开对话不会继续那个浏览器。",
       ],
     };
-  if (job.state === "cancelled" || job.state === "failed" || job.state === "expired")
+  // Cancel from review/queue, or a checkpoint rejection before the write.
+  // Failure, expiry, and any other cancellation can follow a dispatched effect.
+  if (
+    job.state === "cancelled" &&
+    job.action !== "computer_use" &&
+    (job.error === "USER_CANCELLED" || job.error === "JOB_CANCELLED_BEFORE_DISPATCH")
+  )
     return {
       kind: "nothing_written",
       text: [
         "No new file was written for this action.",
         "这次操作没有写入新文件。",
+      ],
+    };
+  if (job.state === "cancelled" || job.state === "failed" || job.state === "expired")
+    return {
+      kind: "unconfirmed",
+      text: [
+        "This action stopped without a checked result. Check the existing file before another write. That check only rereads.",
+        "这个操作已停止，结果尚未核验。再次写入前请先核验已有文件。核验只会重新读取。",
       ],
     };
   return null;
