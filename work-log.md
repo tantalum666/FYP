@@ -1180,3 +1180,8 @@ A refreshed live search exposed a missing channel marker in reconstructed offer 
 ### 24 November · Cached search scope and supplier expiry
 
 A real authorized re-query reused a prior supplier ID, and a completed reply still contained a past expiry. Preserved old per-login access, bound genuine new requests independently and checked the expiry on both lookup and reprice. An additional direct-flight search returned current market quotes. Released `cc759345` to the normal Mac and installed Simulator. [Checks](output/qa/2026-11-24-continuity/verification.md).
+
+
+### 24 November · Airline-direct baggage and total
+
+The corresponding airline guest page published each selected leg’s checked weight and the complete fare, surcharge and taxes for the return journey. The exact price and screenshot are retained privately for the owner. No payment, ticket or reservation was created. [Redacted verification](output/qa/2026-11-24-continuity/verification.md).
