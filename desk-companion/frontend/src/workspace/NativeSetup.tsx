@@ -1,3 +1,4 @@
+import { Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { CalendarDays } from "lucide-react";
@@ -66,9 +67,12 @@ export function NativeSetup({ children }: { children: ReactNode }) {
   if (loading)
     return <div className="app-loading">Opening Desk Companion…</div>;
   return (
-    <main className="connection-page">
+    <main className="connection-page public-workspace">
       <div className="connection-top">
-        <strong>Desk Companion</strong>
+        <strong className="public-wordmark">
+          <Sparkles size={21} />
+          Alice
+        </strong>
         <select
           aria-label="Language"
           value={language}

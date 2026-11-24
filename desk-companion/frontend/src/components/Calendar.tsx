@@ -167,18 +167,19 @@ export function CalendarToolbar({
               .setLocale(locale(language))
               .toFormat(language === "en" ? "LLLL yyyy" : "yyyy年M月")}
           </h1>
-          <p>
-            {view === "week"
-              ? `${first.toFormat(language === "en" ? "d LLL" : "M月d日")} – ${first.plus({ days: 6 }).toFormat(language === "en" ? "d LLL" : "M月d日")}`
-              : view === "day"
-                ? anchor
-                    .setLocale(locale(language))
-                    .toFormat(language === "en" ? "cccc, d LLL" : "M月d日 cccc")
-                : t(
-                    "A little room for everything.",
-                    "让每件事都有合适的时间。",
-                  )}
-          </p>
+          {view !== "month" && (
+            <p>
+              {view === "week"
+                ? `${first.toFormat(language === "en" ? "d LLL" : "M月d日")} – ${first.plus({ days: 6 }).toFormat(language === "en" ? "d LLL" : "M月d日")}`
+                : view === "day"
+                  ? anchor
+                      .setLocale(locale(language))
+                      .toFormat(
+                        language === "en" ? "cccc, d LLL" : "M月d日 cccc",
+                      )
+                  : null}
+            </p>
+          )}
         </div>
         <div className="toolbar-actions">
           <div className="segments" aria-label={t("Calendar view", "日历视图")}>

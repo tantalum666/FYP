@@ -1,5 +1,6 @@
+import { Modal } from "../components/Dialogs";
 import { useCallback, useEffect, useState } from "react";
-import { Brain } from "lucide-react";
+import { Plus } from "lucide-react";
 import { ApiError, errorText, request, write } from "../api";
 import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
@@ -41,6 +42,8 @@ export function MemoryPanel({ t }: { t: Translate }) {
   const [retired, setRetired] = useState<MemoryFact[]>([]);
   const [suggestions, setSuggestions] = useState<MemorySuggestion[]>([]);
   const [review, setReview] = useState<ReviewDraft | null>(null);
+  const [library, setLibrary] = useState(false);
+  const [composing, setComposing] = useState(false);
   const [body, setBody] = useState("");
   const [editing, setEditing] = useState<MemoryEdit | null>(null);
   const [error, setError] = useState<unknown>(null);
@@ -98,6 +101,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
     try {
       const saved = await write<{ duplicate?: boolean }>("/memory", { body });
       setBody("");
+      setComposing(false);
       setNotice(
         saved.duplicate
           ? t("That fact is already saved.", "这条事实已经保存。")
@@ -247,225 +251,273 @@ export function MemoryPanel({ t }: { t: Translate }) {
       className="workspace-section memory-page"
       aria-label={t("Memory", "记忆")}
     >
-      <div className="workspace-state">
-        <Brain />
-        <div>
-          <h1>{t(knowledgeCopy.title[0], knowledgeCopy.title[1])}</h1>
-          <p className="workspace-hint">
-            {t(
-              "Details Alice can use in future chats.",
-              "Alice 可以在之后的对话中使用这些记忆。",
-            )}
-          </p>
-        </div>
-      </div>
-      <form
-        className="memory-compose"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void add();
-        }}
-      >
-        <label className="field">
-          {t("New memory", "新记忆")}
-          <textarea
-            value={body}
-            maxLength={1000}
-            rows={3}
-            disabled={busy || !!editing}
-            onChange={(event) => setBody(event.target.value)}
-            placeholder={t(
-              "Example: Friday’s report is waiting on the group’s figures.",
-              "例如：周五的报告还在等组员的数据。",
-            )}
-          />
-        </label>
-        <div className="workspace-inline-actions">
-          <button
-            className="primary"
-            type="submit"
-            disabled={busy || !!editing || !body.trim()}
-          >
-            {t("Save", "保存")}
-          </button>
-        </div>
-      </form>
-      {loading && (
-        <p role="status">
-          {t("Loading saved memories…", "正在读取已保存记忆…")}
-        </p>
-      )}
-      {notice && <p role="status">{notice}</p>}
-      {!!error && (
-        <p className="error-message" role="alert">
-          {errorText(error, t)}
-        </p>
-      )}
-      {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
+      <header className="page-heading">
+        <h1>{t(knowledgeCopy.title[0], knowledgeCopy.title[1])}</h1>
         <button
+          className="primary"
           type="button"
-          className="secondary"
-          disabled={busy}
-          onClick={async () => {
-            try {
-              await reload();
-              setEditing(null);
-              setError(null);
-            } catch (reason) {
-              setError(reason);
-            }
+          disabled={busy || !!editing}
+          aria-expanded={composing && !library}
+          onClick={() => {
+            setLibrary(false);
+            setComposing(!composing || library);
           }}
         >
-          {t(
-            "Discard correction and load current facts",
-            "放弃更正并加载当前事实",
-          )}
+          <Plus size={17} />
+          {t("New memory", "新记忆")}
         </button>
-      )}
-      <MemoryFactList
-        t={t}
-        facts={facts}
-        loading={loading}
-        busy={busy}
-        editing={editing}
-        onEdit={setEditing}
-        onSave={saveEdit}
-        onDelete={setDeleting}
-        onExpiry={expire}
-      />
-      {data?.personal_context_visible && (
-        <details>
-          <summary>{t("Compare saved notes", "比较已有笔记")}</summary>
-          <SourceBriefPanel t={t} />
-        </details>
-      )}
-      {data?.personal_context_visible && (
-        <details>
-          <summary>{t("Memory reminders", "记忆提醒")}</summary>
-          <MemoryFollowUps
+      </header>
+      <div
+        className="directory-tabs collection-tabs"
+        role="group"
+        aria-label={t("Memory view", "记忆视图")}
+      >
+        <button
+          aria-pressed={!library}
+          disabled={busy}
+          onClick={() => setLibrary(false)}
+        >
+          {t("Saved", "已保存")}
+        </button>
+        <button
+          aria-pressed={library}
+          disabled={busy}
+          onClick={() => setLibrary(true)}
+        >
+          {t("Tools", "工具")}
+        </button>
+      </div>
+      <div className="memory-columns">
+        <div className="memory-collection" hidden={library}>
+          <form
+            className="memory-compose"
+            hidden={!composing}
+            onSubmit={(event) => {
+              event.preventDefault();
+              void add();
+            }}
+          >
+            <label className="field">
+              {t("New memory", "新记忆")}
+              <textarea
+                value={body}
+                maxLength={1000}
+                rows={3}
+                disabled={busy || !!editing}
+                onChange={(event) => setBody(event.target.value)}
+                placeholder={t(
+                  "What should Alice remember?",
+                  "希望 Alice 记住什么？",
+                )}
+              />
+            </label>
+            <div className="workspace-inline-actions">
+              <button
+                className="primary"
+                type="submit"
+                disabled={busy || !!editing || !body.trim()}
+              >
+                {t("Save", "保存")}
+              </button>
+            </div>
+          </form>
+          {loading && (
+            <p role="status">
+              {t("Loading saved memories…", "正在读取已保存记忆…")}
+            </p>
+          )}
+          {notice && <p role="status">{notice}</p>}
+          {!!error && (
+            <p className="error-message" role="alert">
+              {errorText(error, t)}
+            </p>
+          )}
+          {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={busy}
+              onClick={async () => {
+                try {
+                  await reload();
+                  setEditing(null);
+                  setError(null);
+                } catch (reason) {
+                  setError(reason);
+                }
+              }}
+            >
+              {t(
+                "Discard correction and load current facts",
+                "放弃更正并加载当前事实",
+              )}
+            </button>
+          )}
+          <MemoryFactList
             t={t}
             facts={facts}
-            onMemoryChange={() => void reload()}
+            loading={loading}
+            busy={busy}
+            editing={editing}
+            onEdit={setEditing}
+            onSave={saveEdit}
+            onDelete={setDeleting}
+            onExpiry={expire}
           />
-        </details>
-      )}
-      {!loading && !error && !facts.length && (
-        <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
-      )}
-      {suggestions.map((suggestion) => (
-        <div key={suggestion.keep.id}>
-          <p>{t(suggestion.reason_en, suggestion.reason_zh)}</p>
-          <button
-            className="secondary"
-            type="button"
-            disabled={busy}
-            onClick={() => void reviewSuggestion(suggestion)}
-          >
-            {t("Review duplicates", "核对重复项")}
-          </button>
-        </div>
-      ))}
-      {review && (
-        <div>
-          <p>{t(review.data.reason_en ?? "", review.data.reason_zh ?? "")}</p>
-          <p>
-            {t("Keep: ", "保留：")}
-            {review.data.keep_body}
-          </p>
-          {(review.data.retire ?? []).map((row, index) => (
-            <p key={index}>
-              {t("Retire: ", "停用：")}
-              {row.body}
-            </p>
+          {!loading && !error && !facts.length && (
+            <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
+          )}
+          {suggestions.map((suggestion) => (
+            <div key={suggestion.keep.id}>
+              <p>{t(suggestion.reason_en, suggestion.reason_zh)}</p>
+              <button
+                className="secondary"
+                type="button"
+                disabled={busy}
+                onClick={() => void reviewSuggestion(suggestion)}
+              >
+                {t("Review duplicates", "核对重复项")}
+              </button>
+            </div>
           ))}
-          <div className="workspace-inline-actions">
-            <button
-              className="primary"
-              type="button"
-              disabled={busy}
-              onClick={() => void decideReview("confirm")}
-            >
-              {t("Confirm and retire duplicates", "确认并停用重复项")}
-            </button>
-            <button
-              className="secondary"
-              type="button"
-              disabled={busy}
-              onClick={() => void decideReview("cancel")}
-            >
-              {t("Cancel", "取消")}
-            </button>
-          </div>
+          {review && (
+            <div>
+              <p>
+                {t(review.data.reason_en ?? "", review.data.reason_zh ?? "")}
+              </p>
+              <p>
+                {t("Keep: ", "保留：")}
+                {review.data.keep_body}
+              </p>
+              {(review.data.retire ?? []).map((row, index) => (
+                <p key={index}>
+                  {t("Retire: ", "停用：")}
+                  {row.body}
+                </p>
+              ))}
+              <div className="workspace-inline-actions">
+                <button
+                  className="primary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void decideReview("confirm")}
+                >
+                  {t("Confirm and retire duplicates", "确认并停用重复项")}
+                </button>
+                <button
+                  className="secondary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void decideReview("cancel")}
+                >
+                  {t("Cancel", "取消")}
+                </button>
+              </div>
+            </div>
+          )}
+          {!!expired.length && (
+            <>
+              <h3>{t("Expired", "已到期")}</h3>
+              <ul className="memory-list">
+                {expired.map((fact) => (
+                  <li key={fact.id}>
+                    <p>{fact.body}</p>
+                    <small>
+                      {t(
+                        "Expired facts are not sent to the assistant.",
+                        "到期的事实不会发给助理。",
+                      )}
+                    </small>
+                    {actionsFor("expired", fact.expires_at).includes(
+                      "forget",
+                    ) && (
+                      <button
+                        className="secondary"
+                        type="button"
+                        disabled={busy}
+                        onClick={() => setDeleting(fact)}
+                      >
+                        {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {!!retired.length && (
+            <details>
+              <summary>{t("Retired wording", "已停用的文字")}</summary>
+              <ul className="memory-list">
+                {retired.map((fact) => (
+                  <li key={fact.id}>
+                    <p>{fact.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
         </div>
-      )}
-      {!!expired.length && (
-        <>
-          <h3>{t("Expired", "已到期")}</h3>
-          <ul className="memory-list">
-            {expired.map((fact) => (
-              <li key={fact.id}>
-                <p>{fact.body}</p>
-                <small>
-                  {t(
-                    "Expired facts are not sent to the assistant.",
-                    "到期的事实不会发给助理。",
-                  )}
-                </small>
-                {actionsFor("expired", fact.expires_at).includes("forget") && (
-                  <button
-                    className="secondary"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => setDeleting(fact)}
-                  >
-                    {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      {!!retired.length && (
-        <details>
-          <summary>{t("Retired wording", "已停用的文字")}</summary>
-          <ul className="memory-list">
-            {retired.map((fact) => (
-              <li key={fact.id}>
-                <p>{fact.body}</p>
-              </li>
-            ))}
-          </ul>
-        </details>
-      )}
-      <details className="knowledge-section">
-        <summary>{t("Recent activity", "近期活动")}</summary>
-        <DigestPanel t={t} />
-      </details>
-      <details className="knowledge-section">
-        <summary>
-          {t("Words Alice should recognize", "让 Alice 理解你的用词")}
-        </summary>
-        <AliasList t={t} />
-      </details>
-      <details className="knowledge-section">
-        <summary>{t("Your profile", "你的档案")}</summary>
-        <ProfileSummary
-          key={facts.map((f) => `${f.id}:${f.version}`).join(",")}
-          t={t}
-        />
-      </details>
-      <details className="knowledge-section">
-        <summary>{t("Goals and commitments", "目标与承诺")}</summary>
-        <GoalList t={t} />
-      </details>
-      <details className="knowledge-section">
-        <summary>{t("Check-in history", "提醒记录")}</summary>
-        <CheckIns t={t} />
-      </details>
+        <aside
+          className="memory-library"
+          hidden={!library}
+          aria-label={t("Memory tools", "记忆工具")}
+        >
+          {data?.personal_context_visible && (
+            <details className="knowledge-section">
+              <summary>{t("Compare saved notes", "比较已有笔记")}</summary>
+              <SourceBriefPanel t={t} />
+            </details>
+          )}
+          {data?.personal_context_visible && (
+            <details className="knowledge-section">
+              <summary>{t("Memory reminders", "记忆提醒")}</summary>
+              <MemoryFollowUps
+                t={t}
+                facts={facts}
+                onMemoryChange={() => void reload()}
+              />
+            </details>
+          )}
+          <details className="knowledge-section">
+            <summary>{t("Recent activity", "近期活动")}</summary>
+            <DigestPanel t={t} />
+          </details>
+          <details className="knowledge-section">
+            <summary>
+              {t("Words Alice should recognize", "让 Alice 理解你的用词")}
+            </summary>
+            <AliasList t={t} />
+          </details>
+          <details className="knowledge-section">
+            <summary>{t("Your profile", "你的档案")}</summary>
+            <ProfileSummary
+              key={facts.map((f) => `${f.id}:${f.version}`).join(",")}
+              t={t}
+            />
+          </details>
+          <details className="knowledge-section">
+            <summary>{t("Goals and commitments", "目标与承诺")}</summary>
+            <GoalList t={t} />
+          </details>
+          <details className="knowledge-section">
+            <summary>{t("Check-in history", "提醒记录")}</summary>
+            <CheckIns t={t} />
+          </details>
+        </aside>
+      </div>
       {deleting && (
-        <div className="memory-delete-confirm" role="alert">
-          <p>{t("Delete this saved memory?", "删除这条已保存记忆？")}</p>
+        <Modal
+          title={t("Delete this saved memory?", "删除这条已保存记忆？")}
+          closeLabel={t("Close", "关闭")}
+          busy={busy}
+          onClose={() => setDeleting(null)}
+        >
+          {!!error && (
+            <p role="alert" className="error-message">
+              {errorText(error, t)}
+            </p>
+          )}
           <blockquote>{deleting.body}</blockquote>
           <div className="workspace-inline-actions">
             <button
@@ -483,7 +535,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
               {t("Keep memory", "保留记忆")}
             </button>
           </div>
-        </div>
+        </Modal>
       )}
     </section>
   );

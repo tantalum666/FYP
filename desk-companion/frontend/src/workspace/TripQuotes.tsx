@@ -74,15 +74,17 @@ function tripError(error: unknown, t: Translate) {
   return message ? t(message[0], message[1]) : errorText(error, t);
 }
 
+const defaultFixture = "hkg-tyo";
+
 export function TripQuotes({ t }: { t: Translate }) {
   const { data, offline, stale } = useWorkspace();
   const visible = !!data?.personal_context_visible && !offline && !stale;
   const mutation = usePrivateMutation();
-  const [fixtureId, setFixtureId] = useState("hkg-tyo");
+  const [fixtureId, setFixtureId] = useState(defaultFixture);
   const [snapshot, setSnapshot] = useState<TripSnapshot | null>(null);
   const [error, setError] = useState<unknown>(null);
-  const [loadedId, setLoadedId] = useState("");
-  useDraftGuard(visible && fixtureId !== (snapshot?.connection.fixture_id ?? loadedId), mutation.busy);
+  const [loadedId, setLoadedId] = useState(defaultFixture);
+  useDraftGuard(visible && fixtureId !== loadedId, mutation.busy);
 
   useEffect(() => {
     if (!visible) setSnapshot(null);

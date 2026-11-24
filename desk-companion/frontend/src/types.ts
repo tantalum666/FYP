@@ -4,6 +4,7 @@ export type Page =
   | "today"
   | "calendar"
   | "tasks"
+  | "inbox"
   | "memory"
   | "persona"
   | "records"

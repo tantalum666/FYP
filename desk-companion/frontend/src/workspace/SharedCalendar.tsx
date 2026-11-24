@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { request } from "../api";
+import { Sparkles } from "lucide-react";
 import { DateTime } from "luxon";
 interface Shared {
   mode: string;
@@ -46,9 +47,12 @@ export function SharedCalendar() {
   }, []);
   const t = (en: string, zh: string) => (language === "zh" ? zh : en);
   return (
-    <main className="shared-page">
+    <main className="shared-page public-workspace">
       <header>
-        <span>Desk Companion</span>
+        <span className="public-wordmark">
+          <Sparkles size={21} />
+          Alice
+        </span>
         <select
           aria-label="Language"
           value={language}

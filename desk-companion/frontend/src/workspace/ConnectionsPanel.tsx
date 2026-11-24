@@ -182,155 +182,159 @@ export function ConnectionsPanel({
   }
   if (!data) return <p>{t("Connecting…", "正在连接…")}</p>;
   return (
-    <div className="workspace-panel">
+    <div className="workspace-panel connections-directory">
       {data.principal.kind === "owner" && <AppConnectionsPanel t={t} />}
-      <div className="workspace-state">
-        <Link2 />
-        <div>
-          <h3>{t("Connected screens", "已连接终端")}</h3>
-          <p>
-            {t(
-              "Approved screens use the same calendar. You can revoke access here.",
-              "获准终端共用同一份日历，可以在此撤销访问。",
-            )}
-          </p>
-        </div>
-      </div>
-      {data.principal.kind !== "owner" ? (
-        <>
-          <p className="workspace-hint">
-            {t(
-              "Manage connected screens from your main desk.",
-              "请在主桌面管理已连接的终端。",
-            )}
-          </p>
-          <OwnerAccess t={t} />
-        </>
-      ) : (
-        <>
-          {isDisplay && (
-            <button
-              className="secondary"
-              disabled={busy || offline}
-              onClick={async () => {
-                if (
-                  await act("/devices/enrol-display", { name: "Desk display" })
-                )
-                  setNotice(
-                    t(
-                      "This display is paired and can reconnect after the owner session ends.",
-                      "本屏幕已配对，拥有者会话结束后仍可重新连接。",
-                    ),
-                  );
-              }}
-            >
-              <Monitor size={18} />
-              {t("Keep this display paired", "保持本屏幕配对")}
-            </button>
-          )}
-          <div className="workspace-inline-actions">
-            <button
-              className="primary"
-              disabled={busy || offline}
-              onClick={async () => {
-                const result = await act("/pairing/codes", {
-                  kind: "controller",
-                });
-                if (result)
-                  setCode(result as { code: string; expires_at: string });
-              }}
-            >
-              <Smartphone size={18} />
-              {t("Pair another screen", "配对其他终端")}
-            </button>
+      <details className="workspace-details screen-pairing">
+        <summary>{t("Connected screens", "已连接终端")}</summary>
+        <div className="workspace-state">
+          <Link2 />
+          <div>
+            <p>
+              {t(
+                "Approved screens use the same calendar. You can revoke access here.",
+                "获准终端共用同一份日历，可以在此撤销访问。",
+              )}
+            </p>
           </div>
-          {code && Date.now() < new Date(code.expires_at).getTime() && (
-            <div className="pair-code">
-              <span>
-                {t(
-                  "Single-use code · valid for two minutes",
-                  "单次配对码 · 两分钟有效",
-                )}
-              </span>
-              <strong>
-                {code.code.slice(0, 4)} {code.code.slice(4)}
-              </strong>
-              <small>
-                {t(
-                  "Approve the matching check number when the request appears below.",
-                  "收到下方申请后，请核对号码再批准。",
-                )}
-              </small>
+        </div>
+        {data.principal.kind !== "owner" ? (
+          <>
+            <p className="workspace-hint">
+              {t(
+                "Manage connected screens from your main desk.",
+                "请在主桌面管理已连接的终端。",
+              )}
+            </p>
+            <OwnerAccess t={t} />
+          </>
+        ) : (
+          <>
+            {isDisplay && (
+              <button
+                className="secondary"
+                disabled={busy || offline}
+                onClick={async () => {
+                  if (
+                    await act("/devices/enrol-display", {
+                      name: "Desk display",
+                    })
+                  )
+                    setNotice(
+                      t(
+                        "This display is paired and can reconnect after the owner session ends.",
+                        "本屏幕已配对，拥有者会话结束后仍可重新连接。",
+                      ),
+                    );
+                }}
+              >
+                <Monitor size={18} />
+                {t("Keep this display paired", "保持本屏幕配对")}
+              </button>
+            )}
+            <div className="workspace-inline-actions">
+              <button
+                className="primary"
+                disabled={busy || offline}
+                onClick={async () => {
+                  const result = await act("/pairing/codes", {
+                    kind: "controller",
+                  });
+                  if (result)
+                    setCode(result as { code: string; expires_at: string });
+                }}
+              >
+                <Smartphone size={18} />
+                {t("Pair another screen", "配对其他终端")}
+              </button>
             </div>
-          )}
-          {data.pairing?.requests.map((r) => (
-            <div className="pair-request" key={r.id}>
-              <div>
-                <strong>{r.name}</strong>
-                <p>
-                  {t("Check number", "核对号码")} <b>{r.check_code}</b>
-                </p>
+            {code && Date.now() < new Date(code.expires_at).getTime() && (
+              <div className="pair-code">
+                <span>
+                  {t(
+                    "Single-use code · valid for two minutes",
+                    "单次配对码 · 两分钟有效",
+                  )}
+                </span>
+                <strong>
+                  {code.code.slice(0, 4)} {code.code.slice(4)}
+                </strong>
+                <small>
+                  {t(
+                    "Approve the matching check number when the request appears below.",
+                    "收到下方申请后，请核对号码再批准。",
+                  )}
+                </small>
               </div>
-              <div className="workspace-inline-actions">
-                <button
-                  className="primary"
-                  disabled={busy}
-                  onClick={async () => {
-                    if (
-                      await act("/pairing/decisions", {
-                        request_id: r.id,
-                        action: "approve",
-                      })
-                    )
-                      setCode(null);
-                  }}
-                >
-                  {t("Approve", "批准")}
-                </button>
-                <button
-                  className="secondary"
-                  disabled={busy}
-                  onClick={async () => {
-                    if (
-                      await act("/pairing/decisions", {
-                        request_id: r.id,
-                        action: "reject",
-                      })
-                    )
-                      setCode(null);
-                  }}
-                >
-                  {t("Decline", "拒绝")}
-                </button>
-              </div>
-            </div>
-          ))}
-          <div className="workspace-list">
-            {data.pairing?.clients.map((client) => (
-              <div className="workspace-list-row" key={client.id}>
+            )}
+            {data.pairing?.requests.map((r) => (
+              <div className="pair-request" key={r.id}>
                 <div>
-                  <strong>{client.name}</strong>
-                  <small>
-                    {client.kind === "display"
-                      ? t("Desk display", "桌面屏幕")
-                      : t("Control screen", "控制终端")}
-                  </small>
+                  <strong>{r.name}</strong>
+                  <p>
+                    {t("Check number", "核对号码")} <b>{r.check_code}</b>
+                  </p>
                 </div>
-                <button
-                  className="text-button danger"
-                  disabled={busy}
-                  onClick={() => void act(`/devices/${client.id}/revoke`, {})}
-                >
-                  {t("Revoke", "撤销")}
-                </button>
+                <div className="workspace-inline-actions">
+                  <button
+                    className="primary"
+                    disabled={busy}
+                    onClick={async () => {
+                      if (
+                        await act("/pairing/decisions", {
+                          request_id: r.id,
+                          action: "approve",
+                        })
+                      )
+                        setCode(null);
+                    }}
+                  >
+                    {t("Approve", "批准")}
+                  </button>
+                  <button
+                    className="secondary"
+                    disabled={busy}
+                    onClick={async () => {
+                      if (
+                        await act("/pairing/decisions", {
+                          request_id: r.id,
+                          action: "reject",
+                        })
+                      )
+                        setCode(null);
+                    }}
+                  >
+                    {t("Decline", "拒绝")}
+                  </button>
+                </div>
               </div>
             ))}
-            {!data.pairing?.clients.length && (
-              <p>{t("No paired screens yet.", "还没有配对终端。")}</p>
-            )}
-          </div>
-        </>
-      )}
+            <div className="workspace-list">
+              {data.pairing?.clients.map((client) => (
+                <div className="workspace-list-row" key={client.id}>
+                  <div>
+                    <strong>{client.name}</strong>
+                    <small>
+                      {client.kind === "display"
+                        ? t("Desk display", "桌面屏幕")
+                        : t("Control screen", "控制终端")}
+                    </small>
+                  </div>
+                  <button
+                    className="text-button danger"
+                    disabled={busy}
+                    onClick={() => void act(`/devices/${client.id}/revoke`, {})}
+                  >
+                    {t("Revoke", "撤销")}
+                  </button>
+                </div>
+              ))}
+              {!data.pairing?.clients.length && (
+                <p>{t("No paired screens yet.", "还没有配对终端。")}</p>
+              )}
+            </div>
+          </>
+        )}
+      </details>
       <section className="workspace-section">
         <h3>{t("Physical outputs", "实体反馈")}</h3>
         <p>

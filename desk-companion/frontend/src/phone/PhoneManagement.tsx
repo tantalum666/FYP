@@ -1,5 +1,4 @@
 import {
-  Bell,
   Brain,
   ChevronRight,
   FileText,
@@ -13,7 +12,11 @@ import type {
   Translate,
 } from "../types";
 import { useDraftState } from "../components/DraftGuard";
-import { DeviceView, RecordsView } from "../components/Views";
+import {
+  DeviceView,
+  RecordsView,
+  type SettingsCategory,
+} from "../components/Views";
 import { MemoryPanel } from "../workspace/MemoryPanel";
 import { PersonaPanel } from "../workspace/PersonaPanel";
 import { DataPanel } from "../workspace/DataPanel";
@@ -51,14 +54,12 @@ export function PhoneMore({
   setLanguage,
   onNavigate,
   onConversation,
-  onReminders,
 }: {
   t: Translate;
   language: Language;
   setLanguage: (value: Language) => void;
   onNavigate: (panel: PhonePanel) => void;
   onConversation: () => void;
-  onReminders: () => void;
 }) {
   const headings = phoneHeadings(t);
   return (
@@ -82,11 +83,6 @@ export function PhoneMore({
         </button>
       ))}
       <p>{t("Your desk", "你的桌面")}</p>
-      <button onClick={onReminders}>
-        <Bell />
-        <span>{t("Reminders", "提醒")}</span>
-        <ChevronRight />
-      </button>
       {(
         [
           ["connections", RefreshCw],
@@ -134,6 +130,8 @@ export function PhoneManagement({
   language,
   setLanguage,
   settings,
+  settingsCategory,
+  onSettingsCategory,
   revision,
   onNavigate,
   onConversation,
@@ -145,6 +143,8 @@ export function PhoneManagement({
   language: Language;
   setLanguage: (value: Language) => void;
   settings: WorkspaceSettings;
+  settingsCategory: SettingsCategory;
+  onSettingsCategory: (category: SettingsCategory) => void;
   revision: number;
   onNavigate: (panel: PhonePanel) => void;
   onConversation: () => void;
@@ -167,6 +167,8 @@ export function PhoneManagement({
       {panel === "device" && (
         <DeviceView
           settings={settings}
+          preferredCategory={settingsCategory}
+          onCategoryChange={onSettingsCategory}
           language={language}
           setLanguage={setLanguage}
           onSaved={onRefresh}

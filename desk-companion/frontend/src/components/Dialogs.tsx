@@ -1,3 +1,5 @@
+import { NoticeInbox } from "../workspace/NoticeInbox";
+import type { DeskInbox } from "../workspace/useDeskInbox";
 import { useEffect, useId, useRef, useState } from "react";
 import {
   GuardContextProvider,
@@ -928,6 +930,9 @@ export function EventDetail({
 
 export function ReminderDialog({
   reminders,
+  inbox,
+  inline = false,
+  onReview,
   language,
   zone,
   onClose,
@@ -935,6 +940,9 @@ export function ReminderDialog({
   t,
 }: {
   reminders: Reminder[];
+  inbox?: DeskInbox;
+  inline?: boolean;
+  onReview?: (page: "assistant" | "memory" | "tasks") => void;
   language: Language;
   zone: string;
   onClose: () => void;
@@ -959,24 +967,24 @@ export function ReminderDialog({
       setBusy(false);
     }
   }
-  return (
-    <Modal
-      title={t("Reminders", "提醒")}
-      closeLabel={t("Close", "关闭")}
-      onClose={onClose}
-      busy={busy}
-    >
-      {reminders.length === 0 && (
-        <div className="empty-reminders">
-          <Bell />
-          <h3>{t("All caught up.", "暂时没有待处理提醒。")}</h3>
-          <p>
-            {t(
-              "Upcoming reminders will appear here.",
-              "到时提醒会显示在这里。",
-            )}
-          </p>
-        </div>
+  const content = (
+    <>
+      {inbox?.enabled && !inbox.loaded && !inbox.error && (
+        <p role="status">{t("Loading updates…", "正在读取动态…")}</p>
+      )}
+      {reminders.length === 0 &&
+        (!inbox?.enabled || inbox.loaded) &&
+        !inbox?.total &&
+        !inbox?.error && (
+          <div className="empty-reminders">
+            <Bell />
+            <h3>{t("All caught up.", "暂时没有待处理提醒。")}</h3>
+          </div>
+        )}
+      {reminders.length > 0 && (
+        <h3 className="inbox-calendar-title">
+          {t("Calendar reminders", "日程提醒")}
+        </h3>
       )}
       {reminders.map((r) => (
         <div className="reminder-row" key={r.id}>
@@ -1005,11 +1013,43 @@ export function ReminderDialog({
           </div>
         </div>
       ))}
+      {inbox && (inbox.total > 0 || inbox.error) ? (
+        <NoticeInbox
+          onReview={onReview}
+          inbox={inbox}
+          language={language}
+          zone={zone}
+          t={t}
+        />
+      ) : null}
       {!!error && (
         <p className="error-message" role="alert">
           {errorText(error, t)}
         </p>
       )}
+    </>
+  );
+  if (inline)
+    return (
+      <section
+        className="workspace-page inbox-page"
+        aria-label={t("Inbox", "通知中心")}
+      >
+        <header className="page-heading">
+          <h1>{t("Inbox", "通知中心")}</h1>
+        </header>
+        {content}
+      </section>
+    );
+  return (
+    <Modal
+      title={t("Inbox", "通知中心")}
+      className="workspace-dialog inbox-dialog"
+      closeLabel={t("Close", "关闭")}
+      onClose={onClose}
+      busy={busy || inbox?.busy}
+    >
+      {content}
     </Modal>
   );
 }

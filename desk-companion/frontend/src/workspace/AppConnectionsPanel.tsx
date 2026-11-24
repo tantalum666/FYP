@@ -1,3 +1,12 @@
+import {
+  CalendarDays,
+  ChevronDown,
+  Folder,
+  Mail,
+  MessagesSquare,
+  Plane,
+  Search,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { errorText, request, write } from "../api";
 import type { Translate } from "../types";
@@ -46,7 +55,19 @@ function connectedAccountLabel(app: ConnectedApp, t: Translate) {
   return app.email ? `${app.email} · ${permission}` : permission;
 }
 
+const appIcons = {
+  gmail: Mail,
+  calendar: CalendarDays,
+  letsfg: Plane,
+  microsoft365: Mail,
+  teams: MessagesSquare,
+  sharepoint: Folder,
+} as const;
+
 export function AppConnectionsPanel({ t }: { t: Translate }) {
+  const [filter, setFilter] = useState<"all" | "connected">("all");
+  const [search, setSearch] = useState("");
+  const [opened, setOpened] = useState<ConnectedApp["id"]>();
   const [catalog, setCatalog] = useState<Catalog>();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>();
@@ -183,132 +204,248 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
       }
     });
   }
+  const apps = catalog?.apps.filter(
+    (app) =>
+      (filter === "all" || app.connected) &&
+      app.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()),
+  );
   return (
     <section className="app-connections" aria-label={t("Apps", "应用")}>
       <h3>{t("Apps", "应用")}</h3>
-      {catalog?.apps.map((app) => (
-        <article className="app-connection-row" key={app.id}>
-          <div>
-            <h4>{app.name}</h4>
-            <p>
-              {app.reconnect_required ? t("Google requires a fresh sign-in", "Google 要求重新登录") : app.connected
-                ? connectedAccountLabel(app, t)
-                : {
-                    gmail: t(
-                      "Prepare and send email after review.",
-                      "准备邮件，确认后发送。",
-                    ),
-                    letsfg: t("Search fares and review an exact flight before booking.", "查询机票，核对具体航班后确认预订。"),
-                    calendar: t(
-                      "Preview your Google calendar.",
-                      "查看并导入 Google 日历。",
-                    ),
-                    microsoft365: t(
-                      "Outlook, calendar, OneDrive, To Do and OneNote.",
-                      "Outlook、日历、OneDrive、To Do 与 OneNote。",
-                    ),
-                    teams: t(
-                      "Read chats with your work or school account.",
-                      "通过工作或学校账号查看聊天。",
-                    ),
-                    sharepoint: t(
-                      "Read sites and document libraries.",
-                      "查看站点与文档库。",
-                    ),
-                  }[app.id]}
-            </p>
-          </div>
-          <div className="workspace-inline-actions">
+      <div className="app-directory-controls">
+        <div
+          role="group"
+          aria-label={t("Connection filter", "连接筛选")}
+          className="directory-tabs"
+        >
+          <button
+            type="button"
+            aria-pressed={filter === "all"}
+            disabled={busy || !!authorization}
+            onClick={() => setFilter("all")}
+          >
+            {t("All apps", "全部应用")}
+          </button>
+          <button
+            type="button"
+            aria-pressed={filter === "connected"}
+            disabled={busy || !!authorization}
+            onClick={() => setFilter("connected")}
+          >
+            {t("Connected", "已连接")}
+          </button>
+        </div>
+        <label className="directory-search">
+          <Search size={15} />
+          <input
+            type="search"
+            value={search}
+            aria-label={t("Search apps", "搜索应用")}
+            placeholder={t("Search apps", "搜索应用")}
+            onChange={(e) => setSearch(e.target.value)}
+            disabled={busy || !!authorization}
+          />
+        </label>
+      </div>
+      {!catalog && !error && (
+        <p className="workspace-hint" role="status">
+          {t("Loading apps…", "正在读取应用…")}
+        </p>
+      )}
+      {apps?.length === 0 && (
+        <p className="empty-text">
+          {search
+            ? t("No matching apps.", "没有匹配的应用。")
+            : t("No connected apps.", "暂无已连接的应用。")}
+        </p>
+      )}
+      {apps?.map((app) => {
+        const Icon = appIcons[app.id];
+        return (
+          <article className="app-connection-row" key={app.id}>
             <button
-              className="secondary"
-              disabled={busy || !!authorization || !app.configured}
-              onClick={() => connect(app, app.id === "gmail" && app.can_send === false && app.connected)}
+              type="button"
+              className="connection-summary"
+              aria-expanded={opened === app.id}
+              disabled={busy || !!authorization}
+              onClick={() => setOpened(opened === app.id ? undefined : app.id)}
             >
-              {app.connected ? t("Reconnect", "重新连接")
-                : app.id === "gmail" ? t("Connect to read and send", "连接以读取和发送邮件") : t("Connect", "连接")}
+              <span className={`connection-symbol provider-${app.id}`}>
+                <Icon size={19} />
+              </span>
+              <strong>{app.name}</strong>
+              <small>
+                {app.reconnect_required
+                  ? t("Reconnect", "需重新连接")
+                  : app.connected
+                    ? t("Connected", "已连接")
+                    : app.configured
+                      ? t("Available", "可连接")
+                      : t("Setup needed", "需配置")}
+              </small>
+              <ChevronDown size={15} />
             </button>
-            {app.id === "gmail" && (!app.connected || app.can_send === false) && <button type="button" className="text-button"
-              disabled={busy || !!authorization || !app.configured} onClick={() => connect(app, !app.connected)}>
-              {app.connected ? t("Enable reviewed sending", "启用逐封确认发送") : t("Reminders only", "仅接收提醒")}
-            </button>}
-            {app.connected && (
-              <button
-                className="text-button"
-                disabled={busy || !!authorization}
-                onClick={() =>
-                  void perform(async () => {
-                    await request(`/apps/${app.id}/disconnect`, {
-                      method: "POST",
-                      body: JSON.stringify({ expected_version: app.version }),
-                    });
-                    await reload();
-                    setProposal(undefined);
-                    window.dispatchEvent(new Event("desk:jobs"));
-                  })
-                }
-              >
-                {t("Disconnect", "断开")}
-              </button>
-            )}
-            {["gmail", "microsoft365"].includes(app.id) && app.connected && app.can_send !== false && !app.reconnect_required && (
-              <button
-                className="text-button"
-                disabled={busy || !!authorization}
-                onClick={() =>
-                  void perform(async () => {
-                    const result = await write<{ proposal?: Proposal }>(
-                      "/email/drafts",
-                      {
-                        provider: app.id === "gmail" ? "gmail" : "outlook",
-                        to: "me",
-                        subject: "FYP email test",
-                        body: "Test",
-                      },
-                    );
-                    if (alive.current) setProposal(result.proposal);
-                  })
-                }
-              >
-                {t("Prepare a test email", "准备测试邮件")}
-              </button>
-            )}
-          </div>
-          {!app.configured && (
-            <small>
-              {t(
-                "Connection setup is not finished yet.",
-                "此应用的连接设置尚未完成。",
-              )}
-            </small>
-          )}
-          <details>
-            <summary>{t("Access", "访问范围")}</summary>
-            <p>
-              {app.id === "gmail"
-                ? t(
-                    "Read email previews and send reviewed email.",
-                    "读取邮件摘要及发送已确认的邮件。",
-                  )
-                : app.id === "letsfg"
-                  ? t("Search flights and submit the itinerary you approve. Card setup and bank approval happen with LetsFG.", "查询航班并提交你已确认的行程。绑卡及银行批准在 LetsFG 完成。")
-                : app.id === "calendar"
-                  ? t(
-                      "Read-only calendar events; preview before local import.",
-                      "只读访问日历；导入本地前先预览。",
-                    )
-                  : app.id === "microsoft365"
+            <div className="connection-detail" hidden={opened !== app.id}>
+              <div>
+                <p>
+                  {app.reconnect_required
                     ? t(
-                        "Read email previews, calendar events, tasks and notebook lists; send reviewed emails. Browse Word, Excel and PowerPoint file names through OneDrive.",
-                        "读取邮件摘要、日程、任务和笔记本目录；发送已确认的邮件。在 OneDrive 中查看 Word、Excel、PowerPoint 文件目录。",
+                        "Google requires a fresh sign-in",
+                        "Google 要求重新登录",
                       )
-                    : t(
-                        "Work or school account required. Your organization's administrator may need to approve access.",
-                        "需要工作或学校账号，组织管理员可能需要批准访问。",
-                      )}
-            </p>
-          </details>
-        </article>
-      ))}
+                    : app.connected
+                      ? connectedAccountLabel(app, t)
+                      : {
+                          gmail: t(
+                            "Prepare and send email after review.",
+                            "准备邮件，确认后发送。",
+                          ),
+                          letsfg: t(
+                            "Search fares and review an exact flight before booking.",
+                            "查询机票，核对具体航班后确认预订。",
+                          ),
+                          calendar: t(
+                            "Preview your Google calendar.",
+                            "查看并导入 Google 日历。",
+                          ),
+                          microsoft365: t(
+                            "Outlook, calendar, OneDrive, To Do and OneNote.",
+                            "Outlook、日历、OneDrive、To Do 与 OneNote。",
+                          ),
+                          teams: t(
+                            "Read chats with your work or school account.",
+                            "通过工作或学校账号查看聊天。",
+                          ),
+                          sharepoint: t(
+                            "Read sites and document libraries.",
+                            "查看站点与文档库。",
+                          ),
+                        }[app.id]}
+                </p>
+              </div>
+              <div className="workspace-inline-actions">
+                <button
+                  className="secondary"
+                  disabled={busy || !!authorization || !app.configured}
+                  onClick={() =>
+                    connect(
+                      app,
+                      app.id === "gmail" &&
+                        app.can_send === false &&
+                        app.connected,
+                    )
+                  }
+                >
+                  {app.connected
+                    ? t("Reconnect", "重新连接")
+                    : app.id === "gmail"
+                      ? t("Connect to read and send", "连接以读取和发送邮件")
+                      : t("Connect", "连接")}
+                </button>
+                {app.id === "gmail" &&
+                  (!app.connected || app.can_send === false) && (
+                    <button
+                      type="button"
+                      className="text-button"
+                      disabled={busy || !!authorization || !app.configured}
+                      onClick={() => connect(app, !app.connected)}
+                    >
+                      {app.connected
+                        ? t("Enable reviewed sending", "启用逐封确认发送")
+                        : t("Reminders only", "仅接收提醒")}
+                    </button>
+                  )}
+                {app.connected && (
+                  <button
+                    className="text-button"
+                    disabled={busy || !!authorization}
+                    onClick={() =>
+                      void perform(async () => {
+                        await request(`/apps/${app.id}/disconnect`, {
+                          method: "POST",
+                          body: JSON.stringify({
+                            expected_version: app.version,
+                          }),
+                        });
+                        await reload();
+                        setProposal(undefined);
+                        window.dispatchEvent(new Event("desk:jobs"));
+                      })
+                    }
+                  >
+                    {t("Disconnect", "断开")}
+                  </button>
+                )}
+                {["gmail", "microsoft365"].includes(app.id) &&
+                  app.connected &&
+                  app.can_send !== false &&
+                  !app.reconnect_required && (
+                    <button
+                      className="text-button"
+                      disabled={busy || !!authorization}
+                      onClick={() =>
+                        void perform(async () => {
+                          const result = await write<{ proposal?: Proposal }>(
+                            "/email/drafts",
+                            {
+                              provider:
+                                app.id === "gmail" ? "gmail" : "outlook",
+                              to: "me",
+                              subject: "FYP email test",
+                              body: "Test",
+                            },
+                          );
+                          if (alive.current) setProposal(result.proposal);
+                        })
+                      }
+                    >
+                      {t("Prepare a test email", "准备测试邮件")}
+                    </button>
+                  )}
+              </div>
+              {!app.configured && (
+                <small>
+                  {t(
+                    "Connection setup is not finished yet.",
+                    "此应用的连接设置尚未完成。",
+                  )}
+                </small>
+              )}
+              <details>
+                <summary>{t("Access", "访问范围")}</summary>
+                <p>
+                  {app.id === "gmail"
+                    ? app.connected && app.can_send === false
+                      ? t("Read email previews.", "读取邮件摘要。")
+                      : t(
+                          "Read email previews and send reviewed email.",
+                          "读取邮件摘要及发送已确认的邮件。",
+                        )
+                    : app.id === "letsfg"
+                      ? t(
+                          "Search flights and submit the itinerary you approve. Card setup and bank approval happen with LetsFG.",
+                          "查询航班并提交你已确认的行程。绑卡及银行批准在 LetsFG 完成。",
+                        )
+                      : app.id === "calendar"
+                        ? t(
+                            "Read-only calendar events; preview before local import.",
+                            "只读访问日历；导入本地前先预览。",
+                          )
+                        : app.id === "microsoft365"
+                          ? t(
+                              "Read email previews, calendar events, tasks and notebook lists; send reviewed emails. Browse Word, Excel and PowerPoint file names through OneDrive.",
+                              "读取邮件摘要、日程、任务和笔记本目录；发送已确认的邮件。在 OneDrive 中查看 Word、Excel、PowerPoint 文件目录。",
+                            )
+                          : t(
+                              "Work or school account required. Your organization's administrator may need to approve access.",
+                              "需要工作或学校账号，组织管理员可能需要批准访问。",
+                            )}
+                </p>
+              </details>
+            </div>
+          </article>
+        );
+      })}
       {authorization && (
         <div role="status">
           <p>

@@ -1,0 +1,753 @@
+/* Everyday collections and their detail panes. Shared business controls keep their handlers. */
+.desk-workspace.app-shell
+  .main-content
+  > :is(.workspace-page, .standard-page, .task-panel, .diagnostics) {
+  width: 100%;
+  min-width: 0;
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 26px clamp(20px, 3vw, 43px) 46px;
+}
+.desk-workspace .main-content > .workspace-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+:is(.desk-workspace, .workspace-surface) .page-heading,
+.desk-workspace.app-shell .task-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin: 0 0 23px;
+  padding: 0;
+}
+.desk-workspace.app-shell
+  .main-content
+  :is(
+    .page-heading h1,
+    .task-heading h1,
+    .calendar-toolbar h1,
+    .management-view h1,
+    #diagnostics-title
+  ) {
+  font: 650 clamp(28px, 2.65vw, 39px)/1.18 var(--ui-font);
+  letter-spacing: -0.055em;
+  color: var(--ink);
+  padding: 0;
+  margin: 0;
+}
+:lang(zh)
+  .desk-workspace.app-shell
+  .main-content
+  :is(
+    .page-heading h1,
+    .task-heading h1,
+    .calendar-toolbar h1,
+    .management-view h1,
+    #diagnostics-title
+  ) {
+  letter-spacing: -0.025em;
+}
+.desk-workspace .page-heading p,
+.desk-workspace .calendar-toolbar .toolbar-main p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 5px 0 0;
+}
+:is(.desk-workspace, .workspace-surface, .public-workspace, .workspace-dialog)
+  .primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 37px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--action);
+  background: var(--action);
+  color: var(--on-action);
+  font-size: 13px;
+  font-weight: 580;
+  box-shadow: none;
+}
+:is(.desk-workspace, .workspace-surface, .public-workspace, .workspace-dialog)
+  .primary:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+:is(.desk-workspace, .workspace-surface, .public-workspace, .workspace-dialog)
+  .secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 35px;
+  padding: 7px 11px;
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 520;
+  box-shadow: none;
+}
+:is(.desk-workspace, .workspace-surface, .public-workspace, .workspace-dialog)
+  .secondary:hover:not(:disabled) {
+  background: var(--hover);
+}
+:is(.desk-workspace, .workspace-surface, .public-workspace, .workspace-dialog)
+  .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 540;
+  min-height: 32px;
+}
+:is(.desk-workspace, .workspace-surface, .public-workspace, .workspace-dialog)
+  :where(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+  border-color: var(--line);
+  background: var(--sheet);
+  color: var(--ink);
+  border-radius: 7px;
+}
+:is(.desk-workspace, .workspace-surface, .workspace-dialog)
+  :where(.workspace-hint, .footnote, .empty-text) {
+  color: var(--muted);
+}
+.desk-workspace .management-view > .workspace-section {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.desk-workspace .calendar-toolbar {
+  max-width: 1370px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 23px clamp(18px, 3vw, 43px) 15px;
+}
+.desk-workspace .calendar-toolbar .toolbar-main {
+  align-items: center;
+}
+.desk-workspace .calendar-toolbar .toolbar-secondary {
+  margin-top: 12px;
+}
+.desk-workspace .calendar-toolbar .segments {
+  padding: 3px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.desk-workspace .calendar-toolbar .segments button {
+  min-height: 30px;
+  padding: 3px 12px;
+  color: var(--muted);
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+}
+.desk-workspace .calendar-toolbar .segments .selected {
+  background: var(--sheet);
+  color: var(--ink);
+  box-shadow: 0 1px 3px #16161e24;
+}
+.desk-workspace.app-shell .calendar-surface {
+  margin: 0 clamp(12px, 2.6vw, 38px) 16px;
+  padding: 0;
+  background: var(--sheet);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.desk-workspace
+  :is(
+    .month-view,
+    .month-grid,
+    .time-view,
+    .time-scroll,
+    .time-grid-body,
+    .month-cell
+  ) {
+  background: var(--sheet);
+  color: var(--ink);
+}
+.desk-workspace :is(.month-weekdays, .time-grid-head, .all-day-grid) {
+  background: var(--soft);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.desk-workspace .month-cell {
+  border-color: var(--line);
+}
+.desk-workspace .month-cell.weekend {
+  background: var(--soft);
+}
+.desk-workspace .month-cell.outside {
+  background: var(--hover);
+}
+.desk-workspace :is(.day-number.today, .time-grid-head .today) {
+  background: var(--accent);
+  color: var(--sheet);
+}
+.desk-workspace :is(.zone-label, .month-lunar, .time-axis) {
+  color: var(--muted);
+}
+.desk-workspace .date-controls .icon-button {
+  background: var(--sheet);
+  border-color: var(--line);
+  color: var(--ink);
+}
+.today-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(225px, 0.85fr);
+  gap: clamp(22px, 4vw, 60px);
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.today-main,
+.today-aside {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 20px;
+}
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 32px;
+  margin: 0 0 9px;
+}
+:is(.today-layout, .diagnostic-groups, .style-columns, .settings-layout) h2,
+.desk-workspace .record-date {
+  font: 620 18px/1.35 var(--ui-font);
+  letter-spacing: -0.028em;
+  color: var(--ink);
+}
+.daily-event {
+  display: grid;
+  grid-template-columns: 48px 8px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  text-align: left;
+  padding: 17px 8px 17px 2px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+.daily-event:hover,
+.daily-task:hover {
+  background: var(--soft);
+}
+.daily-event time {
+  font-size: 13px;
+  font-weight: 560;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.daily-event i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #78976f;
+}
+.daily-event i.peach {
+  background: #bd845c;
+}
+.daily-event i.blue {
+  background: #648eb3;
+}
+.daily-event i.lavender {
+  background: #8880c6;
+}
+.daily-event strong,
+.daily-task strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.daily-event small,
+.daily-task small,
+.today-status small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.daily-event.completed strong {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.up-next-label,
+.section-count {
+  border-radius: 5px;
+  background: var(--selection);
+  color: var(--accent);
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: 580;
+}
+.daily-tasks {
+  padding: 0 0 5px;
+}
+.today-aside {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(18px, 2.6vw, 36px);
+}
+.daily-task,
+.today-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+.daily-task > span:nth-child(2),
+.today-status > span {
+  flex: 1;
+  min-width: 0;
+}
+.task-indicator {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--selected);
+}
+.daily-tasks > .text-button {
+  padding: 8px 0 0;
+}
+.today-status {
+  min-height: 46px;
+}
+.today-status strong {
+  font-size: 13px;
+}
+.quiet-state,
+.calendar-empty {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.calendar-empty {
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+}
+.today-moment {
+  padding: 12px 15px;
+  background: var(--soft);
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.today-moment button {
+  display: block;
+  color: var(--accent);
+  text-decoration: underline;
+  margin-top: 5px;
+}
+:is(.desk-workspace, .workspace-surface) .task-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+:is(.desk-workspace, .workspace-surface) .task-filters,
+.directory-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+:is(.desk-workspace, .workspace-surface) .task-filters button,
+.directory-tabs button {
+  color: var(--muted);
+  border: 0;
+  border-radius: 6px;
+  min-height: 34px;
+  padding: 6px 12px;
+  background: transparent;
+  font-size: 13px;
+}
+:is(.desk-workspace, .workspace-surface) .task-filters .selected,
+.directory-tabs [aria-pressed="true"] {
+  color: var(--accent);
+  background: var(--selection);
+  font-weight: 620;
+}
+:is(.desk-workspace, .workspace-surface) .task-search,
+.directory-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--soft);
+  padding: 0 9px;
+  color: var(--muted);
+}
+:is(.desk-workspace, .workspace-surface) .task-search input,
+.directory-search input {
+  border: 0;
+  width: 165px;
+  max-width: 100%;
+  min-height: 34px;
+  outline-offset: 0;
+  background: transparent;
+}
+.task-split {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.task-master,
+.task-inspector {
+  min-width: 0;
+}
+:is(.desk-workspace, .workspace-surface) .task-list {
+  margin: 10px 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+:is(.desk-workspace, .workspace-surface) .task-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 12px;
+  text-align: left;
+  color: var(--ink);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+:is(.desk-workspace, .workspace-surface) .task-row:hover {
+  background: var(--hover);
+}
+:is(.desk-workspace, .workspace-surface) .task-row[aria-current="true"] {
+  border-radius: 6px;
+  background: var(--selection);
+  box-shadow: inset 3px 0 var(--selected);
+  border-bottom-color: transparent;
+}
+.task-row-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a1a3ad;
+}
+.task-row-dot.in_progress {
+  background: var(--selected);
+}
+.task-row-dot.waiting {
+  background: #b98a4e;
+}
+.task-row-dot.completed {
+  background: var(--positive);
+}
+:is(.desk-workspace, .workspace-surface) .task-row-main strong {
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 610;
+  overflow-wrap: anywhere;
+}
+:is(.desk-workspace, .workspace-surface)
+  :is(.task-row-main small, .task-row-meta) {
+  color: var(--muted);
+  line-height: 1.4;
+  font-size: 12px;
+}
+:is(.desk-workspace, .workspace-surface) .task-empty {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 38px 14px;
+  color: var(--muted);
+  background: var(--soft);
+  border: 0;
+  border-radius: 7px;
+  margin: 12px 0;
+}
+:is(.desk-workspace, .workspace-surface) .task-empty h3 {
+  color: var(--ink);
+  font-size: 15px;
+  margin: 0;
+}
+.task-inspector {
+  border-left: 1px solid var(--line);
+  padding: 16px 0 14px 23px;
+  align-self: start;
+}
+.task-inspector .task-back {
+  margin: 0 0 10px;
+  line-height: 1.2;
+}
+.task-inspector .task-detail-heading h2 {
+  font: 640 24px/1.22 var(--ui-font);
+  letter-spacing: -0.04em;
+  outline: none;
+}
+.task-inspector .task-status {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 12px;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 7px;
+}
+:is(.desk-workspace, .workspace-surface) .task-inspector .task-next-step {
+  padding: 12px 0;
+  margin: 10px 0;
+  color: var(--ink);
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+}
+.task-inspector
+  :is(.task-next-step h3, .inspector-timeline h3, .task-detail-heading p) {
+  font-size: 12px;
+  font-weight: 550;
+  color: var(--muted);
+}
+.discuss-task-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 38px;
+  color: var(--accent);
+  background: var(--selection);
+  border-radius: 7px;
+  font-weight: 600;
+}
+.task-inspector .inspector-timeline {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 13px 0;
+  margin: 15px 0;
+}
+.task-inspector .task-history {
+  position: relative;
+  border: 0;
+  border-left: 1px solid var(--line);
+  padding: 2px 0 10px 14px;
+  margin-left: 4px;
+}
+.task-inspector .task-history::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 7px;
+  width: 7px;
+  height: 7px;
+  background: var(--selected);
+  border-radius: 50%;
+}
+.task-inspector .task-history small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.task-note-entry {
+  border-block: 1px solid var(--line);
+  margin: 12px 0;
+  padding: 9px 0;
+}
+.task-note-entry summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 550;
+  font-size: 13px;
+}
+.task-queue-tools {
+  padding-top: 14px;
+}
+:is(.desk-workspace, .workspace-surface) .task-work-tools {
+  padding: 6px 2px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+}
+.task-panel {
+  container-type: inline-size;
+  container-name: taskspace;
+}
+@container taskspace (min-width:780px) {
+  .task-panel.has-detail .task-split {
+    grid-template-columns: minmax(0, 1.17fr) minmax(310px, 0.83fr);
+    gap: 20px;
+  }
+  .task-inspector {
+    max-height: calc(100dvh - 185px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding-right: 8px;
+  }
+}
+@container taskspace (max-width:779px) {
+  .task-panel.has-detail > .task-toolbar,
+  .task-panel.has-detail > .task-heading,
+  .task-panel.has-detail .task-master,
+  .task-panel.has-detail .task-queue-tools {
+    display: none;
+  }
+  .task-inspector {
+    border: 0;
+    padding: 0;
+  }
+}
+@media (max-width: 760px) {
+  .desk-workspace.app-shell
+    .main-content
+    > :is(.workspace-page, .standard-page, .task-panel, .diagnostics) {
+    padding: 21px 17px 80px;
+  }
+  .desk-workspace .calendar-toolbar {
+    padding: 16px 14px 9px;
+  }
+  .desk-workspace .calendar-toolbar .toolbar-main {
+    flex-wrap: wrap;
+    gap: 11px;
+  }
+  .desk-workspace .calendar-toolbar .toolbar-actions {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .desk-workspace.app-shell .calendar-surface {
+    margin: 0 7px 68px;
+  }
+  .today-layout {
+    grid-template-columns: 1fr;
+    gap: 19px;
+    padding-top: 14px;
+  }
+  .today-aside {
+    border-left: 0;
+    padding: 0;
+  }
+}
+@media (max-width: 540px) {
+  :is(.desk-workspace, .workspace-surface) .task-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  :is(.desk-workspace, .workspace-surface) .task-search {
+    width: 100%;
+  }
+  :is(.desk-workspace, .workspace-surface) .task-search input {
+    flex: 1;
+    min-width: 0;
+  }
+  :is(.desk-workspace, .workspace-surface) .task-row {
+    grid-template-columns: 8px minmax(0, 1fr) minmax(52px, auto);
+    gap: 8px;
+    padding: 13px 4px;
+  }
+  :is(.desk-workspace, .workspace-surface)
+    .task-row
+    > :is(.task-row-dot, .task-row-main, .task-row-meta) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  :is(.desk-workspace, .workspace-surface) .task-row .task-row-meta {
+    max-width: 78px;
+    text-align: right;
+  }
+  .daily-event {
+    grid-template-columns: 40px 6px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .desk-workspace .event-block {
+    color: #23252e;
+  }
+  .desk-workspace
+    :is(
+      .time-axis,
+      .all-day-label,
+      .day-number,
+      .month-weekdays,
+      .time-grid-head > div
+    ) {
+    color: var(--muted);
+  }
+}
+
+.task-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+@media (max-width: 560px) {
+  .task-panel > .task-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+  .task-heading-actions {
+    display: contents;
+  }
+  .task-heading-actions .primary {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .task-heading-actions .task-search {
+    grid-column: 1/-1;
+    grid-row: 2;
+  }
+}
+
+.task-inspector .task-detail-heading h2 {
+  color: var(--ink);
+}
+.task-inspector .task-status {
+  border: 0;
+}
+.task-inspector .task-next-step p,
+.task-inspector .task-history p {
+  color: var(--ink);
+}
+:is(.desk-workspace, .workspace-surface) .task-overdue {
+  --device-accent: var(--danger);
+}
+
+.desk-workspace .calendar-surface .month-weekdays > div,
+:is(.desk-workspace, .workspace-surface) .month-availability {
+  color: var(--muted);
+}
+.desk-workspace .calendar-surface .month-cell .day-number.today {
+  background: var(--accent);
+  color: var(--sheet);
+}
+:is(.desk-workspace, .workspace-surface, .workspace-dialog) label.field {
+  color: var(--muted);
+}
+
+.task-manage {
+  padding: 7px 0 13px;
+}
+.task-manage summary {
+  cursor: pointer;
+  font-weight: 540;
+  font-size: 13px;
+  color: var(--muted);
+}

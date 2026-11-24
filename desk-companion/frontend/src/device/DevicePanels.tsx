@@ -24,7 +24,7 @@ export function DevicePanel({
 }) {
   return (
     <div
-      className={`device-panel-wrapper ${wide ? "calendar-panel-wrapper" : ""}`}
+      className={`device-panel-wrapper workspace-surface ${wide ? "calendar-panel-wrapper" : ""}`}
     >
       <Modal
         title={title}

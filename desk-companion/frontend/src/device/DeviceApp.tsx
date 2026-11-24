@@ -1,3 +1,4 @@
+import { useDeskInbox } from "../workspace/useDeskInbox";
 import { useCallback, useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import {
@@ -115,6 +116,12 @@ export function DeviceApp() {
     range.end.toUTC().toISO()!,
   );
   const { data, session } = workspace;
+  const inbox = useDeskInbox(
+    !!panel || reminders,
+    data?.revision,
+    reminders,
+    language,
+  );
   const presentation = useWorkspace();
   const wake = useScreenAwake();
   const sound = useDeskSound(t);
@@ -164,15 +171,12 @@ export function DeviceApp() {
   }, [notice]);
 
   function manage() {
-    if (session) setPanel("controls");
-    else void workspace.reconnect();
+    setPanel("controls");
+    if (session === null) void workspace.reconnect();
     setError(null);
   }
   function openDay(day: DateTime) {
-    if (!session) {
-      manage();
-      return;
-    }
+    if (session === null) void workspace.reconnect();
     setDate(dayISO(day));
     setView("day");
     setScrollHour(8);
@@ -289,7 +293,7 @@ export function DeviceApp() {
               ? "offline"
               : "online"
         }
-        obscured={!!(panel || editor || detail || reminders)}
+        obscured={!!(session && (panel || editor || detail || reminders))}
         onCalendar={() => openDay(now.startOf("day"))}
         onMore={manage}
         onReconnect={() => void workspace.reconnect()}
@@ -616,6 +620,7 @@ export function DeviceApp() {
       )}
       {session && reminders && (
         <ReminderDialog
+          inbox={inbox}
           reminders={workspace.snapshot?.reminders ?? []}
           language={language}
           zone={zone}

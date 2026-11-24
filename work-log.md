@@ -1186,6 +1186,12 @@ A real authorized re-query reused a prior supplier ID, and a completed reply sti
 
 The corresponding airline guest page published each selected leg’s checked weight and the complete fare, surcharge and taxes for the return journey. The exact price and screenshot are retained privately for the owner. No payment, ticket or reservation was created. [Redacted verification](output/qa/2026-11-24-continuity/verification.md).
 
+## 25 November 2026 · Alice’s workspace redesign
+
+Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
+
+Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
+
 ## 2026-11-24 · Local Playwright page handoff
 
 Kept one local Chromium context open when a password, OTP, captcha, or payment control appears. The admitting owner operates that same page from the job card and hands it back for one fresh snapshot. A clear page continues the original goal and records wall evidence from that snapshot. A remaining wall stays paused. A dead page or failed read becomes unknown with no second launch and no model call during the hold. Paired, revoked, and hidden-private checks reject the screen and the handoff at read, write, replay, and commit. Local Chrome fixtures covered the password page, a Sign-in navigation link, idempotent hand-back, a stale version, a killed browser, and deadline expiry. Desktop and 320px card checks covered the hold, the closed-page error, and recovery without horizontal overflow. This is app-mediated control of the Playwright page, not a headed window, hosted desktop, or live account. Not merged and not deployed. The Pi update remains the separate next step. Evidence: [QA](output/qa/2026-11-24-owner-page-handoff/verification.md).

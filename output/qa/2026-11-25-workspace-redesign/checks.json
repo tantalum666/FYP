@@ -1,0 +1,176 @@
+{
+  "source": "b759950c579f94bc374b31932e63c9dc12e06412",
+  "normal_web": {
+    "viewport": [
+      1280,
+      720
+    ],
+    "before": {
+      "open_receipts": 17,
+      "notice_band_css_px": 591.5,
+      "title_y_css_px": 649.5
+    },
+    "after": {
+      "open_receipts": 17,
+      "inbox_groups": 3,
+      "notice_band_css_px": 0,
+      "title_y_css_px": 27.484375
+    }
+  },
+  "responsive": [
+    {
+      "surface": "desktop",
+      "page": "today",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "calendar",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "tasks",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "inbox",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "memory",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "persona",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "records",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "device",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "desktop",
+      "page": "diagnostics",
+      "viewport_width": 1320,
+      "document_width": 1320,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "today",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "calendar",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "tasks",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "inbox",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "memory",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "persona",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "records",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "device",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    },
+    {
+      "surface": "phone",
+      "page": "diagnostics",
+      "viewport_width": 390,
+      "document_width": 390,
+      "content_overflow_px": 0
+    }
+  ],
+  "fixture_journeys": [
+    "inbox",
+    "task-inspector",
+    "memory",
+    "settings",
+    "calendar-records",
+    "navigation",
+    "dark"
+  ],
+  "deep_routes_checked": 10,
+  "home_matches_production_baseline": true,
+  "actual_simulator": {
+    "viewport": [
+      402,
+      874
+    ],
+    "task_detail": true,
+    "back_to_selected_settings": true,
+    "tab_count": 4,
+    "horizontal_overflow": 0
+  },
+  "normal_deployment": {
+    "database_tables_before": 142,
+    "database_tables_after": 142,
+    "verified_simulator_assets": 79,
+    "durable_data_checks": 6,
+    "pi": "kit prepared, target offline"
+  }
+}
