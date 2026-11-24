@@ -1165,3 +1165,8 @@ On `92acac8e` a buyer without an eligible current quote now gets one short reque
 ## 2026-11-24 · Mainline review of the complete FYP stack
 
 Combined the Alice application, original Pi RTC fix and standalone ArUco prototype. Preserved both sides of the handoff and decision history. Reproduced and repaired the missing-frame HTTP response in source and the 39-member distribution ZIP. Confirmed public repository visibility with the owner, checked the incoming contents, and corrected contributor and release instructions. Fifteen targeted backend cases, eleven frontend checks, typecheck/build, the synthetic hardware/HTTP acceptance and the redacted credential check passed. The [review and source inventory](output/qa/2026-11-24-mainline-review/verification.md) and [integration PR 152](https://github.com/tantalum666/FYP/pull/152) retain the original API authors, component checks and merge record.
+
+
+## 2026-11-24 · Ordinary Alice continuity, inbox assistance and live fares
+
+Released `86753289` on normal Mac Web and the installed iPhone Simulator. Closed-tab and restart checks cover paged captions, retained final text and cited inbox suggestions. The normal Gmail grant includes reading and reviewed sending. The earlier self-email is independently receipted and was not repeated. The connected flight supplier returned live quotes, including a piece-count and price discrepancy between its interfaces. The desk identifies its client, waits for pending price updates and opens the selected seller offer. Checked a test-store cart without another payment. The original Pi relay was unavailable; a verified update from its last installed version is retained. [QA, reading and release evidence](output/qa/2026-11-24-continuity/verification.md).

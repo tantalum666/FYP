@@ -1,5 +1,11 @@
 # Group 2 · Desktop conversation and local media
 
+## 24 November · Captions and continuing a conversation
+
+The compact Home speaks in two displayed lines at a time. Streaming fragments update the current pair. A whole paragraph arriving in one packet still advances through the wrapped pairs at a readable pace. Font, zoom and viewport width determine the line breaks. Expanded Conversation retains the complete utterance.
+
+The signed-in owner can opt into saving ordinary text on this desk. Reopening the page restores recent prose from the existing local conversation store. The original active session can continue within its own login. On a new login or backend restart, approved history supplies context to a new model session. Historical text confers no permission to resume a prior checkout or private action. The owner can separately retain completed Live captions. Recording is off by default, and this option stores text only. [Acceptance](../../output/qa/2026-11-24-continuity/verification.md).
+
 ## 9 November + menu and attachments
 
 The shared composer now has a compact Add files or photos / Browse the web / Today’s briefing menu. File chips and image thumbnails stay local until Send, survive failed delivery, and can be removed. Message recovery stays above the input; history remains separate. [Attachment lifecycle](chat-attachments.md) reuses the existing conversation/permission/receipt services.

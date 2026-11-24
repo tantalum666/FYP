@@ -1,0 +1,206 @@
+{
+  "at": "2026-11-24T11:10:10.276404+00:00",
+  "samples": [
+    {
+      "input": "Dunedin, New Zealand",
+      "reply": "Dunedin当地 2026-11-25 00:00，Open-Meteo估算 15.9°C，毛毛雨。今天预计阵雨，10.3 至 15.9°C，逐小时降水概率最高 96%，预计全天降水 42.9 毫米，预计降水时段包括 00:00–23:00。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": "NZ",
+      "zone": "Pacific/Auckland",
+      "local_date": "2026-11-25",
+      "state": null,
+      "rain_fields": [
+        "peak_precipitation_probability_pct",
+        "precipitation_mm",
+        "precipitation_windows"
+      ],
+      "source": "Open-Meteo",
+      "offset_matches_expected": true
+    },
+    {
+      "input": "Accra, Ghana",
+      "reply": "Accra当地 2026-11-24 11:00，Open-Meteo估算 31.4°C，大致晴朗。今天预计小阵雨，25.9 至 31.4°C，逐小时降水概率最高 96%，预计全天降水 4.8 毫米，预计降水时段包括 12:00–17:00。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": "GH",
+      "zone": "Africa/Accra",
+      "local_date": "2026-11-24",
+      "state": null,
+      "rain_fields": [
+        "peak_precipitation_probability_pct",
+        "precipitation_mm",
+        "precipitation_windows"
+      ],
+      "source": "Open-Meteo",
+      "offset_matches_expected": true
+    },
+    {
+      "input": "加德满都",
+      "reply": "加德满都当地 2026-11-24 16:45，Open-Meteo估算 15.4°C，晴。今天预计有雾，7.4 至 20.2°C，逐小时降水概率最高 0%，预计全天降水 0 毫米。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": "NP",
+      "zone": "Asia/Kathmandu",
+      "local_date": "2026-11-24",
+      "state": null,
+      "rain_fields": [
+        "peak_precipitation_probability_pct",
+        "precipitation_mm"
+      ],
+      "source": "Open-Meteo",
+      "offset_matches_expected": true
+    },
+    {
+      "input": "Arequipa, Peru",
+      "reply": "Arequipa当地 2026-11-24 06:00，Open-Meteo估算 15.3°C，有雾。今天预计有雾，13.7 至 23.8°C，逐小时降水概率最高 14%，预计全天降水 0 毫米。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": "PE",
+      "zone": "America/Lima",
+      "local_date": "2026-11-24",
+      "state": null,
+      "rain_fields": [
+        "peak_precipitation_probability_pct",
+        "precipitation_mm"
+      ],
+      "source": "Open-Meteo",
+      "offset_matches_expected": true
+    },
+    {
+      "input": "Longyearbyen",
+      "reply": "Longyearbyen当地 2026-11-24 12:00，Open-Meteo估算 -3.2°C，阴天。今天预计大雪，-12.4 至 0.9°C，逐小时降水概率最高 100%，预计全天降水 8.9 毫米，预计降水时段包括 12:00–13:00。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": "SJ",
+      "zone": "Arctic/Longyearbyen",
+      "local_date": "2026-11-24",
+      "state": null,
+      "rain_fields": [
+        "peak_precipitation_probability_pct",
+        "precipitation_mm",
+        "precipitation_windows"
+      ],
+      "source": "Open-Meteo",
+      "offset_matches_expected": true
+    },
+    {
+      "input": "-17.7, 168.3",
+      "reply": "-17.7, 168.3当地 2026-11-24 22:00，Open-Meteo估算 25.3°C，局部多云。今天预计小阵雨，23.1 至 31.2°C，逐小时降水概率最高 100%，预计全天降水 11.9 毫米。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": "",
+      "zone": "Pacific/Efate",
+      "local_date": "2026-11-24",
+      "state": null,
+      "rain_fields": [
+        "peak_precipitation_probability_pct",
+        "precipitation_mm"
+      ],
+      "source": "Open-Meteo",
+      "offset_matches_expected": true
+    },
+    {
+      "input": "Springfield",
+      "reply": "有多个地点叫Springfield。你想查哪一个？Springfield, Missouri, United States、Springfield, Massachusetts, United States、Springfield, Illinois, United States。也可以提供经纬度。",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": null,
+      "zone": null,
+      "local_date": null,
+      "state": "ambiguous",
+      "rain_fields": [],
+      "source": null
+    },
+    {
+      "input": "Tanglemoon Observatory ZQZZ",
+      "reply": "没有找到“Tanglemoon Observatory ZQZZ”。可以补充所在国家、地区或经纬度吗？",
+      "tools": [
+        [
+          "started",
+          "weather_query"
+        ],
+        [
+          "finished",
+          "weather_query"
+        ]
+      ],
+      "country": null,
+      "zone": null,
+      "local_date": null,
+      "state": "not_found",
+      "rain_fields": [],
+      "source": null
+    }
+  ],
+  "nearby_station_controls": [
+    {
+      "station": "DGAA",
+      "report_time_utc": "2026-11-24T11:00:00.000Z",
+      "station_temperature_c": 31,
+      "city_model_answer": "Accra当地 2026-11-24 11:00，Open-Meteo估算 31.4°C，大致晴朗。今天预计小阵雨，25.9 至 31.4°C，逐小时降水概率最高 96%，预计全天降水 4.8 毫米，预计降水时段包括 12:00–17:00。"
+    },
+    {
+      "station": "VNKT",
+      "report_time_utc": "2026-11-24T11:30:00.000Z",
+      "station_temperature_c": 16,
+      "city_model_answer": "加德满都当地 2026-11-24 16:45，Open-Meteo估算 15.4°C，晴。今天预计有雾，7.4 至 20.2°C，逐小时降水概率最高 0%，预计全天降水 0 毫米。"
+    }
+  ]
+}
