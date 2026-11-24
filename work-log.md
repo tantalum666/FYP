@@ -1170,3 +1170,8 @@ Combined the Alice application, original Pi RTC fix and standalone ArUco prototy
 ## 2026-11-24 · Ordinary Alice continuity, inbox assistance and live fares
 
 Released `86753289` on normal Mac Web and the installed iPhone Simulator. Closed-tab and restart checks cover paged captions, retained final text and cited inbox suggestions. The normal Gmail grant includes reading and reviewed sending. The earlier self-email is independently receipted and was not repeated. The connected flight supplier returned live quotes, including a piece-count and price discrepancy between its interfaces. The desk identifies its client, waits for pending price updates and opens the selected seller offer. Checked a test-store cart without another payment. The original Pi relay was unavailable; a verified update from its last installed version is retained. [QA, reading and release evidence](output/qa/2026-11-24-continuity/verification.md).
+
+
+### 24 November · Verify the exact seller link
+
+A refreshed live search exposed a missing channel marker in reconstructed offer links. The supplier’s own connector and two real browser offers verified the correction. Application `2f7f5be5` contains the targeted change. [Acceptance](output/qa/2026-11-24-continuity/verification.md).

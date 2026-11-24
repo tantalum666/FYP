@@ -1,5 +1,5 @@
 {
-  "application": "867532894c84e4b597940035f0930736da3dc9c6",
+  "application": "2f7f5be52d7ccaf18925b49c555b0ddedf7da801",
   "mac": {
     "supervised": true,
     "retained_tables": 142,
@@ -37,10 +37,13 @@
     "authenticated": true,
     "structured_results_in_checked_search": 658,
     "matching_settled_read": true,
-    "local_live_order_count": 0
+    "local_live_order_count": 0,
+    "exact_offers_compared_with_supplier_links": 2,
+    "later_settled_results": 596
   },
   "fixture_checks": {
     "gmail_setup_choices": 5,
     "incomplete_total_blocks_payment": true
-  }
+  },
+  "preceding_application": "867532894c84e4b597940035f0930736da3dc9c6"
 }
