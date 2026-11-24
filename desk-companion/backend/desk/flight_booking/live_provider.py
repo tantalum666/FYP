@@ -3,6 +3,7 @@
 import hashlib
 import json
 import re
+from datetime import datetime
 from urllib.parse import quote
 
 import httpx
@@ -177,24 +178,35 @@ class LiveFlightProvider:
         if not 200 <= status < 300:
             raise DomainError("LETSFG_PROVIDER_UNAVAILABLE", 503)
 
-    def _search_key(self, sid):
+    def _search_key(self, sid, binding=None):
         if not isinstance(sid, str) or not SEARCH_ID.fullmatch(sid):
             raise DomainError("LETSFG_SEARCH_NOT_FOUND", 404)
-        return "letsfg-search/" + fingerprint(sid)
+        # A cached supplier ID can be genuinely issued to more than one signed-in search.
+        return "letsfg-search/" + fingerprint([sid, binding] if binding is not None else sid)
 
     def _results(self, query, sid, principal, token, version, offer_id=None):
         binding = fingerprint([Conversations.owner(principal), version, query.model_dump()])
         with self.store.connection() as db:
             row = db.execute(
-                "SELECT request FROM operations WHERE id=?", (self._search_key(sid),)
+                "SELECT 1 FROM operations WHERE id IN (?,?) AND request=?",
+                (self._search_key(sid, binding), self._search_key(sid), encode({"binding": binding})),
             ).fetchone()
-        if not row or row[0] != encode({"binding": binding}):
+        if not row:
             raise DomainError("LETSFG_SEARCH_NOT_FOUND", 404)
         status, data = self._request("GET", "results/" + quote(sid, safe=""), token)
         result = {"search_id": sid, "offers": []}
         if status in {404, 410} or data.get("status") == "expired":
             return {**result, "state": "expired", "reason": "search_expired"}
         self._success(status)
+        if "expires_at" in data:
+            try:
+                expiry = datetime.fromisoformat(data["expires_at"])
+                if expiry.tzinfo is None:
+                    raise ValueError()
+            except (TypeError, ValueError):
+                raise DomainError("LETSFG_OFFER_UNVERIFIED", 502) from None
+            if expiry <= self.store.clock():
+                return {**result, "state": "expired", "reason": "search_expired"}
         if data.get("search_id", sid) != sid or (
             "parsed" in data and not party_matches(data["parsed"], query)
         ):
@@ -246,10 +258,10 @@ class LiveFlightProvider:
         status, data = self._request("POST", "search", token, body=query.search_body())
         self._success(status)
         sid = data.get("search_id")
-        key = self._search_key(sid)
         if not party_matches(data.get("parsed", {}), query):
             raise DomainError("LETSFG_PARTY_UNVERIFIED", 502)
         binding = fingerprint([Conversations.owner(principal), version, query.model_dump()])
+        key = self._search_key(sid, binding)
         with self.store.connection(write=True) as db:
             db.execute(
                 "INSERT OR IGNORE INTO operations VALUES(?,?,?)",

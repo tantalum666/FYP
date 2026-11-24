@@ -267,6 +267,41 @@ def test_settled_public_agent_quote_requires_named_client_and_same_offer_page(se
     assert lane.starts == 1 and not hasattr(lane, "book_body")
 
 
+def test_cache_hit_binds_new_search_after_login_without_transferring_the_old_review(setup):
+    client, runtime, lane, provider, first = setup
+    authorize(setup)
+
+    def cached_search(request):
+        if request.url.path == "/api/search":
+            return httpx.Response(200, json={"search_id": "ws_shared", "status": "searching", "cache": "hit"})
+        return lane.route(request)
+
+    provider.transport = httpx.MockTransport(cached_search)
+    q = LiveFlightQuery(**REQUEST, checked_bag_kg=20)
+    sid = provider.search(q, principal=first)["search_id"]
+    # Simulate a genuine pre-upgrade search. It can still be polled in the initiating login.
+    with runtime.store.connection(write=True) as db:
+        db.execute("UPDATE operations SET id=? WHERE id LIKE 'letsfg-search/%'", (provider._search_key(sid),))
+    other_client = TestClient(client.app)
+    other_client.post("/api/session", json={"username": "owner", "password": "test"},
+                      headers={"X-Desk-Request": "1"}).raise_for_status()
+    second = {**first, "session": other_client.cookies["desk_companion_session"]}
+    with pytest.raises(DomainError, match="LETSFG_SEARCH_NOT_FOUND"):
+        provider.search(q, principal=second, search_id=sid)
+    assert provider.search(q, principal=second)["search_id"] == sid
+    for owner in [first, second]:
+        assert provider.search(q, principal=owner, search_id=sid)["state"] == "offers"
+    different = LiveFlightQuery(**REQUEST, checked_bag_kg=32)
+    with pytest.raises(DomainError, match="LETSFG_SEARCH_NOT_FOUND"):
+        provider.search(different, principal=second, search_id=sid)
+    lane.result_flags["expires_at"] = iso(NOW)
+    assert provider.reprice(q, sid, lane.offer["id"], principal=first)["state"] == "expired"
+    lane.result_flags["expires_at"] = "unverified"
+    with pytest.raises(DomainError, match="LETSFG_OFFER_UNVERIFIED"):
+        provider.search(q, principal=second, search_id=sid)
+    assert not hasattr(lane, "book_body")
+
+
 def test_owner_pkce_rotating_refresh_and_reconnect_no_replay(setup):
     client, runtime, lane, supplier, principal = setup
     assert (
