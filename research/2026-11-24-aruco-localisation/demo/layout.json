@@ -1,0 +1,25 @@
+{
+  "table_width_mm": 1500,
+  "table_depth_mm": 650,
+  "reference_centres_mm": {
+    "0": [
+      50,
+      50
+    ],
+    "1": [
+      1450,
+      50
+    ],
+    "2": [
+      1450,
+      600
+    ],
+    "3": [
+      50,
+      600
+    ]
+  },
+  "target_id": 4,
+  "allow_three_references": false,
+  "reference_marker_size_mm": 60
+}

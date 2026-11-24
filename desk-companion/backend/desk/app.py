@@ -112,9 +112,13 @@ def create_app(
     )
     attempts = defaultdict(deque)
 
+    from .commerce_chat import follow_orders
+
     schedule = (
         ("rules", lambda: services.tick(), 1),
         ("public_data", lambda: services.data.poll_weather(), 10),
+        ("commerce_receipts", lambda: follow_orders(services), 15),
+        ("text_session_cleanup", lambda: services.text_ai.sessions.reap(), 15),
         ("mail_sources", lambda: services.mail_followups.poll_source_once(), 15),
         ("initiative", lambda: services.initiative.advance(), 15),
         ("computer_jobs", lambda: services.jobs.run_one(), 0.5),
@@ -160,6 +164,7 @@ def create_app(
                 services.jobs.shutdown,
                 services.mail_followups.shutdown,
                 services.initiative.shutdown,
+                services.text_ai.sessions.shutdown,
             ):
                 try:
                     stop()

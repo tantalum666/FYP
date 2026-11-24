@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 import platform
 
 from .access import AccessService
@@ -25,6 +26,7 @@ from .offline_calendar import OfflineCalendarService
 from .purchase_cards import PurchaseCardService
 from .tasks import TaskService
 from .text_ai import TextAssistant
+from .openai_spend import DailySpend
 from .jobs import JobService
 from .backups import LocalBackups
 from .memory import MemoryService
@@ -76,6 +78,7 @@ class Runtime:
             ).fetchone():
                 raise DomainError("PERSONAL_MEMORY_MIGRATION_REQUIRED")
         self.store = store
+        self.openai_spend = DailySpend(os.environ.get("DESK_OPENAI_DAILY_LEDGER"),store.clock)
         self.allow_replay = allow_replay
         self.access = AccessService(store)
         self.posture = PostureService(store)
@@ -134,11 +137,21 @@ class Runtime:
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
         self.shopping = ShoppingService(self)
         self.trips = TravelQuoteService(self)
+        from .flight_booking.service import FlightBookings
+        self.flight_bookings = FlightBookings(self)
+        from .flight_booking.live_oauth import LetsFGAccount
+        from .flight_booking.live_provider import LiveFlightProvider
+        self.letsfg_auth = LetsFGAccount(self)
+        self.live_flight_provider = LiveFlightProvider(self)
+        from .shop_checkout.service import ShopOrders
+        self.shop_orders = ShopOrders(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
         self.mail_followups = MailFollowups(self)
         self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
+        from .flight_booking.live_checkout import LiveFlightCheckouts
+        self.live_flight_checkouts = LiveFlightCheckouts(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):
@@ -155,7 +168,7 @@ class Runtime:
             except DomainError:
                 pass  # Screen feedback remains available when an output cannot execute.
 
-    def snapshot(self, principal):
+    def snapshot(self, principal, *, owner_session=None):
         result = {
             "personal_context_visible": self.personal_context.visible(principal),
             "computer": self.jobs.capabilities(),
@@ -169,7 +182,8 @@ class Runtime:
             "runtime": "mac_local" if platform.system() == "Darwin" else "linux_local",
             "voice": self.voice.snapshot(),
             "calendar_extras": self.data.snapshot(),
-            "google": self.google.snapshot(),
+            "google": self.google.import_status(owner_session, include_result=False)
+            if principal["kind"] == "owner" and owner_session else self.google.snapshot(),
             "output_history": self.outputs.history(),
         }
         if principal["kind"] == "owner":

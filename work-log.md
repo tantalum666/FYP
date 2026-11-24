@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 16 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated 20 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -1004,3 +1004,164 @@ Local final backend2,501passed/2Linux-only skips; publication receipt: see [QA](
 Saved source, current product/contracts/research, sanitized QA and private raw archive; updated AGENTS/START/handoff and recovery-worktree marker. Private archive: `~/.config/desk-companion/proactive-agent-merge-20261117/`. Normal runtimes/A3/data/account grants unchanged. One next step after merge: promote this reviewed main tree to the normal endpoints and verify version/data/A3/grant parity; then resume the separately documented official text-orchestration migration.
 
 Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. All original124–128 independently report merged=true; main tree75550fed12c54c5112f3fbb1e358e8a9d7affced exactly matches tested42bc01ec. Final backend2,501passed/2Linux-only skips and frontend393/types/build/Ruff. Closeout changes are documentation/receipts only. [Receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json).
+
+
+## 2026-11-18 Web, iOS Simulator and Pi rollout
+
+Deployed the reviewed GitHub main `c607759e`. Reconciled the complete fetched Git tree and PR 124–130 records. The delivery build matched all 76 previous frontend files. Mac and Pi each verified 386 manifest files and their own private database backup. Upgrade rehearsals retained every existing table and added four. The live A3 selection, cached sample, protected business data and account grant versions passed comparison. Each server independently read Gmail profile and primary Calendar successfully.
+
+The native iPhone 17 Pro Simulator was installed over the previous app and cold-launched against Mac 8831. The Pi kiosk and autostart select the new release, with the actual frame checked. Both servers keep background model research off. The owner deferred the physical iPhone. Microsoft consent and Pi power reliability remain open. The next software task is ordinary text through official sessions/functions. [Reading and verification](output/qa/2026-11-18-three-end-rollout/verification.md) · [release receipt](output/qa/2026-11-18-three-end-rollout/release-readback.json).
+
+
+## 2026-11-18 Official text Sessions and personal-agent notifications
+
+Migrated ordinary text to the hosted Functions handshake on official OpenAI Sessions. Kept the application's existing permission decisions and receipts for software drafts, outgoing mail and browser admission. Added temporary-session cleanup, unknown-create reconciliation, turn-specific text streaming and bounded function result delivery. Used an isolated HTTP provider and the real Web composer for two related turns with one session and one function receipt.
+
+Applied the always-on article's notification guidance to existing initiative findings. Two fictional quiet-time findings became one notification after restart and could be acknowledged independently in the phone layout. Credentials, production devices and closed test budgets were untouched. [Research](research/2026-11-18-always-on-personal-agent.md) · [local tests and remaining live acceptance](output/qa/2026-11-18-official-text-sessions/verification.md).
+
+[PR 132](https://github.com/tantalum666/FYP/pull/132) publishes the migration and its local acceptance record on top of the deployment handoff in PR 131.
+
+## 2026-11-18 Real GPT‑6.2 Sol clock and Singapore comparison
+
+The normal Mac configuration and the first request both identified GPT‑6.1 Sol. The first create was rejected on a spending-limit parameter with zero matching sessions. After the owner's model and local-budget selection, the public catalog and the real session independently confirmed GPT‑6.2 Sol. One clock function, two completed root turns, 30,476 tokens and confirmed DELETE/404. Only the two newly needed budget-guard regressions ran. No production deployment. [Live QA](output/qa/2026-11-18-live-text-clock/verification.md) · [sanitized receipt](output/qa/2026-11-18-live-text-clock/receipt.json).
+
+## 2026-11-18 Production Web/native 6.2 Sol and a deferred Pi package
+
+Read both review/verification articles against the global rules and verified updated instruction discovery across projects. Promoted the 6.2 Sol deployment to Web and native Simulator, preserving original data, Google grants and A3. Verified actual OpenAI hosted-browser routing with independently checked public content and deletion readback. The original Pi relay was unavailable and the owner deferred the device. Built and checksum-verified its release ZIP. [Release record](output/qa/2026-11-18-sol62-deployment/verification.md) · [receipt](output/qa/2026-11-18-sol62-deployment/release.json).
+
+## 2026-11-19 · Alice shopping and flight quotes
+
+Implemented public quotes on the official GPT‑6.2 Sol hosted route and existing conversation approval. The real two-pack Wellcome promotion resolved to HK$34 before delivery. Two real airline lookups recorded an absent offer. Independent carrier pages showed dated advertising minima. Scoped readback fixed a lost quote on follow-up. The corrected real text turn identified the prior shopping price and unknown fees. Fourteen distinct local regressions, desktop/mobile browser journeys and an isolated native iPhone Simulator card-to-Safari-to-chat journey were checked. Nine provider sessions returned 404. The HK-day Mac ledger recorded US$8.96. The normal Web service was found down and restored on its existing release. Candidate source `48aec0e6` is on [PR 134](https://github.com/tantalum666/FYP/pull/134), on top of PR 133. A live hosted, dated fare including the requested baggage remains open. [QA](output/qa/2026-11-19-shopping-flight/verification.md) · [receipts](output/qa/2026-11-19-shopping-flight/receipts.json).
+
+## 2026-11-19 · Reconcile the spending guard and ship connector-based flight search
+
+Resolved the discrepancy between platform reporting and local reservations. Preserved missing-cost exposure, corrected identifiable historical records, and added an operator statement import, dated fleet split and explicit Diagnostics labels. The actual FYP GPT‑6.2 Sol route produced an owner draft from a Chinese message and called the real Kiwi.com flight-search MCP on separate, approved jobs. UO628 was HK$2,006 with one checked bag on the requested date. The supplier omitted weight, seller verification was gated and no order was placed. Validated scoped consent, fee and currency handling, late usage, missing usage, cleanup, desktop and phone flows. Promoted `85e6aa94` to normal Web and native Simulator, checked A3, data, accounts and diagnostics, and retained a portable package for the deferred Pi. [QA and remaining boundary](output/qa/2026-11-19-flight-ledger/verification.md) · [readbacks](output/qa/2026-11-19-flight-ledger/receipts.json) · [PR 134](https://github.com/tantalum666/FYP/pull/134).
+
+## 2026-11-19 · Assess owner-authorized card payments
+
+Verified the purchase flows documented by Grok Bot, OpenAI dot and Meta Muse. Link publishes an SDK a third-party assistant can use with customer OAuth, a scoped spend request and wallet approval. The hosted guide and the FAQ list different supported markets and both omit Hong Kong. Visa and Mastercard have separately documented partner transactions in Hong Kong. The official Link SDK 0.2.0 ran in FYP's Python environment against an isolated HTTP mock, including a stable key on retry and an unapproved purchase that ended in denial. This is a feasibility finding. Product payment authorization, production wallet access and merchant settlement remain pending. Updated the research index and handoff. [Primary sources and verification](output/qa/2026-11-19-agent-wallet-feasibility/verification.md).
+
+## 2026-11-19 · Verify sandbox card and Link merchant checkout
+
+Created an isolated test merchant. Standard test Visa and sandbox Link buyers completed separate two-item HK$34 Checkout orders. The provider reported the respective methods as card and link. A separate direct API fixture passed and the decline fixture received zero. A read-only operator command verified existing Checkout, PaymentIntent and captured Charge records. The local merchant pages and simulator data stayed isolated from the normal product. The Wallet device flow received no consumer authorization. Documented Shopify and WooCommerce merchant testing, Duffel flight and stay fixtures, and Booking.com accommodation payment requirements. No real order, flight or money was involved. Updated product, the research index, decisions and handoff. [QA](output/qa/2026-11-19-test-checkouts/verification.md) · [receipts](output/qa/2026-11-19-test-checkouts/receipts.json).
+
+## 2026-11-19 · Verify WooCommerce guest checkout and account requirements
+
+Created an isolated self-hosted WooCommerce shop. Its Store API accepted two test stationery packs and returned paid guest order 13 at HK$34. A separate merchant order lookup and Stripe test-mode intent and charge lookups verified the amount, currency and capture. The temporary sandbox key needed a gateway supporting manual test credentials. The active gateway was Payment Plugins for Stripe. The FYP consumer wallet grant remained pending owner action, and ticketing still needs a Duffel developer test token. No live charge, shipment, flight booking or production promotion occurred. [QA](output/qa/2026-11-19-woocommerce-guest/verification.md) · [receipts](output/qa/2026-11-19-woocommerce-guest/receipts.json).
+
+## 2026-11-19 · Deploy the retained Pi release and verify Duffel registration
+
+Installed `85e6aa94` on the original Pi from `c607759e`. Verified 406 files, the database migration and backup, A3, Google provider reads, persistent startup and the 1280 × 720 Alice home. The startup frame showed a low-voltage warning. Paid OpenAI calls during deployment were zero. The separate official Duffel signup check found 32 incorporation options, with Hong Kong and mainland China absent. Flight order acceptance awaits supplier-authorized sandbox access. [Evidence](output/qa/2026-11-19-pi-release/verification.md) · [receipts](output/qa/2026-11-19-pi-release/receipts.json).
+
+## 2026-11-19 · Replace the blocked flight sandbox
+
+Used the free, keyless LetsFG sandbox for one HKG–HND itinerary. The accepted test booking captured HK$34 and produced a simulated PNR. A duplicate submission reopened the same record. A second booking declined a rise to HK$35.43 and the provider confirmed release of the hold. Both final records passed independent GETs using a small FYP verifier. Confirmed that Singapore Airlines offers an airline-operated flight-booking sandbox and checked the registration fields and API key requirement. Normal-runtime privileges, model budgets and deployment were outside this check. [Provider receipts](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 · Complete the native Alice test booking journey
+
+Implemented conversational LetsFG quote, explicit amount-bound owner actions, status and receipt retrieval. The iPhone 17 Pro Simulator showed HK$34, acquired an order only after the first tap, requested HK$36.25 separately and returned PNR 5SMZA7. Independent GET matched the capture. The same conversation reopened it after a backend restart with zero additional orders or model requests. Kept the first transient quote error and the timed-out fast rehearsal with its released hold. Updated the normal local backend, simulator and handoff. No real card or airline ticket. [QA](output/qa/2026-11-19-alice-flight-conversation/verification.md) · [receipts](output/qa/2026-11-19-alice-flight-conversation/receipts.json).
+
+## 2026-11-19 · Verify ordinary shopping from the native simulator
+
+Two HK$17 stationery packs and HK$8 delivery were quoted at HK$42. The checkout shipping rate then increased to HK$12. Two separate on-screen decisions produced Woo guest order #17 and one Stripe sandbox capture of HK$46. Independent Woo, PaymentIntent, Charge and same-chat reads matched. Restored the HK$8 rate. Tested final gateway increases and decreases, and preserved the previous flight workflow. The native app and shared backend were promoted with verified backups. [Device and payment evidence](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [contract](desk-companion/docs/conversation-shopping.md).
+
+## 2026-11-20 · Test overseas shopping and independently verify a full refund
+
+Submitted and email-verified the authorized eBay Developers application. eBay returned a review wait of at least one business day in the usual case. Started the authorized Amazon Pay test buyer from its US$14.30 demo cart. Email verification is pending. Verified that the existing US Stripe test merchant supports Amazon Pay and opened one US$1.00 tissue checkout at the actual wallet login. An independent US$0.75 Visa control produced a captured Charge and a single successful full Refund nine seconds later. Added optional full-refund verification to the existing read-only operator CLI, with targeted mismatched and nonterminal cases. Zinc allowed queue cancellation and rejected cancellation after simulated retailer placement. Ordinary shopping, eBay buyer/seller cancellation, and Amazon's pending buyer verification have distinct receipts. Updated project guidance, decisions, research, handoff and QA. [Evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [structured results](output/qa/2026-11-20-overseas-shopping-sandboxes/receipts.json).
+
+## 2026-11-20 · Complete the Amazon Pay sandbox purchase and refund
+
+Verified the buyer after the owner entered Amazon's email code. Reused the same login to complete the official KitchenSmart US$14.30 demo and the original FYP US$1.00 pocket-tissue checkout. The merchant created one full Amazon Pay refund 73 seconds after capture. Successive reads returned pending and then succeeded, and the hosted receipt showed zero adjusted total. Fixed the provider-observed Charge and Refund identifier mismatch in the read-only command. Two new regression checks, the affected card compatibility check, Ruff and an actual terminal receipt read passed. The demo's signed-in Orders label did not open a cancellation action. A fresh eBay sign-in reported pending approval. Updated the provider records, product, research index, decisions, entry point and handoff. [QA](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [Stripe wallet receipt](output/qa/2026-11-20-overseas-shopping-sandboxes/amazon-pay-full-refund.jpg).
+
+## 2026-11-20 · Reconcile the payment methods used by Alice and the merchant tests
+
+Reopened the two original Stripe records. The HK$34 hosted payment used Link Checkout and the US$1.00 tissue payment used Amazon Pay. Compared the native Woo receipt with the deployed fixture selection. The FYP consumer wallet reported no grant. Renewed its payment-only device request for the already authorized sandbox test. Verified the regional scope in Link's FAQ and hosted SDK guide. Both omit Hong Kong and mainland China. No new charge or spend request was created. [Wallet evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#link-checkout-and-the-delegated-wallet).
+
+## 2026-11-20 · Connect the FYP Link Agent Wallet and submit its first test spend
+
+Read the saved consumer grant after owner confirmation. A dedicated hosted Checkout quoted one pack of tissues for US$1.00. Captured the server's HTTP 401 for the payment-only scope. The owner subsequently granted the official profile-read scope, and Link accepted the one-time test spend under the same case key. Its approval page requested a mobile app or passkey. The authenticated profile retains the rotating refresh credential. The client's read-only approval-policy query returned HTTP 403. Updated the product, decisions, handoff, provider QA and receipts. The merchant remained unpaid at this observation. [Wallet and merchant evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#link-checkout-and-the-delegated-wallet).
+
+## 2026-11-20 · Confirm the 180-day recurring Link test authorization
+
+Reopened the owner-approved US$500 monthly, 180-day test authorization. Added the US$10 per-checkout guard for the FYP merchant and used it on the existing US$1 tissue order. Link issued a recurring test virtual card. Stripe rejected the entered card number and a second issuer read failed its checksum independently. Cleared the form and removed the protected credential files. Stripe independently returned zero matching PaymentIntents for the unpaid order. Link accepted the blocked outcome report and retained the recurring approval. The redundant one-time request was canceled. Local coverage added the exact order ceiling, merchant and currency binding, repricing, duplicate payment attempts, scope, expiry and credential format. Updated the current entry, product, handoff, research, decisions and QA. [Acceptance](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance).
+
+## 2026-11-20 · Trace the Link fixture to its source
+
+Verified the official package hashes. Compared one raw issuer response with the official Python SDK and the full public test-mode example from the CLI release. Both independent checksum implementations rejected it. A public-only JS CLI replay preserved the same value. Reopened the original unpaid checkout and independently found zero matching PaymentIntents. Reproduced and fixed the local refresh-scope parser. The same saved grant then read back as approved. Unified one-time and recurring credential checks and replayed the affected one-time adapter with public fixtures. Eight new targeted cases and one affected compatibility check passed. Updated the entry, product, wallet research, prior acceptance, decisions and handoff. [Report](output/qa/2026-11-20-link-wallet-diagnosis/verification.md) · [Public reproducer](output/qa/2026-11-20-link-wallet-diagnosis/reproduce_public_fixture.py).
+
+## 2026-11-21 · Submit the eBay rejected-registration review
+
+Checked the portal and the registered mailbox. The original activation was rejected. Submitted the owner-approved project use case through the designated support form with owner-assisted verification. The owner observed success or a reference and the operator has no case number. A separate read of the US test merchant's Business Network Profile returned HTTP 403. Updated the project entry, product, research index, decisions, QA and handoff. [Evidence](output/qa/2026-11-21-shopping-next-step/verification.md).
+
+
+## 2026-11-21 · Restore motion between Alice’s main poses
+
+Self-reviewed frontend `64485c7f` on the existing integration branch. Reworked idle arm posture, eye and head timing, hand phrasing, interrupted motion and 30 Hz scheduling. The first recording exposed a wide reach during entry and return. Corrected its arc and added a whole-gesture test on the shipped left and right hands. The production frontend build and 17 targeted checks passed. Released to local Mac Web and the original iPhone 17 Pro Simulator. A3 v9, account grants and database integrity survived the release. The licensed comparison uses the same simulated playback on both builds. [QA and video](output/qa/2026-11-21-alice-natural-motion/verification.md) · [draft PR 135](https://github.com/tantalum666/FYP/pull/135). Owner visual review and physical-device acceptance remain open.
+
+
+## 2026-11-21 · Animate Alice’s response to the actual exchange
+
+Added seven social tones, a neutral option and thirteen authored performances. Fitted two-arm landmarks on the licensed model, calibrated thumb closure and staged facial expressions with the eyes and mouth on separate layers. Visual review corrected a bow that tipped backward, a hand over the eye and the clap spacing. Four real ordinary Simulator turns on GPT‑6.2 Sol matched the scoped desk receipts. The same conversation later hit its existing local budget rule. Used provider-protocol replay for the neutral translation. The final Web and Simulator frontends are `88fbc532`. [QA, film and remaining boundary](output/qa/2026-11-21-alice-expressive-conversation/verification.md) · [draft PR 136](https://github.com/tantalum666/FYP/pull/136).
+
+
+## 2026-11-21 · Review the full hand rig and deploy Live 1.1
+
+Inspected all 20 gestures from three angles and replayed six interrupted transitions on each side. Corrected reversed wrist rotation and the cross-sleeve path, calibrated clothing clearance and verified the exposed fingertips. Published same-device footage and per-path results, including residual textile contacts. The FYP key confirmed GPT-Live-1.1 and the normal voice path returned “收到。” and finalized. Mac Web and the native Simulator run `a1f9b76b`. The offline Pi has a verified 118-file delta with 387 files reusable. [Acceptance](output/qa/2026-11-21-alice-hands-live11/verification.md) · [draft PR 137](https://github.com/tantalum666/FYP/pull/137).
+
+
+## 2026-11-21 · Narrow Alice’s resting silhouette and articulate the hand
+
+Measured the previous native idle posture, corrected the visible resting rig and separated it from gesture calibration. Built a reproducible contact shape for the existing uniform, refined the knuckle and thumb motion, and restored the checked phone and clap clearances. Reviewed 54 mirrored paths and 13,234 frames, plus a separate near-contact finger sweep. Deployed `69099a24` to daily Web and the original Simulator, retained the Pi delta, and verified release identity, data, grants and local rendering. [Film, figures and residuals](output/qa/2026-11-21-alice-relaxed-stance/verification.md) · [draft PR 138](https://github.com/tantalum666/FYP/pull/138).
+
+## 2026-11-21 · Give Alice a more expressive face and refit the uniform
+
+Released source `c8aa1982` to Mac Web and the iPhone 17 Pro Simulator. Added seven expressions, improved the resting nose and lips, and fitted the uniform. The simulator showed a live relief reply from GPT-6.2 Sol and all three new cues in deterministic conversation replays. The maximum posed garment displacement was 11.32 mm. The finished taper preserved the previous garment/face contact results across all 13,234 sampled frames. Captured matched home and profile stills and a short expression film. The verified Pi package is retained for its recorded base. [Review, provenance and remaining device check](output/qa/2026-11-21-alice-face-fit/verification.md) · [Draft PR 139](https://github.com/tantalum666/FYP/pull/139).
+
+## 2026-11-21 · Buyer-initiated cancellation and flight alternatives
+
+From the installed Simulator, bought one HK$4 test pack of pocket tissues with HK$8 delivery, requested pre-dispatch cancellation in chat and matched Woo order #21 to one successful HK$12 Stripe refund. The HK$52 LetsFG booking for AF2979 was stopped with its hold released and no capture or reservation. Repaired an observed no-match dead end, then verified three eligible choices with zero additional orders. Both original outcomes were readable after a Mac restart. No new eBay review decision appeared. The Mac backend overlay and Web/Simulator frontend are `2f59ff63`. The Pi delta is retained. [Receipts and local accounting](output/qa/2026-11-21-commerce-aftercare/verification.md) · [Draft PR 140](https://github.com/tantalum666/FYP/pull/140).
+
+## 2026-11-21 · Quiet commerce turns and background follow-up
+
+Removed duplicate body/card presentation and the permanent stack of old orders in the normal home and conversation. Turned unavailable-flight alternatives into selectable re-quote rows and preserved the active fare when another order finishes. Added due receipt reconciliation through the existing desk scheduler and provider readers. The Mac Web and installed iPhone 17 Pro Simulator run `c185d69e`. [Local evidence and native comparisons](output/qa/2026-11-21-quiet-order-followup/verification.md) · [draft PR 141](https://github.com/tantalum666/FYP/pull/141).
+
+## 2026-11-22 · Calendar-aware flight search and confirmation
+
+Connected the desk’s canonical busy occurrences to LetsFG fare selection, including recurrence exceptions, DST, date-line handling and disagreement between elapsed duration and published local times. Confirmations use an atomic local check before a provider submission. The original carrier, route and budget can be reused to find a different flight from a blocked quote. A real read timeout exposed the five-second search limit. The read-only adapter now shares one retry window. Mac Web and the iPhone 17 Pro Simulator run `08200201`. [Acceptance and cost breakdown](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-23 · Parallel API contributor and booked-flight calendar handoff
+
+The named OpenAI API contributor published the itinerary projection and its 33 focused tests in [PR 143](https://github.com/tantalum666/FYP/pull/143). In parallel, the integrating engineer connected the ordinary conversation, original receipt, calendar review and atomic local event write. Five new authenticated API journeys and frontend type checking passed. The recorded supplier fixture covered an approved price increase and one original booking. [Verification and scope](output/qa/2026-11-23-api-astra-team/verification.md).
+
+The subsequent official Function accepts an optional public flight number for a colloquial calendar request; it returns a local preview. A newly overlapping appointment now asks for a new calendar decision. The isolated [iPhone 17 Pro journey](output/qa/2026-11-23-api-astra-team/simulator/verification.md) saved and reopened a single private event. Normal Web and native release versions remain recorded in the handoff. The author uses parallel source branches for calendar, Woo checkout, flights, routines and Work continuation, with per-request provider receipts and one private shared grant.
+
+The original Pi became reachable on its pinned owner relay. Group 2 deployed the previously accepted `08200201` archive over `85e6aa94`. The first activation rolled back when the asset verifier rejected the valid root-level PWA file. The final switch passed all eight served asset hashes, protected data, two original grants, A3 v9 and physical display checks. A reboot was observed between attempts and its cause is undetermined. [Physical device receipts](output/qa/2026-11-23-api-astra-team/pi-stable-release/verification.md).
+
+The isolated API contributor branches and independent acceptance records are consolidated in [the reviewed integration](output/qa/2026-11-23-api-astra-team/verification.md). Local integration resolved operation IDs, owner/forget fences, browser/voice continuity, mixed basket labels and receipt readback. The new ordinary Work approval list, unlike the earlier failing snapshot, leaves an unrelated task untouched after “Yes, confirm it.” under Full access. The original Pi’s scheduled RTC readback is tracked in [the hardware recovery report](output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).
+
+## 2026-11-23 Global weather from ordinary Alice questions
+
+On the isolated global-weather branch, connected worldwide place resolution, destination-local current and daily model data, and HKO’s station, local and nine-day products to the existing weather tool. Standalone city questions use a public read directly. Ordinary Sessions and GPT-Live-1.1 register the same tool. The real loopback application returned public weather for Tokyo, Hong Kong, Cape Town, Reykjavík and Buenos Aires. The voice WebSocket accepted a two-part synthetic transcript and delivered the bound tool output using replayed provider events. [QA and external-data receipts](output/qa/2026-11-23-global-weather/verification.md). Installed client and physical speech acceptance belong to the integration release.
+
+## 2026-11-23 · Ordinary desk and installed iPhone acceptance
+
+Released global city forecasts and Hong Kong rain, compact listening, trusted HKD rendering and owner-scoped flight checkout on `689d1d8e`. The normal Mac and installed iPhone reopened external weather through their ordinary conversation and retained the existing accounts, A3 sample and original research job. The public LetsFG sandbox returned a simulated PNR on a different flight. The owner's Kiwi itinerary awaits verified luggage, a payable amount and an approved account. [Measured behavior, tested code and release scope](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-23 · Cold-start weather and overlapping approvals on the installed application
+
+The weather release is `a17ac349` on Mac, the installed iPhone 17 Pro Simulator and the original Raspberry Pi. The first Tokyo request after restart succeeded in 2.756 seconds. Alice obtained separate city and airport forecasts, preserved the destination's date across midnight and read the Observatory’s dated rain bulletin on the phone. A failed source and a missing rain forecast have distinct, truthful readbacks. When a flight and an unrelated shop quote both await approval, generic assent asks for the original card. The exact previous failure, changed behavior and retained state are recorded in the [ordinary release](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 · Continue an expired flight quote under the current login
+
+On `92acac8e` a buyer without an eligible current quote now gets one short request for a new itinerary in ordinary text, Live and the card. An isolated expiry-to-consent journey used the newly supplied destination, dates and party. The normal Mac returned the new prompt with zero new itinerary transmissions or supplier operations. The installed iPhone retained its normal origin, account state and verified bundle. [Expiry and installation evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 ArUco 两边进度协作同步
+
+- 读取 FYP (2) 最新已完成对话和本地交接，汇集本机定位台、L 形三牌简化记录、像素轨迹、物品／未知变化、近障与边界反馈，以及 FYP 的纸质 A4 牌和 RIG 尺寸结论。
+- [新入口](research/2026-11-24-aruco-localisation/README.md)提供可运行源文件、模型下载与 SHA256／Apache 许可、生成样本、截图、说明和程序 ZIP。共享启动器移除原电脑临时环境路径，原本地成果保留。
+- 发布前检查生成输入回归、源码语法、模型 SHA256、ZIP 文件一致性和公开内容／链接，结果记录在 [QA](output/qa/2026-11-24-aruco-progress/verification.md)。源码、下载包和计划不作为实物定位精度、行走、避障或回充证明。
+- 沿当前 main 创建独立 codex 分支和草稿 PR，供组员合并审核；本轮不部署、合并或触发 GitHub CI。下一项实测为固定手机、量 L 形中心间距，用尺核对 ID4 并保存真实 CSV／录像。
+
+## 2026-11-24 · Mainline review of the complete FYP stack
+
+Combined the Alice application, original Pi RTC fix and standalone ArUco prototype. Preserved both sides of the handoff and decision history. Reproduced and repaired the missing-frame HTTP response in source and the 39-member distribution ZIP. Confirmed public repository visibility with the owner, checked the incoming contents, and corrected contributor and release instructions. Fifteen targeted backend cases, eleven frontend checks, typecheck/build, the synthetic hardware/HTTP acceptance and the redacted credential check passed. The [review and source inventory](output/qa/2026-11-24-mainline-review/verification.md) and [integration PR 152](https://github.com/tantalum666/FYP/pull/152) retain the original API authors, component checks and merge record.

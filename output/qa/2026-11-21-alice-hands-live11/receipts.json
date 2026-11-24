@@ -1,0 +1,75 @@
+{
+  "revision": "a1f9b76b76ba4c90e2d1f0aa96f9f207ff3d5d35",
+  "voice": {
+    "configured": "gpt-live-1.1",
+    "delegation": "gpt-6.2-sol",
+    "input": "你好，请只说收到。",
+    "ready": true,
+    "packets": 10,
+    "output_pcm_bytes": 48000,
+    "user_transcript": "你好,请直说“收到”。",
+    "assistant_transcript": "收到。",
+    "errors": [],
+    "provider_model": "gpt-live-1.1",
+    "sample_rate": 24000,
+    "voice_selection": {
+      "provider_confirmed": true,
+      "settings_version": 9,
+      "type": "custom"
+    },
+    "usage": {
+      "backend_receipts_complete": 1,
+      "finalization_confirmed": 1,
+      "voice_seconds": 5
+    },
+    "failure": null,
+    "ledger_after": 0.181651,
+    "ledger_before": 0.170625
+  },
+  "pi_package": {
+    "archive": "Pi-a1f9b76b-from-85e6aa94.tar.gz",
+    "sha256": "2153bd0c97dd5a6c7884a29bffeb7c9ac5389c038dd08a3f5fa0ca5bac965c3e",
+    "bytes": 3145340,
+    "base_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "target_revision": "a1f9b76b76ba4c90e2d1f0aa96f9f207ff3d5d35",
+    "changed": 118,
+    "retained": 387,
+    "files_verified": 505,
+    "configuration_change": {
+      "DESK_VOICE_MODEL": "gpt-live-1.1"
+    },
+    "installed_on_pi": false
+  },
+  "normal_web": {
+    "viewport": [
+      1280,
+      820
+    ],
+    "title": "Desk Companion",
+    "tap": "wink",
+    "build": "a1f9b76b76ba4c90e2d1f0aa96f9f207ff3d5d35",
+    "model": "gpt-live-1.1",
+    "errors": [],
+    "reducedCanvasCount": 0
+  },
+  "installed_simulator": {
+    "revision": "a1f9b76b76ba4c90e2d1f0aa96f9f207ff3d5d35",
+    "regular_desk_restored": true,
+    "ordinary_replays": {
+      "thanks": "gratefulBow",
+      "joke": "giggle"
+    }
+  },
+  "release": {
+    "database_backup_verified": true,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "protected_files_unchanged": true,
+    "voice_model": "gpt-live-1.1"
+  },
+  "media_sha256": {
+    "all-actions.jpg": "901cb1ab011fbe4c9f044c1716d867ff269119e22032beb2cb3d9da3533c48c1",
+    "native-hand-comparison.mp4": "43601fb700239fe51fd80b196e7b891fda7521a8581f85ba8c8f3a28adac4265"
+  }
+}

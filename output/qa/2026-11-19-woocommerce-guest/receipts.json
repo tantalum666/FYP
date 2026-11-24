@@ -1,0 +1,60 @@
+{
+  "store": "self-hosted WooCommerce, loopback only",
+  "checkout_entry": "WooCommerce Store API",
+  "guest_woo_account_required": false,
+  "guest_order": {
+    "source": "WooCommerce Store API guest checkout; separate WC_Order read and separate Stripe GETs",
+    "wp": "7.1.5",
+    "woocommerce": "11.3.0",
+    "gateway": "Payment Plugins for Stripe WooCommerce 4.0.20",
+    "order_id": 13,
+    "guest": true,
+    "wc_status": "processing",
+    "wc_paid": true,
+    "paid_at": "2026-11-19T07:02:49+00:00",
+    "test_only": true,
+    "currency": "HKD",
+    "amount_minor": 3400,
+    "items": [
+      {
+        "sku": "FYP-QA-STATIONERY",
+        "quantity": 2,
+        "subtotal": "34",
+        "total": "34"
+      }
+    ],
+    "stripe_payment_intent": "succeeded",
+    "stripe_charge": "succeeded",
+    "charge_captured": true,
+    "stripe_method": "card",
+    "test_card_last4": "4242",
+    "both_livemode_false": true,
+    "actual_money_minor": 0,
+    "payment_intent_sha256": "1e35664dd6e69a208df883e3ec1e3010ffa2d72254f55274df8b3c4d198d47fe",
+    "charge_sha256": "426de4839900a8dc611bcf956067c3fe147e039033d66f42c94436dd3f30d9ee"
+  },
+  "original_stripe_extension": {
+    "name": "WooCommerce Stripe Payment Gateway",
+    "version": "11.2.0",
+    "offered_on_this_sandbox": false,
+    "reason": "The unclaimed sandbox credential uses a prefix outside the plugin validation rule."
+  },
+  "consumer_link": {
+    "existing_login_requested": true,
+    "fyp_wallet_oauth_observed": false,
+    "wallet_credential_issued": false
+  },
+  "duffel": {
+    "fyp_test_token_present_at_readback": false,
+    "orders_run": 0
+  },
+  "live_cash_paid_minor": 0,
+  "openai_calls": 0,
+  "rendered_shop_and_guest_receipt": {
+    "guest_receipt_visible": true,
+    "order": 13,
+    "matching_total": true,
+    "matching_product": true,
+    "shop_visible": true
+  }
+}

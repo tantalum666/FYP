@@ -57,6 +57,9 @@ class ToolAudit:
         channel=None,
         message="",
     ):
+        if name == "weather_query" and isinstance(arguments, dict):
+            # The owner's public destination is needed for this read, not for diagnostics.
+            arguments = {k: v for k, v in arguments.items() if k not in {"location", "country_code"}}
         saved, ref_kind, ref_id = _effect(result)
         with self.store.connection(write=True) as conn:
             conn.execute(
@@ -70,7 +73,7 @@ class ToolAudit:
                     _clip(call_key if isinstance(call_key, str) else "", 120),
                     _clip(name if isinstance(name, str) else "", 80),
                     _clip(risk if isinstance(risk, str) else "unknown", 16),
-                    _argument_text(arguments),
+                    _argument_text({} if name == "routine_skip_draft" else arguments),
                     _clip(outcome if isinstance(outcome, str) else "TOOL_FAILED", 80),
                     saved,
                     ref_kind,

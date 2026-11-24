@@ -179,7 +179,7 @@ def test_owner_turns_are_replayed_and_a_paired_session_does_not_receive_them(tmp
         captured.append(context)
         return TextPlan(message="Public reply", tool="none")
 
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
     monkeypatch.setattr(runtime.text_ai, "generate", generate)
     principal = {"kind": "owner", "session": "fixture"}
     first = runtime.text_ai.message(

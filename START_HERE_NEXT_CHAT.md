@@ -1,7 +1,5 @@
 # Group 2 · New chat entry
 
-18 November2026. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. Read [AGENTS](AGENTS.md), current [product](product.md), [handoff](handoff.md), latest [decisions](decision-log.md), [proactive contract](desk-companion/docs/proactive-research.md) and [QA](output/qa/2026-11-17-proactive-agent-merge/verification.md). They supersede earlier worktree routes.
+从公开仓库 `tantalum666/FYP` 的 `main` 创建工作分支。先读 [AGENTS](AGENTS.md)、[product](product.md)、[handoff](handoff.md) 和最近的 [decisions](decision-log.md)。原有本地工作树可以保留自己的修改。
 
-PR129 merged the reviewed124–128 heads plus contextual initiative and actual OpenAI/browser fixes atc51ece41; all five original PRs independently read back as merged and the main tree matches tested42bc01ec. [Publication](output/qa/2026-11-17-proactive-agent-merge/publication.json). The current closeout branch is `codex/proactive-agent-closeout-20261118`; fetch latest main before implementation. Source integration is not normal Mac/native/Pi deployment; installed source was last verified8c67ddbe, preserving A3/data/grants/performance. All current tests/resources are closed; Pi power diagnosis remains paused and noCI is used.
-
-One next step: deploy the reviewed main tree to the three normal endpoints and verify exact source/build/data/A3/account parity. Use official capabilities for subsequent orchestration; the legacy primary-text loop is still a migration gap.
+[11 月 24 日主线评审](output/qa/2026-11-24-mainline-review/verification.md)保留软件、Pi 唤醒和定位原型的来源与验证范围。[五个 API 开发分工](output/qa/2026-11-23-api-astra-team/verification.md) · [三端在用版本](output/qa/2026-11-23-owner-flow-hotfix/verification.md) · [ArUco 独立原型](research/2026-11-24-aruco-localisation/README.md)。

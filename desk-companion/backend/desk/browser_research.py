@@ -6,7 +6,9 @@ from typing import Literal
 from pydantic import Field, model_validator
 
 from .calendar import iso
+from .commerce_quotes import QuoteRequest, brief_quote
 from .computer_use_models import ComputerUseInput
+from .flight_search import uses_flight_connector
 from .jobs import JobApproval
 from .schemas import StrictModel
 from .store import DomainError
@@ -21,6 +23,7 @@ class BrowserResearchDraft(StrictModel):
     task_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     task_version: int | None = Field(default=None, ge=1, strict=True)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
+    quote_request: QuoteRequest | None = Field(default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def public_scope(self):
@@ -30,8 +33,9 @@ class BrowserResearchDraft(StrictModel):
         return self
 
     def intent(self):
+        data = self.model_dump()
         return ComputerUseInput(
-            **self.model_dump(), public_only=True, share_screen=True, max_steps=8,
+            **data, public_only=True, share_screen=not uses_flight_connector(data), max_steps=8,
         )
 
 
@@ -64,8 +68,11 @@ def _prepared_job(runtime, proposal_id):
     return json.loads(row[0])["job"]["id"] if row else None
 
 
-def start(runtime, proposal_id, payload, key, *, principal, share_screen):
-    if share_screen is not True:
+def start(runtime, proposal_id, payload, key, *, principal, share_screen, share_itinerary=False):
+    connector = uses_flight_connector(payload["browser"])
+    if connector and share_itinerary is not True:
+        raise DomainError("ITINERARY_SHARING_REQUIRED", 422)
+    if not connector and share_screen is not True:
         raise DomainError("BROWSER_SHARING_REQUIRED", 422)
     if not principal or principal.get("kind") != "owner" or not runtime.store.session_valid(
         principal.get("session")
@@ -91,6 +98,51 @@ def cancel_prepared(runtime, proposal_id):
         runtime.jobs.cancel(job_id, "browser-research/cancel/" + proposal_id, review_only=True)
 
 
+def current_chat_quote(runtime, conversation):
+    """Reopen only a quote shown in this authenticated, still-live local chat."""
+    if conversation is None:
+        return None
+    keys = [
+        item["operation_id"]
+        for item in reversed(conversation.items[-16:])
+        if item.get("role") == "assistant" and item.get("operation_id")
+    ]
+    with runtime.store.connection() as conn:
+        if runtime.store.settings(conn)["hide_private"]:
+            return None
+        replies = {}
+        if keys:
+            placeholders = ",".join("?" for _ in keys)
+            replies = dict(conn.execute(f"SELECT id,result FROM assistant_replies WHERE id IN ({placeholders})", keys))
+    proposals = [json.loads(replies[key]).get("proposal") for key in keys if key in replies]
+    if checkouts := getattr(runtime, "live_flight_checkouts", None):
+        proposals.append(checkouts.last_proposal(conversation))
+    for proposal in filter(None, proposals):
+        browser = (proposal.get("data") or {}).get("browser") or {}
+        if proposal.get("kind") != "browser_research" or not browser.get("quote_request"):
+            continue
+        proposal_id = proposal["id"]
+        ref = {
+            "proposal_id": proposal_id,
+            "title": browser["title"],
+            "status_tool": "browser_research_status",
+        }
+        try:
+            checked = status(runtime, {"proposal_id": proposal_id}, session_hash=conversation.owner)
+        except DomainError as error:
+            if error.code in {"PRIVATE_CONTEXT_HIDDEN", "RUN_SESSION_EXPIRED"}:
+                return None
+            return {**ref, "record_verified": False}
+        ref.update(
+            state=(checked.get("job") or {}).get("state", checked["draft_state"]),
+            record_verified=checked.get("record_verified", False),
+        )
+        if quote := checked.get("quote"):
+            ref["quote"] = brief_quote(quote)
+        return ref
+    return None
+
+
 def confirmation(runtime, result):
     _visible(runtime)
     job_id = result.get("job_id") or result["job"]["id"]
@@ -102,7 +154,7 @@ def confirmation(runtime, result):
     }
 
 
-def status(runtime, arguments):
+def status(runtime, arguments, *, session_hash=None):
     _visible(runtime)
     query = BrowserResearchQuery.model_validate(arguments)
     with runtime.store.connection() as conn:
@@ -125,6 +177,8 @@ def status(runtime, arguments):
     if not job_id:
         return result
     job = runtime.jobs.detail(job_id, review=True)
+    if session_hash is not None and session_hash != job["request"]["session_hash"]:
+        raise DomainError("RUN_SESSION_EXPIRED", 403)
     result["job"] = {
         k: job[k] for k in ("id", "state", "title", "error", "cancel_requested", "updated_at")
     }
@@ -149,6 +203,8 @@ def status(runtime, arguments):
             result["data_scope"] = "owner_authorized_account"
         executor.current(job["request"])
         observation = receipt.get("observation") or {}
+        if "quote" in receipt:
+            result["quote"] = receipt["quote"]
         result.update(
             record_verified=True,
             outcome=receipt["outcome"],

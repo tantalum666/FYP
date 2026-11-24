@@ -25,6 +25,14 @@ export class Hooks {
       this.slots[n] ??= { current: value };
       return this.slots[n];
     },
+    useMemo: (compute: () => any, deps: any[]) => {
+      const n = this.index++;
+      const old = this.slots[n];
+      if (old && this.same(old.deps, deps)) return old.value;
+      const value = compute();
+      this.slots[n] = { value, deps };
+      return value;
+    },
     useCallback: (fn: any, deps: any[]) => {
       const n = this.index++;
       const old = this.slots[n];

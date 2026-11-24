@@ -1,6 +1,9 @@
 import { companionState, type CompanionState } from "./interaction.ts";
+import { performanceDurations } from "./performance-score.ts";
+import type { Delivery } from "./delivery.ts";
 
 export const GESTURE_SECONDS = {
+  ...performanceDurations,
   wave: 4.8,
   nod: 2.4,
   curious: 4.2,
@@ -10,7 +13,24 @@ export const GESTURE_SECONDS = {
   ponder: 5.0,
 } as const;
 export type AliceGesture = keyof typeof GESTURE_SECONDS;
-export type MotionCue = { gesture: AliceGesture; gestureAt: number };
+type SocialDelivery = Exclude<Delivery, "neutral">;
+export type MotionCue = {
+  gesture: AliceGesture;
+  gestureAt: number;
+  delivery?: SocialDelivery;
+};
+const deliveryPerformances: Record<SocialDelivery, readonly AliceGesture[]> = {
+  celebrate: ["applause", "victory"],
+  comfort: ["comfort"],
+  appreciate: ["gratefulBow", "handToHeart"],
+  surprised: ["astonished"],
+  amused: ["giggle", "wink"],
+  curious: ["openQuestion", "chinRest"],
+  encourage: ["fistPump"],
+  relieved: ["relax"],
+  bashful: ["hairTuck", "handToHeart"],
+  apologetic: ["nod"],
+};
 
 export function easeMotion(value: number) {
   const x = Math.max(0, Math.min(1, value));
@@ -28,9 +48,9 @@ export function gestureWeight(
 }
 
 const sequences: Record<CompanionState, readonly AliceGesture[]> = {
-  idle: ["glance", "relax", "curious", "glance"],
+  idle: ["glance", "hairTuck", "relax", "sleeveAdjust", "curious"],
   listening: ["curious", "nod", "curious"],
-  thinking: ["ponder", "glance"],
+  thinking: ["ponder", "chinRest", "glance"],
   speaking: ["explain", "nod", "explain"],
 };
 const pauses: Record<CompanionState, readonly number[]> = {
@@ -39,7 +59,14 @@ const pauses: Record<CompanionState, readonly number[]> = {
   thinking: [7, 11],
   speaking: [1.8, 3.4, 2.6],
 };
-const hellos: readonly AliceGesture[] = ["wave", "nod", "curious", "explain"];
+const hellos: readonly AliceGesture[] = [
+  "wave",
+  "wink",
+  "gratefulBow",
+  "nod",
+  "curious",
+  "explain",
+];
 
 /** Short, contextual gestures with quiet gaps. Uses the renderer's clock only. */
 export class MotionCues {
@@ -49,15 +76,40 @@ export class MotionCues {
   private index = 0;
   private helloIndex = 0;
   private helloCue: MotionCue | null = null;
+  private delivery: Delivery = "neutral";
+  get activeDelivery() {
+    return this.delivery;
+  }
+  private variants = new Map<SocialDelivery, number>();
+
+  dismissReply() {
+    if (this.delivery !== "neutral") this.cue = null;
+    this.delivery = "neutral";
+  }
+
+  respond(time: number, delivery: Delivery) {
+    this.dismissReply();
+    if (delivery === "neutral") return;
+    const choices = deliveryPerformances[delivery],
+      index = this.variants.get(delivery) ?? 0;
+    const gesture = choices[index % choices.length];
+    this.variants.set(delivery, index + 1);
+    this.cue = { gesture, gestureAt: time, delivery };
+    this.delivery = delivery;
+    this.helloCue = null;
+    this.nextAt = time + GESTURE_SECONDS[gesture] + pauses[this.state][0];
+  }
 
   greeting(time: number) {
     if (this.state !== "idle") return;
+    this.helloIndex = 1;
     this.cue = { gesture: "wave", gestureAt: time + 0.35 };
     this.helloCue = this.cue;
     this.nextAt = time + 18;
   }
 
   hello(time: number) {
+    if (this.delivery !== "neutral") return;
     // Rapid taps acknowledge the current gesture, rather than restarting its arm.
     if (
       this.helloCue &&
@@ -81,16 +133,20 @@ export class MotionCues {
     if (state !== this.state) {
       this.state = state;
       this.index = 0;
-      this.cue = null;
-      this.helloCue = null;
-      // A newly heard person gets attention; returning to idle gets a quiet pause.
-      this.nextAt = time + (state === "idle" ? 8 : 0.35);
+      if (this.delivery === "neutral") {
+        this.cue = null;
+        this.helloCue = null;
+        // A newly heard person gets attention; returning to idle gets a quiet pause.
+        this.nextAt = time + (state === "idle" ? 8 : 0.35);
+      }
     }
     if (
       this.cue &&
       time >= this.cue.gestureAt + GESTURE_SECONDS[this.cue.gesture]
-    )
+    ) {
       this.cue = null;
+      this.delivery = "neutral";
+    }
     if (!this.cue && time >= this.nextAt) {
       const gesture = sequences[state][this.index % sequences[state].length];
       const pause = pauses[state][this.index % pauses[state].length];

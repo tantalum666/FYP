@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { Euler, Quaternion } from "three";
 import {
   aliceMotion,
   blinkWeight,
@@ -9,6 +10,51 @@ import {
   reportInteraction,
   subscribeInteraction,
 } from "../src/companion/interaction.ts";
+import { JointMotion } from "../src/companion/motion-response.ts";
+import { RenderCadence } from "../src/companion/render-cadence.ts";
+
+test("a glance acquires its target before the head and shoulders turn", () => {
+  const t = 0.18;
+  const first = aliceMotion(t, { gesture: "glance", gestureAt: 0 });
+  const neutral = aliceMotion(t);
+  assert.ok(first.gaze.yaw > 20);
+  assert.ok(Math.abs(first.pose.head[1] - neutral.pose.head[1]) < 0.002);
+  assert.equal(first.pose.chest[1], neutral.pose.chest[1]);
+  const later = aliceMotion(1.3, { gesture: "glance", gestureAt: 0 });
+  assert.ok(later.pose.head[1] > 0.2 && later.gaze.yaw < first.gaze.yaw);
+});
+
+test("a mid-gesture interruption preserves velocity then settles", () => {
+  const joint = new JointMotion("head");
+  joint.update([1, 0, 0], 0.07);
+  const before = joint.angles[0];
+  const moving = joint.update([1, 0, 0], 0.001)[0];
+  const interrupted = joint.update([0, 0, 0], 0.001)[0];
+  assert.ok(
+    interrupted > moving &&
+      Math.abs((interrupted - moving) / (moving - before) - 1) < 0.04,
+  );
+  for (let i = 0; i < 60; i++) joint.update([0, 0, 0], 1 / 30);
+  assert.ok(Math.abs(joint.angles[0]) < 1e-8);
+});
+
+test("display timestamp jitter preserves the 30 Hz cadence and hidden time is excluded", () => {
+  for (const hz of [60, 120]) {
+    const cadence = new RenderCadence();
+    const deltas = [];
+    for (let frame = 0; frame <= 10 * hz; frame++) {
+      const at = (frame * 1000) / hz + 0.7 * Math.sin(frame * 1.67);
+      const delta = cadence.sample(at);
+      if (delta !== null) deltas.push(delta);
+    }
+    assert.equal(deltas.length, 301);
+    assert.ok(deltas.slice(1).every((dt) => dt > 0.03 && dt < 0.036));
+    assert.equal(cadence.sample(17000), 0.25);
+    assert.equal(cadence.sample(17001), null);
+    cadence.reset();
+    assert.equal(cadence.sample(30000), 0);
+  }
+});
 
 test("a greeting lifts the chosen hand then fully returns to its current idle pose", () => {
   for (const side of ["left", "right"] as const) {
@@ -41,13 +87,10 @@ test("state gestures stay bounded and never introduce root or foot translation",
       });
       for (const [bone, angles] of Object.entries(motion.pose)) {
         assert.doesNotMatch(bone, /foot|leg|hips|root/i);
-        assert.ok(
-          angles.every(
-            (value) =>
-              Number.isFinite(value) &&
-              Math.abs(value) < (bone.endsWith("LowerArm") ? 2.5 : 1.5),
-          ),
-        );
+        const rotation = new Quaternion()
+          .setFromEuler(new Euler(...angles))
+          .angleTo(new Quaternion());
+        assert.ok(rotation < (bone.endsWith("LowerArm") ? 2.58 : 1.53));
       }
       assert.ok(blinkWeight(time) >= 0 && blinkWeight(time) <= 1);
     }
@@ -94,4 +137,33 @@ test("a hidden conversation releases its cue without clearing another active con
     reportInteraction(first, null);
     reportInteraction(second, null);
   }
+});
+
+test("equivalent Euler descriptions do not unwind a forearm", () => {
+  const response = new JointMotion("leftLowerArm"),
+    first = [1.1, -0.8, 1.4],
+    same = [first[0] + Math.PI, Math.PI - first[1], first[2] + Math.PI];
+  const expected = new Quaternion().setFromEuler(
+    new Euler(first[0], first[1], first[2]),
+  );
+  for (let f = 0; f < 120; f++) response.update(first, 1 / 30);
+  for (let f = 0; f < 22; f++) {
+    const [x, y, z] = response.update(same, 1 / 30);
+    assert.ok(
+      expected.angleTo(new Quaternion().setFromEuler(new Euler(x, y, z))) <
+        1e-5,
+    );
+  }
+});
+
+test("an interrupted score leaves time for the raised limb to recover", () => {
+  const response = new JointMotion("leftUpperArm");
+  for (let i = 0; i < 100; i++)
+    response.update([0.7, 0, 0], 1 / 30, false, "chinRest");
+  for (let i = 0; i < 4; i++)
+    response.update([0, 0, 0], 1 / 30, false, "astonished");
+  assert.ok(response.angles[0] > 0.64);
+  for (let i = 0; i < 65; i++)
+    response.update([0, 0, 0], 1 / 30, false, "astonished");
+  assert.ok(Math.abs(response.angles[0]) < 0.001);
 });

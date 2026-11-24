@@ -1,0 +1,63 @@
+{
+  "currency": "HKD",
+  "minor_unit": 2,
+  "independent_catalog": {
+    "FYP-QA-POCKET-TISSUES": {
+      "unit_minor": 400,
+      "quantity": 2
+    },
+    "FYP-QA-DELIVERY-PACK": {
+      "unit_minor": 1700,
+      "quantity": 1
+    }
+  },
+  "original": {
+    "merchandise_minor": 2500,
+    "single_shipping_minor": 800,
+    "all_in_minor": 3300
+  },
+  "lower_shipping": {
+    "merchandise_minor": 2500,
+    "single_shipping_minor": 700,
+    "all_in_minor": 3200
+  },
+  "compensating_price_movements": {
+    "unit_tissues_minor": 450,
+    "unit_stationery_minor": 1600,
+    "merchandise_minor": 2500,
+    "all_in_minor": 3300
+  },
+  "substitution": {
+    "replacement_sku": "FYP-QA-BASKET-ALT",
+    "unit_minor": 1700,
+    "all_in_minor": 3300,
+    "old_approval_can_pay": false
+  },
+  "historical_single_item": {
+    "order": 17,
+    "quantity": 2,
+    "subtotal_minor": 3400,
+    "shipping_minor": 1200,
+    "charged_minor": 4600,
+    "original_row_sha256": "f20f3e2cf52ea2295004331cad91ed867f4737e87c44f659f7ddf70494495892"
+  },
+  "independent_woo_store_api": {
+    "currency": "HKD",
+    "items": [
+      [
+        "FYP-QA-POCKET-TISSUES",
+        2,
+        "800"
+      ],
+      [
+        "FYP-QA-DELIVERY-PACK",
+        1,
+        "1700"
+      ]
+    ],
+    "subtotal": "2500",
+    "shipping": "800",
+    "total": "3300",
+    "selected": 1
+  }
+}

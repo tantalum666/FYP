@@ -1,0 +1,46 @@
+{
+  "sku_and_line_amounts": [
+    [
+      "FYP-QA-POCKET-TISSUES",
+      2,
+      {
+        "line_subtotal": "800",
+        "line_subtotal_tax": "0",
+        "line_total": "720",
+        "line_total_tax": "0"
+      }
+    ],
+    [
+      "FYP-QA-DELIVERY-PACK",
+      1,
+      {
+        "line_subtotal": "1700",
+        "line_subtotal_tax": "170",
+        "line_total": "1530",
+        "line_total_tax": "153"
+      }
+    ]
+  ],
+  "fees": [
+    [
+      "QA handling",
+      {
+        "total": "150",
+        "total_tax": "15"
+      }
+    ]
+  ],
+  "totals": {
+    "total_items": 2500,
+    "total_items_tax": 170,
+    "total_fees": 150,
+    "total_fees_tax": 15,
+    "total_discount": 250,
+    "total_discount_tax": 17,
+    "total_shipping": 800,
+    "total_shipping_tax": 80,
+    "total_price": 3448,
+    "total_tax": 248
+  },
+  "shipping_package_count": 1
+}

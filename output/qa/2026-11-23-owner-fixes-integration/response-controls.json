@@ -1,0 +1,66 @@
+{
+  "ordinary": {
+    "matches": "stable",
+    "kind": "reply",
+    "message": "Scoped offline control.",
+    "used_model": true,
+    "saved": false,
+    "checkout": null
+  },
+  "tokyo": {
+    "matches": "final",
+    "kind": "reply",
+    "message": "东京当地 2026-11-23 00:30，Open-Meteo估算 9.5°C，阴天。今天预计小雨，6 至 13°C，逐小时降水概率最高 73%，预计全天降水 2.2 毫米，预计降水时段包括 03:00–05:00。",
+    "used_model": false,
+    "saved": false,
+    "checkout": null
+  },
+  "google": {
+    "matches": "personal",
+    "kind": "reply",
+    "message": "There’s no confirmed Google Calendar refresh available in this session.",
+    "used_model": false,
+    "saved": false,
+    "checkout": null
+  },
+  "approval": {
+    "matches": "personal",
+    "kind": "approval_status",
+    "message": "Nothing needs your approval right now.",
+    "used_model": false,
+    "saved": false,
+    "checkout": null
+  },
+  "quiet": {
+    "matches": "personal",
+    "kind": "quiet_catch_up",
+    "message": "There are no unread updates from quiet hours.",
+    "used_model": false,
+    "saved": false,
+    "checkout": null
+  },
+  "work": {
+    "matches": "personal",
+    "kind": "work_resume",
+    "message": "I couldn’t find saved work to continue.",
+    "used_model": false,
+    "saved": false,
+    "checkout": null
+  },
+  "real_ticket": {
+    "matches": "final",
+    "kind": "live_flight_checkout",
+    "message": "请打开原来那张 Kiwi 航班结果，点「准备购买」，我会接着核价。",
+    "used_model": false,
+    "saved": false,
+    "checkout": "no_source"
+  },
+  "written_hkd": {
+    "matches": "final",
+    "kind": "reply",
+    "message": "报价是HK$3,389.59。",
+    "used_model": true,
+    "saved": false,
+    "checkout": null
+  }
+}

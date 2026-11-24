@@ -1,6 +1,20 @@
 # Group 2 · Official browser execution
 
+## Flight connector and accounting
+
+The managed job can use an OpenAI service-origin HTTP MCP without an environment. The Kiwi configuration allows one named read-only lookup and sends the itinerary arguments. Normal browser sessions keep the existing restricted desktop. Job authorization, receipt verification and deletion remain shared. A supplier search is budgeted separately from a hosted computer. The server checks the actual MCP call and computes prices from its structured output.
+
+The daily ledger reserves exposure before dispatch. A terminal token record may arrive later than the stream. For a named short-lived small hosted environment, confirmed terminal usage and deletion permit a conservative model estimate plus two 1 GB compute blocks, including a cleanup allowance. Missing or incomplete metering retains the unresolved hold. Cached reads use their own rate. Local estimates cover the possible cache-write rate on the remaining input. The provider's reported costs may differ. [Official usage semantics](https://developers.openai.com/api/docs/guides/agents-api/observability).
+
+An operator with a single UTC-day Costs CSV can update the statement shown in Diagnostics. From the desk-companion directory run `PYTHONPATH=backend .venv/bin/python -m desk.openai_cost_statement --ledger /absolute/path/to/operator-ledger.sqlite3 --csv /absolute/path/to/costs.csv --scope "Project and API-source filters used for this export"`. The ledger stores the total, scope and digest. Raw statement rows, organization identifiers and credentials stay out of the app and Git. Importing a statement leaves admissions and prior reservations intact. [Reconciliation and dated fleet allocation](../../output/qa/2026-11-19-flight-ledger/verification.md).
+
+19 November 2026. A public commerce quote uses the same official hosted computer-use session and restricted site list as research. Its per-request `agent.text.format` selects a shopping or flight JSON schema. The executor disables account sign-in for that quote, validates cited public origins and re-derives its price projection on receipt verification. Generic browser jobs keep their existing output and consent flow. [Quote contract](conversation-browser.md) · [actual public-site results](../../output/qa/2026-11-19-shopping-flight/verification.md).
+
 18 November 2026. The owner explicitly requested the official execution path as the mainline. New conversation drafts and the current browser form now select the official managed executor by default. GPT Live remains the voice interface with Responses delegation; the official Agents service runs the browser task. FYP retains account/permission binding, task identity, result readback and the existing JobService. [Conversation contract](conversation-browser.md), [current QA](../../output/qa/2026-11-17-official-mainline/verification.md).
+
+The operator can set `DESK_MANAGED_BROWSER_MODEL` independently of ordinary text. Both the previous GPT‑6.1 Sol and GPT‑6.2 Sol routes are supported. The workspace reports the effective model. Admission, the provider-revision fence and the hosted create request use the same effective configuration. Existing installations without an override inherit their text model. A dated production spending allocation is checked before creating the hosted environment.
+
+An actual hosted 6.2 Sol session read a public product listing, returned its price and closed with a deletion readback. [Current model and delivery evidence](../../output/qa/2026-11-18-sol62-deployment/verification.md).
 
 ## Admission and compatibility
 

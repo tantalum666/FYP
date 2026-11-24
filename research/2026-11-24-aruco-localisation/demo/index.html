@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ArUco 定位台</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <header><div><h1>ArUco 定位台</h1><p>五块定位牌 · 桌面物品识别</p></div><button id="configure">桌面标定</button></header>
+    <div class="toolbar">
+      <button id="camera" class="primary">开启摄像头</button>
+      <label class="button" for="file">导入图片 / 录像</label><input id="file" type="file" accept="video/*,image/*" hidden>
+      <button id="sample">运行测试样本</button><span class="spacer"></span>
+      <button id="pause" disabled>暂停</button><button id="record" disabled>录制测试</button>
+      <button id="export" disabled>导出 CSV</button>
+    </div>
+    <div class="sourcebar"><span id="sourceName">选择摄像头、图片或录像开始</span><div class="camera-select"><label>摄像头 <select id="devices" aria-label="选择摄像头"><option value="">系统默认</option></select></label><button id="refreshCameras">刷新列表</button></div></div>
+    <details class="phone-help"><summary>iPhone 实时接入与支架摆放</summary><ol><li>iPhone 与 Mac 登录相同 Apple 账户；打开无线局域网、蓝牙和 iPhone「设置 → 通用 → 隔空播放与连续互通 → 连续互通相机」。</li><li>把 iPhone 固定在支架上，后置镜头朝桌面、横向并锁屏。可用 USB 连接并在 iPhone 上信任 Mac。</li><li>在本页面点「开启摄像头」并允许相机，再点「刷新列表」，在摄像头列表中选择 iPhone。电脑端页面会显示实时识别和坐标。</li><li>关闭人物居中、人像、桌上视角等会改变画面的效果。量取镜头中心至桌面的高度，保持支架、焦距和拍摄模式固定。先用纸牌验证视野，不能仅凭 RigArm 外形判断能否覆盖整桌。</li></ol><p>四牌模式可把 ID 3 内移至可见处，并填入实测码心坐标。三牌备用模式需在「桌面标定」中开启，并将所有参照牌图案上边朝桌子远侧、黑框边长填准确。<a href="https://support.apple.com/zh-cn/102546" target="_blank" rel="noreferrer">Apple 接入要求</a></p></details>
+    <div class="mode-controls"><label for="coordinateMode">定位方式</label><select id="coordinateMode"><option value="image">免测量演示 · 像素轨迹</option><option value="table">桌面定位 · 毫米坐标</option></select><span id="modeHint">固定摄像头，移动 ID 4 即可；不需要量纸牌位置。</span></div>
+    <div class="detection-controls"><label><input id="detectObjects" type="checkbox" checked> 识别桌面物品</label><label for="confidence">最低置信度 <output id="confidenceValue">40%</output></label><input id="confidence" aria-label="物品识别最低置信度" type="range" min="20" max="90" step="5" value="40"><span>本机处理，无需上传云端</span></div>
+    <div class="desk-tools"><button id="markDesk" disabled>标出桌面范围</button><button id="clearDesk" disabled>清除范围</button><label><input id="detectUnknown" type="checkbox" checked> 检测未知物品</label><button id="captureEmpty" disabled>记录空桌面</button><button id="clearEmpty" disabled>清除参考</button><span id="deskSetupStatus">先开启画面，沿桌面可见范围依次点选四个角。</span></div>
+    <p class="coordinate-note">未知物品检测需固定镜头、先清空桌面再记录参考；定位牌可保留。透明、细小物及阴影可能漏检或误报。</p>
+    <div id="message" role="status" aria-live="polite">免测量演示已就绪：固定摄像头，移动 ID 4 即可观察像素坐标和轨迹。</div>
+    <div class="monitor-alerts"><p id="edgeAlert" class="monitor-neutral" role="status">未设置桌面范围，暂不能判断 ID 4 是否越界。</p><p id="proximityAlert" class="monitor-neutral" role="status">等待 ID 4 和障碍候选；距离提示使用画面像素。</p><p id="obstacleAlert" class="monitor-neutral" role="status">等待画面与空桌参考。</p></div>
+    <section class="workspace">
+      <div class="camera-panel">
+        <div class="panel-title"><h2>识别画面</h2><span id="frameInfo">等待输入</span></div>
+        <div class="camera-stage"><canvas id="cameraCanvas" width="1280" height="720"></canvas><div id="empty">开启摄像头，或导入桌面图片、录像。</div></div>
+        <div class="playback"><input id="seek" type="range" min="0" max="100" value="0" aria-label="录像进度" disabled><span id="time">00:00 / 00:00</span></div>
+        <section class="marker-panel"><div class="panel-title"><h2>五牌实时坐标</h2><span id="mappingMode">等待输入</span></div><div class="marker-table-wrap"><table class="marker-table"><thead><tr><th>定位牌</th><th>状态</th><th>图像中心 (px)</th><th id="markerTableX">桌面 X (mm)</th><th id="markerTableY">桌面 Y (mm)</th></tr></thead><tbody id="markerPositions"></tbody></table></div><p id="coordinateNote" class="coordinate-note">像素坐标用于观察画面内移动，不代表桌面厘米位置。</p></section>
+      </div>
+      <aside>
+        <div class="panel-title"><h2 id="mapTitle">画面轨迹</h2><span id="tableSize">等待输入</span></div>
+        <canvas id="mapCanvas" width="900" height="450"></canvas>
+        <p id="axisNote" class="axis">画面左上角为原点，X 向右、Y 向下。</p>
+        <p id="trailInfo" class="coordinate-note">轨迹采样 0 点；需先获得有效坐标。</p>
+        <div class="pose"><div><span id="xLabel">X 坐标</span><strong id="x">—</strong><small id="xUnit">px</small></div><div><span id="yLabel">Y 坐标</span><strong id="y">—</strong><small id="yUnit">px</small></div><div><span>朝向</span><strong id="heading">—</strong><small>°</small></div></div>
+        <div class="ids" aria-label="定位牌状态"><span data-id="0">ID 0</span><span data-id="1">ID 1</span><span data-id="2">ID 2</span><span data-id="3">ID 3</span><span data-id="4">ID 4</span></div>
+        <section class="obstacle-panel"><div class="panel-title"><h2>桌面物品</h2><span id="objectCount">0 件</span></div><p id="objectStatus" role="status">等待输入</p><ul id="objectList"></ul><p id="objectProjectionNote" class="obstacle-note">橙色框是画面物品识别框，不代表实际桌面占地。</p></section>
+        <dl><div><dt>有效定位</dt><dd id="validCount">0 / 0 帧</dd></div><div><dt>单帧处理</dt><dd id="latency">—</dd></div></dl>
+        <button id="clear" class="quiet">清空轨迹与统计</button>
+      </aside>
+    </section>
+    <p class="footnote">支持水杯、水瓶、笔记本电脑、显示器、键盘、鼠标等类别；“未检出”不代表桌面没有障碍。首次测量将五块牌放在同一高度，生成样本用于检验定位程序，实物精度请用尺量结果对照。</p>
+  </main>
+  <video id="inputVideo" playsinline muted hidden></video><canvas id="captureCanvas" hidden></canvas><canvas id="recordCanvas" width="1440" height="810" hidden></canvas>
+  <dialog id="settings"><form id="layoutForm">
+    <h2>简单三牌记录</h2><p>先按图摆牌，只填写两段中心间距，单位用厘米。记录会自动保存。</p>
+    <label class="record-method-label" for="referenceLayout">记录方式</label><select name="referenceLayout" id="referenceLayout"><option value="l_shape">L 形三牌：只量两段（推荐）</option><option value="corners">高级：按桌面四角自动计算</option><option value="manual">高级：手动填写坐标</option></select>
+    <section id="lGuide"><img class="l-guide-image" src="/l_shape_guide.svg" alt="L 形摆牌：ID0 和 ID1 左右对齐，ID1 和 ID2 前后对齐；测量中心间距 A 和 B。"><p class="l-guide-note"><b>摆法：</b>0 和 1 排成横线，1 和 2 排成竖线；三张牌全部平放，上边统一朝远侧。ID 4 用来移动，ID 3 不参与这个方法。</p><div class="l-measurements"><label>A · 0 到 1，左右间距<div class="measure-value"><input name="lHorizontalCm" aria-label="A：ID 0 到 ID 1（厘米）" type="number" min="0.1" step="0.1" placeholder="量好再填，例如 60"><span>cm</span></div></label><label>B · 1 到 2，前后间距<div class="measure-value"><input name="lDepthCm" aria-label="B：ID 1 到 ID 2（厘米）" type="number" min="0.1" step="0.1" placeholder="量好再填，例如 30"><span>cm</span></div></label></div><p id="lSummary" class="coordinate-note">量黑框中心到黑框中心，不量纸边，不需要计算 X/Y。</p><details class="l-paper-details"><summary>纸牌尺寸（使用提供的纸牌通常不用改）</summary><label>参照牌黑框边长（厘米）<input name="lMarkerCm" aria-label="参照牌黑框边长（厘米）" type="number" min="0.1" step="0.1" value="6"></label><p>提供的参照码按 100% 打印时，黑框为 6 cm，不包括白边。</p></details><button id="saveLRecord" type="button">下载这份测量记录</button><p class="coordinate-note">ID 0 黑框中心是起点。两段间距定义测试区域，不代表整张桌子的长宽；实际可见边界仍可通过“标出桌面范围”设置。</p></section>
+    <section id="advancedLayout" hidden><p class="calibration-notice">高级设置使用毫米。四角自动计算是预定摆放坐标；手动填写需要实测每张牌的位置。</p>
+    <div class="dimension-inputs"><label>桌面长 <input name="width" type="number" min="1" required></label><label>桌面深 <input name="depth" type="number" min="1" required></label></div>
+    <div class="layout-options"><label id="insetLabel">码中心距桌边（mm）<input name="referenceInset" type="number" min="0" step="any" value="50"></label></div><p id="cornerLayoutHint">ID 0 近左、ID 1 近右、ID 2 远右、ID 3 远左；按计算出的中心位置摆放纸牌。</p>
+    <table><thead><tr><th>参照牌</th><th>X（mm）</th><th>Y（mm）</th></tr></thead><tbody id="referenceInputs"></tbody></table>
+    <label class="three-reference-toggle"><input type="checkbox" name="allowThree"> 允许三张参照牌备用定位</label><label class="marker-size-label">参照牌黑框边长（mm，不含白边）<input name="markerSize" type="number" min="1" step="any" required value="60"></label><p>开启备用定位时，ID 0–3 的图案上边必须全部朝桌子远侧。任意三张参照牌可见时用 12 个角点拟合；尺寸、朝向不符时会拒绝定位。四张齐全仍优先用四牌模式。</p>
+    </section><p id="layoutError" role="alert"></p><div class="dialog-actions"><button id="cancelSettings" type="button">取消</button><button id="applyLayout" type="submit" class="primary">保存并开始三牌定位</button></div>
+  </form></dialog>
+  <script src="/app.js"></script>
+</body>
+</html>

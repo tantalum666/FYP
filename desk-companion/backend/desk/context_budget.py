@@ -47,6 +47,26 @@ def _clip_tool_result(value):
     if not isinstance(value, dict) or len(encode(value)) <= TOOL_RESULT_LIMIT:
         return value
     result = value.get("result") if isinstance(value.get("result"), dict) else {}
+    if value.get("tool") == "weather_query" and result.get("summary"):
+        # Keep each requested local date and its sourced outlook when full rows exceed the budget.
+        fields = ("available", "place", "timezone", "source", "source_url", "issued_at", "summary")
+        return {"tool": "weather_query", "result": {k: result[k] for k in fields if k in result}}
+    if (
+        value.get("tool") == "browser_research_status"
+        and result.get("record_verified")
+        and result.get("quote")
+    ):
+        from .commerce_quotes import brief_quote
+
+        return {
+            "tool": value["tool"],
+            "result": {
+                "proposal_id": result["proposal_id"],
+                "record_verified": True,
+                "transaction_confirmed": False,
+                "quote": brief_quote(result["quote"]),
+            },
+        }
     kept = {"saved": bool(result.get("saved"))}
     if result.get("error"):
         kept["error"] = result["error"]

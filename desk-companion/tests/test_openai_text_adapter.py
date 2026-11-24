@@ -25,10 +25,10 @@ def test_openai_defaults_are_inert_without_a_key_and_none_is_still_explicit(monk
     text, voice = TextConfig.environment(), VoiceConfig.environment()
     assert (text.provider, text.model, text.endpoint) == (
         "openai",
-        "gpt-6.1-sol",
+        "gpt-6.2-sol",
         OPENAI_TEXT_ENDPOINT,
     )
-    assert (voice.provider, voice.model) == ("openai_live", "gpt-live-1")
+    assert (voice.provider, voice.model) == ("openai_live", "gpt-live-1.1")
     assert not text.valid() and not voice.valid() and not text.background
     monkeypatch.setenv("DESK_TEXT_PROVIDER", "none")
     monkeypatch.setenv("DESK_VOICE_PROVIDER", "none")

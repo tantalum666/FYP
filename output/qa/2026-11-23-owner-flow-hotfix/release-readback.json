@@ -1,0 +1,94 @@
+{
+  "source_revision": "a17ac3497eaa1a564768037554280336f4c24245",
+  "git_tree": "b3ac084b013339787e6aeb278dbd416f0ef222b4",
+  "installed_on": [
+    "normal Mac Web",
+    "installed iPhone 17 Pro Simulator"
+  ],
+  "manifest_files": 631,
+  "index_sha256": "2503fb9a5eabb6d4b6b0eff333a6bb42f1c045a05160083fa908777d6be6c53a",
+  "resources_read_back": 6,
+  "service_worker_navigation": true,
+  "composer_enabled": true,
+  "zero_modals": true,
+  "existing_native_data_preserved": true,
+  "voice_version": 9,
+  "voice_settings_and_sample_match_previous": true,
+  "live_flight_account_connected": false,
+  "new_model_usage_rows": 0,
+  "first_normal_weather_request": {
+    "at_utc": "2026-11-23T15:32:24.010868+00:00",
+    "elapsed_seconds": 2.756,
+    "question": "帮我查一下东京的天气",
+    "answer": "东京当地 2026-11-24 00:30，Open-Meteo估算 7°C，局部多云。今天预计大雨，6.8 至 18.3°C，逐小时降水概率最高 100%，预计全天降水 16.5 毫米，预计降水时段包括 16:00–19:00。"
+  },
+  "normal_airport_answer": "成田国际机场当地 2026-11-24 00:30，Open-Meteo估算 7.9°C，大致晴朗。今天预计大雨，7.9 至 18.6°C，逐小时降水概率最高 100%，预计全天降水 14.5 毫米，预计降水时段包括 17:00–20:00。",
+  "installed_phone_answer": "香港当地 2026-11-23 23:00，香港天文台实测 23°C。本港地区(十一月二十四日，星期二)天气预测，多云，有几阵雨。初时雨势较为频密，气温由约23度，逐步下降至晚上市区最低约18度，新界再低一两度。Open-Meteo 今天预计21.2 至 24°C，逐小时降水概率最高 10%。",
+  "independent_public_city_reads": {
+    "at_utc": "2026-11-23T15:07:48.889891+00:00",
+    "locations": [
+      {
+        "place": "纽约",
+        "country": "US",
+        "timezone": "America/Chicago",
+        "local_date": "2026-11-23",
+        "summary": "纽约当地 2026-11-23 09:00，Open-Meteo估算 3.5°C，晴。今天预计晴，0 至 7.5°C，逐小时降水概率最高 0%，预计全天降水 0 毫米。"
+      },
+      {
+        "place": "悉尼",
+        "country": "AU",
+        "timezone": "Australia/Sydney",
+        "local_date": "2026-11-24",
+        "summary": "悉尼当地 2026-11-24 02:00，Open-Meteo估算 20.7°C，晴。今天预计毛毛雨，18.2 至 23.8°C，逐小时降水概率最高 100%，预计全天降水 3.2 毫米，预计降水时段包括 08:00–14:00、15:00–23:00。"
+      }
+    ]
+  },
+  "after_hong_kong_midnight": {
+    "source": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+    "at_utc": "2026-11-23T16:02:10.368716+00:00",
+    "environment": "isolated ordinary streaming conversation, live public providers",
+    "response": "香港当地 2026-11-23 23:00，香港天文台实测 23°C。本港地区(十一月二十四日，星期二)天气预测，多云，有几阵雨。初时雨势较为频密，气温由约23度，逐步下降至晚上市区最低约18度，新界再低一两度。今天预计多云，有几阵雨，初时雨势较为频密。天气逐步转凉，18 至 23°C，显著降雨概率中。",
+    "public_tool_events": [
+      [
+        "started",
+        "weather_query"
+      ],
+      [
+        "finished",
+        "weather_query"
+      ]
+    ]
+  },
+  "fresh_quote_release": {
+    "source": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+    "mac_health": "ok",
+    "release_files": 641,
+    "index_sha256": "874979b0be745aefa85cae5bad73f727afc90cc54d7235e005909332f5026ff2",
+    "normal_web_readback": {
+      "state": "no_source",
+      "response": "告诉我出发地、目的地和出发日期，往返请加上回程日期，我帮你查新报价。",
+      "http_status": 200,
+      "real_itinerary_sent": false,
+      "seller_or_airline_operations": 0,
+      "operational_counts_unchanged": true
+    },
+    "installed_native_files_verified": 77,
+    "installed_native_revision": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+    "protected_native_data_preserved": true,
+    "native_installed_in_background": true,
+    "normal_native_foreground_rerun": false,
+    "isolated_real_native_card_verified": true,
+    "A3_v9_settings_and_audio_preserved": true,
+    "account_grants_preserved": true,
+    "letsfg_connected": false,
+    "original_pi": {
+      "source": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+      "observed_at": "2026-11-24T00:18:35+08:00",
+      "normal_api_and_kiosk_active": true,
+      "both_language_variants_returned_no_source": true,
+      "kiosk_used_compiled_translation": true,
+      "model_seller_or_booking_changes": 0,
+      "original_grants_and_A3_preserved": true
+    }
+  }
+}

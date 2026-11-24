@@ -1,0 +1,28 @@
+{
+  "ask": {
+    "total": 3,
+    "read_only": true,
+    "outcome": {
+      "kind": "clarify",
+      "message": "Choose the specific quote, draft or step in Work to review.",
+      "status": 200
+    },
+    "version_before": 1,
+    "version_after": 1,
+    "new_proposals": 0,
+    "provider_calls": []
+  },
+  "full": {
+    "total": 3,
+    "read_only": true,
+    "outcome": {
+      "kind": "clarify",
+      "message": "Choose the specific quote, draft or step in Work to review.",
+      "status": 200
+    },
+    "version_before": 1,
+    "version_after": 1,
+    "new_proposals": 0,
+    "provider_calls": []
+  }
+}

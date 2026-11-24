@@ -1,0 +1,12 @@
+{
+  "origin": "https://letsfg.co",
+  "path": "/connect",
+  "popup_verified": true,
+  "scope": [
+    "flights:search",
+    "flights:book"
+  ],
+  "pkce_method": "S256",
+  "callback_path": "/api/apps/letsfg/callback",
+  "owner_approval": false
+}

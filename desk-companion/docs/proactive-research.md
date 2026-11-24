@@ -23,7 +23,7 @@ Categories share a 26,000-character evidence budget so one long category cannot 
 
 ## Official execution and product responsibilities
 
-`initiative.py` calls the existing OpenAI Responses adapter once for changed evidence, with native strict JSON Schema and no action tools. It bypasses the legacy primary-text `AgentLoop`. The schema admits at most three findings, each with one to four exact source references. A conflict needs at least two references; all current fingerprints must still match when publishing. This is one bounded read-only inference, not another agent harness.
+`initiative.py` calls the existing OpenAI Responses adapter once for changed evidence, with native strict JSON Schema and no action tools. It runs independently of interactive text sessions. The schema admits at most three findings, each with one to four exact source references. A conflict needs at least two references; all current fingerprints must still match when publishing. This is one bounded read-only inference, not another agent harness.
 
 The existing Runtime worker checks initiative every 15 seconds. A five-minute provider-read fallback supplies changes where push integration is absent; it is not a fixed user reminder or a model call every five minutes. A persisted source signature prevents repeated successful inference on unchanged context. One delayed five-minute retry is allowed after a failed attempt, with at most two attempts per signature. The old `task_advice` inference worker is retired to avoid duplicate background analysis. Its compatibility method remains callable by older paths.
 
@@ -33,10 +33,18 @@ A bounded database lease fences concurrent analysis/restarts. Up to 100 derived 
 
 OpenAI Responses read timeouts are now 30 seconds for initiative and 15 seconds for other complete responses, retaining five-second connect/write limits and the existing total body deadline. Real reasoning calls exposed the old five-second response timeout. No automatic send or unknown write retry was added.
 
-Multi-step browser execution remains official Agents Sessions/computer use. Future deliberate scheduled reasoning should use official Agents Automations; FYP still supplies account grants, source freshness, task identity, domain-specific controls and independent outcomes. The old primary-text planner remains an explicit migration gap. Do not describe the whole product as a ready-made embedded Dot.
+Multi-step browser execution remains official Agents Sessions/computer use. Future deliberate scheduled reasoning should use official Agents Automations; FYP still supplies account grants, source freshness, task identity, domain-specific controls and independent outcomes. Ordinary OpenAI text now uses [official sessions and functions](official-text-sessions.md) on the source branch.
+
+## Batched notification delivery
+
+After quiet hours Alice can put up to three currently valid findings behind one content-free notification. Higher-importance findings appear first on the home cue. Normal mode uses a 30-minute gap between interruptions, and Less often uses a two-hour gap and high-importance findings. The existing daily caps also apply. The in-app delivery receipt and finding IDs commit together. Dismissing one member keeps the notice open until its remaining members are dismissed or obsolete. The original single-notice receipts are reconciled on upgrade. This delivery step needs no extra model inference. [Always-on design review](../../research/2026-11-18-always-on-personal-agent.md) · [verification](../../output/qa/2026-11-18-official-text-sessions/verification.md).
+
+## Approved orders in their original conversation
+
+The desk's existing worker infrastructure checks due, already-approved shopping and flight records. It reuses the provider readers, observes their existing backoff, and commits a changed outcome only while the original login, chat, privacy and proactivity settings still permit it. Off pauses background checks. The client keeps only order identity, version and state for unfinished work in that window. It reports a newly verified result or a changed decision in the original conversation. No paid inference or external notification is needed for this receipt. [Verification](../../output/qa/2026-11-21-quiet-order-followup/verification.md).
 
 ## Acceptance and remaining work
 
 Local tests cover no initial request, silence, duplicate changes, quiet/off controls, stale/deleted sources, stopped mail, late permissions, bounded retries, clock rollback, dismissal recovery and calendar changes. Desktop and Chinese-phone flows were exercised in installed Chromium with scripted providers. Six real Responses research cases include an unassigned contradiction and quiet controls; a real model also selected follow/stop tools over synthetic mail. No real mailbox subscription or outgoing mail was enabled by those tests.
 
-The next release must promote the reviewed main tree to the normal Mac, native app and Pi and verify each endpoint. Current installed source remains the earlier verified `8c67ddbe`. Continuous real-mail usefulness, closed-phone push delivery, Microsoft consent, paid production budgeting and long-running device reliability remain separate acceptance work.
+The normal Mac Web service, native iOS Simulator and Pi kiosk received `c607759e` on 18 November. Both servers report background research off. The owner-facing research endpoint is available, and existing Google authorizations passed fresh reads. Sustained real-mail usefulness, closed-phone push delivery, Microsoft consent and production spending controls remain open. [Deployment evidence](../../output/qa/2026-11-18-three-end-rollout/verification.md).

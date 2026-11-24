@@ -22,8 +22,12 @@ from .assistant import CalendarQuery, ChangeProposal
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 from .owner_plan import ProposePlan
 from .weather import WeatherQuery
+from .flight_booking.provider import SEARCH_WINDOW_SECONDS, BookedFlightCalendarQuery, FlightQuery
+from .flight_booking.shortlist import ShortlistQuery
+from .shop_checkout.provider import ShopQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
+from .routine_chat import RoutineSkipDraft
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -63,13 +67,19 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("routine_skip_draft", "draft", RoutineSkipDraft),
         Capability("email_reply_draft", "draft", MailReplyDraft, timeout=20),
         Capability("mail_followup_draft", "draft", MailFollowupDraft, timeout=20),
         Capability("mail_followup_status", "read", MailFollowupQuery),
         Capability("mail_followup_stop", "stop", MailFollowupStop),
+        Capability("sandbox_shop_quote", "draft", ShopQuery, timeout=22),
+        Capability("booked_flight_calendar_draft", "draft", BookedFlightCalendarQuery),
+        Capability("flight_purchase_review", "read", EmptyArgs),
+        Capability("sandbox_flight_quote", "draft", FlightQuery, timeout=SEARCH_WINDOW_SECONDS+4),
+        Capability("revisit_flight_shortlist", "draft", ShortlistQuery),
         Capability("browser_research_draft", "draft", BrowserResearchDraft),
         Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),
-        Capability("weather_query", "read", WeatherQuery, timeout=8),
+        Capability("weather_query", "read", WeatherQuery, timeout=22),
         Capability("connected_app_query", "read", ConnectedAppQuery, timeout=12),
         Capability("email_status", "read", EmptyArgs),
         Capability("email_send_draft", "draft", MailDraft),

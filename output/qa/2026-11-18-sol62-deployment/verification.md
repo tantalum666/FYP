@@ -1,0 +1,34 @@
+# Group 2 · GPT‑6.2 Sol production routing
+
+On 18 November 2026 the normal Mac Web service and the installed iPhone 17 Pro Simulator moved to application source `00780e44c603cb8652ec6eee8b5d2e06263acb93`. The original Raspberry Pi was unavailable. The owner chose to retain its release package and defer installation. [Deployment PR](https://github.com/tantalum666/FYP/pull/133). [Machine readback](release.json) · [authorization, sources and scope](scope.md).
+
+## Routing and actual results
+
+| Path | Evidence |
+|---|---|
+| Normal Mac Web | The authenticated browser opened the Alice home on port 8831. It loaded the avatar and composer. The running service reported ordinary text `gpt-6.2-sol`, engine `openai_sessions`, managed browser `gpt-6.2-sol`, and background model inference off. |
+| Native iOS | Xcode installed the revised bundle over the existing iPhone 17 Pro Simulator app (iOS 26.5). It cold-launched without arguments against the saved Mac origin. The running Capacitor bridge returned the same release and model choices, A3 version 9 and the original account grant versions. All 77 current frontend files, including build metadata, matched the Web build. |
+| Ordinary OpenAI text | The installed release and real production allowance were used with a separate empty application store. Its normal HTTP message handler returned the canonical answer `42` for 18 + 24. OpenAI identified `gpt-6.2-sol`. The deleted session returned 404. Token usage was unavailable at readback, so US$0.08 remains reserved. |
+| Official managed browser | One owner-approved public-origin job read the first book and price from Books to Scrape. The outbound create and provider session identified `gpt-6.2-sol` at Standard tier. The report gave *A Light in the Attic*, £51.77 and the source URL. Independent HTML inspection matched both fields. Three browser activities, accepted deletion and later GET 404. Provider usage was absent, so the entire US$2 reservation remains accounted. No account sign-in or merchant write was part of this job. |
+| Speech | The actual clients reported `gpt-live-1` for audio and `gpt-6.2-sol` for delegated reasoning. A focused protocol check inspected both exact fields in the Live session-start message. The selected A3 settings and cached audio stayed byte-identical. This rollout did not perform a new paid voice listening test. |
+| Pi | The original VPS accepted the pinned management login, but the device's own reverse listener was absent. No directly connected LAN/USB route or existing API tunnel was available. At the owner's request all attempts stopped. The last installed release verified there was `c607759e`. The ZIP retained privately for delivery is `FYP-Pi-Sol62-00780e44.zip`. Its CRC, contents, inner manifest and delta SHA were reopened successfully. The [receipt](release.json) contains its digest. No on-device activation or budget enforcement is attributed to this package. |
+
+## Spending
+
+The owner authorized FYP API activity through **24 November inclusive, Hong Kong time**, with a fleet allowance of US$20 per day. The independent Mac and Pi allocations are US$9 each, leaving US$2 unallocated. Mac Web, its native client and Mac-side live checks share one private, persistent ledger. The Pi allocation stays reserved for its eventual rollout.
+
+On 18 November Mac started with a conservative US$5.25 opening entry covering the full caps of the earlier closed test batches. The prior production store had zero OpenAI text and voice attempts in the current HK day at cutover. The two new real verifications kept US$2 and US$0.08 respectively. At final readback the Mac ledger showed **US$7.33 accounted, US$1.67 available**. These figures include holds and are not an invoice. Local admission controls govern requests through the updated runtime. The API provider can report usage late. Direct key use outside those runtimes and the deferred Pi's former installation cannot be governed by the Mac ledger.
+
+The affected code paths reserve before ordinary session input/function continuation, counted Responses and local computer steps, real-time voice connections and hosted browser creation. Receipt reconciliation, complete/unknown handling, denied funding, concurrent admission, persisted counters, clock rollback, day-boundary protection, expiry and cleanup were checked. The local receipt-based spending window ends at midnight starting 25 November. Later cleanup remains allowed. [OpenAI rates](https://developers.openai.com/api/docs/pricing).
+
+## Preservation and test evidence
+
+The Mac delivery verified 390 release files and a stopped-service, independently readable backup. The upgrade rehearsal retained all 128 original SQLite table contents. The running store remained at schema 3 and gained the technical provider-session table, for 129 tables. Thirteen live business and identity table groups, original account grant versions, key files, A3 setting/sample and the existing background preference matched. Only the intended model and budget entries were changed in the private service configuration. The deployed frontend bytes match the 76 previous build files, plus the new release metadata.
+
+The Simulator relocated its container. Two WebKit SQLite files changed on disk, so the check compared rows as well. No existing row was lost or modified. WebKit added an operating-date row and a local-storage row. Other retained files and the running app's owner and grant readback were checked.
+
+Twelve targeted release regressions were exercised in separate local runs. A denied hosted request initially surfaced as an unknown job despite zero outbound requests. It now produces a known pre-dispatch failure. Inspection also identified the distinct delegated-usage field names in GPT Live and the local computer token-count preflight destination. Explicit regressions cover both. Existing checks relevant to the modified activation, voice protocol, local browser and cleanup paths were selected. No full suite, CI, power trial or physical-iPhone install was started.
+
+Review was a self-review of the candidate against the previous source, the official model/computer-use/Live configuration contracts and observed requests. The protected old-runtime backup is the rollback point. When reverting to an older binary that lacks the daily ledger, keep paid generation disabled until its spending controls are restored. Raw account details, receipts, images, local ledgers and the Pi ZIP remain outside Git.
+
+Publication-scope checks covered 29 source, test, configuration-example, Markdown and JSON files. All 28 added local link occurrences resolved, the whitespace check and Ruff passed, and the patch contained no raw ledger, credential, backup, screenshot, binary release or CI workflow.

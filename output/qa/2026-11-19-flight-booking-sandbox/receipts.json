@@ -1,0 +1,139 @@
+{
+  "provider": "LetsFG public developer sandbox",
+  "region_test": "Hong Kong to Tokyo Haneda",
+  "date": "2026-11-19",
+  "timezone": "Asia/Hong_Kong",
+  "new_personal_accounts": 0,
+  "external_provider_api_keys_used": 0,
+  "live_money_charged": 0,
+  "airline_tickets_issued": 0,
+  "openai_calls": 0,
+  "quote": {
+    "http": 200,
+    "origin": "HKG",
+    "destination": "HND",
+    "departure": "2026-11-25",
+    "adults": 1,
+    "stops": 0,
+    "source": "sandbox",
+    "returned_offer_count": 50,
+    "displayed_price": 34.0,
+    "currency": "HKD",
+    "baggage_price_source": "estimate",
+    "checked_weight_confirmed": false
+  },
+  "success": {
+    "create_http": 202,
+    "initial_state": "authorised",
+    "simulated_card": {
+      "brand": "visa",
+      "last4": "4242",
+      "type": "card"
+    },
+    "quoted_authorization": 34,
+    "initial_actual_charge_field": 0,
+    "embedded_fare_total": 31.58,
+    "observed": [
+      {
+        "observed_hkt": "2026-11-19T21:21:15+08:00",
+        "http": 200,
+        "state": "card_issued",
+        "question": null
+      },
+      {
+        "observed_hkt": "2026-11-19T21:21:38+08:00",
+        "http": 200,
+        "state": "booking_in_progress",
+        "question": null
+      },
+      {
+        "observed_hkt": "2026-11-19T21:22:01+08:00",
+        "http": 200,
+        "state": "completed",
+        "question": null
+      }
+    ],
+    "fresh_get_http": 200,
+    "independent_read": {
+      "sandbox": true,
+      "state": "completed",
+      "currency": "HKD",
+      "approved_amount": "34.0",
+      "simulated_capture": "34.0",
+      "simulated_pnr": "YT7A93",
+      "release_reported": false
+    }
+  },
+  "accepted_request_replayed": {
+    "http": 202,
+    "same_private_booking_id": true,
+    "duplicate": true,
+    "state": "completed"
+  },
+  "price_increase_declined": {
+    "create_http": 202,
+    "observed": [
+      {
+        "observed_hkt": "2026-11-19T21:21:16+08:00",
+        "http": 200,
+        "state": "card_issued",
+        "question": null
+      },
+      {
+        "observed_hkt": "2026-11-19T21:21:39+08:00",
+        "http": 200,
+        "state": "booking_in_progress",
+        "question": null
+      },
+      {
+        "observed_hkt": "2026-11-19T21:22:02+08:00",
+        "http": 200,
+        "state": "booking_in_progress",
+        "question": "price_change"
+      },
+      {
+        "observed_hkt": "2026-11-19T21:22:24+08:00",
+        "http": 200,
+        "state": "failed",
+        "question": null
+      }
+    ],
+    "increase": {
+      "old_total": 34.0,
+      "new_total": 35.43,
+      "currency": "HKD"
+    },
+    "answer_http": 200,
+    "answer_recorded": true,
+    "fresh_get_http": 200,
+    "independent_read": {
+      "sandbox": true,
+      "state": "failed",
+      "currency": "HKD",
+      "approved_amount": "34.0",
+      "simulated_capture": null,
+      "simulated_pnr": null,
+      "release_reported": true
+    }
+  },
+  "singapore_airlines": {
+    "sandbox": "https://developer.singaporeair.com/sandbox",
+    "booking_operations_visible": [
+      "searchFlight",
+      "pricing",
+      "createbooking",
+      "confirmbooking"
+    ],
+    "blank_api_key_required_for_search": true,
+    "initial_registration_fields": [
+      "username",
+      "display name",
+      "email and confirmation",
+      "password and confirmation",
+      "CAPTCHA"
+    ],
+    "initial_incorporation_menu_present": false,
+    "account_or_key_obtained": false,
+    "airline_hosted_test_order_created": false
+  }
+}

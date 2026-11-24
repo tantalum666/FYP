@@ -1,0 +1,4 @@
+{
+  "mcp_initialize_without_token_http": 401,
+  "bearer_challenge_reader": "Bearer resource_metadata=\"https://letsfg.co/.well-known/oauth-protected-resource/mcp\""
+}

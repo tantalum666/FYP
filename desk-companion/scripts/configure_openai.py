@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 from desk.computer_use_network import local_browser_proxy
 from desk.voice_credentials import openai_key
 from desk.openai_transport import validate_openai_proxy
+from desk.provider_policy import DEFAULT_OPENAI_LIVE_MODEL, DEFAULT_OPENAI_REASONING_MODEL
 
 
 def configure(
@@ -55,15 +56,16 @@ def configure(
     settings = {
         "DESK_OPENAI_CREDENTIAL_FILE": str(credentials),
         "DESK_VOICE_PROVIDER": voice_provider,
-        "DESK_VOICE_MODEL": "gpt-live-1" if voice_provider == "openai_live" else "gpt-realtime-2.1",
+        "DESK_VOICE_MODEL": DEFAULT_OPENAI_LIVE_MODEL if voice_provider == "openai_live" else "gpt-realtime-2.1",
         "DESK_VOICE_ENDPOINT": "wss://api.openai.com/v1/live/sessions"
         if voice_provider == "openai_live"
         else "wss://api.openai.com/v1/realtime",
-        "DESK_LIVE_BACKEND_MODEL": "gpt-6.1-sol",
+        "DESK_LIVE_BACKEND_MODEL": DEFAULT_OPENAI_REASONING_MODEL,
         "DESK_VOICE_API_KEY": "",
         "DESK_VOICE_VOICE": "marin",
         "DESK_TEXT_PROVIDER": "openai",
-        "DESK_TEXT_MODEL": "gpt-6.1-sol",
+        "DESK_TEXT_MODEL": DEFAULT_OPENAI_REASONING_MODEL,
+        "DESK_MANAGED_BROWSER_MODEL": DEFAULT_OPENAI_REASONING_MODEL,
         "DESK_TEXT_ENDPOINT": "https://api.openai.com/v1/responses",
         "DESK_TEXT_API_KEY": "",
         "DESK_TEXT_BACKGROUND": "0",
@@ -115,6 +117,8 @@ def configure(
         "provider": "openai",
         "text_model": settings["DESK_TEXT_MODEL"],
         "voice_model": settings["DESK_VOICE_MODEL"],
+        "voice_backend_model": settings["DESK_LIVE_BACKEND_MODEL"],
+        "managed_browser_model": settings["DESK_MANAGED_BROWSER_MODEL"],
         "region_unavailable": region_unavailable,
         "model_requests": 0,
     }

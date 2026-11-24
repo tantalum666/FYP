@@ -15,6 +15,7 @@ from desk.schemas import SettingsInput
 from desk.store import DomainError
 from desk.tasks import TaskAction, TaskInput
 from desk.text_ai import TextPlan
+from session_protocol_fixture import install_session_protocol
 from desk.tool_dispatch import ToolDispatcher
 from desk.tool_policy import execute_tool
 from test_computer_use import world as world
@@ -48,9 +49,7 @@ def decide(client, proposal, *, share=True, action="confirm", key="owner-confirm
 
 def test_text_message_produces_review_without_starting_a_browser(world, monkeypatch):
     r, client, _ = world
-    monkeypatch.setattr(r.text_ai, "generate", lambda *args, **kwargs: TextPlan(
-        message="Review the website and comparison scope.", tool="browser_research_draft", arguments=DATA,
-    ))
+    install_session_protocol(r).next_calls = [("browser_research_draft", DATA)]
     response = client.post(
         "/api/assistant/messages", json={"message": "Compare three tissue packs on the rehearsal site"},
         headers={"X-Desk-Request": "1", "X-Operation-Id": "chat-request"},
@@ -88,10 +87,7 @@ def test_text_email_request_reaches_existing_draft_service_without_sending(world
 
     monkeypatch.setattr(r.outbound_mail, "draft", prepare_mail)
     monkeypatch.setattr(r.outbound_mail, "send", lambda *args, **kwargs: pytest.fail("Draft sent mail"))
-    monkeypatch.setattr(r.text_ai, "generate", lambda *args, **kwargs: TextPlan(
-        message="Review the email before sending.", tool="email_send_draft",
-        arguments={"to": "fixture@example.invalid", "subject": "Test", "body": "Test"},
-    ))
+    install_session_protocol(r).next_calls = [("email_send_draft", {"to": "fixture@example.invalid", "subject": "Test", "body": "Test"})]
     response = client.post(
         "/api/assistant/messages", json={"message": "Prepare a Test email to fixture@example.invalid"},
         headers={"X-Desk-Request": "1", "X-Operation-Id": "mail-chat"},
@@ -342,13 +338,8 @@ def test_verified_browser_data_can_feed_an_existing_task_draft(world):
 @pytest.mark.parametrize("cancelled", [False, True])
 def test_original_chat_retry_returns_current_state_not_a_stale_review(world, monkeypatch, cancelled):
     r, client, _ = world
-    calls = []
-
-    def generate(*args, **kwargs):
-        calls.append(1)
-        return TextPlan(message="Review this request.", tool="browser_research_draft", arguments=DATA)
-
-    monkeypatch.setattr(r.text_ai, "generate", generate)
+    protocol=install_session_protocol(r)
+    protocol.next_calls=[("browser_research_draft",DATA)]
     body = {"message": "Compare the fictional tissue packs"}
     headers = {"X-Desk-Request": "1", "X-Operation-Id": "original-request"}
     original = client.post("/api/assistant/messages", json=body, headers=headers).json()
@@ -357,7 +348,7 @@ def test_original_chat_retry_returns_current_state_not_a_stale_review(world, mon
     assert current.status_code == 200, current.text
     reply = current.json()
     assert reply["proposal"] is None and reply["saved"] is False
-    assert len(calls) == 1
+    assert len(protocol.functions) == 1
     if cancelled:
         assert "cancelled" in reply["message"] and not r.jobs.listing()
     else:

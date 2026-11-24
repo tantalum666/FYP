@@ -1,0 +1,169 @@
+{
+  "baseline": {
+    "version": "a1f9b76b76ba4c90e2d1f0aa96f9f207ff3d5d35",
+    "viewport": [
+      402,
+      874
+    ],
+    "connected": true,
+    "framesSampled": 51,
+    "sampleWindowMs": 2424,
+    "following": "wink",
+    "bySide": {
+      "left": {
+        "arm": 22.86,
+        "whole": 18.43,
+        "forward": 12.73,
+        "elbow": 18.69,
+        "thumbSpan": 0.07,
+        "wristOffset": 5.16,
+        "fingerBends": [
+          13.56,
+          15.21,
+          18.56,
+          21.92
+        ]
+      },
+      "right": {
+        "arm": 26.61,
+        "whole": 23.67,
+        "forward": 14.11,
+        "elbow": 12.48,
+        "thumbSpan": 0.07,
+        "wristOffset": 3.44,
+        "fingerBends": [
+          13.56,
+          15.21,
+          18.56,
+          21.92
+        ]
+      }
+    }
+  },
+  "shipped": {
+    "version": "69099a24e0071820c512e0d80868456741e5866b",
+    "viewport": [
+      402,
+      874
+    ],
+    "connected": true,
+    "framesSampled": 49,
+    "sampleWindowMs": 2402,
+    "following": "wink",
+    "bySide": {
+      "left": {
+        "arm": 5.42,
+        "whole": 10.1,
+        "forward": 4.76,
+        "elbow": 24.07,
+        "thumbSpan": 0.05,
+        "wristOffset": 13.1,
+        "fingerBends": [
+          16.7,
+          21.0,
+          27.0,
+          31.0
+        ]
+      },
+      "right": {
+        "arm": 7.93,
+        "whole": 12.43,
+        "forward": 4.39,
+        "elbow": 23.79,
+        "thumbSpan": 0.05,
+        "wristOffset": 13.78,
+        "fingerBends": [
+          16.7,
+          21.0,
+          27.0,
+          31.0
+        ]
+      }
+    }
+  },
+  "digitSweep": {
+    "settledShapes": 81,
+    "fastChangeFrames": 180,
+    "contacts": {
+      "settled": {},
+      "changing": {}
+    }
+  },
+  "nativeCloth": {
+    "meshes": 3,
+    "sourceMaterials": [
+      "N00_007_01_Tops_01_CLOTH (Instance)",
+      "N00_007_02_Tops_01_CLOTH (Instance)",
+      "N00_001_03_Bottoms_01_CLOTH (Instance)"
+    ],
+    "motionPhases": [
+      "gratefulBow",
+      "idle"
+    ],
+    "range": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0.635,
+        1
+      ],
+      [
+        0.4,
+        1
+      ]
+    ],
+    "returnedHome": true
+  },
+  "renderRate": {
+    "elapsedMs": 3602,
+    "renderHz": 29.705719044975012,
+    "count": 107,
+    "home": true
+  },
+  "web": {
+    "viewport": [
+      1280,
+      820
+    ],
+    "title": "Desk Companion",
+    "tap": "wink",
+    "build": "69099a24e0071820c512e0d80868456741e5866b",
+    "model": "gpt-live-1.1",
+    "errors": [],
+    "reducedCanvasCount": 0
+  },
+  "rollout": {
+    "database_backup_verified": true,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "protected_files_unchanged": true,
+    "voice_model": "gpt-live-1.1",
+    "only_env_change": null,
+    "paid_calls": 0
+  },
+  "pi": {
+    "archive": "Pi-69099a24-from-85e6aa94.tar.gz",
+    "sha256": "843656b455224c7baebf630cb9b62b294fc9b1dbd7d0b642f5811d2db3c2a51e",
+    "bytes": 3482165,
+    "base_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "target_revision": "69099a24e0071820c512e0d80868456741e5866b",
+    "changed": 127,
+    "retained": 387,
+    "files_verified": 514,
+    "configuration_change": {
+      "DESK_VOICE_MODEL": "gpt-live-1.1"
+    },
+    "installed_on_pi": false
+  },
+  "mediaSha256": {
+    "standing.jpg": "d89f4c93280cd4dc7abf6d28e21fa3f0da18c9aaf000c38fb327363d303abed7",
+    "stance-and-hands.mp4": "b540f9dbf4d4644cd1bf4bee4af53d4f5fa19fde196dac11ffd0d696f9f0addc"
+  }
+}

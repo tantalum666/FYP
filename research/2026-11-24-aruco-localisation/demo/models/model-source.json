@@ -1,0 +1,8 @@
+{
+  "model": "YOLOX-S, OpenCV Zoo, object_detection_yolox_2022nov.onnx",
+  "url": "https://huggingface.co/opencv/opencv_zoo/resolve/main/models/object_detection_yolox/object_detection_yolox_2022nov.onnx",
+  "sha256": "c5c2d13e59ae883e6af3b45daea64af4833a4951c92d116ec270d9ddbe998063",
+  "bytes": 35858002,
+  "license": "Apache-2.0",
+  "source_code": "https://github.com/opencv/opencv_zoo/tree/main/models/object_detection_yolox"
+}

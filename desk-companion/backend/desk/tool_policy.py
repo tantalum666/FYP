@@ -94,14 +94,22 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
+SCOPED_COMMERCE_TOOLS = frozenset({
+    "sandbox_flight_quote", "sandbox_shop_quote", "booked_flight_calendar_draft", "revisit_flight_shortlist",
+})
+
+
 OWNER_ONLY_TOOLS = frozenset(
     {
+        "routine_skip_draft",
         "email_reply_draft",
         "mail_followup_draft",
         "mail_followup_status",
         "mail_followup_stop",
         "browser_research_draft",
         "browser_research_status",
+        *SCOPED_COMMERCE_TOOLS,
+        "flight_purchase_review",
         "email_status",
         "connected_app_query",
         "email_send_draft",
@@ -130,8 +138,8 @@ def memory_blocked(name: object, allow_memory: bool) -> bool:
     return name.startswith("memory_") or name in OWNER_ONLY_TOOLS
 
 
-def tool_visible(name: str, allow_memory: bool) -> bool:
-    return not memory_blocked(name, allow_memory)
+def tool_visible(name: str, allow_memory: bool, *, channel: str = "voice") -> bool:
+    return not memory_blocked(name, allow_memory) and (name not in SCOPED_COMMERCE_TOOLS or channel == "text")
 
 
 def audit_suppressed() -> bool:
@@ -179,6 +187,7 @@ def execute_tool(
     *,
     scope: str,
     allow_memory: bool = True,
+    principal: dict | None = None,
     language: str = "en",
     channel: str | None = None,
     timeout: float | None = None,
@@ -205,7 +214,7 @@ def execute_tool(
             CAPABILITIES,
         )
         return result
-    if memory_blocked(capability.name, allow_memory):
+    if (capability.name in SCOPED_COMMERCE_TOOLS and channel_name != "text") or memory_blocked(capability.name, allow_memory):
         result = {"error": "OWNER_SIGN_IN_REQUIRED", "saved": False}
         _audit(
             runtime,
@@ -220,6 +229,10 @@ def execute_tool(
         )
         return result
     key = effect_key(scope, capability.name, parsed)
+    if capability.name == "routine_skip_draft":
+        with runtime.store.connection() as conn:
+            if runtime.store.settings(conn)["hide_private"]:
+                return {"error": "PRIVATE_CONTEXT_HIDDEN", "saved": False}
     stored = _stored(runtime, key) if capability.risk != "read" else None
     if stored is not None:
         return stored
@@ -236,6 +249,7 @@ def execute_tool(
         waiter or _wait,
         CAPABILITIES,
         cache=capability.risk != "read",
+        principal=principal,
     )
 
 
@@ -252,6 +266,7 @@ def _run_bounded(
     capabilities: dict,
     *,
     cache: bool,
+    principal: dict | None,
 ) -> dict:
     holder: dict[str, Any] = {}
     done = threading.Event()
@@ -275,9 +290,10 @@ def _run_bounded(
         try:
             try:
                 with suppress_tool_audit():
-                    # Positional only: voice tests replace tool() and reject new keywords.
-                    # Memory denial is handled before this call.
-                    value = runtime.assistant.tool(name, arguments, key)
+                    if name == "connected_app_query" and arguments.get("view") == "last_refresh":
+                        value = runtime.assistant.tool(name, arguments, key, principal=principal)
+                    else:
+                        value = runtime.assistant.tool(name, arguments, key)
                 produced = (
                     value if isinstance(value, dict) else {"error": "TOOL_FAILED", "saved": False}
                 )
@@ -387,6 +403,55 @@ def outcome_message(outcome: str, result, language: str = "en") -> str:
     if outcome == "ok":
         return ""
     return owner_message(kind_for(outcome), language)
+
+
+def ends_text_turn(name: str, result: dict) -> bool:
+    from .capabilities import CAPABILITIES
+
+    if name == "connected_app_query" and result.get("view") == "last_refresh":
+        return True
+    if name == "flight_purchase_review" and result.get("live_flight_review"):
+        return True
+    if name == "propose_plan" and result.get("error"):
+        return True
+    if result.get("error") == "TOOL_TIMEOUT":
+        return True
+    risk = CAPABILITIES[name].risk if name in CAPABILITIES else "refused"
+    if risk != "read":
+        return True
+    return result.get("error") in {"OWNER_SIGN_IN_REQUIRED", "TOOL_NOT_ALLOWED"}
+
+
+def text_effect_reply(message: str, result: dict, language: str):
+    if result.get("view") == "last_refresh" and result.get("service") == "google_calendar":
+        from .google_refresh_chat import reference
+
+        return reference(result)
+    error = result.get("error")
+    if error:
+        if error.startswith("SHOP_"):
+            from .shop_checkout.conversation import failure
+            return {"mode":"ai","kind":"clarify","message":failure(error,language),"saved":False,"error":error}
+        if error.startswith("FLIGHT_"):
+            from .flight_booking.conversation import failure
+            return {"mode":"ai","kind":"clarify","message":failure(error,language),"saved":False,"error":error}
+        return text_notice(language, kind_for(error), error)
+    kind = "draft" if "proposal" in result else "job" if "job" in result else "reply"
+    reply = {"mode": "ai", "kind": kind, "message": message, **result}
+    reply.setdefault("saved", False)
+    return reply
+
+
+def text_notice(language: str, kind: str, error: str | None = None):
+    reply = {
+        "mode": "ai",
+        "kind": "refused" if kind == "refused" else "clarify",
+        "message": owner_message(kind, language),
+        "saved": False,
+    }
+    if error:
+        reply["error"] = error
+    return reply
 
 
 def _pending_side_effect(result: dict) -> bool:

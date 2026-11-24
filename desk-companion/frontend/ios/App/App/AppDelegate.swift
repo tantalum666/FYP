@@ -79,6 +79,14 @@ class DeskNativePlugin: CAPPlugin, CAPBridgedPlugin, URLSessionTaskDelegate {
         config.timeoutIntervalForResource = 20
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
+    // Buffered chat turns and bounded provider reads share the signed-in cookie jar.
+    private lazy var extendedSession: URLSession = {
+        let config = session.configuration
+        config.httpCookieStorage = session.configuration.httpCookieStorage
+        config.timeoutIntervalForRequest = 75
+        config.timeoutIntervalForResource = 80
+        return URLSession(configuration: config, delegate: self, delegateQueue: nil)
+    }()
     private var origin: String { UserDefaults.standard.string(forKey: originKey) ?? "" }
     private func query(_ origin: String) -> [String: Any] {
         [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: "dev.group2.deskcompanion.pairing", kSecAttrAccount as String: origin]
@@ -135,7 +143,12 @@ class DeskNativePlugin: CAPPlugin, CAPBridgedPlugin, URLSessionTaskDelegate {
             guard body.utf8.count <= 5_000_000 else { call.reject("Request too large"); return }
             request.httpBody = body.data(using: .utf8)
         }
-        session.dataTask(with: request) { [weak self] data, response, error in
+        let extendedPaths = [
+            "/assistant/messages", "/assistant/messages/stream", "/assistant/retained-messages",
+            "/browser/observations", "/google/preview", "/google/refresh"
+        ]
+        let transport = method == "POST" && extendedPaths.contains(path) ? extendedSession : session
+        transport.dataTask(with: request) { [weak self] data, response, error in
             guard let self, let data, let response = response as? HTTPURLResponse, error == nil, data.count <= 8_000_000 else { call.reject("Desk connection failed"); return }
             if response.statusCode == 401 && method == "GET" { DeskPhoneFeatures.clear() }
             var returnedData = data

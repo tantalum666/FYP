@@ -26,6 +26,8 @@
 
 工程不包含账户秘密或原始个人音视频；姿态／唤醒权重通过固定来源校验下载。角色许可样本与已披露的改作随本分支分发。当前是学校原型的软件交付，不据这些说明声明全部商业发行手续已完成。
 
+The offline airport timezones used for calendar-aware flight reviews are derived from the MIT-licensed airportsdata 20261103 release. Only unambiguous IATA airport-to-IANA-zone mappings are included. Rebuild the index from the pinned wheel with `scripts/prepare_airport_timezones.py`. [Upstream release](https://pypi.org/project/airportsdata/20261103/) · [License](licenses/airportsdata-LICENSE.txt).
+
 ## 2026-10-22 selected AliceChan
 
 Alice Chan (Uniform ver.), ©edisonlee55 (now yuna0x0), is distributed under **Creative Commons Attribution-ShareAlike4.0** from the [author’s release](https://github.com/yuna0x0/AliceChan/releases/tag/v1.0.4). [Full licence](frontend/public/avatars/alice/LICENSE.md), [source/SHA/changes](frontend/public/avatars/alice/source.json), and [unchanged original/reproduction](../design/desk-companion/characters/2026-10-22-alice/README.md) are retained. The release is v1.0.4, while the downloadable VRM0 is1.0.2. The runtime copy corrects three optional glTF skin-root references; its geometry/texture binary and all other model fields are identical. The compatibility copy is supplied under the same CC BY-SA4.0, with attribution in the UI and these bundled files. No creator endorsement or student-authored character claim is made. Future shared adaptations retain attribution/change notices and ShareAlike conditions.
@@ -63,3 +65,9 @@ A selected CMU Motion Capture Database subject14/trial26 upper-body excerpt is r
 Reveria Lite1.5, ©NYOA24A, was downloaded unchanged from [the author’s free BOOTH listing](https://24a.booth.pm/items/7916400) and loaded through the browser-only local-file viewer. [Hash, metadata and source checks](../design/desk-companion/characters/2026-10-21-ready-models/source.json) retain a conflict: embedded VRM says CC0 and Hub permits redistribution, but the linked VN3 English reference terms prohibit original redistribution and require contact for modified distribution. Keep this candidate in Downloads/browser-local storage; no model bytes are vendored, published or bundled. Japanese terms prevail and were not independently reviewed here.
 
 [SELESTIA](https://booth.pm/ja/items/4035411) and [RINDO](https://booth.pm/ja/items/3443188), STUDIO JINGO, are paid candidates only; author posters were viewed, no purchase/import or protected asset extraction occurred. Their listed formats and terms do not establish this app/Pi compatibility. RINDO’s author labels VRM/PMX as test formats. Local original/model-adaptation history does not imply redistribution permission for any new file.
+
+## Public weather and geographic names
+
+Open-Meteo supplies worldwide forecast data and its public geocoding API uses GeoNames. The educational FYP uses the free non-commercial endpoint. Replies attribute weather estimates to Open-Meteo and Hong Kong station observations to the Hong Kong Observatory. [Forecast](https://open-meteo.com/en/docs) · [Geocoding data and attribution](https://open-meteo.com/en/docs/geocoding-api) · [Open-Meteo terms](https://open-meteo.com/en/terms) · [GeoNames data](https://www.geonames.org/export/) · [HKO data specification](https://www.hko.gov.hk/en/weatherAPI/doc/files/HKO_Open_Data_API_Documentation.pdf).
+
+The Apache-2.0 OpenCC project supplies the Simplified and Traditional Chinese conversion software and dictionaries through the locked pure-Python `opencc-py` and `opencc-data` packages. [OpenCC project](https://github.com/BYVoid/OpenCC) · [Python implementation](https://pypi.org/project/opencc-py/1.4.2/).

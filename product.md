@@ -1,14 +1,88 @@
 # Group 2 Project Contract
 
+## 2026-11-23 Reviewed mixed baskets and imported calendar changes
+
+A shopping request can include up to eight entries, quoted as one cart with one shipping calculation. Material line changes need fresh approval even if the total falls or stays the same. Keep older single-item orders readable. [Checkout acceptance](output/qa/2026-11-23-api-astra-team/basket/verification.md). Google Calendar owners can review already imported copies for a selected period, preserve local edits and keep unverified missing source entries. [Calendar behavior](desk-companion/docs/google-calendar-refresh.md).
+
+## 2026-11-23 Add a confirmed flight to the desk calendar
+
+Alice can use the verified flight receipt from this conversation to prepare a private local calendar event. Show the complete itinerary in the desk timezone, wait for a separate calendar confirmation and read the saved event back. A repeat action must preserve a later local edit or deletion. [Journey](desk-companion/docs/conversation-flight-booking.md#add-a-booked-test-flight-to-the-desk-calendar).
+
+## 2026-11-23 Buy an identified fare from an ordinary conversation
+
+A request to buy a displayed fare opens the original signed-in owner's review. If its login has expired, ask for the trip in the current conversation and obtain a new decision before sharing it with a seller. Alice can check the selected seller for missing luggage rules and total, and present a bookable supplier offer once available. Show the exact itinerary, party, baggage coverage, currency and total for the owner's decision. Reprice before submitting. A change requires a fresh decision, and a missing supplier acknowledgement must never trigger a second booking. Confirm completion from the original reservation and matching captured amount. Keep listening controls compact, display the numeric amount and use the same precise value in speech. [Release acceptance](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-23 Ask Alice for weather at a destination
+
+Alice answers ordinary weather and rain questions in the conversation language. Use the destination’s local date and distinguish station readings, model estimates and forecasts. Include the range and precipitation outlook available for the requested day. Keep Hong Kong Observatory observations and official local and nine-day forecasts. Resolve a city, a uniquely identified fixed site such as an airport, or explicitly supplied coordinates. Ask for a country, region or coordinates when a place cannot be identified. If only the station temperature is available on a daily weather or rain request, say that today's rain forecast is unavailable. Treat a reported zero probability or zero rainfall as useful data. The Home weather preference and device location permission remain owner-controlled. [Public weather acceptance](output/qa/2026-11-23-global-weather/verification.md).
+
+## 2026-11-22 Match flight choices to the owner’s calendar
+
+When asked to avoid existing commitments, Alice checks the published itinerary against the locally saved busy calendar. Show only verified fits within the owner’s search constraints, keep overnight arrival dates visible and recheck the calendar at confirmation. If the owner’s schedule changes, offer a different unbooked fare under the same constraints and ask for a fresh decision. The normal home remains one line. [Acceptance](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-21 Focus the conversation and follow an approved order
+
+Alice’s home shows one short current result or a link to review a quote. In Conversation, a transaction has one current presentation. Older orders and itemized receipts open on demand. A flight choice requests a fresh quote. Changed prices still require explicit approval. Once work is underway the desk can check the original order while the conversation is away and bring back a verified result or a necessary decision in that same login and chat. Preserve drafts, account privacy and the active review. [Native comparison and follow-up](output/qa/2026-11-21-quiet-order-followup/verification.md).
+
+## 2026-11-21 Buyer cancellations and unavailable flights in ordinary chat
+
+For a paid shippable test purchase, the owner can request a full pre-dispatch cancellation and reopen the original charge, refund and net. For a flight, allow an owner to stop an active supplier booking and separately verify its hold, charge and booking reference. Preserve the seller’s post-ticketing rules. If the selected flight is unavailable, offer eligible alternatives with local times and all-in sandbox fares, and await the owner’s new selection and approval. The Simulator verified Woo order #21 at HK$12 refunded in full and a released HK$52 LetsFG hold. [Acceptance](output/qa/2026-11-21-commerce-aftercare/verification.md).
+
+## 2026-11-20 Overseas marketplace shopping and cancellation
+
+The separate Link Agent Wallet acceptance uses the official CLI and the owner-connected FYP profile. Link approved a 180-day recurring test authorization of US$500 per month for the FYP sandbox. The testing path limits each order to US$10. The US$1 tissue order remains unpaid. The original issuer response contained Link's published test fixture, which fails the card-number checksum required at this checkout. The operator supports the two scope formats observed across authorizations and refreshes. [Payment evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance) · [Issuer fixture diagnosis](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+
+The owner selected overseas sandboxes first. A marketplace acceptance needs an all-in quote, the owner's approval, a paid sandbox order, immediate buyer cancellation before dispatch, any required seller decision, and a completed full refund matching the same order and currency. Reconfirm changed checkout terms through the existing approval flow. A verified Amazon Pay test buyer completed a US$14.30 KitchenSmart demo order. On the separate FYP merchant, the same buyer paid US$1.00 for pocket tissues via Amazon Pay. The full refund reached `succeeded` and the hosted receipt showed US$0.00 net. The earlier standard Visa control refunded US$0.75. eBay rejected activation. The owner confirmed submission of the official registration review. [Current account status](output/qa/2026-11-21-shopping-next-step/verification.md). The buyer-side marketplace cancellation and the installed Alice WooCommerce shopping path have separate acceptance records. [Provider evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
+## 2026-11-19 Shopping in ordinary Alice conversation
+
+The owner can name one product and quantity in regular chat. WooCommerce quotes the product, selected Hong Kong delivery rate and HKD total. A changed checkout needs a new owner decision, including for a lower amount. The desk reopens the Woo order, Stripe PaymentIntent and captured test Charge. Native acceptance produced order #17 at HK$46 from an original HK$42 quote. [Product behavior](desk-companion/docs/conversation-shopping.md) · [acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md).
+
+## 2026-11-19 Owner-approved flight booking in ordinary Alice chat
+
+Use LetsFG for simulated bookings. The owner sees the exact flight and HKD total before booking and must separately approve a supplier increase. Alice checks the original provider record for a matching PNR and captured amount. The iPhone 17 Pro Simulator completed FR4315 at HK$36.25 after an initial HK$34 quote. [Product behavior](desk-companion/docs/conversation-flight-booking.md) · [device and provider evidence](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
+## 2026-11-19 Flight booking sandbox
+
+Use LetsFG’s public sandbox for the FYP booking flow with synthetic passenger data. The initial provider acceptance covers a Hong Kong to Tokyo search, matching test reservation and capture, duplicate suppression, and release of a price-increase hold after refusal. Kiwi remains the source for real public fare research. At the provider-only acceptance, ordinary Alice had quote authority. Its subsequent owner-confirmed sandbox booking capability is recorded above. An airline-hosted booking has separate evidence and access requirements. [Provider receipts and Singapore Airlines option](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 Original Pi and regional travel testing
+
+The original Pi now runs the Web and native Simulator release `85e6aa94`. Its device screen showed Alice connected. Original data, A3 v9 and both Google grants passed on-device checks. For ticketing, Duffel’s current signup menu requires a listed incorporation jurisdiction and omits Hong Kong and mainland China. At that point a supplier booking receipt was still pending. [Pi and signup verification](output/qa/2026-11-19-pi-release/verification.md).
+
+## 2026-11-19 Merchant sandbox payment acceptance
+
+Two isolated FYP Stripe Checkout orders using a public test Visa and a simulated Link Checkout buyer were returned as paid by the provider, with independently matched payment intents and captured test charges. A deliberate refusal received zero. These are QA merchant payments. The live product continues to perform reviewed research, with buyer Agent Wallet authorization and independent travel-supplier order evidence still open. [Sandbox acceptance and supported platforms](output/qa/2026-11-19-test-checkouts/verification.md).
+
+## 2026-11-19 Live flight search and cost reporting
+
+Normal Web and native Simulator run `85e6aa94`. Alice can propose Kiwi.com's read-only flight connector for general flight requests. The owner's consent covers the displayed itinerary. The existing official OpenAI session invokes only the fare-search tool without a browser environment. Airline-specific website requests retain their selected source. The cheapest live HKG–HND result in the November 25 nonstop acceptance was HK$2,006 with one checked bag. Its weight and final payable amount remain unconfirmed. The diagnostics screen distinguishes official UTC cost reports from the local Hong Kong spending guard. [Current acceptance](output/qa/2026-11-19-flight-ledger/verification.md).
+
+## 2026-11-19 Shopping and flight quotes in conversation
+
+Alice can prepare a public price lookup, show its quantity or itinerary for approval, and return the price, its basis, source and observation time in the same conversation. The desk calculates eligible selling-unit and multi-buy subtotals. An airline minimum, unverified seat, or missing required baggage, taxes or delivery leaves the corresponding total unconfirmed. A follow-up reopens the saved receipt. Both purchases and ticket issuance remain outside this public research action. The implementation is on [PR 134](https://github.com/tantalum666/FYP/pull/134). The live shopping result, limitations of the two hosted airline runs, and native Safari handoff are recorded in [acceptance](output/qa/2026-11-19-shopping-flight/verification.md).
+
+## 2026-11-18 Normal 6.2 Sol release
+
+The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The Pi was unavailable during the 18 November rollout. Its retained update was installed on 19 November. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).
+
+## 2026-11-18 Live text model acceptance
+
+The owner authorized one US$0.25 acceptance, explicitly chose client-side spending controls after the upstream budget field was rejected, and selected GPT‑6.2 Sol for the trial. The live session returned the configured Asia/Hong_Kong timezone, correctly compared Singapore in the same session and was deleted with independent 404 readback. Its 30,476 total tokens include 20,076 cached inputs. The test batch is closed. At the time of this isolated acceptance the installed text model was GPT‑6.1 Sol and the audio model was GPT‑Live 1. The subsequent rollout is recorded above. [Receipt](output/qa/2026-11-18-live-text-clock/verification.md).
+
+## 2026-11-18 Ordinary conversations and paced proactive updates
+
+Ordinary OpenAI text now uses official Sessions and Functions on the source branch. The business layer retains typed tools, owner approvals and effect receipts. A compatible follow-up reuses the same scoped session. Selected documents retain the existing Responses attachment path. Alice groups up to three current findings into one interruption and keeps each acknowledgment separate. [Text contract](desk-companion/docs/official-text-sessions.md) · [Research](research/2026-11-18-always-on-personal-agent.md) · [Verification](output/qa/2026-11-18-official-text-sessions/verification.md).
+
 ## 2026-11-18 Current priority: contextual proactive assistance and reviewed integration
 
-Owner requests useful automatic follow-up without configuring a separate schedule or approving every read. Reviewed/fixed PR124–128 are now merged through [PR129](https://github.com/tantalum666/FYP/pull/129) atc51ece41, with all original merged statuses and tested-tree equality independently read back. [Publication receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json). Alice now analyzes changes in current saved facts, tasks, calendar and bounded connected-account previews, with citations, relevance filtering, quiet controls and deduplication. A fresh “follow this email” request starts read-only tracking under the existing proactivity preference, including Ask mode. Off pauses both research and mail checks. This supersedes the older requirement that every thread require another seven-day approval card; legacy manually approved grants retain their original expiry. Sending, purchases and general software writes retain their separate policies.
+Owner requests useful automatic follow-up without configuring a separate schedule or approving every read. Reviewed/fixed PR124–128 are now merged through [PR129](https://github.com/tantalum666/FYP/pull/129) atc51ece41, with all original merged statuses and tested-tree equality independently read back. [Publication receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json). The implemented research path can analyze changes in saved facts, tasks, calendar and bounded connected-account previews when background inference is enabled. It supports citations, relevance filtering, quiet controls and deduplication. A fresh “follow this email” request starts read-only tracking under the existing proactivity preference, including Ask mode. Off pauses both research and mail checks. This supersedes the older requirement that every thread require another seven-day approval card; legacy manually approved grants retain their original expiry. Sending, purchases and general software writes retain their separate policies.
 
-The new path reuses official OpenAI Responses with native strict structured output, without a custom agent loop. Multi-step browser tasks continue through official Agents; deliberate future scheduled reasoning should use official Automations. `AGENTS.md` now requires checking current official capabilities and exact API/SDK types before implementation. The old primary-text AgentLoop is a declared migration gap; it was not expanded. [Proactive contract](desk-companion/docs/proactive-research.md), [research](research/2026-11-18-proactive-assistance-and-official-reuse.md).
+The new path reuses official OpenAI Responses with native strict structured output, without a custom agent loop. Multi-step browser tasks continue through official Agents; deliberate future scheduled reasoning should use official Automations. `AGENTS.md` now requires checking current official capabilities and exact API/SDK types before implementation. The subsequent ordinary-text migration is recorded above. [Proactive contract](desk-companion/docs/proactive-research.md), [research](research/2026-11-18-proactive-assistance-and-official-reuse.md).
 
 Actual API tests exposed and repaired response timeouts and hosted-browser readiness/approval/cancellation/cleanup defects. Six real read-only research cases and a natural-language follow/stop flow passed; mail transport was synthetic. The final official hosted browser read a public catalogue, inspected stock, calculated a fictional shipping/currency comparison and deleted its session, with an independent result check. Earlier failed attempts are retained. [Current QA](output/qa/2026-11-17-proactive-agent-merge/verification.md) distinguishes local tests, real models, actual sites and untested merchant transactions.
 
-Pi power work remains paused. Installed application source was last verified as `8c67ddbe` on Mac/native/Pi; this integration has not replaced those runtimes or enabled normal background model billing. Preserve A3, account grants, data, original performance and RTC settings. The current batch uses the owner's newer permission to test against expiring credits, with an engineering cap of US$5; prior closed budgets remain closed. No CI, real send, purchase, payment or ticket is inferred.
+On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk served `c607759e` in that rollout. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. The installed background model setting is off. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
 
 ## 2026-11-17 Replacement-adapter stability check
 
@@ -54,9 +128,33 @@ Reuse official execution infrastructure where it fits. Live supports Responses t
 
 The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
 
+## 2026-11-21 Alice’s everyday face and silhouette
+
+At the size of the ordinary phone home, Alice’s resting face should show a readable nose tip and lip line. Listening and thinking have distinct expressions. Relief, embarrassment at a compliment and an apology use the existing ordinary Session reply to carry their tone. Brow and eyelid timing can differ from the mouth, and audible speech takes priority on the lips. Fit the existing uniform to a modest increase in chest fullness while preserving the everyday body proportions and clearance for returning hands and sleeves. Compare the same home camera before and after, also checking the clothed side profile. [Simulator, film and measured fit](output/qa/2026-11-21-alice-face-fit/verification.md).
+
+## 2026-11-21 Relaxed arms on the ordinary home
+
+At rest, Alice’s upper arms hang near vertical and her elbows remain softly bent. Both wrists settle beside the skirt. The timing of a gesture should be judged from the visible starting pose, the movement and its return. Shape the wide uniform around a lowered elbow and cuff. Fingers have a relaxed cascade, the palm cups on its little-finger side, and the thumb wraps around the outer index finger when gripping. Validate the front and side views on the normal home. [Native comparison and hand close-ups](output/qa/2026-11-21-alice-relaxed-stance/verification.md).
+
+## 2026-11-21 Hand anatomy and everyday voice
+
+Rotation along the arm belongs to the forearm. Gratitude and laughter keep the palm turned toward Alice, with the free arm clear of the working sleeve. Rehearse both sides and interruptions, including the full lift and return. Review the skinned hand, face, coat, sleeves and moving hair. The native before/after film and the per-gesture audit distinguish exposed fingers, skin naturally covered by the cuff, and textile contacts. [Acceptance](output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+The daily voice connection uses GPT-Live-1.1 over the existing server WebSocket. A3 v9 and GPT-6.2 Sol delegation remain selected. The local wake path handles time between conversations. WebRTC standby fits short pauses within an already-open WebRTC call and keeps its microphone track active. [Official standby behavior](https://developers.openai.com/api/docs/guides/live-conversations#managing-idle-sessions).
+
+## 2026-11-21 Expressive reactions in ordinary Alice conversation
+
+Alice’s reply should show a response appropriate to what the person actually said. Good news, disappointment, gratitude, surprise, shared humor, curiosity and encouragement have distinct facial and body performances. Routine replies can stay neutral. Select the delivery alongside the words in the existing ordinary OpenAI Session. Authoritative tool receipts retain their normal path. Preserve quiet intervals, the licensed character, foot contact and the static reduced-motion presentation.
+
+Home also has casual gestures, including tucking hair behind an ear and adjusting a sleeve. The Web and native Simulator release is `88fbc532`. Four real text turns were checked against the rendered reaction and the scoped response receipt. [Film and acceptance](output/qa/2026-11-21-alice-expressive-conversation/verification.md).
+
+## 2026-11-21 Alice movement during conversation
+
+Alice should make eye contact, glance and turn with a short delay between the eyes, head and shoulders. A greeting uses unequal hand sweeps. During speech the hand presents a point, adds a smaller emphasis and settles. A change to listening lets the arm finish moving down. Keep the feet planted and the whole hand visible during the lift and return. Preserve quiet pauses, the current avatar, and the reduced-motion poster. Mac Web and the iPhone 17 Pro Simulator run these movements at frontend `64485c7f`. [Simulator comparison and verification](output/qa/2026-11-21-alice-natural-motion/verification.md).
+
 ## 2026-11-16 Motion variety and personal-agent status
 
-Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [Current motion QA](output/qa/2026-11-16-alice-variety/verification.md).
+Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [16 November motion QA](output/qa/2026-11-16-alice-variety/verification.md).
 
 The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes source, delivered runtime and real acceptance. The earlier motion-only overlay/status audit below is historical: full runtime deployment and Mac Google consent were completed later on16November as recorded above. Continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete.
 
@@ -103,7 +201,7 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 - 三端以深色Alice主场景进入，保持自适应、大尺寸虚拟形象和可见的半透明输入区；手机左侧保留完整月历、时间、天气和待办，较矮屏幕允许信息区独立滚动；Mac媒体先本机预览，显式分享后才发画面。界面详情按需展开。手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括邮件跟踪、建议和语音生活事务代办。离线邮箱/购物/日程样本已实现同一事务接续、拥有者核对、静音延后通知和联合备份；它们不能代替真实账号、订单或出票验收。[研究总入口](research/personal-agent-research-index.md)保留真实旅程目标。
-- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／浏览器和Live委托推理GPT6.1Sol，语音GPTLive1，Realtime2.1保留显式对照；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
+- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／托管浏览器和Live委托推理GPT‑6.2 Sol，语音GPTLive1，Realtime2.1保留显式对照；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
 - Alice声音先验收音色和自然感，再推进集成：甜、轻软、可爱而自然的台湾国语女声；英语和粤语仍需自然、保持同一角色。原创音色按年轻成年女性设计，不靠变调或夸张奶音代替自然度。已被用户否决的LJSpeech参考样本只保留技术记录。当前按用户最新明确要求将A3作为三端默认，保留原版A便于切回；A1已否决、A2尚不满意，三语与真人声学效果仍分别验收。
@@ -172,3 +270,9 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 用户认为“编辑器写笔记→浏览器预览”过于简单。它降为冒烟检查；主验收改为[跨应用演示准备包](planning/2026-10-30/complex-application-acceptance.md)：核对资料、网页报价、真实电子表格公式、文档／PDF、日历／事务，以及中途预算／数量／日期改口和断线恢复。固定材料与参考核验已经完成；本轮新增[真实应用执行与恢复](output/qa/2026-10-30-application-execution/verification.md)：初始 Aster 809.60 港币、改口后彩印不可行、脚本澄清黑白后 Delta 669.24 港币，五份实际产物及原日程更新通过。此为受控脚本验收，非语音 Agent 自主任务通过。
 
 新增独立类型的 application 动作和持久阶段投影，保留原六种笔记动作；[运行契约](desk-companion/docs/application-execution.md)说明单队列、依赖／来源哈希、暂存发布和未知写入只读恢复。内容正确、真实应用执行、语音 Agent 独立完成三项分别验收。下一步是复用这些工具的模型任务接续与离线变体；普通聊天接续和真人同任务语音比较仍待；OpenAI App接入在独立PR77继续。旧付费轮与 Pi 继续关闭／暂停，本轮模型调用为零。
+
+## 2026-11-24 ArUco 定位原型与硬件补充
+
+[定位进度](research/2026-11-24-aruco-localisation/README.md)发布由硬件成员负责的本机定位原型：相机／录像、ID 4 像素轨迹、L 形三牌厘米记录、高级四角标定、语义和空桌变化候选、边界与近障提示、录像及 CSV。当前默认像素模式，L 形显示 cm、API／CSV 保持 mm，最新网页 CSV 37 列。L 形区域为测试矩形，不能当整桌。
+
+只完成生成输入与浏览器功能验证，未接主应用、RIG 取流、Mini 电机／路线、物理防跌落或自动回充。用户反馈的手机覆盖和截图识别不等于本版物理精度验收。RIG 官方图示含原装底座高 234 mm；叠到现有 200 mm 机箱约 434 mm，镜头高度与活动包络另量。纸牌与尺寸依据、待验项见同目录。已有采购／V3 模型继续保留；此次发布不改软件部署优先级。

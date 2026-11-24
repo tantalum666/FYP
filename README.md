@@ -1,6 +1,8 @@
 # Desk Companion · FYP Group 2
 
-**18 November 2026 当前入口：**先读 [START_HERE_NEXT_CHAT.md](START_HERE_NEXT_CHAT.md) 与 [handoff.md](handoff.md)。[PR129](https://github.com/tantalum666/FYP/pull/129) 已合并，原 PR124–128 均已读回为 merged；新增按上下文变化主动发现、无需逐条批准的只读邮件跟进，并修复真实 OpenAI / 官方托管浏览器测试暴露的问题。[当前能力](desk-companion/docs/personal-agent-status.md)、[验证记录](output/qa/2026-11-17-proactive-agent-merge/verification.md)。GitHub 合并与设备部署分开：本轮尚未替换原 Mac／原生应用／Pi 运行版本。以下带日期段落保留历史，不作为当前默认 AI 或部署状态。
+**2026 年 11 月 24 日**　常用 Web、iPhone 17 Pro 模拟器和原装 Pi 最近一次核验的应用版本为 `92acac8e`。普通文字和托管浏览使用 GPT-6.2 Sol，实时语音使用 GPT-Live-1.1 和 A3 v9。GitHub `main` 的源码、已安装的版本和供应商实际回执分别记录。[三端验收](output/qa/2026-11-23-owner-flow-hotfix/verification.md) · [当前交接](handoff.md)。
+
+**11 月 18 日软件进度**　开发分支已将普通 OpenAI 文字接入官方 Sessions 和 Functions，并将静音期积累的主动发现合并提醒。[迁移契约](desk-companion/docs/official-text-sessions.md) · [Claude 文章与 FYP 对照](research/2026-11-18-always-on-personal-agent.md) · [本地验收](output/qa/2026-11-18-official-text-sessions/verification.md)。 [GPT‑6.2 Sol 真实时区查询、同会话追问与删除回执](output/qa/2026-11-18-live-text-clock/verification.md)。
 
 个人 Agent 方向与旧研究统一从[研究总入口](research/personal-agent-research-index.md)恢复：含六份原 PR #5 报告、Grok／Muse／Your dot 当前公开机制，以及邮件／购物／旅行目标与已实现范围的对应。
 
@@ -20,7 +22,7 @@
 | --- | --- |
 | 当前要求、完成边界和下一步 | [product.md](product.md) · [handoff.md](handoff.md) |
 | 软件代码与运行说明 | [desk-companion](desk-companion/README.md) · [操作指南](desk-companion/docs/operator-guide.md) |
-| 硬件成员最新进度 | [采购评审、V3 外壳与 H2D 打印包](research/2026-11-17-hardware-progress/README.md) |
+| 硬件成员最新进度 | [ArUco 定位台、纸质牌与相机验证](research/2026-11-24-aruco-localisation/README.md) · [采购与 V3 外壳](research/2026-11-17-hardware-progress/README.md) |
 | 机械臂技术依据 | [RIG-Arm二次开发研究](research/2026-10-05-rig-arm/secondary-development-review.md) |
 | 当前学校提案与团队日志 | [2026-09-28交付目录](output/submission/2026-09-28/) · [制作与审阅记录](planning/2026-09-28/logsheet-and-proposal-review.md) |
 | 学校原件、成员与协作 | [inputs](inputs/README.md) · [Group 2资料](planning/2026-09-14/group-2-details.json) · [CONTRIBUTING](CONTRIBUTING.md) |

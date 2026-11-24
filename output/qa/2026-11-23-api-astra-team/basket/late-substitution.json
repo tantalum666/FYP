@@ -1,0 +1,20 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "candidate_php_sha256": "5351eb30807eeac02473590416b32e02c325d5556aa82fa74c5a05199a6dfc96",
+  "case": "late-substitution",
+  "status": "pass",
+  "original_sku": "FYP-QA-DELIVERY-PACK",
+  "replacement_sku": "FYP-QA-BASKET-ALT",
+  "original_minor": 3300,
+  "substitution_minor": 3300,
+  "late_woo_hook_runs": 1,
+  "stale_approval_state": "unverified",
+  "original_order_mapping": false,
+  "fresh_replacement_review": true,
+  "explicitly_declined_replacement": true,
+  "new_payments": {
+    "payment_intents": 0,
+    "charges": 0
+  },
+  "owner_prompt": "商店和支付回执尚未匹配，扣款金额待核对。"
+}

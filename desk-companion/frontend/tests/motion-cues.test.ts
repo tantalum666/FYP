@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { Euler, Quaternion } from "three";
 import { MotionCues, GESTURE_SECONDS } from "../src/companion/motion-cues.ts";
 import { aliceMotion } from "../src/companion/alice-motion.ts";
 
@@ -12,9 +13,9 @@ test("repeated taps do not restart a moving arm and later greetings vary", () =>
   assert.deepEqual(cues.sample(2, "idle"), first);
   assert.equal(cues.sample(5, "idle"), null);
   cues.hello(6);
-  assert.equal(cues.sample(6.5, "idle")?.gesture, "nod");
-  cues.hello(9);
-  assert.equal(cues.sample(9.5, "idle")?.gesture, "curious");
+  assert.equal(cues.sample(6.5, "idle")?.gesture, "wink");
+  cues.hello(12);
+  assert.equal(cues.sample(12.5, "idle")?.gesture, "gratefulBow");
 });
 
 test("a conversation preempts idle fidgeting and includes quiet gaps", () => {
@@ -45,7 +46,7 @@ test("a visibly settled greeting immediately accepts the next tap", () => {
   const previous = cues.sample(time, "idle")!;
   assert.equal(aliceMotion(time, previous).gesture, null);
   cues.hello(time);
-  assert.equal(cues.sample(time + 0.01, "idle")?.gesture, "nod");
+  assert.equal(cues.sample(time + 0.01, "idle")?.gesture, "wink");
 });
 
 test("gesture sampling does not queue missed gestures after a long pause", () => {
@@ -66,14 +67,27 @@ test("every gesture returns to rest without endpoint jumps or unbounded rotation
     for (let age = 0; age < duration; age += 0.02) {
       const pose = aliceMotion(age, options).pose;
       const next = aliceMotion(age + 0.02, options).pose;
-      for (const name of Object.keys(pose) as (keyof typeof pose)[])
-        for (let axis = 0; axis < 3; axis++) {
-          assert.ok(Number.isFinite(pose[name][axis]));
-          assert.ok(
-            Math.abs(pose[name][axis] - next[name][axis]) < 0.15,
-            `${gesture} jumps at ${age}: ${name}`,
-          );
-        }
+      for (const name of Object.keys(pose) as (keyof typeof pose)[]) {
+        const q = new Quaternion().setFromEuler(new Euler(...pose[name]));
+        const r = new Quaternion().setFromEuler(new Euler(...next[name]));
+        assert.ok(q.angleTo(r) < 0.15, `${gesture} jumps at ${age}: ${name}`);
+      }
     }
   }
+});
+
+test("a personal reply keeps its performance across reply completion and yields to a new turn", () => {
+  const cues = new MotionCues();
+  cues.sample(0, "thinking");
+  cues.respond(0.6, "celebrate");
+  assert.equal(cues.sample(0.65, "idle")?.gesture, "applause");
+  assert.equal(cues.sample(0.95, "speaking")?.gesture, "applause");
+  cues.respond(1.3, "comfort");
+  assert.equal(cues.sample(1.5, "idle")?.gesture, "comfort");
+  cues.respond(1.6, "neutral");
+  assert.equal(cues.sample(1.65, "idle"), null);
+  cues.respond(2, "celebrate");
+  assert.equal(cues.sample(2.1, "idle")?.gesture, "victory");
+  cues.dismissReply();
+  assert.equal(cues.sample(9, "idle"), null);
 });

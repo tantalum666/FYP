@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { useState } from "react";
 import type { Translate } from "../types";
 import type { Proposal, ProposalDecisionOptions } from "./assistantTypes";
 import { BrowserResearchReview } from "./BrowserResearchReview";
@@ -20,6 +21,7 @@ export function ProposalActionCard({
     options?: ProposalDecisionOptions,
   ) => void;
 }) {
+  const [routineId, setRoutineId] = useState("");
   if (p.kind === "mail_followup")
     return (
       <MailFollowupReview
@@ -65,12 +67,42 @@ export function ProposalActionCard({
     p.kind === "memory_delete" ||
     p.kind === "memory_consolidate";
   const journeyKind = isJourneyAdvice(p.kind);
+  const choices = p.data.choices ?? [];
+  const selectedRoutine = choices.length === 1 ? choices[0] : choices.find(c => c.routine_id === routineId);
+  const routineLabel = (c: (typeof choices)[number]) =>
+    `${c.title} · ${c.occurrence_key.replace("T", " ")} · ${c.timezone}`;
   return (
     <article className="assistant-action-card assistant-proposal">
       <span className="workspace-eyebrow">
         {t("Permission needed", "需要你的允许")}
       </span>
-      {p.kind === "email_send" ? (
+      {p.kind === "routine_skip" ? (
+        <>
+          <h3>{t("Skip one routine reminder", "跳过一次定时提醒")}</h3>
+          {choices.length === 1 ? (
+            <p>{routineLabel(choices[0])}</p>
+          ) : (
+            <label>
+              {t("Which routine?", "选择哪项定时事务？")}
+              <select value={routineId} onChange={e => setRoutineId(e.target.value)} disabled={busy}>
+                <option value="">{t("Choose a routine", "请选择定时事务")}</option>
+                {choices.map(c => (
+                  <option key={c.routine_id} value={c.routine_id}>
+                    {routineLabel(c)}
+                    {choices.some(other => other !== c && routineLabel(other) === routineLabel(c))
+                      ? ` · ${c.routine_id.slice(0, 8)}` : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          {choices.length > 1 && selectedRoutine && (
+            <p style={{ whiteSpace: "normal", overflowWrap: "anywhere" }}>
+              {selectedRoutine.occurrence_key.replace("T", " ")} · {selectedRoutine.timezone}
+            </p>
+          )}
+        </>
+      ) : p.kind === "email_send" ? (
         <>
           <h3>
             {p.data.reply
@@ -327,16 +359,21 @@ export function ProposalActionCard({
       <div className="workspace-inline-actions">
         <button
           className="primary"
-          disabled={busy}
-          onClick={() => onDecision("confirm")}
+          disabled={busy || (p.kind === "routine_skip" && !selectedRoutine)}
+          onClick={() => onDecision(
+            "confirm",
+            selectedRoutine ? { routine_id: selectedRoutine.routine_id } : undefined,
+          )}
         >
-          {p.kind === "email_send"
-            ? p.data.reply
-              ? t("Send reply", "发送回复")
-              : t("Send email", "发送邮件")
-            : journeyKind
-              ? t("Save reviewed update", "保存核对结果")
-              : t("Allow once", "允许这一次")}
+          {p.kind === "routine_skip"
+            ? t("Skip this occurrence", "仅跳过这一次")
+            : p.kind === "email_send"
+              ? p.data.reply
+                ? t("Send reply", "发送回复")
+                : t("Send email", "发送邮件")
+              : journeyKind
+                ? t("Save reviewed update", "保存核对结果")
+                : t("Allow once", "允许这一次")}
         </button>
         <button
           className="secondary"

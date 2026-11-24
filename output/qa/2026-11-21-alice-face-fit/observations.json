@@ -1,0 +1,241 @@
+{
+  "source": "c8aa1982732ec4d52ef8b5ed41b7062e7c136d7b",
+  "previous_home": "69099a24e0071820c512e0d80868456741e5866b",
+  "base_review": "9c8894f86f5f9d2bb3d97fd1a8a02f56a8b2d238",
+  "simulator": {
+    "device": "iPhone 17 Pro",
+    "os": "26.5",
+    "viewport_css": [
+      402,
+      874
+    ],
+    "device_pixel_ratio": 3,
+    "app_id": "dev.group2.deskcompanion",
+    "bundle": {
+      "source_revision": "c8aa1982732ec4d52ef8b5ed41b7062e7c136d7b",
+      "release": "20261121-alice-face-c8aa1982",
+      "frontend_index_sha256": "dd330161eb5f1fc8fcb10f66aa672f5c28beabe244aee032947b60b1e01cfa28"
+    },
+    "restored_to_regular_desk": true
+  },
+  "web": {
+    "motion": {
+      "visible": true,
+      "dimensions": null,
+      "motion": "wave",
+      "build": "c8aa1982732ec4d52ef8b5ed41b7062e7c136d7b",
+      "errors": []
+    },
+    "reduced": {
+      "visible": true,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "motion": null,
+      "build": "c8aa1982732ec4d52ef8b5ed41b7062e7c136d7b",
+      "errors": []
+    }
+  },
+  "surface": {
+    "runtime_format": "VRM 0.x humanoid, Three.js r186, MToon 3.5.5",
+    "asset_sha256": "370b2312e9f97834db868751e43e9dd33b9112e5d151d592757c3f47315e195e",
+    "face_vertices_with_shape_or_normal": 204,
+    "face_vertices_with_tint": 273,
+    "outfit_vertices_with_shape_or_normal": 189,
+    "posed_landmark_displacement_mm": {
+      "N00_000_00_Face_00_SKIN": 2.42,
+      "N00_000_00_Body_00_SKIN": 3.56,
+      "N00_001_02_Accessory_Tie_01_CLOTH": 2.03,
+      "N00_007_01_Tops_01_CLOTH": 11.32,
+      "N00_007_02_Tops_01_CLOTH": 11.28
+    },
+    "bow": {
+      "bow_triangles_sampled": 214,
+      "backed_by_outfit": 214,
+      "formerly_front": 210,
+      "newly_hidden_over_0_15_mm": 0,
+      "newly_exposed_over_0_15_mm": 0,
+      "median_signed_gap_change_mm": -0.003
+    },
+    "native_local_luminance_difference_0_to_255": {
+      "before": {
+        "nose": 4.9,
+        "lips": 13.4
+      },
+      "after": {
+        "nose": 22.9,
+        "lips": 60.9
+      }
+    }
+  },
+  "contacts": {
+    "paths": 54,
+    "posed_frames": 13234,
+    "rate_hz": 30,
+    "pairs": [
+      "hand to coat",
+      "hand to face",
+      "sleeve to coat",
+      "sleeve to face"
+    ],
+    "sides": [
+      "left",
+      "right"
+    ],
+    "baseline_comparison": "identical to the previous result for every affected pair and path",
+    "existing_cloth_contacts": {
+      "wave/right": {
+        "Lsleeve/coat": {
+          "frames": 38,
+          "max_pairs": 40,
+          "depth_mm": 2.42,
+          "worst_frame": 94
+        }
+      },
+      "explain/right": {
+        "Lsleeve/coat": {
+          "frames": 31,
+          "max_pairs": 38,
+          "depth_mm": 1.68,
+          "worst_frame": 97
+        }
+      }
+    },
+    "expression_deformed_face": {
+      "morph-chinRest-left": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 71.22
+      },
+      "morph-chinRest-right": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 72.75
+      },
+      "morph-giggle-left": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 29.69
+      },
+      "morph-giggle-right": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 29.84
+      },
+      "morph-hairTuck-left": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 42.86
+      },
+      "morph-hairTuck-right": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 45.86
+      },
+      "morph-handToHeart-left": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 158.09
+      },
+      "morph-handToHeart-right": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 158.12
+      },
+      "morph-nod-left": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 502.16
+      },
+      "morph-nod-right": {
+        "samples": 35,
+        "crossing_frames": 0,
+        "closest_sample_mm": 504.5
+      }
+    }
+  },
+  "ordinary_real": {
+    "model": "gpt-6.2-sol",
+    "engine": "openai_sessions",
+    "entry": "installed simulator ordinary home composer",
+    "text": "太好了，照片都有备份。来，一起慢慢呼口气……这下可以放下心了。",
+    "delivery": "relieved",
+    "motion": "relax",
+    "intermediate": [
+      "idle",
+      "thinking",
+      "ponder",
+      "thinking",
+      "relax"
+    ],
+    "matched": "operation key",
+    "provider_mode": "ai",
+    "input": "原来昨天以为弄丢的照片都有备份，虚惊一场！陪我松口气吧。",
+    "receipt": [
+      {
+        "purpose": "conversation",
+        "provider": "openai",
+        "usage": {
+          "input_tokens": 15256,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens": 44,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 15300
+        }
+      }
+    ],
+    "local_usage_estimate_usd": 0.084392,
+    "calls": 1
+  },
+  "ordinary_protocol_replay_in_simulator": {
+    "bashful": {
+      "seen": "bashful",
+      "replyMatches": true,
+      "gestures": [
+        "hairTuck"
+      ]
+    },
+    "apologetic": {
+      "seen": "apologetic",
+      "replyMatches": true,
+      "gestures": [
+        "nod"
+      ]
+    },
+    "relieved": {
+      "seen": "relieved",
+      "replyMatches": true,
+      "gestures": [
+        "relax"
+      ]
+    }
+  },
+  "mac": {
+    "verified_release_files": 524,
+    "database_backup_verified": true,
+    "schema": 3,
+    "tables_before": 131,
+    "tables_after": 131,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "voice_model": "gpt-live-1.1"
+  },
+  "pi": {
+    "archive": "Pi-c8aa1982-from-85e6aa94.tar.gz",
+    "sha256": "f533747516c96b39f428c04b23b9103c221ad0efed729e43a5f110777c7200a8",
+    "bytes": 3863021,
+    "base_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "target_revision": "c8aa1982732ec4d52ef8b5ed41b7062e7c136d7b",
+    "changed": 140,
+    "retained": 384,
+    "files_verified": 524,
+    "installed_on_pi": false,
+    "pinned_route_readback": "SSH forwarding failed, exit 255"
+  }
+}

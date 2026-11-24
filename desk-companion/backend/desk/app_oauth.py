@@ -1,4 +1,4 @@
-"""Shared browser OAuth lifecycle for registered Google/Microsoft app manifests."""
+"""Owner-bound browser OAuth and encrypted grants for registered app manifests."""
 
 import base64
 import hashlib
@@ -20,7 +20,26 @@ from .vault import Vault
 from .app_specs import SPECS, SCOPES, CALLBACKS
 
 
+class ProviderResponseError(DomainError):
+    def __init__(self, code, status, data):
+        super().__init__(code, 502)
+        self.provider_status = status
+        error = data.get("error")
+        errors = error.get("errors") if isinstance(error, dict) else None
+        self.reasons = (
+            {
+                item["reason"]
+                for item in errors
+                if isinstance(item, dict) and isinstance(item.get("reason"), str)
+            }
+            if isinstance(errors, list)
+            else set()
+        )
+
+
 def app_client_config(resource):
+    if SPECS[resource]["provider"] == "letsfg":
+        return {"client_id": "", "redirect_uri": "", "client_secret": ""}
     prefix = "DESK_GOOGLE_" if SPECS[resource]["provider"] == "google" else "DESK_MICROSOFT_"
     config = {
         name: os.environ.get(prefix + name.upper(), "")
@@ -74,6 +93,9 @@ class AppOAuth:
             if self.provider == "google"
             else f"https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token"
         )
+        if self.provider == "letsfg":
+            self.authorization_url = "https://letsfg.co/connect"
+            self.token_url = "https://letsfg.co/developers/api/oauth/token"
         self.state_table = "google_oauth" if resource == "calendar" else resource + "_oauth"
         self.account_table = (
             "google_connection" if resource == "calendar" else resource + "_connection"
@@ -113,17 +135,27 @@ class AppOAuth:
             and not parts.username
         )
 
+    def mode(self):
+        if self.provider == "letsfg":
+            return "book_after_review"
+        return (
+            "send_after_review"
+            if self.resource in {"gmail", "microsoft365"}
+            else "read_only_preview"
+        )
+
     def snapshot(self):
         with self.store.connection() as conn:
             row = conn.execute(
                 f"SELECT connected_at,last_read FROM {self.account_table} WHERE id=1"
             ).fetchone()
+        return self._snapshot(row)
+
+    def _snapshot(self, row):
         return {
             "configured": self.configured(),
             "connected": bool(row),
-            "mode": "send_after_review"
-            if self.resource in {"gmail", "microsoft365"}
-            else "read_only_preview",
+            "mode": self.mode(),
             "connected_at": row["connected_at"] if row else None,
             "last_read": row["last_read"] if row else None,
         }
@@ -171,7 +203,13 @@ class AppOAuth:
                 (
                     digest(state),
                     self.vault.encrypt(
-                        encode({"verifier": verifier, "redirect_uri": redirect_uri})
+                        encode(
+                            {
+                                "verifier": verifier,
+                                "redirect_uri": redirect_uri,
+                                "client_id": self.config["client_id"],
+                            }
+                        )
                     ),
                     digest(owner_session),
                     iso(self.store.clock() + timedelta(minutes=10)),
@@ -201,11 +239,11 @@ class AppOAuth:
                     "scope": " ".join(SCOPES[self.resource]),
                     "state": state,
                     **(
-                        {"access_type": "offline"}
-                        if self.provider == "google"
-                        else {"response_mode": "query"}
+                        {
+                            "google": {"access_type": "offline", "prompt": "consent"},
+                            "microsoft": {"response_mode": "query", "prompt": "select_account"},
+                        }.get(self.provider, {})
                     ),
-                    "prompt": "consent" if self.provider == "google" else "select_account",
                     "code_challenge": challenge,
                     "code_challenge_method": "S256",
                 }
@@ -232,6 +270,10 @@ class AppOAuth:
                     and data.get("error") == "invalid_grant"
                 ):
                     raise DomainError(self.code("RECONNECT_REQUIRED"), 409)
+                if response.is_error:
+                    raise ProviderResponseError(
+                        self.code("CONNECTION_FAILED"), response.status_code, data
+                    )
                 response.raise_for_status()
                 return data
         except (httpx.HTTPError, ValueError):
@@ -280,11 +322,12 @@ class AppOAuth:
             or not self.valid_redirect(binding.get("redirect_uri", ""))
         ):
             raise DomainError("OAUTH_EXPIRED", 403)
+        client_id = binding.get("client_id", self.config["client_id"])
         data = self._request(
             "POST",
             self.token_url,
             data={
-                "client_id": self.config["client_id"],
+                "client_id": client_id,
                 **(
                     {"client_secret": self.config["client_secret"]}
                     if self.config.get("client_secret")
@@ -307,6 +350,8 @@ class AppOAuth:
         if not active:
             raise DomainError("OAUTH_EXPIRED", 403)
         tokens.update(self.identity(tokens["access_token"]))
+        if self.provider == "letsfg":
+            tokens["client_id"] = client_id
         tokens["connection_id"] = uuid4().hex
         with self.lock, self.store.connection(write=True) as conn:
             if not conn.execute(
@@ -327,8 +372,8 @@ class AppOAuth:
                 conn,
                 ("google" if self.resource == "calendar" else self.resource) + "_connected",
                 details={
-                    "mode": "read_only_preview"
-                    if self.resource == "calendar"
+                    "mode": self.mode()
+                    if self.provider == "letsfg" or self.resource == "calendar"
                     else "send_after_review"
                 },
             )
@@ -410,10 +455,12 @@ class AppOAuth:
                 )
                 tokens = {**tokens, **self._tokens(response, tokens["refresh_token"])}
                 with self.store.connection(write=True) as conn:
-                    conn.execute(
-                        f"UPDATE {self.account_table} SET encrypted_tokens=? WHERE id=1",
-                        (self.vault.encrypt(encode(tokens)),),
+                    written = conn.execute(
+                        f"UPDATE {self.account_table} SET encrypted_tokens=? WHERE id=1 AND encrypted_tokens=?",
+                        (self.vault.encrypt(encode(tokens)), row[0]),
                     )
+                    if not written.rowcount:
+                        raise DomainError("APP_CONNECTION_CHANGED")
             return tokens["access_token"]
 
     def disconnect(self):
@@ -473,17 +520,20 @@ class AppOAuth:
             raise DomainError(self.code("ACCOUNT_UNVERIFIED"), 403) from None
         return {"email": email}
 
-    def account(self):
-        state = self.snapshot()
-        with self.store.connection() as conn:
-            row = conn.execute(
-                f"SELECT encrypted_tokens FROM {self.account_table} WHERE id=1"
-            ).fetchone()
-        tokens = json.loads(self.vault.decrypt(row[0])) if row else {}
+    def account(self, conn=None):
+        if conn is None:
+            with self.store.connection() as active:
+                return self.account(active)
+        row = conn.execute(f"SELECT * FROM {self.account_table} WHERE id=1").fetchone()
+        tokens = json.loads(self.vault.decrypt(row["encrypted_tokens"])) if row else {}
+        version = tokens.get("connection_id", "disconnected")
+        if self.resource == "calendar" and row and "connection_id" not in tokens:
+            # Pre-version Calendar grants retain the same binding across access-token rotations.
+            version = digest("legacy-calendar/" + row["connected_at"])
         return {
-            **state,
+            **self._snapshot(row),
             "email": tokens.get("email"),
-            "version": tokens.get("connection_id", "disconnected"),
+            "version": version,
         }
 
     def cancel(self, flow_id, session):

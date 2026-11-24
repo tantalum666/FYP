@@ -1,0 +1,227 @@
+{
+  "revision": "2686b0dce63faed0c0c870fe50e0255790c2bf0c",
+  "plugin_sha256": "4763ebb0ee66b80b5758ea75799a426b4e6cdbe804cf606736219a19b23d73c8",
+  "new_clone_order": 31,
+  "currency": "HKD",
+  "stages": [
+    {
+      "step": 0,
+      "order_status": "processing",
+      "app_state": "completed",
+      "merchant_refunded_minor": 0,
+      "refunded_object_amounts_minor": [],
+      "stripe_refund_statuses": [],
+      "stripe_captured_minor": 2500,
+      "stripe_refunded_minor": 0,
+      "app_receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 0,
+        "pending_minor": 0,
+        "net_minor": 2500,
+        "last_verified": null
+      }
+    },
+    {
+      "step": 1,
+      "order_status": "processing",
+      "app_state": "partially_refunded",
+      "merchant_refunded_minor": 525,
+      "refunded_object_amounts_minor": [
+        525
+      ],
+      "stripe_refund_statuses": [
+        "succeeded"
+      ],
+      "stripe_captured_minor": 2500,
+      "stripe_refunded_minor": 525,
+      "app_receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 525,
+        "pending_minor": 0,
+        "net_minor": 1975,
+        "last_verified": null
+      },
+      "reopened_after_backend_restart": true
+    },
+    {
+      "step": 2,
+      "order_status": "processing",
+      "app_state": "partially_refunded",
+      "merchant_refunded_minor": 1300,
+      "refunded_object_amounts_minor": [
+        525,
+        775
+      ],
+      "stripe_refund_statuses": [
+        "succeeded",
+        "succeeded"
+      ],
+      "stripe_captured_minor": 2500,
+      "stripe_refunded_minor": 1300,
+      "app_receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 1300,
+        "pending_minor": 0,
+        "net_minor": 1200,
+        "last_verified": null
+      },
+      "reopened_after_backend_restart": true
+    },
+    {
+      "step": 3,
+      "order_status": "refunded",
+      "app_state": "refunded",
+      "merchant_refunded_minor": 2500,
+      "refunded_object_amounts_minor": [
+        525,
+        775,
+        1200
+      ],
+      "stripe_refund_statuses": [
+        "succeeded",
+        "succeeded",
+        "succeeded"
+      ],
+      "stripe_captured_minor": 2500,
+      "stripe_refunded_minor": 2500,
+      "app_receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 2500,
+        "pending_minor": 0,
+        "net_minor": 0,
+        "last_verified": null
+      },
+      "reopened_after_backend_restart": true
+    }
+  ],
+  "explicit_merchant_partials_minor": [
+    525,
+    775,
+    1200
+  ],
+  "test_mode": true,
+  "real_pending_seen": false,
+  "refund_count_scope": "Refund IDs retrieved individually and matched to the newly created test Charge",
+  "new_stripe_objects": {
+    "payment_intents": 1,
+    "charges": 1,
+    "refunds": 3
+  },
+  "real_status": "verified",
+  "synthetic_protocol_checks": {
+    "pending-paginated": {
+      "source": "isolated HTTP protocol replay derived from the actually observed first partial",
+      "app_state": "refund_pending",
+      "receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 525,
+        "pending_minor": 775,
+        "net_minor": 1975,
+        "last_verified": null
+      },
+      "read_only": true,
+      "stripe_reads": [
+        "charge",
+        "payment_intent",
+        "refunds",
+        "refunds_next_page",
+        "stripe_account"
+      ],
+      "reopened_after_restart": true,
+      "duplicate_across_pages": true
+    },
+    "wrong-account": {
+      "source": "isolated HTTP protocol replay derived from the actually observed first partial",
+      "app_state": "unverified",
+      "receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 525,
+        "pending_minor": 0,
+        "net_minor": 1975,
+        "last_verified": true
+      },
+      "read_only": true,
+      "stripe_reads": [
+        "stripe_account"
+      ],
+      "reopened_after_restart": false,
+      "duplicate_across_pages": false
+    },
+    "wrong-charge-currency": {
+      "source": "isolated HTTP protocol replay derived from the actually observed first partial",
+      "app_state": "unverified",
+      "receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 525,
+        "pending_minor": 0,
+        "net_minor": 1975,
+        "last_verified": true
+      },
+      "read_only": true,
+      "stripe_reads": [
+        "charge",
+        "payment_intent",
+        "stripe_account"
+      ],
+      "reopened_after_restart": false,
+      "duplicate_across_pages": false
+    },
+    "wrong-refund-currency": {
+      "source": "isolated HTTP protocol replay derived from the actually observed first partial",
+      "app_state": "refund_review",
+      "receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 525,
+        "pending_minor": 0,
+        "net_minor": 1975,
+        "last_verified": true
+      },
+      "read_only": true,
+      "stripe_reads": [
+        "charge",
+        "payment_intent",
+        "refunds",
+        "stripe_account"
+      ],
+      "reopened_after_restart": false,
+      "duplicate_across_pages": false
+    },
+    "wrong-linked-charge": {
+      "source": "isolated HTTP protocol replay derived from the actually observed first partial",
+      "app_state": "refund_review",
+      "receipt": {
+        "charged_minor": 2500,
+        "refunded_minor": 525,
+        "pending_minor": 0,
+        "net_minor": 1975,
+        "last_verified": true
+      },
+      "read_only": true,
+      "stripe_reads": [
+        "charge",
+        "payment_intent",
+        "refunds",
+        "stripe_account"
+      ],
+      "reopened_after_restart": false,
+      "duplicate_across_pages": false
+    }
+  },
+  "unchanged_merchant_controls": [
+    {
+      "order": 17,
+      "state": "processing",
+      "gross_minor": 4600,
+      "refunded_minor": 0,
+      "refunds": 0
+    },
+    {
+      "order": 29,
+      "state": "refunded",
+      "gross_minor": 3200,
+      "refunded_minor": 3200,
+      "refunds": 1
+    }
+  ],
+  "normal_store_control_unchanged": true
+}

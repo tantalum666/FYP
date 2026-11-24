@@ -13,6 +13,7 @@ from typing import Literal
 from fastapi import APIRouter, Depends
 from pydantic import Field
 
+from . import routine_chat
 from .calendar import iso
 from .jobs import JobApproval
 from .schemas import StrictModel
@@ -189,6 +190,9 @@ class PermissionService:
     def refresh_reply(self, reply, *, language="en"):
         """Read existing action state; never authorize a cached pending request."""
         zh = language == "zh"
+        review = reply.get("proposal") or reply.get("action") or {}
+        if review.get("kind") == "routine_skip" or reply.get("error") == "ROUTINE_OCCURRENCE_UNAVAILABLE":
+            return routine_chat.refresh_reply(self.store, reply, review.get("id"), language)
         if followup_id := (reply.get("mail_followup") or {}).get("followup_id"):
             return self._mail_reply(reply, followup_id, language)
         if job_id := (reply.get("job") or {}).get("id"):

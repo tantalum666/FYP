@@ -1,0 +1,119 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "candidate_php_sha256": "5351eb30807eeac02473590416b32e02c325d5556aa82fa74c5a05199a6dfc96",
+  "case": "lower-and-capture",
+  "status": "pass",
+  "initial_minor": 3300,
+  "initial_shipping_minor": 800,
+  "revised_minor": 3200,
+  "quantity_matched": true,
+  "shipping_lines": 1,
+  "unbound_approval": "clarify",
+  "new_payments_before_renewed_consent": {
+    "payment_intents": 0,
+    "charges": 0
+  },
+  "wrong_amount_status": 409,
+  "merchant": {
+    "order": 29,
+    "state": "processing",
+    "paid_at": true,
+    "currency": "HKD",
+    "subtotal": 2500,
+    "discount": 0,
+    "tax": 0,
+    "shipping": 700,
+    "shipping_count": 1,
+    "total": 3200,
+    "refunded": 0,
+    "refund_count": 0,
+    "items": [
+      {
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "id": 15,
+        "quantity": 1,
+        "line_subtotal": 1700,
+        "line_paid": 1700,
+        "line_tax": 0
+      },
+      {
+        "sku": "FYP-QA-POCKET-TISSUES",
+        "id": 20,
+        "quantity": 2,
+        "line_subtotal": 800,
+        "line_paid": 800,
+        "line_tax": 0
+      }
+    ]
+  },
+  "stripe": {
+    "mode": "test",
+    "intent_status": "succeeded",
+    "amount_received_minor": 3200,
+    "charge_status": "succeeded",
+    "amount_captured_minor": 3200,
+    "refunded_minor": 0,
+    "linked": true,
+    "visa_test_fixture": true,
+    "net_minor": 3200
+  },
+  "new_payments_including_replay": {
+    "payment_intents": 1,
+    "charges": 1
+  },
+  "ordinary_receipt_reopen": true,
+  "lost_ack_injected_after_merchant_acceptance": true,
+  "merchant_write_replay_same_order_and_payment": true,
+  "model_transport": "scripted official Sessions protocol",
+  "initial_summary": "2 种商品，商品 HK$25.00，运费 HK$8.00，测试订单总价 HK$33.00。确认后我才付款。",
+  "revised_summary": "商店更新了结账报价：原总价 HK$33.00，新总价 HK$32.00，其中运费 HK$7.00。还没有付款。按新报价继续吗？",
+  "terminal_summary": "已核对 WooCommerce 订单 #29 和 Stripe 回执：实际模拟扣款 HK$32.00，真实扣款 HK$0。",
+  "cent_short_capture_fixture": "rejected",
+  "refund_merchant": {
+    "order": 29,
+    "state": "refunded",
+    "paid_at": true,
+    "currency": "HKD",
+    "subtotal": 2500,
+    "discount": 0,
+    "tax": 0,
+    "shipping": 700,
+    "shipping_count": 1,
+    "total": 3200,
+    "refunded": 3200,
+    "refund_count": 1,
+    "items": [
+      {
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "id": 15,
+        "quantity": 1,
+        "line_subtotal": 1700,
+        "line_paid": 1700,
+        "line_tax": 0
+      },
+      {
+        "sku": "FYP-QA-POCKET-TISSUES",
+        "id": 20,
+        "quantity": 2,
+        "line_subtotal": 800,
+        "line_paid": 800,
+        "line_tax": 0
+      }
+    ]
+  },
+  "refund_stripe": {
+    "mode": "test",
+    "intent_status": "succeeded",
+    "amount_received_minor": 3200,
+    "charge_status": "succeeded",
+    "amount_captured_minor": 3200,
+    "refunded_minor": 3200,
+    "linked": true,
+    "visa_test_fixture": true,
+    "net_minor": 0
+  },
+  "managed_stock_after_payment": 18,
+  "managed_stock_after_refund": 20,
+  "restocked_units": 2,
+  "refund_summary": "WooCommerce 订单 #29，买家撤单已受理。Stripe 原模拟扣款 HK$32.00，已全额退回 HK$32.00，净扣款 HK$0.00。"
+}

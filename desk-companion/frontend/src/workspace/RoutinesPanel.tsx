@@ -725,6 +725,9 @@ export function RoutinesPanel({
                       <section aria-label={t("Run history", "运行记录")}>
                         {detail?.routine.id === routine.id ? (
                           <>
+                            {!!detail.skipped_dates?.length && (
+                              <p>{t("Skipped dates", "跳过日期")} · {detail.skipped_dates.join(", ")}</p>
+                            )}
                             {detail.runs.length === 0 ? (
                               <p>
                                 {t(

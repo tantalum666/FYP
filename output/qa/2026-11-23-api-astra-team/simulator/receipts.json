@@ -1,0 +1,173 @@
+{
+  "result": "passed",
+  "platform": {
+    "device": "iPhone 17 Pro Simulator",
+    "os": "iOS 26.5 (23F77)",
+    "ui": "Capacitor / WKWebView",
+    "separate_simulator": true,
+    "separate_app_group_and_keychain_service": true,
+    "upstreams": "synthetic local protocols only"
+  },
+  "source": {
+    "git_revision": "bc2796cc",
+    "api_projection_base": "e06c5149",
+    "sha256_per_relevant_path": {
+      "backend/desk/commerce_chat.py": "0394693287fd99505c5d37f91b63f2b4b151ca825aef083b86b27109c1dccd6d",
+      "backend/desk/flight_booking/calendar_event.py": "5982ff2ad778b0b586057362b318c73dcf1df7a90caa85405e5b422f6070422f",
+      "backend/desk/flight_booking/calendar_handoff.py": "7263a763a141df75f415c8165da4e04d608b0fa31811a76dfc96aa8d18c9eb1e",
+      "frontend/src/workspace/AssistantPanel.tsx": "36bdd542cba2b90ad3b15a81068f22ba26aa05ce58fe9893e89cd33b91caf0a0",
+      "frontend/src/workspace/SandboxFlightBooking.tsx": "7e2519669e5023d60efafb59435365fd46a87a17154b09bcabf4a72147675c74",
+      "frontend/src/workspace/commercePresentation.ts": "4f2936b10e35b4cd363ecd45193c93e126ad68675a790a11829ec6e09a717f8d",
+      "frontend/ios/App/App/AppDelegate.swift": "08e2fe862776d6884ae3dfd6b7c27de892c6d1a5c89414ca61ce675c9049b0e8"
+    },
+    "source_tree_manifest_sha256": "c146371475e850666fcb58cd69ceedeea19ed78730cac54544fae40427a8d8e8",
+    "manifest_definition": "Path-to-SHA256 map of 501 snapshotted regular files in backend/desk and frontend/src, relative to desk-companion, encoded with Python json.dumps(map, sort_keys=True).",
+    "native_normalization": "The private QA bundle, app group and Keychain service use a separate namespace. The native Swift hash is shown in the repository namespace.",
+    "separate_later_function_revision": "f57e317c"
+  },
+  "entry": {
+    "ordinary_home_composer": "Add this booked flight to my desk calendar",
+    "selected_commerce_card_on_request": false,
+    "home_review_control": "Review flight calendar times",
+    "save_control": "Save to calendar",
+    "separate_decline_control": "Skip",
+    "tap_confirmation": "I found this test flight on your desk calendar.",
+    "physical_taps": [
+      "Send message",
+      "Review flight calendar times",
+      "Save to calendar"
+    ]
+  },
+  "receipt_fixture": {
+    "flight": "FR4315",
+    "origin": "HKG",
+    "destination": "HND",
+    "airport_local_departure": "2026-11-30 19:00 Asia/Hong_Kong",
+    "airport_local_arrival": "2026-11-30 22:10 Asia/Tokyo",
+    "original_quote_minor_hkd": 3400,
+    "verified_approved_and_captured_minor_hkd": 3543,
+    "fixture_setup_model_protocol_requests": 8
+  },
+  "checkpoints": {
+    "booked_fixture": {
+      "events": 0,
+      "bookings": 1,
+      "supplier_fixture": {
+        "search": 1,
+        "book": 1,
+        "original_record": 3,
+        "answer": 1
+      },
+      "linked": false
+    },
+    "preview": {
+      "events": 0,
+      "bookings": 1,
+      "supplier_fixture": {
+        "search": 1,
+        "book": 1,
+        "original_record": 4,
+        "answer": 1
+      },
+      "linked": false
+    },
+    "confirmed": {
+      "events": 1,
+      "bookings": 1,
+      "supplier_fixture": {
+        "search": 1,
+        "book": 1,
+        "original_record": 5,
+        "answer": 1
+      },
+      "linked": true
+    },
+    "exact_request_replayed": {
+      "events": 1,
+      "bookings": 1,
+      "supplier_fixture": {
+        "search": 1,
+        "book": 1,
+        "original_record": 5,
+        "answer": 1
+      },
+      "linked": true
+    }
+  },
+  "persisted_event": {
+    "fields": {
+      "start_local": "2026-11-30T19:00:00",
+      "title": "Test itinerary: FR4315 HKG → HND",
+      "timezone": "Asia/Hong_Kong",
+      "busy": true,
+      "reminder_minutes": [],
+      "end_local": "2026-11-30T21:10:00",
+      "visibility": "private"
+    },
+    "begin": "2026-11-30T11:00:00.000000Z",
+    "occurrences": 1,
+    "calendar_title": "Test itinerary: FR4315 HKG → HND",
+    "end": "2026-11-30T13:10:00.000000Z",
+    "version": 1
+  },
+  "replay": {
+    "same_original_body_and_operation_id": true,
+    "same_event_and_version": true,
+    "event_request_http_status": [
+      200,
+      200,
+      200
+    ],
+    "booking_locator_in_calendar_event": false
+  },
+  "calendar_screen": {
+    "agenda": "19:00 – 21:10\nTest itinerary: FR4315 HKG → HND\nPersonal",
+    "rows": 1,
+    "date": "2026-11-30"
+  },
+  "calendar_handoff_external_effects": {
+    "supplier_original_record_gets": 2,
+    "new_supplier_orders": 0,
+    "new_price_answers": 0,
+    "new_fixture_captures": 0,
+    "model_requests": 0,
+    "google_writes": 0,
+    "non_loopback_connection_attempts": 0
+  },
+  "native_delay_fixture": {
+    "marker": "desk-loopback-14s",
+    "bridge": "ios",
+    "status": 200,
+    "quick_status": 200,
+    "quick_read": "ok",
+    "quick_seconds": 0.006,
+    "seconds": 14.228,
+    "method": "POST",
+    "path": "/api/google/refresh",
+    "server_delay_seconds": 14.001,
+    "inbound_marker": "desk-loopback-14s",
+    "upstream_google_requests": 0,
+    "follow_up_method": "GET",
+    "follow_up_path": "/api/health"
+  },
+  "restoration": {
+    "regular_simulator_booted": true,
+    "regular_install_container_matches": true,
+    "regular_native_debug_dylib_sha256_matches": true,
+    "regular_frontend_entry_sha256_matches": true,
+    "disposable_simulator_deleted": true,
+    "disposable_backend_port_closed": true,
+    "private_source_build_and_fixture_database_removed": true,
+    "xcode_session_defaults_empty": true
+  },
+  "screenshots": {
+    "flight-calendar-day.jpg": {
+      "bytes": 82453,
+      "sha256": "b501fcd14aab416566754fa8aa7ced2766bbb3fffd06e59a77cda2d2745f1b72"
+    },
+    "flight-calendar-preview.jpg": {
+      "bytes": 164956,
+      "sha256": "0c4982d717e2912c67ce414faaf1c91986f6d4d6e2fdc01b00d12416dc002ff7"
+    }
+  }
+}

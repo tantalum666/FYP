@@ -19,6 +19,7 @@ import { ApplicationPreview } from "./ApplicationPreview";
 import { ExportLink } from "./ExportLink";
 import { ComputerScreen } from "./ComputerScreen";
 import { ManagedBrowserSignIn } from "./ManagedBrowserSignIn";
+import { CommerceQuote } from "./CommerceQuote";
 
 export function JobActionCard({
   job,
@@ -31,6 +32,7 @@ export function JobActionCard({
   compact = true,
   refreshToken,
   onContinue,
+  onBuyFlight,
 }: {
   job: ComputerJob;
   t: Translate;
@@ -42,10 +44,14 @@ export function JobActionCard({
   compact?: boolean;
   refreshToken?: number;
   onContinue?: () => void;
+  onBuyFlight?: (jobId: string) => void;
 }) {
   const [exportError, setExportError] = useState<unknown>(null);
   const application = isApplicationAction(job.action);
   const computer = job.action === "computer_use";
+  const connector =
+    job.request.quote_request?.kind === "flight" &&
+    job.request.quote_request.provider === "kiwi";
   const signingIn =
     computer &&
     job.request.engine === "managed" &&
@@ -122,7 +128,9 @@ export function JobActionCard({
           ·{" "}
           {job.result?.readback?.data_scope === "owner_authorized_account"
             ? t("Account pages you allowed", "你允许访问的账号页面")
-            : t("Browsing and preparation", "浏览与准备")}
+            : connector
+              ? t("Read-only Kiwi.com flight search", "Kiwi.com 只读航班查询")
+              : t("Browsing and preparation", "浏览与准备")}
         </p>
       )}
       {signingIn && (
@@ -130,10 +138,15 @@ export function JobActionCard({
       )}
       {computer && job.state === "review" && (
         <small>
-          {t(
-            "Page screenshots are processed in the cloud. Final submissions need you.",
-            "网页截图会交给云端助手处理，最终提交由你操作。",
-          )}
+          {connector
+            ? t(
+                "Kiwi.com receives only the reviewed flight search details.",
+                "Kiwi.com 仅接收已核对的航班查询条件。",
+              )
+            : t(
+                "Page screenshots are processed in the cloud. Final submissions need you.",
+                "网页截图会交给云端助手处理，最终提交由你操作。",
+              )}
         </small>
       )}
       {computer && job.state === "owner_takeover" && (
@@ -318,14 +331,21 @@ export function JobActionCard({
             t={t}
           />
         )}
-      {computer && job.result?.verified && job.result.readback?.report && (
-        <section
-          className="computer-use-report"
-          aria-label={t("Research result", "查找结果")}
-        >
-          <p>{job.result.readback.report}</p>
-        </section>
-      )}
+      {computer &&
+        job.result?.verified &&
+        (job.result.readback?.quote ? (
+          <><CommerceQuote quote={job.result.readback.quote} t={t} />
+            {connector && job.result.readback.quote.offer && onBuyFlight && <button type="button" className="secondary" disabled={busy || !fresh} onClick={()=>onBuyFlight(job.id)}>{t("Prepare purchase", "准备购买这张机票")}</button>}</>
+        ) : (
+          job.result.readback?.report && (
+            <section
+              className="computer-use-report"
+              aria-label={t("Research result", "查找结果")}
+            >
+              <p>{job.result.readback.report}</p>
+            </section>
+          )
+        ))}
       {application &&
         step &&
         job.state === "succeeded" &&

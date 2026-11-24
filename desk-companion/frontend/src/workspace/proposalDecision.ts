@@ -9,7 +9,7 @@ export function isJourneyAdvice(kind: string | undefined): boolean {
 }
 
 export function proposalDecisionNotice(
-  result: { queued?: boolean; kind?: string; paused?: boolean },
+  result: { queued?: boolean; kind?: string; paused?: boolean; job?: { id: string } },
   action: "confirm" | "cancel",
   requestedKind: string | undefined,
   t: Translate,
@@ -26,11 +26,8 @@ export function proposalDecisionNotice(
           "邮件跟进已保存，新回复会显示在关联事务中。",
         );
   if ((result.kind ?? requestedKind) === "browser_research")
-    return result.queued
-      ? t(
-          "Browser task started. Its progress stays in this conversation.",
-          "浏览器任务已开始，进度会留在这段对话里。",
-        )
+    return result.job || result.queued
+      ? ""
       : t("Browser task status refreshed.", "已更新浏览器任务的状态。");
   if (result.queued)
     return t(
@@ -38,6 +35,8 @@ export function proposalDecisionNotice(
       "动作已排队，请在设备回执中查看结果。",
     );
   const kind = result.kind ?? requestedKind;
+  if (kind === "routine_skip")
+    return t("That routine occurrence was skipped.", "已跳过这一次提醒。");
   if (kind === "email_send")
     return t("Email accepted for sending.", "邮件已提交发送。");
   if (isJourneyAdvice(kind))

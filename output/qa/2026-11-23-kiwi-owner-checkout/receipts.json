@@ -1,0 +1,65 @@
+{
+  "checkout_code": "724b29856ae8e66f6e4415c53e387264afc76933",
+  "tree": "54b839212fb0b53f5f34cee336228129cb16b717",
+  "supplier_adapter": "304bc30981912dde46cf3ff5259cbfc321b556c7",
+  "terms": {
+    "adults": 1,
+    "budget_minor": null,
+    "checked_bag_kg": 20,
+    "currency": "HKD",
+    "departure": "2026-11-24",
+    "destination": "NRT",
+    "kind": "flight",
+    "origin": "HKG",
+    "return_date": "2026-12-01"
+  },
+  "kiwi_listed_minor": 338959,
+  "kiwi_verified_checked_weight_kg": null,
+  "original_outbound": [
+    "BR852",
+    "BR196"
+  ],
+  "legacy_return_designator": null,
+  "no_wallet": {
+    "seller_calls": {
+      "searches": 0,
+      "orders": 0,
+      "reads": 0
+    },
+    "source_job": "succeeded",
+    "connect_after_read": true,
+    "page_errors": 0
+  },
+  "unverified_baggage": {
+    "distinct_public_verifications": 2,
+    "job_states": [
+      "succeeded",
+      "succeeded"
+    ],
+    "seller_calls": {
+      "searches": 1,
+      "orders": 0,
+      "reads": 0
+    },
+    "payment_form_available": false,
+    "page_errors": 0
+  },
+  "desktop_confirmed_fixture": {
+    "before_owner_confirmation": {
+      "searches": 1,
+      "orders": 0,
+      "reads": 0
+    },
+    "after_independent_read": {
+      "searches": 1,
+      "orders": 1,
+      "reads": 1
+    },
+    "charged_minor": 350000,
+    "currency": "HKD",
+    "passenger_form_in_web_storage": false,
+    "page_errors": 0
+  },
+  "real_purchase": false,
+  "real_passenger_data": false
+}

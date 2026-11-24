@@ -1,0 +1,35 @@
+# A quieter order conversation and follow-through on the desk
+
+The normal Mac Web and iPhone 17 Pro Simulator run `c185d69e`. The same initial quote request, before pressing a review control, is shown in the home comparison. The same controlled commerce journey was captured on the previous installed UI, `2f59ff63`, and on the updated UI. [Home comparison](home.jpg) · [Flight-choice comparison](choices.jpg) · [Measurements](observations.json).
+
+## From the ordinary composer
+
+| Action | Observed result |
+| --- | --- |
+| Ask for one pack of pocket tissues | The home stayed on Alice and showed a single HK$12 quote entry. Opening it exposed the HK$4 merchandise amount and HK$8 delivery, followed by an explicit HK$12 test-payment control. |
+| Ask for cancellation and say “退款到了告诉我” | Alice acknowledged in one sentence. After the owner went back to the home, the Simulator switched to the system Settings app and the client was disconnected from the fixture’s order-list endpoint. The desk worker received the final refund from the original provider reader. SQLite already held the verified result before the native app returned to the foreground. |
+| Return to the same login and conversation | The home showed “#21 · Refunded HK$12.00” and kept the sheet closed. In Conversation, the receipt expanded to show the original charge, refund, net and merchant details. Its default visible text shrank from 267 to 24 characters in the matched English captures. |
+| Ask about an unavailable flight | Three options displayed departure and arrival times and individual fares. The previous refund occupied no visible card under those flights. Its original receipt was available through the order disclosure. Selecting AF3258 produced a new HK$55 review awaiting the owner. |
+
+The instrumented case used one test checkout and one buyer cancellation. Zero successful client receipt reads occurred while the provider result arrived in the background. The affirmative result came from the actual scheduled worker, identified at the mock adapter boundary. The independent SQLite read and native return were separate observations. During an earlier capture, moving the Simulator to Settings alone allowed some client polling during the transition. The controlled disconnected case removes that ambiguity. A legacy operator Python interpreter could not open the live WAL database; the project interpreter supplied the independent read. An empty rendered descendant of a closed disclosure in WebKit retained a measured width. Visibility was checked against the screenshot, rendered text and disclosure state.
+
+## What keeps an order safe
+
+- The single desk worker runs every 15 seconds, picks one due approved order per enabled provider and reuses the domain’s original read path and backoff. It never enters checkout, stop, refund submission or price approval. Pending grant, draft quote and completed payment have different states.
+- The worker joins the order’s original login hash to the unexpired session. It checks chat association, private mode, proactivity and settings revisions before saving. Logout or a privacy change during the read discards the late result. The underlying receipt remains scoped to that login and conversation.
+- The client remembers only the kind, local order ID, version and state of unfinished records in that window. A new verified result replaces its own pending line when appropriate. A passive result cannot take over another active review, flight selection or unsent draft. A fresh login does not grant access to an earlier temporary conversation.
+- Approved work can progress with the client away while the desk runs and the original login remains valid. The notification is delivered in that conversation. The implementation sends no lock-screen, email or third-party message.
+
+On the final desktop client, an unrelated refund finished while the HK$55 fare button had keyboard focus. The same button node retained focus, the draft stayed intact, one refund line appeared, and the fare remained unapproved. The DOM assertions had finished before an operator basename error in the log-reading step. The correct fixture log and SQLite confirmed zero provider writes. On the native client the Chinese selector showed “选 AF3258” and a fresh confirmation at HK$55. The original language and normal desk connection were restored.
+
+The existing official OpenAI Session supplies quote Functions. Tapping a flight sends its route, date and available budget through that same ordinary conversation. Settling a receipt is a deterministic provider read. No second agent loop, scheduled model reasoning or payment-capable tool was added. [Official Functions](https://developers.openai.com/api/docs/guides/agents-api/tools/functions) · [Official Automations](https://developers.openai.com/api/docs/guides/agents-api/sessions/automations).
+
+## Engineering and release evidence
+
+Eleven focused backend cases and five frontend cases exercised an unapproved order, a not-yet-due read, expired and revoked logins, forgotten chats, private/Off settings, a concurrent logout, one-time settlement, incremental reprice, a grounded follow-up acknowledgment, cross-midnight times, restoration markers and preserving the active decision. Normal Web and iOS QA also exercised disclosure, selection, accessibility and the scoped native conversation. Chrome/Playwright and the native Simulator were used locally. The Browser plugin was unavailable.
+
+The backend used the existing scheduler, SQLite records and merchant adapters. No new live purchases, real card transactions or paid model calls were made for acceptance. Previous external WooCommerce, Stripe and LetsFG results remain the reference for real provider behavior. The release verified 562 manifest entries, schema 3, the database rollback copy, account grants and A3 v9. The physical Pi has a verified delta against its recorded `85e6aa94` base. It was not installed on this pass. [Previous external-provider acceptance](../2026-11-21-commerce-aftercare/verification.md) · [draft PR 141](https://github.com/tantalum666/FYP/pull/141).
+
+Read the project entry, relevant product and decision sections, handoff, current UI-copy, home, ordinary-commerce, proactive-service contracts, the commerce section of the personal-agent research index, previous acceptance and the changed code and its callers. Checked the installed OpenAI Function protocol types and official Functions and Automations guides. Updated the project entry, product, UI, home, shopping, flight and proactivity contracts, decisions, research index, handoff and work log. The implementation was self-reviewed against `b9485367`; the second implementation commit only changes frontend presentation and its focused tests.
+
+The captures show *Alice Chan (Uniform ver.)* by edisonlee55 / yuna0x0. Group 2 adapted the resident appearance and edited the screen comparisons. The rendered media are available under CC BY-SA 4.0. [Original character](https://github.com/yuna0x0/AliceChan) · [License](https://creativecommons.org/licenses/by-sa/4.0/).

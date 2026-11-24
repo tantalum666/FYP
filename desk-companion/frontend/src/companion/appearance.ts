@@ -2,8 +2,8 @@ export const APPEARANCE_KEY = "desk.companion.complete-vrm.v2";
 export const APPEARANCE_EVENT = "desk:complete-vrm-choice";
 export const MODELS = {
   alice: {
-    name: "AliceChan · 作者原版",
-    nameEn: "AliceChan · Original",
+    name: "AliceChan · 制服款",
+    nameEn: "AliceChan · Uniform",
     file: "/avatars/alice/alice-ready.vrm",
   },
   shino: {

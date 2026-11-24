@@ -1,0 +1,136 @@
+{
+  "accounts_and_bound_versions_preserved": true,
+  "added_tables": [
+    "sandbox_flight_bookings",
+    "sandbox_shop_orders"
+  ],
+  "after_tables": 130,
+  "api_service": "active",
+  "app_connection_state": {
+    "calendar": {
+      "configured": true,
+      "connected": true,
+      "scope_count": 1
+    },
+    "gmail": {
+      "configured": true,
+      "connected": true,
+      "scope_count": 4
+    },
+    "microsoft365": {
+      "configured": false,
+      "connected": false,
+      "scope_count": 10
+    },
+    "sharepoint": {
+      "configured": false,
+      "connected": false,
+      "scope_count": 5
+    },
+    "teams": {
+      "configured": false,
+      "connected": false,
+      "scope_count": 5
+    }
+  },
+  "archive_sha256": "6d0acf969582b1a293b138dbfa36824daa627d44e5e15c783a7d7e075a5b6542",
+  "arm_architecture": "aarch64",
+  "automatic_rollback_verified": true,
+  "automatic_service_restarts": 0,
+  "backup_application_and_ledger_sqlite_verified": true,
+  "both_earlier_and_latest_runtime_and_ledger_fingerprints_match": true,
+  "cached_a3_sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
+  "changed_files": 204,
+  "checked_hong_kong": "2026-11-23T13:14:47+08:00",
+  "cpu_max_khz": 2400000,
+  "current_service_restart_counts": {
+    "api": 0,
+    "kiosk": 0
+  },
+  "existing_table_rows_matched_in_rehearsal": true,
+  "final_pinned_route_live_check_hong_kong": "2026-11-23T13:15:17+08:00",
+  "final_relay_readback_models_data_ledger_services_match": true,
+  "firmware_throttled_bits": "0x50000",
+  "free_mib_after_staging": 98905,
+  "from_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+  "google_provider_queries": 0,
+  "http_entry_asset_hashes_verified": 8,
+  "independent_protected_live_table_fingerprints_matched": 13,
+  "kiosk_profile_contains_target_entry_module_url": true,
+  "kiosk_service": "active",
+  "local_connected_scope_readback": {
+    "calendar": [
+      "calendar.events.readonly"
+    ],
+    "gmail": [
+      "OpenID",
+      "email",
+      "gmail.send",
+      "gmail.readonly"
+    ]
+  },
+  "new_ledger_reservations": 0,
+  "new_model_usage_rows": 0,
+  "normal_budget": {
+    "active": true,
+    "allocated_usd": 9.0,
+    "available_usd": 9.0,
+    "day": "2026-11-23",
+    "local_budget_used_usd": 0.0,
+    "observed_usage_estimate_usd": 0.0,
+    "opening_debit_usd": 0.0,
+    "reserved_or_unpriced_usd": 0.0,
+    "through": "2026-11-24",
+    "timezone": "Asia/Hong_Kong"
+  },
+  "normal_ledger_rows_match": true,
+  "normal_ledger_tables": 3,
+  "old_binary_opened_migrated_copy": true,
+  "operator_static_url_check_corrected": true,
+  "original_tables": 128,
+  "owner_files_and_original_profile_preserved": true,
+  "owner_session_existing_cookie_authorized_after_restart": true,
+  "paid_model_calls": 0,
+  "panel": "1280x720",
+  "persistent_gui_launcher_matches": true,
+  "physical_actuations": 0,
+  "pi_model": "Raspberry Pi 5 Model B Rev 1.0",
+  "prior_attempt_full_original_table_check": true,
+  "protected_live_table_fingerprints_matched": 28,
+  "reattempt_rehearsal_original_tables": 130,
+  "renderer_check": "on-device Chromium accessibility tree including showing state and nonempty bounds",
+  "retained_files": 381,
+  "retained_pre_migration_private_backup": true,
+  "rtc_active": "active",
+  "rtc_boot_and_feature_settings_preserved": true,
+  "rtc_enabled": "enabled",
+  "running_frontend_sha256": "152b812b08569e5ec28045a6f9a14a3ed1c60290477a26f836619c75333ab90a",
+  "running_revision": "082002013fd375b7d3b66885e59ca5b781a26bc0",
+  "runtime_models": {
+    "background": false,
+    "browser_default": "managed",
+    "managed_browser": "gpt-6.2-sol",
+    "session_budget": "daily_local",
+    "text": "gpt-6.2-sol",
+    "text_engine": "openai_sessions",
+    "voice": "gpt-live-1.1",
+    "voice_delegate": "gpt-6.2-sol",
+    "voice_provider": "openai_live"
+  },
+  "same_boot_across_separate_rollout_attempts": false,
+  "schema": 3,
+  "screen_visible_controls": {
+    "alice_home": true,
+    "avatar": true,
+    "composer": true,
+    "connected": true
+  },
+  "sqlite_integrity": "ok",
+  "successful_switch_same_boot": true,
+  "target_entry_module": "/assets/index-5v6fnwDZ.js",
+  "verified_base_files": 406,
+  "verified_private_backup_files": 15,
+  "verified_target_files": 585,
+  "voice_settings_preserved": true,
+  "voice_version": 9
+}

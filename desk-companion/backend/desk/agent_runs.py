@@ -7,6 +7,7 @@ interrupted paid calls are never replayed without a new explicit owner action.
 import hashlib
 import json
 import threading
+from dataclasses import dataclass
 from datetime import timedelta
 from uuid import uuid4
 
@@ -23,6 +24,7 @@ from .agent_run_schemas import (
 )
 from .agent_planner import build_plan, compose, decide
 from . import application_work
+from .quiet_changes import observe_work
 from .agent_tools import (
     read_evidence,
     artifact_payloads,
@@ -40,6 +42,13 @@ from .text_ai import TextDispatchRefused
 from .work_limits import RUN_COUNT, SOURCE_COUNT
 
 TERMINAL = {"succeeded", "partial", "failed", "cancelled"}
+
+
+@dataclass(frozen=True)
+class ChatContinuation:
+    operation_id: str
+    request_hash: str
+    expected_version: int
 
 
 class AgentRunService:
@@ -204,6 +213,7 @@ class AgentRunService:
     def _save(self, conn, run, kind, details=None):
         run["version"] += 1
         run["updated_at"] = iso(self.store.clock())
+        observe_work(self.runtime, conn, run, kind)
         data = {
             k: v
             for k, v in run.items()
@@ -216,6 +226,7 @@ class AgentRunService:
                 "lease_until",
                 "session_hash",
                 "updated_at",
+                "_chat_step_id",
             }
         }
         conn.execute(
@@ -622,12 +633,9 @@ class AgentRunService:
             if run["version"] != payload.expected_version:
                 raise DomainError("VERSION_CONFLICT")
             action = payload.action
-            with self.store.connection() as conn:
-                control_count = conn.execute(
-                    "SELECT count(*) FROM agent_run_operations WHERE run_id=?", (run_id,)
-                ).fetchone()[0]
-            if action != "cancel" and control_count >= 64:
-                raise DomainError("RUN_CONTROL_LIMIT_REACHED", 422)
+            if action != "cancel":
+                with self.store.connection() as conn:
+                    self.check_control_limit(conn, run_id)
             if action in {"pause", "cancel"}:
                 if run["state"] in TERMINAL:
                     raise DomainError("RUN_ALREADY_TERMINAL")
@@ -717,6 +725,24 @@ class AgentRunService:
             with self.store.connection(write=True) as conn:
                 self._save(conn, run, "owner_continue")
             return run
+
+    @staticmethod
+    def check_control_limit(conn, run_id):
+        count = conn.execute(
+            "SELECT count(*) FROM agent_run_operations WHERE run_id=?", (run_id,)
+        ).fetchone()[0]
+        if count >= 64:
+            raise DomainError("RUN_CONTROL_LIMIT_REACHED", 422)
+
+    def inspect_continuation(self, run_id, principal):
+        """Inspect saved work under the original grant without renewing it."""
+        session = self.session(principal)
+        with self.store.connection() as conn:
+            run = self._get(conn, run_id)
+        if run["session_hash"] != session:
+            raise DomainError("RUN_NOT_FOUND", 404)
+        self._authorize(run)
+        return self._view(run)
 
     @staticmethod
     def _intent_hash(mutation):
@@ -902,7 +928,7 @@ class AgentRunService:
             conn.execute(
                 "INSERT INTO agent_steps VALUES(?,?,?,?,?,?,?,NULL)",
                 (
-                    uuid4().hex,
+                    run.get("_chat_step_id") or uuid4().hex,
                     run["id"],
                     run["plan_revision"],
                     kind,
@@ -913,7 +939,37 @@ class AgentRunService:
             )
             return True
 
-    def advance_one(self, run_id=None):
+    def _claim_chat_step(self, conn, run_id, continuation, now):
+        run = self._get(conn, run_id)
+        if run["version"] != continuation.expected_version:
+            raise DomainError("VERSION_CONFLICT")
+        restart = run["state"] == "paused" and run["state_reason"] == "RUN_RUNTIME_STOPPED"
+        if not restart and run["state"] not in {"queued", "running", "waiting_review"}:
+            return None
+        if run["lease_until"] and run["lease_until"] > now:
+            return None
+        if run["mode"] != "deterministic" or run["pending_tool"]:
+            raise DomainError("RUN_CONTROL_CHANGED")
+        # Mark dispatch in the lease transaction. The same ID on the committed step
+        # distinguishes a lost reply from an interrupted, unverified dispatch.
+        if not conn.execute(
+            "UPDATE agent_run_operations SET request_hash=? WHERE id=? AND request_hash=? AND run_id=?",
+            (continuation.request_hash + "/claimed", continuation.operation_id, continuation.request_hash, run_id),
+        ).rowcount:
+            raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN")
+        run["_chat_step_id"] = continuation.operation_id
+        if restart:
+            # Shutdown already fenced the old generation. Keep the original
+            # session and scope; cancelled reviews still require reconciliation.
+            reviewing = any(effect["state"] == "pending" for effect in run["effects"])
+            run["state"], run["state_reason"] = "waiting_review" if reviewing else "queued", None
+            self._save(conn, run, "resume")
+        # Recheck login, privacy, deadline and generation in the same transaction
+        # as the claim. Full source verification takes its own file-status write.
+        self.publication_checkpoint(run, conn)
+        return run
+
+    def advance_one(self, run_id=None, *, continuation: ChatContinuation | None = None):
         """Advance one eligible run.
 
         The worker omits ``run_id`` and takes the oldest eligible run. A caller
@@ -924,21 +980,31 @@ class AgentRunService:
             return False
         run = None
         try:
+            if continuation is not None:
+                with self.store.connection() as conn:
+                    inspected = self._get(conn, run_id)
+                if inspected["version"] != continuation.expected_version:
+                    raise DomainError("VERSION_CONFLICT")
+                self._authorize(inspected)
             with self.lock, self.store.connection(write=True) as conn:
                 now = iso(self.store.clock())
-                if run_id is None:
-                    row = conn.execute(
-                        "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_effect') AND (lease_until IS NULL OR lease_until<=?) ORDER BY updated_at,id LIMIT 1",
-                        (now,),
-                    ).fetchone()
+                if continuation is not None:
+                    run = self._claim_chat_step(conn, run_id, continuation, now)
                 else:
-                    row = conn.execute(
-                        "SELECT id FROM agent_runs WHERE id=? AND state IN ('queued','running','waiting_review','waiting_effect') AND (lease_until IS NULL OR lease_until<=?)",
-                        (run_id, now),
-                    ).fetchone()
-                if not row:
+                    eligible = """state IN ('queued','running','waiting_review','waiting_effect')
+                        AND (lease_until IS NULL OR lease_until<=?)"""
+                    if run_id is None:
+                        row = conn.execute(
+                            f"SELECT id FROM agent_runs WHERE {eligible} ORDER BY updated_at,id LIMIT 1",
+                            (now,),
+                        ).fetchone()
+                    else:
+                        row = conn.execute(
+                            f"SELECT id FROM agent_runs WHERE {eligible} AND id=?", (now, run_id)
+                        ).fetchone()
+                    run = self._get(conn, row[0]) if row else None
+                if run is None:
                     return False
-                run = self._get(conn, row[0])
                 if run["lease_until"] is not None:
                     # Reclaim fences a late worker whose lease expired; stable
                     # artifact/draft operation keys still reconcile its effects.

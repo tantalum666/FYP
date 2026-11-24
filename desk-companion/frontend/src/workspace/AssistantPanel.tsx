@@ -1,19 +1,29 @@
+import { LiveFlightCheckout, startsFlightCheckout } from "./LiveFlightCheckout";
+import { useLiveFlightReview } from "./useLiveFlightReview";
+import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
+import { needsDecision, needsOwnerReview, orderKey, orderStatus, typedReviewRef, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
+import { useCommerceReviews, type CommerceRef } from "./commerceReviews";
+import { quietChatIntent } from "./quietChat";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { InitiativeMessages } from "./InitiativeMessages";
-import { companionState, reportInteraction } from "../companion/interaction";
+import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
+import { replyDelivery, SpokenDelivery } from "../companion/delivery";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
 import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
 import "./composer-files.css";
 import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
 import { useAssistantFootprint } from "../companion/useAssistantFootprint";
+import { ConversationScroll } from "./ConversationScroll";
 import { proposalDecisionNotice } from "./proposalDecision";
+import { personalContextVisible } from "./personal/types";
 import type { ReactNode } from "react";
 import {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -45,6 +55,8 @@ import {
 import { progressLabel, type ToolProgress } from "../replyStream";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
+import { ResponseFence } from "./personal/responseFence";
+import type { GoogleStatus } from "./GoogleImportReview";
 import { VoiceAudio } from "./audio";
 import { handoverTicket } from "./voice-ticket";
 import type { TurnMeasurement } from "./voice-timing";
@@ -73,7 +85,11 @@ import { ReplyOwedAsk } from "./replyOwedAsk";
 import "./assistant-minimal.css";
 import {
   appendLiveTranscript,
+  appendOrderUpdates,
+  asksApprovalStatus,
+  focusedOrderTurn,
   latestAssistantReply,
+  showOrderOnHome,
   type ConversationTurn,
 } from "./conversationTranscript";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
@@ -106,7 +122,32 @@ export function AssistantPanel({
   onClearTask?: () => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
+  const ownerView = data?.principal.kind === "owner";
+  const routineAccess = useRef(new ResponseFence()).current;
+  routineAccess.update(
+    data?.principal.id ?? "",
+    !suspended && personalContextVisible(ownerView, data?.personal_context_visible, offline, stale),
+  );
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
+  const refreshScope =
+    data?.principal.kind === "owner" && data.personal_context_visible &&
+    data.google?.connected && !offline && !stale
+      ? data.google.review_version
+      : null;
+  const refreshFence = useRef(new ResponseFence()).current;
+  refreshFence.update(refreshScope ?? "", !!refreshScope);
+  useEffect(() => {
+    const invalidate = () => {
+      refreshFence.update("", false);
+      setTurns((old) => old.filter((turn) => turn.googleRefreshEpoch === undefined));
+    };
+    const events = ["desk:session", "desk:personal-context", "desk:auth-required", "offline"];
+    events.forEach((name) => window.addEventListener(name, invalidate));
+    return () => {
+      refreshFence.update("", false);
+      events.forEach((name) => window.removeEventListener(name, invalidate));
+    };
+  }, [refreshFence]);
   const [view, setView] = useState<
     "chat" | "jobs" | "help" | "timing" | "activity"
   >("chat");
@@ -123,6 +164,8 @@ export function AssistantPanel({
   const attachmentButton = useRef<HTMLButtonElement>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const chatFiles = useChatFiles();
+  const commerce = useCommerceReviews();
+  const typedCommerceReview = useRef<CommerceRef | undefined>(undefined);
   const fileContext = useRef(false);
   const filesEnabled =
     !!data?.text_ai.attachments?.enabled &&
@@ -148,12 +191,17 @@ export function AssistantPanel({
     menuPanel = useRef<HTMLDivElement>(null);
   const owner = useRef(false);
   owner.current = data?.principal.kind === "owner";
+  const allowOrderUpdates = !!data?.personal_context_visible &&
+    !data.calendar_extras.quiet_now &&
+    data.calendar_extras.preferences.proactivity !== "off";
   const activityView = useRef({
     view,
+    allowOrderUpdates,
     privateVisible: !!data?.personal_context_visible,
   });
   activityView.current = {
     view,
+    allowOrderUpdates,
     privateVisible: !!data?.personal_context_visible,
   };
   useEffect(() => {
@@ -169,10 +217,8 @@ export function AssistantPanel({
     document.addEventListener("pointerdown", close);
     return () => document.removeEventListener("pointerdown", close);
   }, [menu]);
-  const conversation = useRef<HTMLDivElement>(null);
   const panelFootprint = useAssistantFootprint(immersive);
   const followLatest = useRef(true);
-  const jobRevision = jobs.map((job) => `${job.id}:${job.version}`).join(",");
   const composer = useRef<HTMLTextAreaElement>(null);
 
   const [text, setText] = useState(""),
@@ -190,9 +236,14 @@ export function AssistantPanel({
   const [reply, setReply] = useState<Reply | null>(null),
     [liveMessage, setLiveMessage] = useState(""),
     [progress, setProgress] = useState<ToolProgress[]>([]),
-    [proposals, setProposals] = useState<Proposal[]>([]),
+    [proposalRead, setProposalRead] = useState({ rows: [] as Proposal[], epoch: -1 }),
     [calls, setCalls] = useState<ToolCall[] | null>(null),
     [notice, setNotice] = useState("");
+  const showRoutineReviews = !readError && routineAccess.accepts(proposalRead.epoch);
+  const proposals = useMemo(
+    () => showRoutineReviews ? proposalRead.rows : proposalRead.rows.filter(p => p.kind !== "routine_skip"),
+    [proposalRead, showRoutineReviews],
+  );
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
   const interactionSource = useRef(Symbol("conversation"));
@@ -221,6 +272,16 @@ export function AssistantPanel({
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const conversationId = useRef<string | undefined>(undefined);
+  const liveFlight = useLiveFlightReview(conversationId, taskId, data ? ownerView : undefined,
+    !!data?.personal_context_visible, !suspended && !offline && !stale);
+  const {current: ownerFlight, receive: receiveFlight, update: updateFlight} = liveFlight;
+  async function selectOriginal(source: {proposal_id?: string; job_id?: string}) {
+    if (await liveFlight.select(source)) {
+      setView("chat");
+      if (immersive && !suspended) onExpandedChange?.(true);
+    }
+  }
+
   const contextTouched = useRef(0);
   const voiceRevision = useRef<string | undefined>(undefined);
   const pendingSubmission = useRef<string | null>(null);
@@ -228,7 +289,9 @@ export function AssistantPanel({
   const pendingHttp = useRef<{
     body: object;
     generation: number;
+    refreshEpoch: number;
     message: string;
+    display?: string;
     fileKeys: string[];
     files: ChatFileReference[];
   } | null>(null);
@@ -337,6 +400,7 @@ export function AssistantPanel({
       <JobActionCard
         key={job.id}
         job={job}
+        onBuyFlight={(id)=>void selectOriginal({job_id:id}).catch(setError)}
         t={t}
         busy={!!jobBusy}
         cancelling={!!jobCancelling || offline}
@@ -410,22 +474,6 @@ export function AssistantPanel({
     setView("jobs");
     setMenu(false);
   };
-  useEffect(() => {
-    if (!followLatest.current) return;
-    conversation.current?.scrollTo({
-      top: conversation.current.scrollHeight,
-      behavior: "instant",
-    });
-  }, [
-    turns,
-    proposals,
-    transcript,
-    liveMessage,
-    notice,
-    error,
-    view,
-    jobRevision,
-  ]);
   function endVoice() {
     const engine = audio.current;
     audio.current = null;
@@ -444,6 +492,12 @@ export function AssistantPanel({
   }, [unavailable]);
   useEffect(() => {
     const renewed = (event: Event) => {
+      submissionGeneration.current += 1;
+      pendingHttp.current = null;
+      setLiveMessage("");
+      if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") commerce.clear();
+      typedCommerceReview.current=undefined;
+      setTurns(old=>old.filter(turn=>!turn.commerceChat));
       conversationId.current = undefined;
       fileContext.current = false;
       if (
@@ -469,9 +523,15 @@ export function AssistantPanel({
       data?.personal_context_visible === false ||
       (data?.principal.kind && data.principal.kind !== "owner")
     ) {
+      commerce.clear();
+      typedCommerceReview.current=undefined;
+      setTurns(old=>old.filter(turn=>!turn.commerceChat));
       chatFiles.clear();
       fileContext.current = false;
       submissionGeneration.current += 1;
+      pendingHttp.current = null;
+      setLiveMessage("");
+      setBusy(false);
     }
   }, [data?.personal_context_visible, data?.principal.kind, chatFiles.clear]);
   useEffect(() => {
@@ -520,7 +580,50 @@ export function AssistantPanel({
   useEffect(() => {
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
-  const ownerView = data?.principal.kind === "owner";
+  const showOrderUpdates = useCallback(
+    (updates: CommerceReview[]) => {
+      if (
+        !updates.length ||
+        !owner.current ||
+        !activityView.current.privateVisible ||
+        !ownerView ||
+        !data?.personal_context_visible ||
+        !activityView.current.allowOrderUpdates
+      )
+        return;
+      const chat = conversationId.current;
+      if (chat) setTurns((old) => appendOrderUpdates(old, updates, chat, t));
+    },
+    [
+      ownerView,
+      data?.personal_context_visible,
+      t,
+    ],
+  );
+  useEffect(() => {
+    if (!ownerView || !data?.personal_context_visible || conversationId.current)
+      return;
+    let current = true;
+    const stillCurrent = () => current && !conversationId.current;
+    void commerce
+      .restore(taskId, stillCurrent)
+      .then((result) => {
+        if (result && stillCurrent()) {
+          conversationId.current = result.chat;
+          showOrderUpdates(result.updates);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      current = false;
+    };
+  }, [
+    ownerView,
+    data?.personal_context_visible,
+    taskId,
+    commerce.restore,
+    showOrderUpdates,
+  ]);
   useDraftGuard(!!text.trim() || chatFiles.files.length > 0, busy);
   const reload = useCallback(async () => {
     if (reading.current) return;
@@ -528,13 +631,19 @@ export function AssistantPanel({
     try {
       void loadActivity();
       try {
+        if (ownerView) {
+          const chat=conversationId.current;
+          const updates=await commerce.refresh(chat);
+          if(alive.current && chat===conversationId.current) showOrderUpdates(updates);
+        }
+        const epoch = routineAccess.capture();
         const next = await request<{ proposals: Proposal[] }>(
           "/assistant/proposals",
         );
         if (alive.current) {
           // Leaving the pending list can mean accepted, cancelled or expired.
           // Only the decision receipt can establish whether an action happened.
-          setProposals(next.proposals);
+          setProposalRead({ rows: next.proposals, epoch });
           setReadError(null);
         }
       } catch (e) {
@@ -559,7 +668,7 @@ export function AssistantPanel({
     } finally {
       reading.current = false;
     }
-  }, [language, ownerView, loadActivity]);
+  }, [language, ownerView, loadActivity, commerce.refresh, showOrderUpdates, routineAccess]);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -583,11 +692,45 @@ export function AssistantPanel({
     };
   }, [reload, suspended]);
   const showHttpReply = useCallback(
-    (submitted: string, result: Reply) => {
+    async (submitted: string, result: Reply) => {
+      const pending = pendingHttp.current;
+      const scope = result.google_refresh_scope;
+      if (scope) {
+        const current = () => pending && pending === pendingHttp.current &&
+          pending.generation === submissionGeneration.current &&
+          refreshFence.accepts(pending.refreshEpoch);
+        if (!current() || scope.review_version !== refreshScope) return;
+        // Recheck the exact receipt before displaying a delayed or recovered response.
+        const status = await request<GoogleStatus>("/google/status");
+        if (!current() || !status.last_refresh_ref || status.last_refresh_ref !== scope.last_refresh_ref)
+          return;
+      }
+      const googleRefreshEpoch = scope ? pending?.refreshEpoch : undefined;
       const submittedFiles = pendingHttp.current?.files ?? [];
+      const userText = pendingHttp.current?.display ?? submitted;
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
-      setReply(result);
+      setReply(result.google_refresh_scope || result.approval_summary ? null : result);
+      if (immersive && !suspended)
+        showDelivery(result.kind === "reply" ? replyDelivery(result.delivery, result.message) : "neutral");
       conversationId.current = result.conversation_id;
+      if(result.conversation_id && result.live_flight_checkout){
+        receiveFlight(result.conversation_id,result.live_flight_checkout);
+        if(immersive && !suspended) onExpandedChange?.(true);
+      }
+      const card = result.shopping_order
+        ? { ...result.shopping_order, kind: "shop" as const }
+        : result.flight_booking
+          ? { ...result.flight_booking, kind: "flight" as const }
+          : null;
+      const shortlist = !!result.flight_shortlist_chat;
+      const catchUp = result.kind === "quiet_catch_up";
+      const privateOverview = !!result.approval_summary;
+      const privateChat = card || shortlist || result.flight_alternatives || result.live_flight_checkout || catchUp || privateOverview
+        ? result.conversation_id : undefined;
+      if ((card || shortlist) && result.conversation_id) {
+        commerce.receive(result.conversation_id, card, taskId, shortlist);
+      }
+      typedCommerceReview.current=undefined;
       contextTouched.current = Date.now();
       setLiveMessage("");
       setProgress([]);
@@ -598,11 +741,39 @@ export function AssistantPanel({
       setTurns((old) =>
         [
           ...old,
-          { id, role: "user" as const, body: submitted, files: submittedFiles },
+          {
+            id,
+            role: "user" as const,
+            body: userText,
+            googleRefreshEpoch,
+            files: submittedFiles,
+            kind: catchUp ? result.kind : undefined,
+            commerceChat: privateChat,
+            approvalTask: privateOverview ? taskId ?? null : undefined,
+          },
           {
             id: id + 1,
             role: "assistant" as const,
-            body: result.message,
+            googleRefreshEpoch,
+            body:
+              card && !result.commerce_note
+                ? orderStatus(card, t)
+                : result.flight_alternatives
+                  ? result.flight_alternatives.original
+                    ? result.flight_alternatives.alternatives.map(({ segment }) => segment.flight).join(" · ")
+                    : t(
+                      `${result.flight_alternatives.alternatives.length} available flights`,
+                      `有 ${result.flight_alternatives.alternatives.length} 班可选`,
+                    )
+                  : result.message,
+            orderKey:
+              card && (!result.commerce_note || (card.kind === "flight" && card.calendar_preview)) ? orderKey(card) : undefined,
+            orderVersion: card?.version,
+            catchUpRef: result.catch_up_ref,
+            choices: result.flight_alternatives,
+            commerceChat: privateChat,
+            approvalTask: privateOverview ? taskId ?? null : undefined,
+            approvalSummary: result.approval_summary,
             kind: result.kind,
             jobId: result.job?.id,
           },
@@ -611,7 +782,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent],
+    [chatFiles.sent, commerce.receive, receiveFlight, immersive, suspended, onExpandedChange, taskId, t, refreshScope, refreshFence],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -631,29 +802,53 @@ export function AssistantPanel({
         typeof result?.message !== "string"
       )
         return;
-      showHttpReply(pending.message, result);
-      void reload();
+      void showHttpReply(pending.message, result)
+        .then(() => { if (result.kind !== "quiet_catch_up" && result.kind !== "approval_status") return reload(); })
+        .catch(setError);
     };
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent) {
-    e.preventDefault();
+  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string;calendarFlightChoice?:CalendarFlightChoice;catchUpRef?:string}) {
+    e?.preventDefault();
     if (
       busy ||
-      (!text.trim() && !chatFiles.files.length) ||
+      (!choice && !text.trim() && !chatFiles.files.length) ||
       unavailable ||
       pendingAction
     )
       return;
     wake.pause();
     followLatest.current = true;
-    const submitted = text.trim()
+    if (immersive && !suspended) showDelivery("neutral");
+    const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
-    const useOmni = omni && !chatFiles.files.length && !fileContext.current;
+    const statusAsk = asksApprovalStatus(submitted);
+    const catchUp = quietChatIntent(submitted);
+    const catchUpRef = catchUp === "ack"
+      ? choice?.catchUpRef ?? latestCatchUp?.catchUpRef
+      : undefined;
+    const review = choice?.review ?? (
+      !choice && !statusAsk && !catchUp && lastTurn?.kind !== "quiet_catch_up" ? typedCommerceReview.current : undefined
+    );
+    // Saved Work uses the local HTTP worker even when realtime text is available.
+    const savedWork = submitted.split(/[\r\n]/).some((line) =>
+      /^(?:continue the task from before|继续刚才那个任务|(?:continue work|继续工作)\s+[0-9a-f]{32}\s+v[0-9]+)[ .。]*$/i.test(line.trim())
+    );
+    // The local handler owns the overview and resolves short approval replies against current records.
+    const approvalContext = lastTurn?.approvalSummary || orderRows.some(needsDecision) || proposals.length;
+    const approvalReply = approvalContext && /^(?:yes\b|ok(?:ay)?\b|sure\b|approve\b|confirm\b|accept\b|decline\b|cancel\b|go ahead\b|do (?:it|them)\b|all of them\b|both\b|pay\b|book it\b|(?:全部|都|一起)?(?:好|确定|确认|同意|可以|拒绝|取消|接受))/i.test(submitted.normalize("NFKC").trim());
+    const shortlistChat = commerce.hasShortlist.current && commerce.tracked.current === conversationId.current;
+    // A typed Calendar refresh question needs the authenticated HTTP reply fence.
+    const refreshQuestion = /(?:google|谷歌)\s*(?:calendar|日[历曆])/i.test(submitted) &&
+      /(?:what|(?:last|latest|recent)\s+(?:confirmed\s+)?(?:refresh|sync)|什么|什麼|甚麼|哪些)/i.test(submitted) &&
+      /(?:chang|updat|refresh|sync|更新|刷新|同步|变更|變更|变化|變化|改动)/i.test(submitted);
+    const useOmni = omni && !startsFlightCheckout(submitted) && !statusAsk && !approvalReply && !refreshQuestion && !catchUp && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    if (catchUp && immersive && !suspended) onExpandedChange?.(true);
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
+    const refreshEpoch = refreshFence.capture();
     setBusy(true);
     setError(null);
     setNotice("");
@@ -669,19 +864,25 @@ export function AssistantPanel({
         setText("");
         return;
       }
-      const uploaded = await chatFiles.upload(
-        conversationId.current,
-        taskId,
-        () => alive.current && generation === submissionGeneration.current,
-        (id) => {
-          conversationId.current = id;
-        },
-      );
+      const uploaded = catchUp || statusAsk
+        ? { conversationId: conversationId.current, references: [], keys: [] }
+        : await chatFiles.upload(
+            conversationId.current,
+            taskId,
+            () => alive.current && generation === submissionGeneration.current,
+            (id) => {
+              conversationId.current = id;
+            },
+          );
       if (!alive.current || generation !== submissionGeneration.current) return;
       conversationId.current = uploaded.conversationId;
       if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
+        ...(catchUpRef ? {catch_up_ref: catchUpRef} : {}),
+        ...(choice?.review ? {selected_commerce_card: true} : {}),
+        ...(choice?.calendarFlightChoice ? {calendar_flight_choice:choice.calendarFlightChoice} : {}),
+        ...(review ? {[review.kind==="shop" ? "shopping_review" : "flight_review"]:{id:review.id,version:review.version,amount_minor:review.amount_minor}} : {}),
         language,
         task_id: taskId ?? null,
         conversation_id: conversationId.current ?? null,
@@ -692,7 +893,9 @@ export function AssistantPanel({
       pendingHttp.current = {
         body,
         generation,
+        refreshEpoch,
         message: submitted,
+        display: choice?.display,
         fileKeys: uploaded.keys,
         files: uploaded.references,
       };
@@ -700,16 +903,18 @@ export function AssistantPanel({
         "/assistant/messages/stream",
         body,
         (state) => {
-          if (alive.current && generation === submissionGeneration.current) {
-            setLiveMessage(state.message);
+          if (!statusAsk && !catchUp && alive.current && generation === submissionGeneration.current) {
+            setLiveMessage(state.reply?.google_refresh_scope ? "" : state.message);
             setProgress(state.tools);
           }
         },
       )) as Reply;
       if (!alive.current || generation !== submissionGeneration.current) return;
-      showHttpReply(submitted, result);
-      void reload();
-      window.dispatchEvent(new Event("desk:jobs"));
+      await showHttpReply(submitted, result);
+      if (!catchUp && !statusAsk && result.kind !== "approval_status") {
+        void reload();
+        window.dispatchEvent(new Event("desk:jobs"));
+      }
     } catch (e) {
       if (!alive.current || generation !== submissionGeneration.current) return;
       if (
@@ -768,6 +973,7 @@ export function AssistantPanel({
       pendingHttp.current = {
         body: operation.body as object,
         generation,
+        refreshEpoch: refreshFence.capture(),
         message: body.message,
         fileKeys: [],
         files: [],
@@ -778,7 +984,7 @@ export function AssistantPanel({
       await retryPending();
       if (alive.current && generation === submissionGeneration.current) {
         setNotice(t("Message checked.", "已核对消息结果。"));
-        void reload();
+        if (!quietChatIntent(body.message ?? "") && !asksApprovalStatus(body.message ?? "")) void reload();
       }
     } catch (failure) {
       if (alive.current && generation === submissionGeneration.current)
@@ -792,17 +998,17 @@ export function AssistantPanel({
     action: "confirm" | "cancel",
     kind?: string,
   ) {
-    const message = proposalDecisionNotice(result, action, kind, t);
-    setNotice(message);
-    if (result.kind === "browser_research" && result.job) {
-      const jobId = result.job.id;
+    setNotice(proposalDecisionNotice(result, action, kind, t));
+    const jobId = result.job?.id;
+    if (
+      action === "confirm" &&
+      (result.kind ?? kind) === "browser_research" &&
+      jobId
+    ) {
       setTurns((old) =>
         old.some((turn) => turn.jobId === jobId)
           ? old
-          : [
-              ...old,
-              { id: Date.now(), role: "assistant", body: message, jobId },
-            ],
+          : [...old, { id: Date.now(), role: "assistant", body: "", jobId }],
       );
     }
   }
@@ -861,30 +1067,22 @@ export function AssistantPanel({
     setTranscript("");
   }
   async function switchToText() {
-    if (wake.enabled) {
-      endVoice();
-      return;
-    }
-    if (!omni) {
-      endVoice();
-      return;
-    }
     // Cancelling permission/connection setup must stop late capture immediately.
-    if (voiceState === "connecting") {
+    if (wake.enabled || !omni || voiceState === "connecting") {
       endVoice();
-      return;
+    } else {
+      modeSwitching.current = true;
+      setBusy(true);
+      setMicrophone(false);
+      setVoiceState("connecting");
+      try {
+        await audio.current?.setMode("text");
+      } catch (e) {
+        endVoice();
+        setError(e);
+      }
     }
-    modeSwitching.current = true;
-    setBusy(true);
-    setMicrophone(false);
-    setVoiceState("connecting");
-    try {
-      await audio.current?.setMode("text");
-    } catch (e) {
-      endVoice();
-      setError(e);
-    }
-    queueMicrotask(() => composer.current?.focus());
+    requestAnimationFrame(() => composer.current?.focus());
   }
   async function newConversation() {
     submissionGeneration.current += 1;
@@ -892,13 +1090,14 @@ export function AssistantPanel({
     const id = conversationId.current;
     endVoice();
     try {
-      if (id)
-        await request(`/voice/conversations/${encodeURIComponent(id)}`, {
-          method: "DELETE",
-        });
+      if (id) {
+        await request(`/voice/conversations/${encodeURIComponent(id)}`, {method: "DELETE"});
+      }
+      liveFlight.clear();
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
+      commerce.clear();
       chatFiles.clear();
       fileContext.current = false;
       speechText.current = { user: "", assistant: "" };
@@ -951,6 +1150,7 @@ export function AssistantPanel({
     speechText.current = { user: "", assistant: "" };
     let starting: VoiceAudio | null = null;
     const transcriptSession = crypto.randomUUID();
+    const spokenDelivery = new SpokenDelivery();
     try {
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
@@ -993,10 +1193,13 @@ export function AssistantPanel({
         if (event.type === "turn_complete" || event.type === "interrupted")
           setVoiceState("listening");
         if (event.type === "turn_complete" || event.type === "interrupted") {
+          spokenDelivery.finish();
           finishTranscript(event.type === "interrupted");
           if (!modeSwitching.current) setBusy(false);
         }
         if (event.type === "transcript") {
+          const delivery = immersive ? spokenDelivery.receive(event) : null;
+          if (delivery) showDelivery(delivery);
           if (Number.isSafeInteger(event.caption_group)) {
             setTurns((old) =>
               appendLiveTranscript(old, transcriptSession, event),
@@ -1019,6 +1222,10 @@ export function AssistantPanel({
                 ? t("Companion: ", "助理：") + speechText.current.assistant
                 : ""),
           );
+        }
+        if(event.type === "flight_checkout" && event.conversation_id && event.conversation_id === conversationId.current && event.live_flight_checkout){
+          receiveFlight(event.conversation_id,event.live_flight_checkout);
+          if(immersive && !suspended) onExpandedChange?.(true);
         }
         if (event.type === "proposal" || event.type === "proposals_changed")
           void reload();
@@ -1204,6 +1411,113 @@ export function AssistantPanel({
       if (alive.current && audio.current === engine) setVisionBusy(false);
     }
   }
+  const privateOrdersVisible = ownerView && !!data?.personal_context_visible;
+  const activeChat = conversationId.current;
+  const orderRows =
+    privateOrdersVisible &&
+    activeChat &&
+    commerce.tracked.current === activeChat
+      ? commerce.rows
+      : [];
+  const visibleTurns = turns.filter(turn =>
+    (turn.googleRefreshEpoch === undefined || refreshFence.accepts(turn.googleRefreshEpoch)) &&
+    (!turn.commerceChat || (privateOrdersVisible &&
+      (turn.kind !== "quiet_catch_up" || turn.commerceChat === activeChat))) &&
+    (turn.approvalTask === undefined ||
+      (turn.approvalTask === (taskId ?? null) && turn.commerceChat === activeChat))
+  );
+  const latestCatchUp = visibleTurns.filter(turn =>
+    turn.kind === "quiet_catch_up" && turn.role === "assistant"
+  ).at(-1);
+  const lastTurn = visibleTurns.at(-1);
+  const focusTurn = focusedOrderTurn(visibleTurns, orderRows);
+  const focusedOrder = focusTurn
+    ? orderRows.find((row) => orderKey(row) === focusTurn.orderKey)
+    : orderRows.find(needsOwnerReview);
+  const otherOrders = focusedOrder
+    ? orderRows.filter((row) => row !== focusedOrder)
+    : orderRows;
+  const orderActions = {
+    t,
+    busy: busy || unavailable || !!pendingAction || !!chatFiles.files.length,
+    onDecision: (message: string, review: CommerceRef) =>
+      void send(null, { message, review }),
+  };
+  const hasChoices =
+    privateOrdersVisible &&
+    focusTurn?.commerceChat === activeChat &&
+    !!focusTurn?.choices;
+  const needsOrderReview =
+    focusedOrder &&
+    needsOwnerReview(focusedOrder);
+  const homeOrder = focusedOrder && showOrderOnHome(focusedOrder, focusTurn, allowOrderUpdates)
+    ? focusedOrder
+    : undefined;
+  const openOrder =
+    lastTurn?.kind !== "quiet_catch_up" && ((homeOrder && needsOrderReview) || hasChoices || focusTurn?.approvalTask !== undefined) &&
+    !liveMessage &&
+    !busy &&
+    !speechText.current.assistant;
+  const homeAnswer = lastTurn?.kind === "quiet_catch_up" ? "" : homeOrder
+    ? homeOrder.kind === "flight" && homeOrder.calendar_preview
+      ? t("Review flight calendar times", "核对航班日程")
+      : orderStatus(homeOrder, t)
+    : hasChoices && focusTurn ? focusTurn.body : (lastTurn?.jobId && !lastTurn.body ? turnText(lastTurn) : latestAssistantReply(visibleTurns));
+  const liveTurn = visibleTurns.filter(turn=>turn.kind === "live_flight_checkout" && turn.commerceChat===activeChat).at(-1);
+  const liveCard = !suspended && !stale && !offline && privateOrdersVisible && ownerFlight && ownerFlight.chat === activeChat && ownerFlight.task === taskId
+    ? <LiveFlightCheckout key={ownerFlight.view.id ?? ownerFlight.chat} view={ownerFlight.view} chat={ownerFlight.chat} t={t} onUpdate={updateFlight} onSource={(id)=>selectOriginal({proposal_id:id})}/>
+    : null;
+  function turnBody(turn: ConversationTurn) {
+    if (turn.catchUpRef && turn === latestCatchUp) {
+      const label = t("Mark these updates as read", "把这些进展标为已读");
+      return <>
+        <p>{turn.body}</p>
+        <button type="button" className="secondary" disabled={busy || unavailable || !!pendingAction}
+          onClick={() => void send(null, { message: label, catchUpRef: turn.catchUpRef })}>
+          {label}
+        </button>
+      </>;
+    }
+    if (turn === liveTurn && liveCard) return liveCard;
+    if (turn.jobId && !turn.body) {
+      if (jobs.some((job) => job.id === turn.jobId)) return null;
+      return (
+        <button className="text-button" onClick={openJobs}>
+          {t("View research activity", "查看查询进度")}
+        </button>
+      );
+    }
+    if (
+      turn === focusTurn &&
+      focusedOrder &&
+      turn.orderKey === orderKey(focusedOrder)
+    ) {
+      return <OrderCard row={focusedOrder} {...orderActions} />;
+    }
+    if (
+      turn.choices &&
+      privateOrdersVisible &&
+      turn.commerceChat === activeChat
+    ) {
+      const options = (
+        <FlightChoices
+          result={turn.choices}
+          t={t}
+          busy={orderActions.busy || !!text.trim()}
+          onSelect={(message,display,calendarFlightChoice) => void send(null, { message,display,calendarFlightChoice })}
+        />
+      );
+      return turn === focusTurn ? (
+        options
+      ) : (
+        <details>
+          <summary>{turn.body}</summary>
+          {options}
+        </details>
+      );
+    }
+    return <p>{turnText(turn)}</p>;
+  }
   return (
     <div
       ref={panelFootprint}
@@ -1376,16 +1690,7 @@ export function AssistantPanel({
         hidden={view !== "chat"}
         aria-label={t("Conversation", "对话")}
       >
-        <div
-          className="assistant-conversation"
-          ref={conversation}
-          onScroll={(event) => {
-            const node = event.currentTarget;
-            if (node.clientHeight > 0)
-              followLatest.current =
-                node.scrollHeight - node.scrollTop - node.clientHeight < 80;
-          }}
-        >
+        <ConversationScroll followLatest={followLatest}>
           {(!immersive || expanded) && <InitiativeMessages t={t} />}
           {(!immersive || expanded) &&
             jobs
@@ -1397,7 +1702,7 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            turns.map((turn) => (
+            visibleTurns.map((turn) => (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>
                 {turn.files?.length ? (
                   <div className="message-files">
@@ -1406,19 +1711,19 @@ export function AssistantPanel({
                     ))}
                   </div>
                 ) : null}
-                <p>{turnText(turn)}</p>
+                {turnBody(turn)}
                 {turn.jobId &&
                   (!immersive || expanded) &&
                   jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
               </div>
             ))}
-          {immersive && !expanded && (
-            <p className="assistant-latest" aria-live="polite">
-              {liveMessage ||
-                speechText.current.assistant ||
-                (!speechText.current.user ? latestAssistantReply(turns) : "")}
-            </p>
-          )}
+          {(!immersive || expanded) && !liveTurn && liveCard}
+          {immersive && !expanded && (openOrder
+            ? <button type="button" className="assistant-latest commerce-open" aria-live="polite" onClick={()=>onExpandedChange?.(true)}>
+                {homeAnswer} <span aria-hidden="true"> ›</span>
+              </button>
+            : <p className="assistant-latest" aria-live="polite">{liveMessage || speechText.current.assistant ||
+                (!speechText.current.user ? homeAnswer : "")}</p>)}
           {(!immersive || expanded) && liveMessage && (
             <p className="assistant-turn assistant" aria-live="polite">
               {liveMessage}
@@ -1510,6 +1815,8 @@ export function AssistantPanel({
               {t("Thinking…", "处理中…")}
             </p>
           )}
+          {(!immersive || expanded) && focusedOrder && !focusTurn && <OrderCard row={focusedOrder} {...orderActions}/>}
+          {(!immersive || expanded) && <OtherOrders rows={otherOrders} {...orderActions} current={!!focusedOrder}/>}
           {proposals.map((proposal) => (
             <ProposalActionCard
               key={proposal.id}
@@ -1532,7 +1839,7 @@ export function AssistantPanel({
               {errorText(error, t)}
             </p>
           )}
-        </div>
+        </ConversationScroll>
         <div
           className="assistant-input-area"
           id={workspace ? "desktop-chat-composer" : undefined}
@@ -1566,37 +1873,34 @@ export function AssistantPanel({
               role="group"
               aria-label={t("Voice conversation", "语音对话")}
             >
-              <div
-                className={`assistant-voice-orb state-${voiceState}`}
-                aria-hidden="true"
-              >
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
+              <div className="assistant-call-status" role="status">
+                <span
+                  className={`assistant-voice-orb state-${voiceState}`}
+                  aria-hidden="true"
+                >
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <span>
+                  {voiceSlow
+                    ? t("Waiting for a reply…", "正在等候回复…")
+                    : voiceState === "connecting"
+                      ? t("Connecting…", "正在连接…")
+                      : voiceState === "speaking"
+                        ? t("Speaking…", "正在说话…")
+                        : voiceState === "thinking"
+                          ? t("Thinking…", "正在思考…")
+                          : t("Listening…", "正在聆听…")}
+                </span>
               </div>
-              <p role="status">
-                {voiceState === "connecting"
-                  ? t("Connecting…", "正在连接…")
-                  : voiceState === "speaking"
-                    ? t("Speaking · you can interrupt", "正在说话，可以插话")
-                    : voiceState === "thinking"
-                      ? t("Thinking…", "正在思考…")
-                      : t("Listening…", "正在聆听…")}
-              </p>
-              {voiceSlow && (
-                <p role="status">
-                  {t(
-                    "Still waiting for a reply. You can also use text.",
-                    "回答仍在准备中，也可以改用文字输入。",
-                  )}
-                </p>
-              )}
               <div className="assistant-call-actions">
                 <button
                   className="icon-button"
                   aria-label={t("Camera & microphone", "摄像头与麦克风")}
+                  title={t("Camera & microphone", "摄像头与麦克风")}
                   onClick={() => setMediaOpen(true)}
                 >
                   <Camera size={20} />
@@ -1610,6 +1914,7 @@ export function AssistantPanel({
                         "分享图片或屏幕",
                       )}
                       aria-expanded={attachments}
+                      title={t("Share an image or screen", "分享图片或屏幕")}
                       onClick={() => setAttachments(!attachments)}
                     >
                       <Plus size={20} />
@@ -1618,6 +1923,7 @@ export function AssistantPanel({
                 <button
                   className="icon-button"
                   aria-label={t("Stop speaking", "停止播报")}
+                  title={t("Stop speaking", "停止播报")}
                   onClick={() => audio.current?.interrupt()}
                   disabled={voiceState === "connecting"}
                 >
@@ -1625,11 +1931,8 @@ export function AssistantPanel({
                 </button>
                 <button
                   className="assistant-mic end-call"
-                  aria-label={
-                    omni
-                      ? t("Switch to text", "改为文字")
-                      : t("End conversation", "结束交谈")
-                  }
+                  aria-label={t("Turn off microphone and switch to text", "关闭麦克风并改用文字")}
+                  title={t("Turn off microphone and switch to text", "关闭麦克风并改用文字")}
                   onClick={() => void switchToText()}
                 >
                   <MicOff size={20} />
@@ -1683,7 +1986,16 @@ export function AssistantPanel({
                 ref={composer}
                 aria-label={t("Message the assistant", "向助理发送消息")}
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => {
+                  if (!text.trim()) {
+                    const pendingLiveFare = ownerFlight?.view.state === "review" &&
+                      ownerFlight.chat === conversationId.current && ownerFlight.task === taskId;
+                    typedCommerceReview.current = !pendingLiveFare && commerce.tracked.current === conversationId.current
+                      ? typedReviewRef(commerce.rows, commerce.hasShortlist.current)
+                      : undefined;
+                  }
+                  setText(e.target.value);
+                }}
                 disabled={busy}
                 maxLength={3000}
                 rows={1}
@@ -1915,7 +2227,7 @@ export function AssistantPanel({
               </label>
             )}
           </div>
-          {(wake.enabled || wake.state === "error") && (
+          {((wake.enabled && wake.state !== "active") || wake.state === "error") && (
             <p className="alice-wake-status" role="status">
               {wake.state === "waiting"
                 ? t(
@@ -1929,12 +2241,7 @@ export function AssistantPanel({
                         "Wake listening stopped. You can use the microphone button.",
                         "唤醒监听已停止，可用麦克风按钮交谈。",
                       )
-                    : wake.state === "off"
-                      ? t("Local listening paused", "本地监听已暂停")
-                      : t(
-                          "Conversation active · returns to local listening when idle",
-                          "交谈中 · 安静后回到本地监听",
-                        )}
+                    : t("Local listening paused", "本地监听已暂停")}
             </p>
           )}
 
@@ -2047,6 +2354,7 @@ export function AssistantPanel({
         <section hidden={view !== "jobs"} className="assistant-secondary">
           <ComputerJobsPanel
             t={t}
+            onBuyFlight={(id)=>void selectOriginal({job_id:id}).catch(setError)}
             taskId={taskId}
             computerGoal={computerGoal}
             active={view === "jobs" && !suspended}

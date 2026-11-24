@@ -1,5 +1,9 @@
 # Group 2 · Shared Alice home
 
+## Current order conversation · 21 November
+
+The home keeps the normal avatar and a short latest reply. A price or flight choice opens the regular conversation at the owner's request. Background order updates use the same line. The app can restore an authorized conversation without automatically opening its sheet. [Simulator comparison](../../output/qa/2026-11-21-quiet-order-followup/verification.md).
+
 ## 16 November contextual movement
 
 Alice retains her position/scale while greeting responses vary across wave, smile/nod, curious tilt and compact open-hand explanation. Idle adds occasional glances/shoulder relaxation; listening/thinking/speaking use short contextual cues with quiet gaps. No permanent motion toolbar or new polling was added. A person can interrupt idle movement, and a finished action accepts the next click immediately. [Current motion contract](avatar.md) / [QA](../../output/qa/2026-11-16-alice-variety/verification.md).
@@ -44,7 +48,7 @@ HomeConditions uses the existing workspace preference: automatic, Hong Kong or o
 
 Successful coordinates are rounded to 0.1 degree before being sent in a POST body to the same desk. A ten-minute memory cache avoids repeated positioning. Revoked permission prevents cache reuse. A manual location request is consumed once; later refreshes recheck permission and location. If location or nearby weather is unavailable, the display falls back to Hong Kong. The label identifies Nearby or Hong Kong and links to the actual weather source. No synthetic temperature is shown as live weather.
 
-`weather.py` owns fixed HKO/Open-Meteo requests, validation, a bounded shared memory cache, timeouts and fallback. WorkspaceData and HomeConditions reuse this service, rather than starting a second weather backend. The server coarsens coordinates again, does not log them, and uses neither redirects nor an ambient proxy. Existing weather-off preference prevents requests. Permissions-Policy permits same-origin geolocation; browser permission remains required.
+`weather.py` owns fixed HKO/Open-Meteo requests, validation, a bounded shared memory cache, timeouts and fallback. WorkspaceData and HomeConditions reuse this service, rather than starting a second weather backend. The server coarsens coordinates again, does not log them, and uses neither redirects nor an ambient proxy. The weather-off preference suppresses automatic Home requests. An explicit city question uses a separate destination scoped to that read and leaves this preference untouched. [Conversation weather](daily-presence.md#spoken-work-and-weather). Permissions-Policy permits same-origin geolocation; browser permission remains required.
 
 ## Wake and voice
 

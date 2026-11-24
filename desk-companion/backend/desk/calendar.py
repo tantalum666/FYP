@@ -112,6 +112,10 @@ def expand_event(event, exceptions, begin, end, display_zone=None):
     return result
 
 
+def is_busy(occurrence):
+    return occurrence.get("busy", True) and not occurrence.get("completed")
+
+
 def expand_all(events, exceptions, begin, end, display_zone=None, include_conflicts=True):
     result = [
         occ
@@ -126,7 +130,7 @@ def expand_all(events, exceptions, begin, end, display_zone=None, include_confli
     active = []
     for occurrence in result:
         active = [o for o in active if o["end"] > occurrence["start"]]
-        if occurrence["busy"] and not occurrence["completed"]:
+        if is_busy(occurrence):
             for previous in active:
                 occurrence["conflicts"].append(previous["id"] + "/" + previous["occurrence_key"])
                 previous["conflicts"].append(occurrence["id"] + "/" + occurrence["occurrence_key"])

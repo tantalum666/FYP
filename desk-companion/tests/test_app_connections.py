@@ -162,10 +162,14 @@ def test_app_routes_expose_catalog_and_callback_result_without_tokens_or_passwor
     assert {a["id"] for a in catalog["apps"]} == {
         "gmail",
         "calendar",
+        "letsfg",
         "microsoft365",
         "teams",
         "sharepoint",
     }
+    flights = next(app for app in catalog["apps"] if app["id"] == "letsfg")
+    assert flights["transport"] == "letsfg_agent" and flights["mode"] == "book_after_review"
+    assert flights["scopes"] == ["flights:search", "flights:book"]
     assert (
         client.post(
             "/api/email/connection", headers=h, json={"app_password": "forbidden"}

@@ -1,0 +1,23 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "candidate_php_sha256": "5351eb30807eeac02473590416b32e02c325d5556aa82fa74c5a05199a6dfc96",
+  "case": "same-price-lines",
+  "status": "pass",
+  "first_minor": 3300,
+  "revised_minor": 3300,
+  "old_lines_minor": [
+    800,
+    1700
+  ],
+  "revised_lines_minor": [
+    900,
+    1600
+  ],
+  "explicitly_declined": true,
+  "stale_approval_state": "reprice",
+  "new_payments": {
+    "payment_intents": 0,
+    "charges": 0
+  },
+  "owner_prompt": "结账明细已变，总价仍为 HK$33.00。请核对新明细后确认付款。"
+}

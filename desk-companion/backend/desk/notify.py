@@ -156,7 +156,8 @@ class Notifier:
                     id TEXT PRIMARY KEY,
                     created_at TEXT NOT NULL,
                     state TEXT NOT NULL,
-                    content TEXT NOT NULL
+                    content TEXT NOT NULL,
+                    source TEXT
                 );
                 CREATE TABLE IF NOT EXISTS browser_notices(
                     id TEXT PRIMARY KEY,
@@ -173,6 +174,13 @@ class Notifier:
                 );
                 """
             )
+        with self.store.connection(write=True) as conn:
+            if "source" not in {r["name"] for r in conn.execute("PRAGMA table_info(notice_inbox)")}:
+                conn.execute("ALTER TABLE notice_inbox ADD COLUMN source TEXT")
+            conn.execute(
+                "CREATE UNIQUE INDEX IF NOT EXISTS notice_inbox_source ON notice_inbox(source) "
+                "WHERE source IS NOT NULL"
+            )
 
     @staticmethod
     def dismiss_pending(conn, notice_id):
@@ -181,7 +189,7 @@ class Notifier:
             conn.execute("DELETE FROM browser_notices WHERE id=?", (notice_id,))
             conn.execute("DELETE FROM device_notices WHERE id=?", (notice_id,))
 
-    def publish(self, notice: Notice, *, quiet: bool, guard=None) -> list[dict]:
+    def publish(self, notice: Notice, *, quiet: bool, guard=None, on_inbox=None) -> list[dict]:
         """Deliver once per channel, or to none of them during quiet hours."""
         if quiet:
             return [{"channel": channel.name, "status": "quiet"} for channel in self.channels]
@@ -192,7 +200,9 @@ class Notifier:
         browser_delivered = False
         with self.store.connection(write=True) as conn:
             if guard is not None and not guard(conn):
-                return [{"channel": channel.name, "status": "suppressed"} for channel in self.channels]
+                return [
+                    {"channel": channel.name, "status": "suppressed"} for channel in self.channels
+                ]
             wrote = False
             for channel in self.channels:
                 seen = conn.execute(
@@ -213,6 +223,11 @@ class Notifier:
                 wrote = True
                 if channel.name == "browser":
                     browser_delivered = True
+            if on_inbox is not None and any(
+                item["channel"] == "in_app" and item["status"] in {"delivered", "duplicate"}
+                for item in results
+            ):
+                on_inbox(conn)
             if wrote:
                 self.store.bump(conn)
         if browser_delivered and self.push is not None:
@@ -222,7 +237,7 @@ class Notifier:
     def listing(self) -> dict:
         with self.store.connection() as conn:
             rows = conn.execute(
-                "SELECT * FROM notice_inbox ORDER BY created_at DESC, id LIMIT 20"
+                "SELECT * FROM notice_inbox WHERE source IS NULL ORDER BY created_at DESC, id LIMIT 20"
             ).fetchall()
         import json
 
@@ -235,7 +250,9 @@ class Notifier:
 
     def dismiss(self, notice_id: str, key: str) -> dict:
         def apply(conn):
-            row = conn.execute("SELECT * FROM notice_inbox WHERE id=?", (notice_id,)).fetchone()
+            row = conn.execute(
+                "SELECT * FROM notice_inbox WHERE id=? AND source IS NULL", (notice_id,)
+            ).fetchone()
             if not row:
                 raise DomainError("NOTICE_NOT_FOUND", 404)
             if row["state"] != "dismissed":

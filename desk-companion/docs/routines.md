@@ -34,11 +34,20 @@ Completed/cancelled definitions cannot be resumed. Pause/cancel dismiss any
 pending delivery; historical results remain accessible. The schedule is
 immutable: cancel and create a new definition to change it.
 
+An owner can skip a future occurrence of an active routine. Each exception
+identifies the original routine and one calendar date in its saved timezone.
+The scheduler keeps the original start time and weekday and advances to the
+next eligible occurrence. Skipping a one-off completes it without a result.
+Exceptions survive pause/resume and restart. An existing pending delivery can
+still be claimed. Older definitions start with an empty list of exceptions.
+
 Nothing runs while the local service is stopped. On restart, the latest missed
 occurrence is evaluated once; older missed occurrences are coalesced. The result
 is a current snapshot at execution time, not a reconstructed snapshot of a past
 day. `catch_up=true` means earlier occurrences were skipped, not merely that
 execution was seconds late. No independent timer or worker is created.
+If that latest missed occurrence was explicitly skipped, the scheduler advances
+its watermark without creating a result or delivery for the backlog.
 
 SQLite transactions atomically persist the result, occurrence receipt and next
 schedule. Restart/concurrent ticks cannot repeat a committed occurrence. A
@@ -112,14 +121,18 @@ a different body returns `OPERATION_ID_CONFLICT`. No endpoint needs an AI key.
 | --- | --- | --- |
 | `GET /api/routines` | — | `routines`, `pending_count`, `revision`, `server_time`, `limits` |
 | `POST /api/routines` | Definition fields above | `routine`, `saved`, `revision`, `operation_id` |
-| `GET /api/routines/{id}` | — | `routine`, newest-first `runs`, `revision` |
-| `POST /api/routines/{id}/actions` | `action`: pause/resume/cancel; `expected_version` | `routine`, `saved`, `revision`, `operation_id` |
+| `GET /api/routines/{id}` | — | `routine`, newest-first `runs`, chronological `skipped_dates`, `revision` |
+| `POST /api/routines/{id}/actions` | `action` (pause/resume/cancel/skip), `expected_version`. Skip requires `local_date` (`YYYY-MM-DD`) | `routine`, `saved`, `revision`, `operation_id`. A skip also returns `skipped_date` |
 | `POST /api/routines/deliveries/claim` | optional `limit`, integer 1–20, default 10 | `claimed`, `delivery_ids`, `delivery_refs`, `deliveries`, `unavailable_delivery_ids`, `revision`, `operation_id` |
 
 Definition responses also contain `id`, `version`, `status`, `next_run_at`,
 `last_scheduled_at`, `created_at`, `updated_at`. UTC instants use ISO 8601 with Z.
 Lifecycle actions advance definition version; scheduler execution does not.
 Version mismatch returns `VERSION_CONFLICT`; refresh before making a new action.
+A skip requires an upcoming slot on the original schedule. A past occurrence,
+DST gap, off-schedule date or previously skipped slot returns
+`ROUTINE_OCCURRENCE_UNAVAILABLE` (409). A retry with the original operation key
+and body returns its saved receipt.
 
 Run responses contain `id`, `routine_id`, `occurrence_key`, `scheduled_at`,
 `created_at`, `delivery_state` and `result`. Delivery state is `pending`,
@@ -140,7 +153,33 @@ idempotency, concurrent tick/claim, bounded pending/history, clock rollback,
 source-table immutability, privacy-safe claim replay, failure receipts and
 Runtime/owner-only/hidden-context route integration.
 
+`tests/test_routine_skip.py` follows a streamed conversation through owner
+selection, confirmation, detail readback and subsequent deliveries. It also
+exercises the local Sessions protocol fixture, privacy on retry, lost
+acknowledgment, legacy operation receipts, concurrent writes and DST.
+`frontend/tests/routine-skip.test.ts` exercises the review card's local date
+labels, selection and decision callbacks.
+
+[23 November 2026 local verification](../../output/qa/2026-11-23-api-astra-team/continuation/verification.md#routines)
+
 ## Owner interface
+
+In the ordinary composer, “明天这一次不用提醒我，之后照常” opens a review.
+The server resolves tomorrow in each matching routine's timezone and freezes
+its ID, version and local minute for the review. The owner sees the routine
+title, date, time and timezone. When several routines qualify, confirmation
+requires a choice. The same review can be prepared by the typed
+`routine_skip_draft` function. The owner confirms or cancels on the existing
+proposal card, including in Full access mode. A changed version or elapsed
+occurrence requires a fresh review. The Routines detail view lists skipped dates.
+
+The decision endpoint `POST /api/assistant/proposals/{id}/decisions` accepts
+`{"action":"confirm","routine_id":"…"}` for a selected candidate. A single
+candidate may also be confirmed by its proposal ID alone. A missing or unknown
+selection on a multi-candidate review returns `ROUTINE_SELECTION_REQUIRED`
+(422). Cancellation uses `{"action":"cancel"}`. The action affects local
+Routines only. Calendar reminders, morning/evening check-in preferences and
+notification visibility retain their own controls.
 
 `RoutinesPanel.tsx` exposes bilingual English/Simplified Chinese creation,
 pause/resume/cancel, run history and explicit pending-result reveal. Cancel

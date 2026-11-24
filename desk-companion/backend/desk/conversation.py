@@ -11,6 +11,7 @@ import threading
 import time
 from dataclasses import dataclass, field
 
+from . import hkd
 from .calendar import iso
 from .memory import MAX_MODEL
 from .store import DomainError
@@ -40,7 +41,7 @@ class Conversation:
         self.items.append({"role": role, "text": text[:8000], **metadata})
         self._trim()
 
-    def append_voice_fragment(self, role, text, stream, group):
+    def append_voice_fragment(self, role, text, stream, group, *, replace=False):
         """Update one displayed speaker turn, including delayed older fragments."""
         if not isinstance(text, str) or not text:
             return
@@ -49,7 +50,7 @@ class Conversation:
             return
         for item in peers:
             if item["voice_group"] == group and item["role"] == role:
-                item["text"] = (item["text"] + text)[:8000]
+                item["text"] = (text if replace else item["text"] + text)[:8000]
                 self._trim()
                 return
         entry = {"role": role, "text": text[:8000], "voice_stream": stream, "voice_group": group}
@@ -80,7 +81,8 @@ class Conversation:
                     "content": [
                         {
                             "type": "input_text" if item["role"] == "user" else "text",
-                            "text": item["text"],
+                            "text": hkd.present_text(item["text"], spoken=True)
+                            if item["role"] == "assistant" and hkd.chinese(item["text"]) else item["text"],
                         }
                     ],
                 },
@@ -107,11 +109,11 @@ class Conversations:
             return None
         return hashlib.sha256(principal["session"].encode()).hexdigest()
 
-    def open(self, principal, revision, conversation_id=None, *, task_id=None):
+    def open(self, principal, revision, conversation_id=None, *, task_id=None, recover_review=False):
         with self.lock:
-            return self._open(principal, revision, conversation_id, task_id)
+            return self._open(principal, revision, conversation_id, task_id, recover_review)
 
-    def _open(self, principal, revision, conversation_id, task_id):
+    def _open(self, principal, revision, conversation_id, task_id, recover_review=False):
         owner = self.owner(principal)
         if not owner:
             if conversation_id:
@@ -119,7 +121,7 @@ class Conversations:
             return None
         now = self.clock()
         self.prune()
-        if conversation_id:
+        if conversation_id and not (recover_review and conversation_id not in self.entries):
             entry = self.entries.get(conversation_id)
             if not entry or entry.owner != owner:
                 raise DomainError("CONVERSATION_NOT_FOUND", 404)
@@ -132,7 +134,7 @@ class Conversations:
             if len(self.entries) >= 16:
                 oldest = min(self.entries, key=lambda key: self.entries[key].touched)
                 del self.entries[oldest]
-            entry = Conversation(secrets.token_urlsafe(24), owner, revision, now, task_id=task_id)
+            entry = Conversation(conversation_id or secrets.token_urlsafe(24), owner, revision, now, task_id=task_id)
             self.entries[entry.id] = entry
         entry.touched = now
         return entry

@@ -20,7 +20,9 @@ export async function request<T>(
       "/assistant/messages",
       "/assistant/retained-messages",
       "/browser/observations",
-    ].includes(path)
+      "/google/preview",
+      "/google/refresh",
+    ].includes(path) || path.startsWith("/assistant/flight-checkouts/") || path === "/apps/letsfg/connect"
       ? 75000
       : 12000,
   );
@@ -190,6 +192,7 @@ export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
   if (op) {
     const generation = identityGeneration;
+    window.dispatchEvent(new CustomEvent("desk:write-retrying", { detail: op }));
     const result =
       op.path === "/assistant/messages/stream"
         ? await writeStream(op.path, op.body, () => {})
@@ -355,6 +358,10 @@ export function errorText(
       "The mail provider's final receipt was lost. Check Sent mail before sending again; Alice will not resend automatically.",
       "邮件服务的最终回执丢失。请先检查已发送邮件；Alice 不会自动重发。",
     ],
+    VOICE_MODEL_MISMATCH: [
+      "The voice service returned a different model. Please reconnect.",
+      "语音服务返回了不同的模型，请重新连接。",
+    ],
     VOICE_SELECTION_MISMATCH: [
       "The voice service returned a different voice. The call was stopped.",
       "语音服务返回了不同音色，会话已停止。",
@@ -386,6 +393,14 @@ export function errorText(
     COMPUTER_PROVIDER_STOPPED: [
       "The browser task stopped without a complete report.",
       "浏览任务已停止，尚未获得完整报告。",
+    ],
+    COMPUTER_QUOTE_UNVERIFIED: [
+      "The price or its source could not be verified. Review the original website.",
+      "未能核实价格或来源，请查看原网站。",
+    ],
+    ITINERARY_SHARING_REQUIRED: [
+      "Review the itinerary and allow sharing with the named flight provider.",
+      "请核对行程并允许将这些条件发送至所列的航班供应商。",
     ],
     COMPUTER_ACTIVITY_LIMIT: [
       "The browser reached this task's activity limit and stopped.",
@@ -561,13 +576,24 @@ export function errorText(
       "AI text is not configured on this desk.",
       "本设备尚未配置文字AI。",
     ],
+    FLIGHT_REVIEW_CHANGED: ["The fare changed. Review the current total before confirming.", "报价已变化，请核对当前总价后再确认。"],
+    FLIGHT_PROVIDER_UNAVAILABLE: ["The test provider is unavailable. Check the same booking again.", "测试供应商暂时无法访问，请再查看同一订单。"],
+    FLIGHT_NOT_FOUND: ["This booking belongs to another conversation.", "当前对话没有这笔测试订单。"],
     DRAFT_EXPIRED: [
       "This draft expired. Prepare a new one before saving.",
       "草稿已过期，请重新生成后保存。",
     ],
+    ROUTINE_OCCURRENCE_UNAVAILABLE: [
+      "That routine occurrence is no longer available to skip. Ask for a new review.",
+      "该次定时提醒已无法跳过，请重新核对。",
+    ],
+    ROUTINE_SELECTION_REQUIRED: [
+      "Choose a routine from this review.",
+      "请从这次核对中选择一项定时事务。",
+    ],
     IMPORT_EXPIRED: [
-      "This import preview expired or was applied. Preview the file again.",
-      "导入预览已过期或已应用，请重新预览文件。",
+      "This preview expired or closed. Open a fresh preview.",
+      "此预览已过期或关闭，请重新预览。",
     ],
     IMPORT_TOO_LARGE: [
       "Use a smaller file or a shorter date range.",
@@ -604,6 +630,22 @@ export function errorText(
     GOOGLE_NOT_CONNECTED: [
       "Connect your Google calendar before refreshing.",
       "请先连接Google日历。",
+    ],
+    GOOGLE_REFRESH_TOO_LARGE: [
+      "Choose dates with at most 50 imported Google events.",
+      "请选择最多含 50 项已导入 Google 事项的日期范围。",
+    ],
+    GOOGLE_READ_TIMEOUT: [
+      "Google took too long. Retry the review or choose fewer dates.",
+      "Google 读取超时。请重新检查或缩短日期范围。",
+    ],
+    INVALID_IMPORT_SELECTION: [
+      "Review the selected calendar copies again.",
+      "请重新核对所选日历副本。",
+    ],
+    PRIVATE_CONTEXT_HIDDEN: [
+      "Show private details to continue.",
+      "请先显示私人详情。",
     ],
     GOOGLE_CONNECTION_FAILED: [
       "Google could not be reached. The local calendar is still available.",

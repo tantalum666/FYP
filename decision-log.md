@@ -863,3 +863,148 @@ Verification removed the misleading inference that a disappeared pending draft e
 **Cost:** new engineering capUS$5; Responses12requests/10receipts/2unknown holds totalUS$0.267201 conservative, plus4hostedUS$1unknown-usage reserves=US$4.267201. Not an invoice. All batch ledgers closed and temporary QA services stopped. This is not an ongoing budget. Normal Mac/native/Pi release remains last verified8c67ddbe; source merge and later deployment are separate. [Contract](desk-companion/docs/proactive-research.md), [evidence](output/qa/2026-11-17-proactive-agent-merge/verification.md).
 
 Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. All original124–128 independently report merged=true; main tree75550fed12c54c5112f3fbb1e358e8a9d7affced exactly matches tested42bc01ec. Final backend2,501passed/2Linux-only skips and frontend393/types/build/Ruff. Closeout changes are documentation/receipts only. [Receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json).
+
+
+## 2026-11-18 Deploy the merged application on the three normal endpoints
+
+The owner requested deployment of `c607759e` to Web, native mobile and Pi, then specified the iPhone Simulator as the current mobile target. Use the existing architecture and acceptance evidence. Keep the completed test budgets closed.
+
+The rollout retained the original stores and grants on each backend, the A3 voice selection and the normal background inference setting. The Pi received the application and kiosk/autostart update with its RTC units and configured CPU ceiling preserved. The remaining ordinary-text migration stays a separate software task. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
+
+
+## 2026-11-18 Official ordinary text and grouped findings
+
+The owner requested the ordinary text migration to official OpenAI Sessions and Functions, continued personal-agent progress and a close reading of Anthropic's always-on agent article. The existing project credential choice and closed test budgets remain in effect.
+
+Engineering decisions were to reuse the project's pinned transport and local tool receipts, isolate ordinary text from hosted computers, retain selected-file compatibility, and recover uncertain submissions through the original session. For proactive assistance, use the existing transactional notification outbox to coalesce findings and preserve individual acknowledgments. Normal and Less often spacing are engineering defaults of 30 and 120 minutes. The implementation requests a US$0.25 ceiling per text session. This is a software guard. No live spending or production promotion was part of this slice. [Contract](desk-companion/docs/official-text-sessions.md) · [evidence](output/qa/2026-11-18-official-text-sessions/verification.md).
+
+## 2026-11-18 One real FYP text session on GPT‑6.2 Sol
+
+The owner authorized a dedicated US$0.25 clock-and-follow-up test on the existing FYP key. After the required beta route rejected the requested server cap, the owner accepted one session under local, non-guaranteed dollar control and selected GPT‑6.2 Sol for the trial. Leave normal production model selections unchanged. Keep a provider-cap rejection visible and fail closed by default. The narrowly bound evaluation transport separately enforces its admissions. The live read and follow-up passed with verified token usage and remote deletion. This allowance is closed. [Acceptance](output/qa/2026-11-18-live-text-clock/verification.md).
+
+## 2026-11-18 Normal deployment on 6.2 Sol and a dated API allowance
+
+The owner selected GPT‑6.2 Sol for the normal installation and hosted browser and authorized FYP API usage through 24 November, inside a combined US$20 per Hong Kong day. The previous small trials stay closed. Engineering allocated US$9 to each independent backend with US$2 of unallocated headroom, included earlier same-day batches conservatively and retained unknown usage as reservations. Text and browser now have independently selectable model routing. The owner later said the Pi was not at hand and asked to retain the package. Mac and Simulator were activated. [Evidence](output/qa/2026-11-18-sol62-deployment/verification.md).
+
+## 2026-11-19 Public quotes before purchase or ticketing
+
+The owner asked to advance shopping and ticket booking. Engineering chose two public Hong Kong journeys and retained the existing hosted browser, owner-reviewed draft and job queue. Public prices now carry their basis, selling-unit or party scope, currency, source, timestamp and fee uncertainty. A verified stored result may answer a follow-up in the same owner conversation. A payable flight price still requires matching dates, airports, party, inventory, baggage and mandatory charges. Both live hosted airline runs returned incomplete evidence. Orders, reservation holds, tickets and payments remain separate effects. [Acceptance](output/qa/2026-11-19-shopping-flight/verification.md).
+
+## 2026-11-19 Read-only fare connector and separate billing evidence
+
+The owner questioned the amount in the previous report, requested continuous delivery and emphasized maintainable code and available plugins. The old local US$8.96 was entirely estimated exposure. The platform key did not have organization Costs access. Engineering retained the existing ledger, imported the authenticated platform export as an independent UTC observation, and reconciled individually supported historical records only. One dollar of fleet headroom was assigned to the active Mac for 19 November, leaving the Pi US$9 and US$1 margin within the already authorized US$20. Later days retain the original split.
+
+For general flight search, use the supplier's official read-only MCP through a hosted OpenAI Session without a computer. Keep named-site limits and require approval to disclose the itinerary. The source-backed lowest quote exceeded the sample budget. Exact checked weight and the seller's final fare remain subject to seller readback. The running versions and concrete seller-side blockers are in [the acceptance record](output/qa/2026-11-19-flight-ledger/verification.md).
+
+## 2026-11-19 Test cards first for shopping and ticketing
+
+The owner requested test cards first and authorized a dedicated FYP Stripe merchant sandbox. A personal real card would require a separate, specific live test decision. Keep the provider's ordinary card fixtures, merchant-side Link test accounts, and Link Agent Wallet credentials as separate acceptance tracks. The merchant sandbox covered successful hosted card and Link orders plus a refused payment. Choose a travel provider with a test supplier and test token to validate a simulated reservation. [Evidence and provider boundaries](output/qa/2026-11-19-test-checkouts/verification.md).
+
+## 2026-11-19 Original Pi release resumed
+
+The owner powered on the original Pi and authorized installation of the retained update. This supersedes the earlier package-only decision for that device. The operator deployed the same `85e6aa94` release as Web and Simulator under the existing Pi allocation, retained the rollback material and verified Alice and both Google grants on the original hardware. [Evidence](output/qa/2026-11-19-pi-release/verification.md).
+
+## 2026-11-19 Alternative for flight-booking acceptance
+
+The owner asked for a working alternative to Duffel. Engineering selected the account-free LetsFG sandbox for booking approval and receipt tests. It handles synthetic passengers and simulated card holds. Keep Kiwi for live fare research. A test PNR from the LetsFG simulator establishes platform workflow behavior. An airline test order requires an airline-operated or airline-connected test environment. [Results and access paths](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 LetsFG in the ordinary Alice composer
+
+The owner chose LetsFG for the simulator and requested the flight and total, explicit initial approval, separate approval of any increase, and a retrieved booking reference and charge. Use the provider’s synthetic passenger and Visa. The operator enabled this test-only connector on the existing Mac backend shared by Web and the Simulator. The model receives a quote Function. Only owner actions can send either booking decision. No Singapore Airlines onboarding or real-card transaction was authorized. [Receipt](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
+## 2026-11-19 Approve exact WooCommerce test order terms in ordinary chat
+
+The owner authorized the existing WooCommerce store and Stripe test card for simulator shopping. Display the product, count, delivery and total; reconfirm any checkout change; independently read the merchant order and the captured amount. Engineering reused the existing native composer, official Sessions, scoped review storage and UI refresh. The test fixture uses one shippable SKU and a fictional Hong Kong address. The merchant checks the final order at gateway dispatch and preserves one merchant reference for recovery. [Verification](output/qa/2026-11-19-alice-shopping-conversation/verification.md).
+
+## 2026-11-20 Overseas shopping sandboxes before real purchases
+
+The owner requested cancellation of a paid order immediately after buying, with a full refund, and prioritized overseas sandboxes such as eBay and Amazon. The owner authorized two Gmail test aliases for free eBay developer and Amazon Pay buyer registration and email verification. A mainland delivery address is available for a future live quote. This request authorizes sandbox shopping only.
+
+Engineering selected eBay's US buyer and seller sandbox for the retail cancellation, the official Amazon Pay demo for buyer setup and an existing US Stripe sandbox to inspect the merchant side of Amazon Pay. A separate US$0.75 test Visa control demonstrated the first full-refund readback. The checkout receipt now verifies a linked, terminal full refund independently. No production checkout permission was added to Alice. [Observed provider states](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
+### 20 November verified Amazon wallet receipts
+
+The owner completed the refreshed email verification and confirmed permission to use matching verification mail for this test account. The prior Gmail connector response had masked the code. Reuse the authenticated wallet for the two reviewed checkouts. The official demo produced a US$14.30 order number. The merchant-controlled tissue checkout produced a US$1.00 Amazon Pay capture and terminal full refund. Engineering changed the operator's read-only verifier to validate Stripe resource types and links independently of card-specific ID prefixes. eBay's pending review still gates the retailer cancellation case. [Acceptance](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
+### 20 November reusable Link wallet connection
+
+The owner completed the FYP Link connection and the supplemental profile consent, then requested that tests reuse the authorization. Use the existing official CLI profile and its rotating refresh credential. A payment-only token received HTTP 401 on test spend creation. With the provider's standard payment and profile scopes, the same case returned a valid one-time US$1.00 sandbox spend request awaiting the owner's decision. Account-level approval policies returned HTTP 403 for the FYP client. A future merchant-specific recurring test allowance requires a separately agreed amount, period and expiry. The current spend is one-time. [Wallet evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#link-checkout-and-the-delegated-wallet).
+
+### Approved 180-day FYP sandbox allowance
+
+The owner selected 180 days and approved the larger recurring request in Link. The issuer confirmed US$500 per monthly period for FYP Alice Test Shop, ending 19 May 2027 at 15:15:07 Hong Kong time. FYP separately caps each test checkout at US$10. This authorization is for the private test merchant and test virtual card. Keep the authenticated profile and the same approved request for future qualifying tests. The individual credential's validity is read separately. The superseded one-time request was canceled after its original merchant checkout was retained. The approved allowance by itself establishes no merchant payment. [Provider and checkout results](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance).
+
+### 20 November Link test-fixture interoperability
+
+One read of the approved request established that the number in the Link API response is exactly the example in its published CLI 1.6.0 README. Its Luhn check fails independently of FYP. Continue to require actual merchant capture and refund for this acceptance. Public fixtures can reproduce the formatting failure without requesting another credential. Engineering fixed a separate FYP interpretation of comma-delimited OAuth scopes and applied the existing card checks to the older one-time operator. [Diagnosis and independent evidence](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+
+## 2026-11-21 eBay account review
+
+The owner authorized submitting the official rejected-registration form for the original account. Use the course project's sandbox-only buyer, seller, cancellation and refund scenario. The owner confirmed seeing submission success or a reference after human verification. Keep developer access pending a review-specific decision. [Provider evidence](output/qa/2026-11-21-shopping-next-step/verification.md).
+
+
+## 2026-11-21 Natural movement in the ordinary Alice home
+
+The owner reported that Alice still moved stiffly. Group 2 kept the selected model and gesture vocabulary and changed how each movement unfolds. Eyes acquire the target first, upper-body joints overlap, and an interrupted arm retains velocity as it returns to rest. The hand follows a forward path through the full lift and return. Check the path on the shipped rig and on the phone screen, including the frames between the main poses. The 30 Hz render budget and quiet intervals remain in effect. [Motion acceptance](output/qa/2026-11-21-alice-natural-motion/verification.md).
+
+
+## 2026-11-21 Give ordinary replies an expressive performance
+
+The owner found the revised arm timing and posture emotionally flat and asked for more varied movements and faces. Group 2 added distinct social responses, casual idle gestures and facial articulation on the existing character. Ordinary text chooses a bounded presentation value inside the same official Session reply. The renderer only receives that value. Task results remain authoritative and older plain-text replies stay readable. Repeated tones can select a different performance. [Evidence](output/qa/2026-11-21-alice-expressive-conversation/verification.md).
+
+
+## 2026-11-21 Correct the hands and apply GPT-Live-1.1
+
+The owner identified reversed hands and clipping in gratitude and laughter and requested a review of every action. The arm response now rotates the forearm for palm roll, uses bounded wrist bending, and checks rendered skin and garment surfaces as well as finger positions. Retain the original character asset and A3 voice. Choose local wake listening between sessions on the present WebSocket architecture. The provider documents paid speech-triggered standby on WebRTC. The everyday voice model is `gpt-live-1.1`. [Decision evidence](output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+
+## 2026-11-21 Keep the resting upper arms close to the body
+
+The owner rejected a normal home stance that held the arms roughly twenty to thirty degrees out. Keep the previous gesture coordinate reference internal and seed the visible rig at its actual hanging pose. The rendered uniform can yield locally with the elbow and cuff. Preserve gentle asymmetry, stagger the fingers and oppose the thumb outside the index. Compare the same device at rest from the front, check depth separately, and test the exposed digits through the release as well as the grip. [Acceptance](output/qa/2026-11-21-alice-relaxed-stance/verification.md).
+
+## 2026-11-21 Refine Alice’s expressions and features
+
+The owner asked for more facial variety, a more visible nose and mouth and a small increase in chest fullness while keeping the overall body shape. Group 2 keeps the licensed uniform and uses its existing lip, brow and eyelid shapes. The same ordinary Session supplies the three new social cues. The renderer also varies listening, thought, the playful wink and the victory pose. The localized garment shape tapers before the sleeve contact region. Check both the default home framing and a matched clothed profile. [Release acceptance](output/qa/2026-11-21-alice-face-fit/verification.md).
+
+## 2026-11-21 Continue shopping and flight booking through cancellation
+
+The owner asked to advance both journeys. Group 2 extended the existing WooCommerce and LetsFG sandboxes through their distinct cancellation outcomes. In ordinary chat, a buyer’s paid shop cancellation must reconcile the original capture, complete refund and net. For flights, verify a released hold separately from a refund after ticketing. If an exact flight is absent, use eligible alternatives from the same search and obtain a fresh selection before approval. The existing official Session quote tools retain their scope. [Native and provider evidence](output/qa/2026-11-21-commerce-aftercare/verification.md).
+
+## 2026-11-21 Reduce default order text and continue already-approved work
+
+The owner found the repeated on-screen text confusing and requested further personal-agent progress. Group 2 keeps the current order or decision in one place, folds older results and will preserve exact amounts before consent. Continue active orders by checking their original provider records in the desk worker. The authorized chat receives a short verified change. The provider readers cannot pay, retry a purchase, accept a new price, or send a message to a third party from this worker. [Evidence](output/qa/2026-11-21-quiet-order-followup/verification.md).
+
+## 2026-11-22 Calendar-aware flight choice in ordinary Alice chat
+
+The owner asked to continue personal-agent work. Group 2 chose calendar-aware flight selection as the next cross-task behavior. Use the existing desk calendar and original Session Function to compare returned fares when the owner asks for a fit. Keep busy details local, consume airport-local times, preserve the date, budget and original flight constraints, and recheck before admitting a financial action. On a blocked unsubmitted quote the owner can request another flight in the same conversation. The receipt worker remains read-only. [Decision and evidence](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
+## 2026-11-23 Parallel API development and local flight calendar handoff
+
+The owner authorized a separately metered OpenAI API developer using GPT-6.2 Astra at maximum reasoning effort, with a fixed retained-credit floor. Its actual contributions use a named Git author and a separate review branch. Regular Alice clients retain their configured provider and budgets. The integrating engineer chose a confirmed-flight handoff: the existing booking review supplies the authority and identity, and the existing calendar writer inserts one local event alongside the source binding in a single transaction. Require a fresh provider read and an explicit event confirmation. [Source and local checks](output/qa/2026-11-23-api-astra-team/verification.md).
+
+## 2026-11-23 Respect mixed-scope decisions and published purchase amounts
+
+Five separately attributed API worktrees shared one private dated development allocation. Original owner and source identity remain attached to a recovered shortlist, Work request, calendar refresh, quiet update and shop approval. Ambiguous assent after a decision overview has no write authority. A quote retains its original party, itinerary, baggage facts and currency and requires a new decision for changed commercial terms. [Combined acceptance](output/qa/2026-11-23-api-astra-team/verification.md).
+
+## 2026-11-23 Global weather in conversation and voice
+
+The owner reported that an ordinary Tokyo question was refused and a Hong Kong lookup supplied only a temperature. Resolve explicitly named places with Open-Meteo’s worldwide GeoNames geocoder and the OpenCC language dictionaries. Use destination-local dates, preserve official HKO station and forecast feeds and label modeled readings and supplementary ranges. Rainfall probability refers to published forecast probabilities or HKO’s category. The existing shared weather function serves ordinary text, Sessions and Live voice. This source branch was verified with public data and replayed model protocols. [Acceptance and receipts](output/qa/2026-11-23-global-weather/verification.md).
+
+## 2026-11-23 Respond to the owner’s actual weather and purchase questions
+
+The owner requested a worldwide city lookup with rain, a compact listening area, natural currency speech and a flight agent that continues after showing a research price. The application reuses the original signed-in conversation, trusted amount, selected source and supplier-controlled checkout. No owner consent transfers between the public weather read, optional seller inspection, live flight OAuth and the specific payment. [Behavior and evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 Continue from an expired flight-research login
+
+The original seller receipt outlived its owner login. The engineering recovery asks the current owner for a new itinerary in ordinary conversation and reuses the existing itinerary-sharing decision. A still-accessible original quote keeps its existing review. No previous traveller or trip fields transfer into a different login. [Observed transition](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 ArUco 独立演示与简化标定
+
+- **用户决定：**initial report 先以手机／电脑和五块牌验证，定位由用户本人负责；纸质打印后剪裁测试。后因三牌 X/Y 不易理解，选择 ID 0／1／2 成直角 L，只填两段码中心距（cm）。保留免测量像素演示。两边最新进度上传 GitHub 供组员审核，不部署 main。
+- **工程实现与范围：**三牌使用已知黑框尺寸、统一朝向的十二角点拟合，继续拒绝不合几何的标定；不放宽校验掩盖摆放错误。L 形 ID 3 不参与映射，也不能替代缺失参照。API／CSV 仍 mm，页面 L 形显示 cm；物品／未知变化和近障／越界均为图像证据提示，未接电机动作。
+- **硬件补充：**官方图示 RIG-Arm 含原底座至天线 234 mm；现有机箱 200 mm，叠加约 434 mm。无原机可切超广角的保证，手机 0.5× 覆盖结果不替代原机视野、取流和远端牌识别测试。
+- **验证边界：**生成录像、源码和浏览器操作可复验；真实 L 形厘米误差、原机全桌覆盖、小车路线／回充待验。[交付与下一步](research/2026-11-24-aruco-localisation/README.md)。
+
+## 2026-11-24 主线评审与公开协作
+
+用户授权检查、修复并合并当前 FYP PR，并在已登录和匿名读取均核实 GitHub 仓库公开后明确选择保留此设置。新提交按公开分发核对。保留原提交及组员、API 开发者的署名。运行设备沿用已有部署记录。[主线评审](output/qa/2026-11-24-mainline-review/verification.md)。

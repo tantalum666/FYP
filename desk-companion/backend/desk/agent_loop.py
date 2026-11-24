@@ -13,7 +13,7 @@ from .capabilities import CAPABILITIES
 from .context_budget import fit_context
 from .model_provider import HostedTextProvider, ModelStep, TextModel
 from .store import DomainError
-from .tool_policy import execute_tool, kind_for, owner_message
+from .tool_policy import execute_tool, ends_text_turn, text_effect_reply, text_notice
 
 
 MAX_STEPS = 3
@@ -47,6 +47,7 @@ class AgentLoop:
         key: str,
         language: str,
         allow_memory: bool,
+        principal: dict | None = None,
         on_event: Callable[[dict], None] | None = None,
     ):
         context = dict(context)
@@ -60,7 +61,7 @@ class AgentLoop:
 
         for index in range(self.max_steps):
             if self.clock() > deadline:
-                return finish(_notice(language, "timeout"))
+                return finish(text_notice(language, "timeout"))
             preview = ""
 
             def on_delta(piece):
@@ -75,15 +76,15 @@ class AgentLoop:
                 step = self._complete(system, context, on_delta if on_event is not None else None)
             except DomainError as error:
                 if error.code == "TEXT_AI_CAP":
-                    return finish(_notice(language, "cap"))
+                    return finish(text_notice(language, "cap"))
                 raise
             if step is None:
-                return finish(_notice(language, "unavailable"))
+                return finish(text_notice(language, "unavailable"))
             if step.tool == "none":
                 _mark_streamed(on_event, step)
                 return finish({"mode": "ai", "kind": "reply", "message": step.message})
             if self.clock() > deadline:
-                return finish(_notice(language, "timeout"))
+                return finish(text_notice(language, "timeout"))
             call_key = "text/" + hashlib.sha256(f"{key}/{index}".encode()).hexdigest()
             risk = CAPABILITIES[step.tool].risk if step.tool in CAPABILITIES else "refused"
             if on_event is not None and risk == "read" and preview:
@@ -97,6 +98,7 @@ class AgentLoop:
                 call_key,
                 scope=key,
                 allow_memory=allow_memory,
+                principal=principal,
                 language=language,
                 channel="text",
             )
@@ -113,13 +115,13 @@ class AgentLoop:
             summary = _plan_summary(result)
             if summary:
                 plan = summary
-            if _ends_turn(step.tool, result):
+            if ends_text_turn(step.tool, result):
                 if risk != "read":
                     _mark_streamed(on_event, step)
-                return finish(_side_reply(step.message, result, language))
+                return finish(text_effect_reply(step.message, result, language))
             context["last_tool_result"] = {"tool": step.tool, "result": result}
             context = fit_context(context)
-        return finish(_notice(language, "steps"))
+        return finish(text_notice(language, "steps"))
 
     def _complete(self, system: str, context: dict, on_delta) -> ModelStep | None:
         for attempt in range(self.attempts):
@@ -154,39 +156,6 @@ def _plan_summary(result: dict) -> str | None:
     if isinstance(summary, str) and summary.strip():
         return summary.strip()
     return None
-
-
-def _ends_turn(name: str, result: dict) -> bool:
-    if name == "propose_plan" and result.get("error"):
-        return True
-    if result.get("error") == "TOOL_TIMEOUT":
-        return True
-    risk = CAPABILITIES[name].risk if name in CAPABILITIES else "refused"
-    if risk != "read":
-        return True
-    return result.get("error") in {"OWNER_SIGN_IN_REQUIRED", "TOOL_NOT_ALLOWED"}
-
-
-def _side_reply(message: str, result: dict, language: str):
-    error = result.get("error")
-    if error:
-        return _notice(language, kind_for(error), error)
-    kind = "draft" if "proposal" in result else "job" if "job" in result else "reply"
-    reply = {"mode": "ai", "kind": kind, "message": message, **result}
-    reply.setdefault("saved", False)
-    return reply
-
-
-def _notice(language: str, kind: str, error: str | None = None):
-    reply = {
-        "mode": "ai",
-        "kind": "refused" if kind == "refused" else "clarify",
-        "message": owner_message(kind, language),
-        "saved": False,
-    }
-    if error:
-        reply["error"] = error
-    return reply
 
 
 def _usable(step: object) -> bool:
