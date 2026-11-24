@@ -16,6 +16,8 @@ type ConnectedApp = {
   id: "gmail" | "calendar" | "letsfg" | "microsoft365" | "teams" | "sharepoint";
   provider: keyof typeof authorizationProviders;
   organization_only?: boolean;
+  reconnect_required?: boolean;
+  can_send?: boolean;
   name: string;
   configured: boolean;
   connected: boolean;
@@ -134,7 +136,7 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
       if (alive.current) setBusy(false);
     }
   }
-  function connect(app: ConnectedApp) {
+  function connect(app: ConnectedApp, readOnly = false) {
     // Open within the click gesture; no username/password is collected by FYP.
     const popup = window.open(
       "about:blank",
@@ -144,7 +146,7 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
     void perform(async () => {
       try {
         const result = await request<{ url: string; flow_id: string }>(
-          `/apps/${app.id}/connect`,
+          `/apps/${app.id}/connect${readOnly ? "?read_only=true" : ""}`,
           { method: "POST", body: "{}" },
         );
         const target = new URL(result.url);
@@ -181,7 +183,7 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
           <div>
             <h4>{app.name}</h4>
             <p>
-              {app.connected
+              {app.reconnect_required ? t("Google requires a fresh sign-in", "Google 要求重新登录") : app.connected
                 ? app.email || t("Connected", "已连接")
                 : {
                     gmail: t(
@@ -212,12 +214,16 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
             <button
               className="secondary"
               disabled={busy || !!authorization || !app.configured}
-              onClick={() => connect(app)}
+              onClick={() => connect(app, app.id === "gmail")}
             >
-              {app.connected
+              {app.id === "gmail" ? t("Connect for read-only reminders", "只读连接，接收邮件提醒") : app.connected
                 ? t("Reconnect", "重新连接")
                 : t("Connect", "连接")}
             </button>
+            {app.id === "gmail" && (!app.connected || app.can_send === false || app.reconnect_required) && <button type="button" className="text-button"
+              disabled={busy || !!authorization || !app.configured} onClick={() => connect(app)}>
+              {t("Enable reviewed sending too", "同时启用逐封确认发送")}
+            </button>}
             {app.connected && (
               <button
                 className="text-button"
@@ -237,7 +243,7 @@ export function AppConnectionsPanel({ t }: { t: Translate }) {
                 {t("Disconnect", "断开")}
               </button>
             )}
-            {["gmail", "microsoft365"].includes(app.id) && app.connected && (
+            {["gmail", "microsoft365"].includes(app.id) && app.connected && app.can_send !== false && !app.reconnect_required && (
               <button
                 className="text-button"
                 disabled={busy || !!authorization}

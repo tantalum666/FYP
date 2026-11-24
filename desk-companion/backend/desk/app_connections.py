@@ -46,6 +46,8 @@ def app_connections_routes(runtime, owner):
                     "organization_only": bool(spec.get("organization_only")),
                     "scopes": list(SCOPES[name]),
                     "bundled": True,
+                    **({"reconnect_required": True} if name == "gmail" and
+                       (runtime.initiative.sources.mail_check or {}).get("error") == "APP_RECONNECT_REQUIRED" else {}),
                     **resolve(name).account(),
                 }
                 for name, spec in SPECS.items()
@@ -63,7 +65,11 @@ def app_connections_routes(runtime, owner):
         }
 
     @router.post("/{app_id}/connect", dependencies=[Depends(owner)])
-    def begin(app_id: str, request: Request):
+    def begin(app_id: str, request: Request, read_only: bool = False):
+        if read_only:
+            if app_id != "gmail":
+                raise DomainError("APP_SCOPE_REQUIRED", 422)
+            return resolve(app_id).begin(request.cookies.get("desk_companion_session"), request.headers.get("origin"), gmail_read_only=True)
         return resolve(app_id).begin(
             request.cookies.get("desk_companion_session"), request.headers.get("origin")
         )

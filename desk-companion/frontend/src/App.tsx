@@ -125,7 +125,7 @@ export function App() {
   const [scrollHour, setScrollHour] = useState(8);
   const [workspacePanel, setWorkspacePanel] = useState<
     "posture" | "connections" | "extras" | "data" | null
-  >(null);
+  >(() => query.get("settings") === "connections" ? "connections" : query.get("settings") === "reminders" ? "extras" : null);
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [chatState, setChatState] = useState({ dirty: false, busy: false });
   const [assistantTask, setAssistantTask] = useState<{

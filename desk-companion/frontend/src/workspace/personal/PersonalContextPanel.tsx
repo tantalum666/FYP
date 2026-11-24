@@ -162,8 +162,8 @@ function TitleDialog({
         </label>
         <p>
           {t(
-            "Saved locally on your desk. Creating a conversation does not copy your temporary chat or voice transcript.",
-            "保存在你的桌面主机。新建会话不会复制临时聊天或语音转写。",
+            "Review and delete the conversations saved on this desk.",
+            "可查看和删除这台主机上已保存的对话。",
           )}
         </p>
         <MutationFeedback mutation={mutation} t={t} />
@@ -312,8 +312,8 @@ export function PersonalContextPanel({
       {voiceActive && (
         <p className="workspace-hint">
           {t(
-            "End voice before changing the text conversation. Voice transcripts are not saved into text history.",
-            "切换文字会话前请先结束语音。语音转写不会保存到文字历史。",
+            "End voice before changing conversations. Completed captions appear in History when you enable it.",
+            "切换文字会话前请先结束语音。已允许保存的最终转写可在历史记录里查看。",
           )}
         </p>
       )}
