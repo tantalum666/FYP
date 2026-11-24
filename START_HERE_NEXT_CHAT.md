@@ -1,3 +1,5 @@
 # Group 2 · New chat entry
 
-Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. The combined review branch is `codex/alice-booking-calendar-handoff-20261123`. The smaller owner-facing release is `codex/alice-flight-checkout-20261123`. Read [AGENTS](AGENTS.md), the [product agreement](product.md), [current handoff](handoff.md) and latest [decisions](decision-log.md). [API developer integration PR 144](https://github.com/tantalum666/FYP/pull/144) · [weather, conversation and ticket release PR 150](https://github.com/tantalum666/FYP/pull/150) · [device maintenance PR 149](https://github.com/tantalum666/FYP/pull/149).
+从公开仓库 `tantalum666/FYP` 的 `main` 创建工作分支。先读 [AGENTS](AGENTS.md)、[product](product.md)、[handoff](handoff.md) 和最近的 [decisions](decision-log.md)。原有本地工作树可以保留自己的修改。
+
+[11 月 24 日主线评审](output/qa/2026-11-24-mainline-review/verification.md)保留软件、Pi 唤醒和定位原型的来源与验证范围。[五个 API 开发分工](output/qa/2026-11-23-api-astra-team/verification.md) · [三端在用版本](output/qa/2026-11-23-owner-flow-hotfix/verification.md) · [ArUco 独立原型](research/2026-11-24-aruco-localisation/README.md)。

@@ -1,0 +1,183 @@
+{
+  "repository": "tantalum666/FYP",
+  "main_before_review": "c607759e420fce8a0701474f9ceecf782ce85b35",
+  "product_source_reviewed": "25ac403d6f77ed0a4eba3d789f6e0cb16f626c3d",
+  "product_tree": "23be666498f4335472ecd004caaa828dfc982e61",
+  "integration_pr": 152,
+  "source_prs_open_at_review": [
+    {
+      "pr": 131,
+      "head": "codex/three-end-rollout-20261118",
+      "base_at_review": "main",
+      "reviewed_commit": "a09829633a2902840e2bdf6e88b33803d441a841"
+    },
+    {
+      "pr": 132,
+      "head": "codex/official-text-sessions-20261118",
+      "base_at_review": "codex/three-end-rollout-20261118",
+      "reviewed_commit": "018184e8a15d2e46c4038f9e673329c4f52778cd"
+    },
+    {
+      "pr": 133,
+      "head": "codex/sol62-runtime-20261118",
+      "base_at_review": "codex/official-text-sessions-20261118",
+      "reviewed_commit": "fd8e3ab69de4d5d43969356b546a9bd10d310eae"
+    },
+    {
+      "pr": 134,
+      "head": "codex/shopping-flight-quotes-20261119",
+      "base_at_review": "codex/sol62-runtime-20261118",
+      "reviewed_commit": "3041b6b591b80101968fb014501b387e4242a53f"
+    },
+    {
+      "pr": 135,
+      "head": "codex/alice-natural-motion-20261121",
+      "base_at_review": "codex/shopping-flight-quotes-20261119",
+      "reviewed_commit": "c7ea999ef93aa974502e59fb0ebaac5431b82c05"
+    },
+    {
+      "pr": 136,
+      "head": "codex/alice-expressive-reactions-20261121",
+      "base_at_review": "codex/alice-natural-motion-20261121",
+      "reviewed_commit": "08a8b49b5b6755bcf86df0957a8ad9c1512fd9f0"
+    },
+    {
+      "pr": 137,
+      "head": "codex/alice-hand-anatomy-live11-20261121",
+      "base_at_review": "codex/alice-expressive-reactions-20261121",
+      "reviewed_commit": "d427506f9554e0d2802fabd04da9afbf69893ae5"
+    },
+    {
+      "pr": 138,
+      "head": "codex/alice-relaxed-stance-20261121",
+      "base_at_review": "codex/alice-hand-anatomy-live11-20261121",
+      "reviewed_commit": "9c8894f86f5f9d2bb3d97fd1a8a02f56a8b2d238"
+    },
+    {
+      "pr": 139,
+      "head": "codex/alice-face-and-fit-20261121",
+      "base_at_review": "codex/alice-relaxed-stance-20261121",
+      "reviewed_commit": "ba774c1c93c41d0140f9884f26d4195ce36057fc"
+    },
+    {
+      "pr": 140,
+      "head": "codex/alice-commerce-cancellations-20261121",
+      "base_at_review": "codex/alice-face-and-fit-20261121",
+      "reviewed_commit": "b948536773981a94e0d62bb306eb682a935fd921"
+    },
+    {
+      "pr": 141,
+      "head": "codex/alice-quiet-order-followup-20261121",
+      "base_at_review": "codex/alice-commerce-cancellations-20261121",
+      "reviewed_commit": "2957c09669767f840c6d9780b16baf7a02e47de4"
+    },
+    {
+      "pr": 142,
+      "head": "codex/alice-calendar-aware-flights-20261122",
+      "base_at_review": "codex/alice-quiet-order-followup-20261121",
+      "reviewed_commit": "412721b2e4b5ca26cc2eaf35974e6b2b8b398c1b"
+    },
+    {
+      "pr": 143,
+      "head": "codex/api-astra-teammate-20261123",
+      "base_at_review": "codex/alice-calendar-aware-flights-20261122",
+      "reviewed_commit": "4e772ee2c40a38ea888215f5e8b9b24e9c5011be"
+    },
+    {
+      "pr": 144,
+      "head": "codex/alice-booking-calendar-handoff-20261123",
+      "base_at_review": "codex/api-astra-teammate-20261123",
+      "reviewed_commit": "e856673468e833db85d091a7d5d0e3765794948a"
+    },
+    {
+      "pr": 145,
+      "head": "codex/api-astra-shopping-20261123",
+      "base_at_review": "codex/api-astra-teammate-20261123",
+      "reviewed_commit": "5e5730e0e73c76c7ff9112b480b3409a0de85efa"
+    },
+    {
+      "pr": 146,
+      "head": "codex/api-astra-routines-20261123",
+      "base_at_review": "codex/api-astra-teammate-20261123",
+      "reviewed_commit": "bafa10a7a33c0cd716c609a7f669ffe4cb88e57d"
+    },
+    {
+      "pr": 147,
+      "head": "codex/api-astra-work-20261123",
+      "base_at_review": "codex/api-astra-teammate-20261123",
+      "reviewed_commit": "4f320ab2613387c04ad537f1ea629a9663ef89eb"
+    },
+    {
+      "pr": 149,
+      "head": "codex/pi-rtc-readback-recovery-20261123",
+      "base_at_review": "codex/alice-calendar-aware-flights-20261122",
+      "reviewed_commit": "ad991fab71c98ced9e0d4735ffd375b2fe820994"
+    },
+    {
+      "pr": 150,
+      "head": "codex/alice-flight-checkout-20261123",
+      "base_at_review": "codex/alice-calendar-aware-flights-20261122",
+      "reviewed_commit": "3771c61497a1904a3500e9db9bf15eda1af60119"
+    },
+    {
+      "pr": 151,
+      "head": "codex/hardware-aruco-progress-20261124",
+      "base_at_review": "main",
+      "reviewed_commit": "b57e2a82779671f8ab36e06c4192a85329478f7a"
+    }
+  ],
+  "already_merged_source": {
+    "pr": 148,
+    "head": "codex/api-astra-flight-20261123",
+    "base_at_merge": "codex/alice-booking-calendar-handoff-20261123",
+    "reviewed_commit": "14e1ce9114fde47e924dc3c35c83f2f23d050185"
+  },
+  "api_contributions": [
+    {
+      "pr": 143,
+      "area": "Calendar",
+      "api_author_commits": [
+        "e06c5149204fbb9d0125aefc626b5fd1395de5ac",
+        "f7ba18c9b4f49360967ec56e2e25ebec966adc4e",
+        "401e0fb227257b7aa24be690863c5eef4553db6f",
+        "c3e0fb2bdd67189610713854e76b9fc97738e85b",
+        "4e772ee2c40a38ea888215f5e8b9b24e9c5011be"
+      ]
+    },
+    {
+      "pr": 145,
+      "area": "Shopping",
+      "api_author_commits": [
+        "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+        "2686b0dce63faed0c0c870fe50e0255790c2bf0c",
+        "5e5730e0e73c76c7ff9112b480b3409a0de85efa"
+      ]
+    },
+    {
+      "pr": 148,
+      "area": "Flight shortlist",
+      "api_author_commits": [
+        "c6542aac904d3d451cb89868436c74ffeda8da1a",
+        "14e1ce9114fde47e924dc3c35c83f2f23d050185"
+      ]
+    },
+    {
+      "pr": 146,
+      "area": "Routines",
+      "api_author_commits": [
+        "a2ee3822bf9a1d409095dafb466240c107b9ae03",
+        "06d5aa05645d5011940f9247ee425347d0d12f24",
+        "bafa10a7a33c0cd716c609a7f669ffe4cb88e57d"
+      ]
+    },
+    {
+      "pr": 147,
+      "area": "Work and approvals",
+      "api_author_commits": [
+        "361f36bbb64f7af4767ad288ce7fb933237507ce",
+        "ee4c01591ac12603cec7546075937a6b0a8f027b",
+        "4f320ab2613387c04ad537f1ea629a9663ef89eb"
+      ]
+    }
+  ]
+}

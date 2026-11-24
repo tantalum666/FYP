@@ -1161,3 +1161,7 @@ On `92acac8e` a buyer without an eligible current quote now gets one short reque
 - [新入口](research/2026-11-24-aruco-localisation/README.md)提供可运行源文件、模型下载与 SHA256／Apache 许可、生成样本、截图、说明和程序 ZIP。共享启动器移除原电脑临时环境路径，原本地成果保留。
 - 发布前检查生成输入回归、源码语法、模型 SHA256、ZIP 文件一致性和公开内容／链接，结果记录在 [QA](output/qa/2026-11-24-aruco-progress/verification.md)。源码、下载包和计划不作为实物定位精度、行走、避障或回充证明。
 - 沿当前 main 创建独立 codex 分支和草稿 PR，供组员合并审核；本轮不部署、合并或触发 GitHub CI。下一项实测为固定手机、量 L 形中心间距，用尺核对 ID4 并保存真实 CSV／录像。
+
+## 2026-11-24 · Mainline review of the complete FYP stack
+
+Combined the Alice application, original Pi RTC fix and standalone ArUco prototype. Preserved both sides of the handoff and decision history. Reproduced and repaired the missing-frame HTTP response in source and the 39-member distribution ZIP. Confirmed public repository visibility with the owner, checked the incoming contents, and corrected contributor and release instructions. Fifteen targeted backend cases, eleven frontend checks, typecheck/build, the synthetic hardware/HTTP acceptance and the redacted credential check passed. The [review and source inventory](output/qa/2026-11-24-mainline-review/verification.md) and [integration PR 152](https://github.com/tantalum666/FYP/pull/152) retain the original API authors, component checks and merge record.

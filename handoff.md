@@ -1,6 +1,6 @@
 # Group 2 · Current handoff
 
-24 November 2026, Hong Kong. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/alice-booking-calendar-handoff-20261123`. [Integration PR 144](https://github.com/tantalum666/FYP/pull/144) contains the reviewed personal-agent changes. [Product](product.md) · [decisions](decision-log.md) · [complete work history](work-log.md).
+24 November 2026, Hong Kong. The source baseline is the public `main` branch. The [mainline review](output/qa/2026-11-24-mainline-review/verification.md) combines the software integration, Pi RTC helper and standalone ArUco delivery. [Product](product.md) · [decisions](decision-log.md) · [work history](work-log.md).
 
 ## Running software and ordinary conversation
 
@@ -30,4 +30,4 @@ The standard storefront is the WooCommerce sandbox. Stripe’s original test-mod
 
 The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
 
-**Next step** — If the owner chooses to pursue the original trip, obtain a fresh baggage-inclusive seller quote under the current login before a payment decision.
+**Next step** — When a rollout of the combined source is requested, use the existing versioned release and verify the ordinary Web, installed Simulator and original Pi against the reviewed mainline tree.

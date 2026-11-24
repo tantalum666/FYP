@@ -160,7 +160,7 @@ acknowledgment, legacy operation receipts, concurrent writes and DST.
 `frontend/tests/routine-skip.test.ts` exercises the review card's local date
 labels, selection and decision callbacks.
 
-[23 November 2026 local verification](../output/qa/2026-11-23-routine-skip/verification.md)
+[23 November 2026 local verification](../../output/qa/2026-11-23-api-astra-team/continuation/verification.md#routines)
 
 ## Owner interface
 

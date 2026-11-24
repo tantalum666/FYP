@@ -4,17 +4,17 @@
 
 ## 加入仓库
 
-仓库地址：[tantalum666/FYP](https://github.com/tantalum666/FYP)，默认分支 `main`，为私人仓库。
+默认分支是 `main`。仓库公开，任何人都可以读取和克隆。小组成员使用各自受邀的 GitHub 账号推送分支。[FYP 仓库](https://github.com/tantalum666/FYP)。
 
 1. Xu Ziqian 和 Li Wenhua 各自注册或登录 GitHub，把 **GitHub 用户名**交给 Yuan Yuchen。
 2. 仓库拥有者打开 **Settings → Collaborators → Add people**，搜索用户名，核对账号后发送邀请。
-3. 组员登录自己的账号接受邀请，再打开仓库。私人个人仓库的协作者具有读写权限；仓库设置和成员管理仍由拥有者负责。
+3. 组员登录自己的账号接受邀请。协作者按获授权限推送，仓库拥有者管理设置和成员。
 
-步骤依据：[GitHub 官方邀请说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository)及[个人仓库权限](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository)。本次建仓不包含向任何成员发送邀请。
+步骤依据：[GitHub 官方邀请说明](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository)及[个人仓库权限](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository)。
 
 ## 取得并运行当前软件
 
-可以在 GitHub Desktop 登录后选择 Clone repository，也可以用终端。私人仓库需要自己的 GitHub 登录凭据；不要互相传密码或访问令牌。
+可以在 GitHub Desktop 选择 Clone repository，也可以用终端匿名克隆。推送或审核时使用自己的账号。
 
 ```sh
 git clone https://github.com/tantalum666/FYP.git
@@ -60,6 +60,8 @@ git push -u origin feature/xu-calendar
 
 PR 流程是协作约定，当前没有声称已启用付费分支保护或强制审批。提交前用 `git status` 和 `git diff --staged` 核对内容；不要强制推送其他人的分支。
 
+For the current PR inventory and published result, see the [24 November mainline review](output/qa/2026-11-24-mainline-review/verification.md). The following paragraph records the October 2026 state.
+
 The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. After the 30 October all-PR review, #4/#15/#16 are closed as superseded with their branches retained. #5 remains draft/unmerged with reproduced migration and current-memory compatibility blockers. PR19 and64–69 are merged through [PR70](https://github.com/tantalum666/FYP/pull/70); [review/receipt](output/qa/2026-10-30-all-pr-review/verification.md). Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). The 2026-10-28 owner-authorized integration merged Grok PRs20–59 and the Alice/mobile/Omni baseline#60 through PR61; all41 source PRs are merged. Exact receipts are in the current handoff. Older per-slice merge restrictions do not replace that explicit authorization.
 
 **只做本地验证，不使用 GitHub CI。**按变更运行相关检查，不需要配置或修复 Actions／账户额度。修改应用业务或界面时，从 `desk-companion/` 运行：
@@ -87,7 +89,7 @@ npm test
 | 密钥、登录密码、配对令牌、运行数据库 | `.runtime/`、`.env` 等，Git 忽略；各人本机配置 |
 | 已安装依赖、工具缓存、构建结果 | `node_modules/`、`.venv/`、`python_packages/` 等；从锁文件重建 |
 
-学校文件包含组员资料，仓库保持私人。第三方字体、论文、截图、商标参考和框架各自保留原许可与来源；私人协作上传不等于取得对外再分发授权，仓库没有给全部内容附加统一开源许可。
+公开提交学校资料前，核对正文、附件和截图中的个人信息及授权。保留可公开的副本，含个人资料的原件、账号回执和凭据留在私有存储。第三方字体、论文、图片、商标和框架按各自许可使用并保留来源。本仓库没有给全部内容附加统一开源许可。
 
 上传前可使用 Gitleaks 8.25+ 检查。项目配置只排除经核实的 SHA256 完整性值、公开 Figma 文件 ID 和一个 Swift 存储键的误报，不跳过整个研究或 QA 目录：
 

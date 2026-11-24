@@ -1,6 +1,6 @@
 # Desk Companion · FYP Group 2
 
-**2026 年 11 月 18 日部署状态**　常用 Web 与 iPhone 17 Pro 模拟器已运行 `00780e44`。文字、官方托管浏览器、实时语音委托推理均使用 GPT‑6.2 Sol，语音采用 GPT‑Live 1 和 A3 第 9 版。树莓派按用户要求保留发布包，原机待上线。FYP 的香港日期总额度授权至 11 月 24 日结束。[验收与额度](output/qa/2026-11-18-sol62-deployment/verification.md) · [交接](handoff.md)。
+**2026 年 11 月 24 日**　常用 Web、iPhone 17 Pro 模拟器和原装 Pi 最近一次核验的应用版本为 `92acac8e`。普通文字和托管浏览使用 GPT-6.2 Sol，实时语音使用 GPT-Live-1.1 和 A3 v9。GitHub `main` 的源码、已安装的版本和供应商实际回执分别记录。[三端验收](output/qa/2026-11-23-owner-flow-hotfix/verification.md) · [当前交接](handoff.md)。
 
 **11 月 18 日软件进度**　开发分支已将普通 OpenAI 文字接入官方 Sessions 和 Functions，并将静音期积累的主动发现合并提醒。[迁移契约](desk-companion/docs/official-text-sessions.md) · [Claude 文章与 FYP 对照](research/2026-11-18-always-on-personal-agent.md) · [本地验收](output/qa/2026-11-18-official-text-sessions/verification.md)。 [GPT‑6.2 Sol 真实时区查询、同会话追问与删除回执](output/qa/2026-11-18-live-text-clock/verification.md)。
 

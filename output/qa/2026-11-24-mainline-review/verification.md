@@ -1,0 +1,37 @@
+# Group 2 · 24 November 2026 mainline review
+
+[Integration PR 152](https://github.com/tantalum666/FYP/pull/152) joins the 20 FYP pull requests that were open when the owner requested review. Its GitHub merge record identifies the published main commit. PR 148 was already merged into PR 144. The [source inventory](pull-requests.json) lists every original head, its prior base, the pre-merge main and all 16 commits attributed to the five API worktrees.
+
+## Merge subjects and resolution
+
+The baseline was `c607759e`. Application integration `e8566734` already contained the final heads of PRs 131–147, 148 and 150. Comparing PRs 146 and 147 directly with their old base reported conflicts. Their original commits and the reviewed resolution are in PR 144. The other independent sources were RTC maintenance `ad991fab` and the hardware member’s ArUco prototype `b57e2a82`. The reviewed combined product revision after repair was `25ac403d`, with tree `23be666498f4335472ecd004caaa828dfc982e61`. The integration retains the individual author commits.
+
+Decision and work logs received both branches’ entries. The handoff retains the current Alice version and the independent physical localisation trial. Source and running releases are recorded separately. The owner confirmed that the repository is public after anonymous GitHub access returned HTTP 200. CONTRIBUTING now gives accurate instructions for anonymous readers, authenticated writers and the public scope of new artifacts. The root README directs readers to the current device receipt. A broken link in the Routines guide now opens the actual occurrence and DST acceptance. All newly added relative Markdown destinations were checked on the combined checkout.
+
+## Reproduced repair
+
+In the new local ArUco frame handler, an unready camera image and a non-image reference could both raise an uncaught AttributeError. The valid control returned HTTP 200 in pixel mode. Both incomplete-input cases now return HTTP 400 with a JSON explanation. The camera and optional background share one decoder. An omitted or cleared background retains its ordinary calibration behavior. The downloadable ZIP contains the repaired handler and all 39 packaged files match the checkout byte-for-byte. The localisation UI and positioning algorithms retain their submitted code. [Handler](../../../research/2026-11-24-aruco-localisation/demo/app.py) · [hardware HTTP tests](../2026-11-24-aruco-progress/smoke_check.py).
+
+## Acceptance
+
+| Boundary | Evidence at the combined revision |
+| --- | --- |
+| Purchases and Work | An ambiguous flight/cart confirmation selected no merchant action. Google backup preserved two distinct grants and a legacy copy. A concurrent local edit invalidated a pending batch of calendar cancellations. Partial refunds remained tied to the original sandbox charge. A tighter flight budget remained binding after restart. A selected routine skip survived a repeated clock hour, a verified CSV advanced one retained Work step, and an expired flight login supplied a new itinerary through fresh consent. |
+| Pi wake timer | Foreign deadlines and a clock reset during restoration were checked together with the application controls. The shipped helper hashes to `84c7c9aa1438f7acdb992f4530b2d2804eba50991c4da350c129fd49aae4770e`, the exact bytes previously read on the physical Pi. [Device receipt](../2026-11-23-api-astra-team/pi-recovery/verification.md). |
+| Ordinary client | The 15 targeted Python cases and 11 frontend commerce/Work cases passed. TypeScript and the Vite production build passed in a clean checkout from the pinned dependencies. The entire frontend and backend Git subtrees match the independently accepted PR 144 application. [Combined application controls](../2026-11-23-owner-fixes-integration/verification.md). |
+| Standalone ArUco | OpenCV 4.13.0 with the pinned model digest verified 60 synthetic video frames, all seven boundary/proximity states and mm versus px separation. A valid L shape and ordinary local HTTP requests succeeded. Both incomplete-image requests returned structured 400s. The model download and hash checks used a fixture during the test. No camera or motor was activated. [Latest synthetic results](../2026-11-24-aruco-progress/smoke-results.json). |
+| Public contents | Gitleaks with redaction and archive inspection returned zero findings in the incoming commit range. The added-content check covered personal-mail and card patterns, the changed PDF text, all 54 changed still images via local OCR, and 27 representative frames from nine videos. The two stills with no OCR text were inspected visually. The asset notices retain the AliceChan and OpenCV Zoo attributions. The checks covered the material being merged. Existing Git authorship metadata is preserved. |
+
+The application checks used isolated local stores and supplier or model fixtures. The tested ArUco HTTP service used loopback. Real shopping, airline orders, live model calls, hardware movement and device deployment were outside this merge. The last independently verified normal app on Mac Web, installed iPhone Simulator and Pi was `92acac8e`. [Application release](../2026-11-23-owner-flow-hotfix/verification.md) · [physical Pi](../2026-11-23-api-astra-team/pi-owner-hotfix/ticket-92acac8e.json).
+
+## Five API developers
+
+| Worktree | API-authored commits | What the owner can do |
+| --- | ---: | --- |
+| [Calendar · PR 143](https://github.com/tantalum666/FYP/pull/143) | 5 | Review selected imported Google changes, preserve local edits and account identity across backup, ask what was last confirmed, and project a verified booked flight into a private event draft. Ordinary-chat wiring and the final calendar write were integrated separately. |
+| [Shopping · PR 145](https://github.com/tantalum666/FYP/pull/145) | 3 | Get a mixed cart with one shipping total, separately approve substitutions even at the same price, and reopen a charge with pending and settled partial refunds. [HK$25 sandbox charge and three refunds](../2026-11-23-api-astra-team/basket/partial-refunds.md). |
+| [Flights · PR 148](https://github.com/tantalum666/FYP/pull/148) | 2 | Recover the original shortlist across restart and keep a newly stated Hong Kong dollar ceiling when repricing a selected candidate. An over-budget HK$43.25 offer was refused under HK$32, and an eligible HK$31.50 offer returned for fresh approval. |
+| [Routines · PR 146](https://github.com/tantalum666/FYP/pull/146) | 3 | Skip one chosen occurrence, keep the next recurrence, read private quiet-hours changes, and see the selected local time and timezone on a narrow screen. |
+| [Work · PR 147](https://github.com/tantalum666/FYP/pull/147) | 3 | Continue the original authorised run after restart, validate the uploaded CSV for its next step, and ask for a specific pending decision when a generic acknowledgment could apply to several. The integration engineer separately corrected a nested SQLite transaction. |
+
+Read the full project entry, contribution workflow and handoff, current product/decision sections on the changed software and hardware, the global review guide, the software and owner-facing acceptance reports, the original RTC and ArUco receipts, and the changed source and distribution paths for the reviewed boundaries. This was a local integration review reusing earlier independent controls. The final GitHub comparison, head and merge receipt belong to the linked integration PR.
