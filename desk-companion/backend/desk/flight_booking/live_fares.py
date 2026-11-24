@@ -232,13 +232,13 @@ def official_url(value):
 def offer_page(raw, search_id, currency):
     if raw.get("booking_url") is not None:
         return official_url(raw["booking_url"])
-    # The public agent connector identifies its result page with both IDs.
+    # The site's agent deep link requires the channel marker to restore this exact offer.
     ident = raw["id"]
     if re.fullmatch(r"ws_[A-Za-z0-9_-]{1,156}", search_id) and re.fullmatch(
         r"wo_[A-Za-z0-9_-]{1,156}", ident
     ):
         return "https://letsfg.co/en?" + urlencode(
-            {"stage": "results", "sid": search_id, "offer": ident, "cur": currency}
+            {"stage": "results", "sid": search_id, "offer": ident, "cur": currency, "via": "mcp"}
         )
     return None
 
