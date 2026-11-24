@@ -1017,3 +1017,9 @@ The owner opted into local retention of ordinary messages and the final text of 
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 2026-11-25 · Read an interrupted task without repeating it
+
+Engineering choice after the owner asked to keep moving on the personal agent once the local page handoff was ready for review. That handoff stays on its own unmerged branch. This change does not deploy the Pi.
+
+A person opening a task can tell an unknown file result from one that was never written, and from one still waiting for approval. Discussing the task does not check, approve, or write again. Check result remains the reread. A paired or revoked display cannot read a private task’s steps or linked results. The selected task keeps its own file action when another task has the same title. A completed step stays completed. [Evidence](output/qa/2026-11-25-task-recovery/verification.md).
