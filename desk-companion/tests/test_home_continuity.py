@@ -235,3 +235,35 @@ def test_closed_budget_still_delivers_cited_local_mail_once_across_restart(tmp_p
         assert db.execute("SELECT count(*) FROM text_ai_usage").fetchone()[0] == 0
     acct.update(connected=False, version=2)
     assert r.initiative.snapshot()["findings"] == []
+
+
+def test_topic_recall_reaches_older_owner_text_and_deletion_removes_the_source(tmp_path):
+    from types import SimpleNamespace
+
+    r, model, c = normal_desk(tmp_path)
+    preferences(c).raise_for_status()
+    principal = {"kind": "owner", "session": c.cookies[COOKIE]}
+    chat = SimpleNamespace(owner=r.voice.conversations.owner(principal), home_generation=None)
+    stamp = r.home_history.stamp(principal)
+    key_topic = "我在考虑加德满都的短途徒步。"
+    for i in range(17):
+        msg = key_topic if i == 0 else f"Unrelated fixture note number {i}."
+        assert r.home_history.write_pair(
+            stamp, principal, chat, f"history-{i}", msg, "Noted.", "zh"
+        )
+    assert not any(key_topic in t["body"] for t in r.home_history.provider_turns(principal, "text"))
+    assert (
+        r.home_history.recall_for_question(principal, "加德满都的徒步安排")[0]["content"]
+        == key_topic
+    )
+    send(c, "Can you help with our 加德满都徒步 plans?", "topic")
+    packed = json.loads(model.creations[0]["input"][0]["content"][0]["text"])
+    assert any(row["content"] == key_topic for row in packed["history_matches"])
+    thread = c.get("/api/assistant/conversations").json()["conversations"][0]
+    c.post(
+        f"/api/assistant/conversations/{thread['id']}/actions",
+        json={"action": "delete", "expected_version": thread["version"]},
+        headers={"X-Operation-Id": "erase"},
+    ).raise_for_status()
+    assert not c.get("/api/assistant/continuity").json()["turns"]
+    assert not r.home_history.recall_for_question(principal, "加德满都的徒步安排")

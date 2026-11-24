@@ -201,16 +201,18 @@ class Initiative:
                 private_sources = any(s["kind"] in {"mail", "conversation"} for s in sources.values())
                 use_cloud = config.provider == "fake" or not private_sources or (config.provider != "openai" and can_share)
             use_cloud = use_cloud and bool(sources)
-            signature = fingerprint(
-                [
-                    prefs["proactivity"], local_day, use_cloud,
-                    {key: value["fingerprint"] for key, value in sources.items()},
-                ]
-            )
             with self.store.connection(write=True) as conn:
                 state = conn.execute("SELECT * FROM initiative_state WHERE id=1").fetchone()
                 day = max(state["budget_day"], iso(now)[:10])
                 used = state["used"] if day == state["budget_day"] else 0
+                if used >= (3 if prefs["proactivity"] == "low" else 8):
+                    use_cloud = False
+                signature = fingerprint(
+                    [
+                        prefs["proactivity"], local_day, use_cloud,
+                        {key: value["fingerprint"] for key, value in sources.items()},
+                    ]
+                )
                 same = state["signature"] == signature
                 retry_due = (
                     same
@@ -223,7 +225,6 @@ class Initiative:
                     (same and not retry_due)
                     or state["lease_until"]
                     and state["lease_until"] > iso(now)
-                    or used >= (3 if prefs["proactivity"] == "low" else 8)
                 ):
                     return
                 token = uuid4().hex
@@ -234,7 +235,7 @@ class Initiative:
                         token,
                         iso(now + timedelta(seconds=90)),
                         day,
-                        used + 1,
+                        used + int(use_cloud),
                         state["attempts"] + 1 if same else 1,
                     ),
                 )

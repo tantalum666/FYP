@@ -277,6 +277,17 @@ export function AssistantPanel({
   const conversationId = useRef<string | undefined>(undefined);
   const home = useHomeTranscript(!!(ownerView && data?.personal_context_visible &&
     data.home_history?.enabled && !taskId && !offline && !stale), data?.home_history?.generation, conversationId);
+  const priorHomeGeneration = useRef(data?.home_history?.generation);
+  useEffect(() => {
+    const generation = data?.home_history?.generation;
+    if (!taskId && generation !== undefined && priorHomeGeneration.current !== undefined &&
+        priorHomeGeneration.current !== generation) {
+      conversationId.current = undefined;
+      typedCommerceReview.current = undefined;
+      setTurns([]);
+    }
+    priorHomeGeneration.current = generation;
+  }, [data?.home_history?.generation, taskId]);
   const liveFlight = useLiveFlightReview(conversationId, taskId, data ? ownerView : undefined,
     !!data?.personal_context_visible, !suspended && !offline && !stale);
   const {current: ownerFlight, receive: receiveFlight, update: updateFlight} = liveFlight;
@@ -2421,8 +2432,8 @@ export function AssistantPanel({
         </ul>
         <p>
           {t(
-            "When Omni is configured, text and voice share the same model and conversation. Typing does not open the microphone. Short-term context expires after 30 minutes without use or a server restart; saved memories remain. New conversation clears short-term context.",
-            "配置 Omni 后，文字和语音共用同一模型与对话，打字不会开启麦克风。短期上下文在闲置30分钟或服务重启后失效；已保存的记忆仍保留。新对话会清除短期上下文。",
+            "Save your conversation and completed voice captions in privacy preferences. Reopen Alice to continue or start a new conversation.",
+            "在隐私偏好里可保存对话和最终语音转写。重新打开 Alice 就能继续，也可以另开对话。",
           )}
         </p>
         {reply?.mode && (

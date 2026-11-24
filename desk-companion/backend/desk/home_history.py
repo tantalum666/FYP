@@ -68,6 +68,7 @@ class HomeHistory:
         if (
             not stamp
             or not chat
+            or getattr(chat, "owner", None) != self.runtime.voice.conversations.owner(principal)
             or (chat.home_generation is not None and chat.home_generation != stamp[0])
         ):
             return None
