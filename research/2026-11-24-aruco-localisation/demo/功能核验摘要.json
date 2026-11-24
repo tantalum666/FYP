@@ -1,0 +1,178 @@
+{
+  "date": "2026-11-23",
+  "physical_camera_tested": false,
+  "iphone_stream_tested": false,
+  "printed_markers_tested": false,
+  "four_reference_regression": {
+    "video_frames": 60,
+    "tracking": 45,
+    "target_lost": 5,
+    "reference_lost": 5,
+    "duplicate_id": 5,
+    "input": "synthetic"
+  },
+  "optional_three_reference": {
+    "cases": 12,
+    "input": "synthetic perspective images",
+    "minimum_references": 3,
+    "requires_known_black_side_and_aligned_markers": true,
+    "rejects_two_references_and_bad_rotation": true,
+    "maximum_generated_position_error_mm": 2.185,
+    "not_physical_accuracy": true
+  },
+  "objects": {
+    "real_public_photo": [
+      "laptop",
+      "cup"
+    ],
+    "reference_surrounding": "synthetic",
+    "valid_projection_tested": true,
+    "missing_reference_clears_projection": true,
+    "empty_frame_no_objects": true,
+    "disabled_mode_clears_objects": true,
+    "invalid_threshold_reported": true,
+    "known_misses": [
+      "closed laptop in COCO128 000000000387",
+      "small laptop in COCO128 000000000384"
+    ]
+  },
+  "browser": {
+    "five_marker_coordinate_table": true,
+    "three_reference_toggle": true,
+    "moving_id4_csv_rows": 155,
+    "csv_columns": 27,
+    "csv_json_round_trip": true,
+    "object_positive_csv_round_trip": true,
+    "short_recording_decoded_frames": 3,
+    "recording_size": [
+      1440,
+      810
+    ],
+    "physical_iphone_selection": "pending user connection"
+  },
+  "limitations": [
+    "Projected image rectangles are not true obstacle footprints",
+    "No robot route planner or hardware collision avoidance connected",
+    "Reference coordinates are measured calibration inputs, not independent tracked accuracy measurements",
+    "Three-reference mode is opt-in and assumes the printed top of all reference tags points away from the operator"
+  ],
+  "latest_monitoring": {
+    "default_coordinate_mode": "image",
+    "csv_columns": 37,
+    "corner_coordinates_1000x450_inset50": [
+      [
+        50,
+        50
+      ],
+      [
+        950,
+        50
+      ],
+      [
+        950,
+        400
+      ],
+      [
+        50,
+        400
+      ]
+    ],
+    "manual_coordinates_preserved": true,
+    "manual_boundary_and_clean_reference_ui_tested": true,
+    "unknown_changes_independent_of_semantic_model": true,
+    "unknown_confidence_is_null": true,
+    "boundary_states_tested": [
+      "INSIDE",
+      "NEAR_EDGE",
+      "CROSSING_EDGE",
+      "OUTSIDE",
+      "TARGET_LOST"
+    ],
+    "proximity_states_tested": [
+      "FAR",
+      "NEAR_OBSTACLE",
+      "OVERLAPPING",
+      "TARGET_LOST",
+      "NO_CANDIDATES"
+    ],
+    "near_test_distance_px": 20,
+    "browser_csv_rows": 10,
+    "all_pixel_mode_mm_columns_empty": true,
+    "real_camera_obstacle_tested": false,
+    "scope": "visual candidate detection and image-space alerts, no physical robot control",
+    "semantic_and_unknown_detection_together_ui_tested": true
+  },
+  "historical_pixel_mode_introduction_validation": {
+    "default": "image",
+    "physical": "table",
+    "image_requires_reference_tags": false,
+    "units": "image=px, table=mm",
+    "csv_columns": 30,
+    "pixel_csv_rows": 303,
+    "pixel_csv_all_mm_columns_empty": true,
+    "physical_calibration_persisted_in_browser": true,
+    "physical_calibration_failures_explained": true,
+    "source": "generated image/video validation; user screenshot only for initial diagnosis",
+    "user_phone_latest_mode_confirmed": false
+  },
+  "current_coordinate_modes": {
+    "default": "image",
+    "image_units": "px",
+    "table_units": "mm",
+    "csv_columns": 37,
+    "table_display_units": "L shape=cm, advanced=mm; CSV remains mm"
+  },
+  "l_shape_record": {
+    "input": "synthetic perspective images and video; browser UI interactions",
+    "fields_cm": [
+      "ID0_to_ID1_horizontal",
+      "ID1_to_ID2_depth"
+    ],
+    "origin": "ID0 black-square centre",
+    "fixed_reference_ids": [
+      0,
+      1,
+      2
+    ],
+    "id3_ignored_in_mapping": true,
+    "id3_no_table_coordinate": true,
+    "missing_reference_not_substituted": true,
+    "black_side_cm": 6,
+    "corner_fit_threshold_unchanged": true,
+    "test_area_is_not_whole_desk": true,
+    "synthetic_max_position_error_mm": 0.37162464839850984,
+    "browser_record_download_checked": true,
+    "browser_reload_restores_record": true,
+    "blank_measurements_not_auto_filled": true,
+    "apply_automatically_selects_table_mode": true,
+    "paused_frame_recalculated_on_apply": true,
+    "browser_csv": {
+      "synthetic_only": true,
+      "rows": 280,
+      "columns": 37,
+      "tracking": 280,
+      "x_mm_range": [
+        129.9353790283203,
+        470.173828125
+      ],
+      "id3_mm_blank": true,
+      "table_unit_remains_mm": true
+    },
+    "display_unit": "cm",
+    "api_and_csv_unit": "mm",
+    "viewports_checked": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "console_errors_or_warnings": [],
+    "advanced_corner_and_manual_modes_preserved": true,
+    "browser_test_values_removed_after_validation": true,
+    "physical_accuracy_validated": false
+  }
+}

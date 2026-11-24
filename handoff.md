@@ -26,4 +26,8 @@ The earlier Kiwi seller receipt retained its research amount. Its original login
 
 The standard storefront is the WooCommerce sandbox. Stripe’s original test-mode charges and refunds were read independently on isolated merchant copies. The separate Link recurring test authorization has an issuer-fixture compatibility issue. eBay’s developer registration review remains pending. [Marketplace evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [eBay follow-up](output/qa/2026-11-21-shopping-next-step/verification.md). The organisation's billing, keys, customer data and operator allowances are kept outside Git. Previous paid acceptance trials retain their original closed status.
 
+## Hardware localisation
+
+The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
+
 **Next step** — If the owner chooses to pursue the original trip, obtain a fresh baggage-inclusive seller quote under the current login before a payment decision.

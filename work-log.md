@@ -1154,3 +1154,10 @@ The weather release is `a17ac349` on Mac, the installed iPhone 17 Pro Simulator 
 ## 2026-11-24 · Continue an expired flight quote under the current login
 
 On `92acac8e` a buyer without an eligible current quote now gets one short request for a new itinerary in ordinary text, Live and the card. An isolated expiry-to-consent journey used the newly supplied destination, dates and party. The normal Mac returned the new prompt with zero new itinerary transmissions or supplier operations. The installed iPhone retained its normal origin, account state and verified bundle. [Expiry and installation evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).
+
+## 2026-11-24 ArUco 两边进度协作同步
+
+- 读取 FYP (2) 最新已完成对话和本地交接，汇集本机定位台、L 形三牌简化记录、像素轨迹、物品／未知变化、近障与边界反馈，以及 FYP 的纸质 A4 牌和 RIG 尺寸结论。
+- [新入口](research/2026-11-24-aruco-localisation/README.md)提供可运行源文件、模型下载与 SHA256／Apache 许可、生成样本、截图、说明和程序 ZIP。共享启动器移除原电脑临时环境路径，原本地成果保留。
+- 发布前检查生成输入回归、源码语法、模型 SHA256、ZIP 文件一致性和公开内容／链接，结果记录在 [QA](output/qa/2026-11-24-aruco-progress/verification.md)。源码、下载包和计划不作为实物定位精度、行走、避障或回充证明。
+- 沿当前 main 创建独立 codex 分支和草稿 PR，供组员合并审核；本轮不部署、合并或触发 GitHub CI。下一项实测为固定手机、量 L 形中心间距，用尺核对 ID4 并保存真实 CSV／录像。

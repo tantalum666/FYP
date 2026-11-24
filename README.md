@@ -22,7 +22,7 @@
 | --- | --- |
 | 当前要求、完成边界和下一步 | [product.md](product.md) · [handoff.md](handoff.md) |
 | 软件代码与运行说明 | [desk-companion](desk-companion/README.md) · [操作指南](desk-companion/docs/operator-guide.md) |
-| 硬件成员最新进度 | [采购评审、V3 外壳与 H2D 打印包](research/2026-11-17-hardware-progress/README.md) |
+| 硬件成员最新进度 | [ArUco 定位台、纸质牌与相机验证](research/2026-11-24-aruco-localisation/README.md) · [采购与 V3 外壳](research/2026-11-17-hardware-progress/README.md) |
 | 机械臂技术依据 | [RIG-Arm二次开发研究](research/2026-10-05-rig-arm/secondary-development-review.md) |
 | 当前学校提案与团队日志 | [2026-09-28交付目录](output/submission/2026-09-28/) · [制作与审阅记录](planning/2026-09-28/logsheet-and-proposal-review.md) |
 | 学校原件、成员与协作 | [inputs](inputs/README.md) · [Group 2资料](planning/2026-09-14/group-2-details.json) · [CONTRIBUTING](CONTRIBUTING.md) |

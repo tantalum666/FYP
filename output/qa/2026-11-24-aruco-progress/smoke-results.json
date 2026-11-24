@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-24",
+  "synthetic_only": true,
+  "opencv": "4.13.0",
+  "four_reference_video_frames": {
+    "TRACKING": 45,
+    "TARGET_LOST": 5,
+    "WAITING_REFERENCES": 5,
+    "DUPLICATE_ID": 5
+  },
+  "l_shape_fixture": "passed",
+  "pixel_unit_isolation": "passed",
+  "boundary_and_proximity": {
+    "inside": [
+      "INSIDE",
+      "FAR"
+    ],
+    "approach": [
+      "INSIDE",
+      "NEAR_OBSTACLE"
+    ],
+    "overlap": [
+      "INSIDE",
+      "OVERLAPPING"
+    ],
+    "near": [
+      "NEAR_EDGE",
+      "FAR"
+    ],
+    "crossing": [
+      "CROSSING_EDGE",
+      "FAR"
+    ],
+    "outside": [
+      "OUTSIDE",
+      "FAR"
+    ],
+    "lost": [
+      "TARGET_LOST",
+      "TARGET_LOST"
+    ]
+  },
+  "model_sha_and_blank_inference": "passed",
+  "shared_http_assets_and_modes": "passed",
+  "model_download_hash_reuse_and_invalid_download_preservation": "passed",
+  "physical_accuracy_tested": false,
+  "camera_accessed": false
+}

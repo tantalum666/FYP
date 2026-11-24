@@ -1,0 +1,29 @@
+{
+  "table_width_mm": 600,
+  "table_depth_mm": 300,
+  "target_id": 4,
+  "reference_centres_mm": {
+    "0": [
+      0,
+      0
+    ],
+    "1": [
+      600,
+      0
+    ],
+    "2": [
+      600,
+      300
+    ],
+    "3": [
+      0,
+      300
+    ]
+  },
+  "reference_layout_mode": "l_shape",
+  "allow_three_references": true,
+  "reference_marker_size_mm": 60,
+  "l_shape_horizontal_cm": 60,
+  "l_shape_depth_cm": 30,
+  "reference_inset_mm": 0
+}
