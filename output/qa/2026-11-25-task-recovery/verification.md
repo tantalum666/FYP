@@ -29,7 +29,9 @@ No new dashboard or control was added. Check result stays on the existing file c
 | Frontend `npm test` | 440 passed, 0 failed. |
 | `npx tsc --noEmit` and `npm run build` | Passed. |
 | Ruff on the edited Python files | Passed. |
-| Full backend `pytest` | 3057 passed, 1 skipped, 0 failed, 996 seconds. Python 3.12. |
+| Full backend `pytest` at `60902c37` | 3057 passed, 1 skipped, 0 failed, 996 seconds. Python 3.12. This does not cover the later copy commits. |
+| Copy closeout | `node --experimental-strip-types --test tests/task-recovery.test.ts` only. Cancellation alone must not say no file was written. Final full-suite and combined full-suite verification remain outstanding. Not ready for final merge acceptance on the earlier full-suite numbers alone. |
+| Combined rehearsal, not a full suite | Local merge of #158 `32066b8b` onto `fc3b8d2` was clean. Merging #159 `60902c37` on top conflicted in `decision-log.md`, `handoff.md`, `work-log.md`, `browser-workflow.test.ts`, `moments.test.ts`, and `test_chat_attachments.py`. Then `test_selected_task_keeps_an_unknown_result_away_from_a_same_name_task_and_a_paired_screen`, `test_return_without_evidence_and_a_lost_takeover_are_not_success`, and `test_wall_pauses_the_same_job_and_the_owner_resumes_it` passed (3). That tree did not include the later copy commits. |
 
 Two frontend source checks and nine backend assertions were already failing on `fc3b8d2`. They now call the current timeout, Today suggestion, fingerprint, ambiguous reprice phrase, unadmitted managed origin, Google caption, and forget-context behavior. No assertion was removed.
 

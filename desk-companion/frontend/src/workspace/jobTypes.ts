@@ -174,9 +174,17 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
         "Stopped before publishing this file revision.",
         "已在发布本次文件修订前停止。",
       ];
+    if (
+      job.error === "USER_CANCELLED" ||
+      job.error === "JOB_CANCELLED_BEFORE_DISPATCH"
+    )
+      return [
+        "No new file was written for this job.",
+        "这次作业没有写入新文件。",
+      ];
     return [
-      "No new file was written for this job.",
-      "这次作业没有写入新文件。",
+      "Cancelled. The outcome was not checked. Check result only rereads the file.",
+      "已取消。结果尚未核验。核验只会重新读取文件。",
     ];
   }
   return null;

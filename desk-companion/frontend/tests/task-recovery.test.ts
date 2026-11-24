@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { taskRecoveryGuidance } from "../src/workspace/jobTypes.ts";
+import { recoveryCopy, taskRecoveryGuidance } from "../src/workspace/jobTypes.ts";
 
 test("an unknown file result is distinct from a write that never happened", () => {
   const unknown = taskRecoveryGuidance({ state: "unknown", action: "save_note" });
@@ -33,4 +33,19 @@ test("an unknown file result is distinct from a write that never happened", () =
     taskRecoveryGuidance({ state: "running", action: "save_note" }),
     null,
   );
+  const cancelledAlone = taskRecoveryGuidance({ state: "cancelled", action: "save_note" });
+  assert.equal(cancelledAlone?.kind, "unconfirmed");
+  assert.doesNotMatch(cancelledAlone?.text[0] ?? "", /No new file was written/);
+  const detailAlone = recoveryCopy({
+    state: "cancelled",
+    action: "save_note",
+  } as Parameters<typeof recoveryCopy>[0]);
+  assert.doesNotMatch(detailAlone?.[0] ?? "", /No new file was written/);
+  assert.match(detailAlone?.[0] ?? "", /not checked/);
+  const detailBeforeDispatch = recoveryCopy({
+    state: "cancelled",
+    action: "save_note",
+    error: "JOB_CANCELLED_BEFORE_DISPATCH",
+  } as Parameters<typeof recoveryCopy>[0]);
+  assert.match(detailBeforeDispatch?.[0] ?? "", /No new file was written/);
 });
