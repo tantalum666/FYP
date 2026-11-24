@@ -6,7 +6,7 @@ Updated 18 November 2026. The owner chose an app catalog with browser sign-in/co
 
 | Connection | Implemented operations | Actual account status this round |
 |---|---|---|
-| Gmail | Bounded previews; selected-thread metadata follow-up; reviewed new email or same-thread reply | 8November FYP self-send/readback;16November Mac/Pi consent and actual profile reads passed. New follow-up/reply has local synthetic-provider evidence only |
+| Gmail | Bounded previews, selected-thread follow-up, reviewed new email and same-thread reply | On 24 November the normal Mac held read and send scopes. Real recent previews produced cited suggestions. The previous self-send has independent Sent and Inbox readback. The selected-thread reply has protocol-fixture coverage only. [Normal grant](../../output/qa/2026-11-24-continuity/verification.md) |
 | Google Calendar | Read primary-calendar events; existing preview and explicit local import | 16November Mac/Pi consent and bounded primary-calendar reads passed |
 | Microsoft 365 | Outlook previews, selected-thread metadata and reviewed sending/reply; calendar events; OneDrive directory; To Do; OneNote | Software/protocol tests; personal-account setup remains blocked at human verification. No live FYP Graph grant claimed |
 | Microsoft Teams | Work/school chat list and bounded messages | Organization authorization deferred |

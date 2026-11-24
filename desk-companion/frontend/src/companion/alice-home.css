@@ -342,6 +342,16 @@
 .alice-home .assistant-latest:empty {
   display: none;
 }
+.home-caption-window {
+  display: block;
+  max-height: 3.3em;
+  max-block-size: 2lh;
+  overflow: hidden;
+}
+.home-caption-text {
+  display: block;
+  white-space: pre-line;
+}
 .alice-home .phone-assistant.compact .assistant-conversation {
   max-height: 110px;
 }

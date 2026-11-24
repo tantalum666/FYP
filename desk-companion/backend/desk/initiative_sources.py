@@ -2,9 +2,12 @@
 
 import hashlib
 import json
+import re
 from datetime import timedelta
+from urllib.parse import quote, urlencode
 
 from .app_connection_models import ConnectedAppQuery
+from .calendar import iso
 from .connected_app_data import query_connected_app
 from .store import DomainError, encode
 
@@ -17,10 +20,14 @@ def compact(value, limit=1200):
     return " ".join(str(value or "").split())[:limit]
 
 
+PRIVATE_CODE = re.compile(r"one[- ]time (?:code|password)|verification code|security code|password reset|reset your password|登录码|登录代码|验证码|驗證碼|一次性密[码碼]|重[置設]密[码碼]", re.I)
+
+
 class InitiativeSources:
     def __init__(self, runtime):
         self.runtime = runtime
         self.mail = {}
+        self.mail_check = None
         self.next_refresh = 0
         self.account_versions = None
 
@@ -51,6 +58,7 @@ class InitiativeSources:
         with r.store.connection() as conn:
             if r.store.settings(conn)["hide_private"] or prefs["proactivity"] == "off":
                 self.mail = {}
+                self.mail_check = None
                 self.next_refresh = 0
                 raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
         accounts = {}
@@ -69,6 +77,7 @@ class InitiativeSources:
         fence = self.fence()
         if self.account_versions != fence[2]:
             self.mail = {}
+            self.mail_check = None
             self.next_refresh = 0
             self.account_versions = fence[2]
         now = self.runtime.store.clock().timestamp()
@@ -83,7 +92,7 @@ class InitiativeSources:
                         self.runtime,
                         ConnectedAppQuery(
                             service="outlook_mail" if provider == "outlook" else provider,
-                            query="newer_than:7d" if provider == "gmail" else None,
+                            query="in:inbox newer_than:7d -category:promotions -category:social" if provider == "gmail" else None,
                             start=self.runtime.store.clock()
                             if provider == "google_calendar"
                             else None,
@@ -93,11 +102,15 @@ class InitiativeSources:
                             limit=10,
                         ),
                     )
-                except DomainError:
+                except DomainError as error:
                     # No stale email is treated as a fresh successful observation.
+                    if provider == "gmail":
+                        self.mail_check = {"at": iso(self.runtime.store.clock()), "available": False, "error": error.code}
                     continue
                 if self.fence() != fence:
                     raise DomainError("PROVIDER_CONTEXT_CHANGED", 409)
+                if provider == "gmail":
+                    self.mail_check = {"at": iso(self.runtime.store.clock()), "available": True, "count": len(data["items"])}
                 for item in data["items"]:
                     ident = item.get("id")
                     if not isinstance(ident, str) or not 1 <= len(ident) <= 400:
@@ -114,6 +127,9 @@ class InitiativeSources:
                         )
                         continue
                     if provider == "gmail":
+                        labels = set(item.get("labels") or [])
+                        if labels & {"SENT", "DRAFT", "SPAM", "TRASH", "CATEGORY_PROMOTIONS", "CATEGORY_SOCIAL"}:
+                            continue
                         fields = {
                             h.get("name", "").lower(): h.get("value", "")
                             for h in item.get("headers", [])
@@ -135,6 +151,8 @@ class InitiativeSources:
                             "date": compact(item.get("receivedDateTime"), 100),
                             "thread_id": item.get("conversationId"),
                         }
+                    if PRIVATE_CODE.search(body["subject"] + " " + body["preview"]):
+                        continue
                     ref = f"mail:{provider}:{ident}"
                     current_mail[ref] = self.source(
                         ref,
@@ -165,6 +183,16 @@ class InitiativeSources:
                 {"version": fact["version"], "text": fact["body"]},
             )
         with r.store.connection() as conn:
+            # Only user-authored, explicitly shareable prose can inform a new finding.
+            # Fingerprint content so an edit or removal invalidates the citation.
+            # Never pass previous action receipts back as authority.
+            topic = " ".join(s["label"] + " " + s["body"].get("preview", "")[:100] for s in sources.values() if s["kind"] == "mail")[:1800]
+            recent = r.home_history.permitted(conn, "text")[-6:]
+            for message in [*r.home_history.matching(conn, "text", topic), *recent]:
+                if message["role"] == "user":
+                    body = {"text": compact(message["content"], 350)}
+                    ref = "conversation:" + fingerprint(body)
+                    sources[ref] = self.source(ref, "conversation", "Conversation", body, body)
             rows = conn.execute("SELECT id FROM tasks ORDER BY updated_at DESC LIMIT 20").fetchall()
             for row in rows:
                 task = r.tasks.get(conn, row["id"])
@@ -212,7 +240,7 @@ class InitiativeSources:
         # a long mailbox preview crowd out the facts it should be compared to.
         groups = [
             [s for s in sources.values() if s["kind"] == kind]
-            for kind in ("memory", "task", "calendar", "mail")
+            for kind in ("memory", "task", "calendar", "mail", "conversation")
         ]
         bounded, remaining = {}, 26000
         for index in range(20):
@@ -240,3 +268,16 @@ class InitiativeSources:
             ref["ref"] in sources and sources[ref["ref"]]["fingerprint"] == ref["fingerprint"]
             for ref in references
         )
+
+    def display_sources(self, references, current):
+        result = []
+        for item in references:
+            ref = item["ref"]
+            link = {}
+            if ref.startswith("mail:gmail:") and ref in current:
+                thread = current[ref]["body"].get("thread_id")
+                acct = (self.account_versions or {}).get("gmail")
+                if isinstance(thread, str) and thread and acct and acct[0] and acct[2]:
+                    link["href"] = "https://mail.google.com/mail/?" + urlencode({"authuser": acct[2]}) + "#all/" + quote(thread, safe="")
+            result.append({**item, **link})
+        return result

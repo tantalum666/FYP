@@ -17,7 +17,7 @@ from .calendar import iso
 from .store import DomainError, encode
 from .vault import Vault
 
-from .app_specs import SPECS, SCOPES, CALLBACKS
+from .app_specs import SPECS, SCOPES, CALLBACKS, GOOGLE_SEND
 
 
 class ProviderResponseError(DomainError):
@@ -160,7 +160,10 @@ class AppOAuth:
             "last_read": row["last_read"] if row else None,
         }
 
-    def begin(self, owner_session, origin=None):
+    def begin(self, owner_session, origin=None, *, gmail_read_only=False):
+        if gmail_read_only and self.resource != "gmail":
+            raise DomainError("APP_SCOPE_REQUIRED", 422)
+        scopes = [scope for scope in SCOPES[self.resource] if not (gmail_read_only and scope == GOOGLE_SEND)]
         if not self.configured():
             raise DomainError(
                 "GOOGLE_NOT_CONFIGURED" if self.resource == "calendar" else "APP_NOT_CONFIGURED",
@@ -207,6 +210,7 @@ class AppOAuth:
                             {
                                 "verifier": verifier,
                                 "redirect_uri": redirect_uri,
+                                "gmail_read_only": gmail_read_only,
                                 "client_id": self.config["client_id"],
                             }
                         )
@@ -236,7 +240,7 @@ class AppOAuth:
                     "client_id": self.config["client_id"],
                     "redirect_uri": redirect_uri,
                     "response_type": "code",
-                    "scope": " ".join(SCOPES[self.resource]),
+                    "scope": " ".join(scopes),
                     "state": state,
                     **(
                         {
@@ -339,7 +343,10 @@ class AppOAuth:
                 "code_verifier": binding["verifier"],
             },
         )
-        tokens = self._tokens(data)
+        read_only = self.resource == "gmail" and binding.get("gmail_read_only") is True
+        tokens = self._tokens(data, gmail_read_only=True) if read_only else self._tokens(data)
+        if read_only:
+            tokens["gmail_read_only"] = True
         if not tokens.get("refresh_token"):
             raise DomainError(self.code("RECONNECT_REQUIRED"), 409)
         with self.store.connection() as conn:
@@ -374,7 +381,7 @@ class AppOAuth:
                 details={
                     "mode": self.mode()
                     if self.provider == "letsfg" or self.resource == "calendar"
-                    else "send_after_review"
+                    else "read_only_preview" if read_only else "send_after_review"
                 },
             )
             self.store.bump(conn)
@@ -382,7 +389,7 @@ class AppOAuth:
                 "UPDATE oauth_flow_results SET status='connected' WHERE flow_id=?", (digest(state),)
             )
 
-    def _tokens(self, data, refresh=None):
+    def _tokens(self, data, refresh=None, *, gmail_read_only=False):
         try:
             if (
                 not isinstance(data["access_token"], str)
@@ -408,6 +415,8 @@ class AppOAuth:
             if "https://www.googleapis.com/auth/userinfo.email" in granted:
                 granted.add("email")
             required = set(SCOPES[self.resource])
+            if gmail_read_only and self.resource == "gmail":
+                required.discard(GOOGLE_SEND)
             if self.provider == "microsoft":
                 granted = {value.removeprefix("https://graph.microsoft.com/") for value in granted}
                 required -= {"openid", "email", "offline_access"}
@@ -434,26 +443,44 @@ class AppOAuth:
                 )
             tokens = json.loads(self.vault.decrypt(row[0]))
             if tokens["expires_at"] <= iso(self.store.clock() + timedelta(seconds=60)):
-                response = self._request(
-                    "POST",
-                    self.token_url,
-                    data={
-                        "client_id": self.config["client_id"],
-                        **(
-                            {"client_secret": self.config["client_secret"]}
-                            if self.config.get("client_secret")
-                            else {}
-                        ),
-                        "grant_type": "refresh_token",
-                        **(
-                            {"scope": " ".join(SCOPES[self.resource])}
-                            if self.provider == "microsoft"
-                            else {}
-                        ),
-                        "refresh_token": tokens["refresh_token"],
-                    },
-                )
-                tokens = {**tokens, **self._tokens(response, tokens["refresh_token"])}
+                if self.resource == "gmail" and tokens.get("reconnect_required"):
+                    raise DomainError("APP_RECONNECT_REQUIRED", 409)
+                try:
+                    response = self._request(
+                        "POST",
+                        self.token_url,
+                        data={
+                            "client_id": self.config["client_id"],
+                            **(
+                                {"client_secret": self.config["client_secret"]}
+                                if self.config.get("client_secret")
+                                else {}
+                            ),
+                            "grant_type": "refresh_token",
+                            **(
+                                {"scope": " ".join(SCOPES[self.resource])}
+                                if self.provider == "microsoft"
+                                else {}
+                            ),
+                            "refresh_token": tokens["refresh_token"],
+                        },
+                    )
+                except DomainError as error:
+                    if self.resource == "gmail" and error.code == "APP_RECONNECT_REQUIRED":
+                        # A failed refresh is a durable status, not a reason to erase or
+                        # rebind any of the old login's actions. A successful new consent
+                        # atomically replaces the tokens and drops this marker.
+                        with self.store.connection(write=True) as conn:
+                            changed = conn.execute(
+                                f"UPDATE {self.account_table} SET encrypted_tokens=? WHERE id=1 AND encrypted_tokens=?",
+                                (self.vault.encrypt(encode({**tokens, "reconnect_required": True})), row[0]),
+                            ).rowcount
+                            if changed:
+                                self.store.bump(conn)
+                    raise
+                refreshed = (self._tokens(response, tokens["refresh_token"], gmail_read_only=True)
+                             if self.resource == "gmail" and tokens.get("gmail_read_only") else self._tokens(response, tokens["refresh_token"]))
+                tokens = {**tokens, **refreshed}
                 with self.store.connection(write=True) as conn:
                     written = conn.execute(
                         f"UPDATE {self.account_table} SET encrypted_tokens=? WHERE id=1 AND encrypted_tokens=?",
@@ -532,6 +559,12 @@ class AppOAuth:
             version = digest("legacy-calendar/" + row["connected_at"])
         return {
             **self._snapshot(row),
+            **({"can_send": not tokens.get("gmail_read_only", False),
+                "capabilities": ["email_read"] if tokens.get("gmail_read_only") else list(SPECS["gmail"]["capabilities"]),
+                "mode": "read_only_preview" if tokens.get("gmail_read_only") else self.mode(),
+                "scopes": [s for s in SCOPES["gmail"] if not (s == GOOGLE_SEND and tokens.get("gmail_read_only"))]}
+               if self.resource == "gmail" else {}),
+            **({"reconnect_required": True} if tokens.get("reconnect_required") else {}),
             "email": tokens.get("email"),
             "version": version,
         }

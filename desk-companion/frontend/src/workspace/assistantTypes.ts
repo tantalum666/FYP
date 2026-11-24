@@ -113,6 +113,8 @@ export interface ProposalDecisionReply {
   job?: { id: string };
 }
 export interface Reply {
+  history_ids?: [string, string];
+  history_at?: string;
   catch_up_ref?: string;
   google_refresh_scope?: { review_version: string; last_refresh_ref: string };
   approval_summary?: string;

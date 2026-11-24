@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-24 Continue the owner's conversation and surface inbox changes
+
+Home subtitles occupy at most two wrapped lines per page. Conversation retains the whole reply. The owner requested local continuity for ordinary text and opted into the final text of completed voice exchanges. Existing OpenAI destinations may use relevant previews and history within the approved ordinary operating budget. The active desk should discover actionable mail with no page open, show grounded suggestions in the conversation, honor quiet hours, and continue with local mail cues when paid reasoning is unavailable. Normal Gmail setup offers inbox reading and sending after review. Reminder-only users can choose a narrower grant. Reconnect preserves the active scope. A live flight quote shows the published fare while the bag-inclusive total is pending. The owner approves a purchase against current commercial terms. [Acceptance](output/qa/2026-11-24-continuity/verification.md).
+
 ## 2026-11-23 Reviewed mixed baskets and imported calendar changes
 
 A shopping request can include up to eight entries, quoted as one cart with one shipping calculation. Material line changes need fresh approval even if the total falls or stays the same. Keep older single-item orders readable. [Checkout acceptance](output/qa/2026-11-23-api-astra-team/basket/verification.md). Google Calendar owners can review already imported copies for a selected period, preserve local edits and keep unverified missing source entries. [Calendar behavior](desk-companion/docs/google-calendar-refresh.md).
@@ -82,7 +86,7 @@ The new path reuses official OpenAI Responses with native strict structured outp
 
 Actual API tests exposed and repaired response timeouts and hosted-browser readiness/approval/cancellation/cleanup defects. Six real read-only research cases and a natural-language follow/stop flow passed; mail transport was synthetic. The final official hosted browser read a public catalogue, inspected stock, calculated a fictional shipping/currency comparison and deleted its session, with an independent result check. Earlier failed attempts are retained. [Current QA](output/qa/2026-11-17-proactive-agent-merge/verification.md) distinguishes local tests, real models, actual sites and untested merchant transactions.
 
-On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk served `c607759e` in that rollout. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. The installed background model setting is off. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
+On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk served `c607759e` in that rollout. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. Background research was off on those hosts on 18 November. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
 
 ## 2026-11-17 Replacement-adapter stability check
 

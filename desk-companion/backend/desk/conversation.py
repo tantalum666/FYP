@@ -28,6 +28,7 @@ class Conversation:
     recall_id: str | None = None
     attachments: dict = field(default_factory=dict)
     attachment_ids: list[str] = field(default_factory=list)
+    home_generation: int | None = None
 
     def clear_context(self):
         self.items.clear()

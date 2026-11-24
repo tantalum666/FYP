@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 24 November 2026. Start from the repository's `main` and the [current handoff](handoff.md). The [mainline review](output/qa/2026-11-24-mainline-review/verification.md) records source histories, checks and on-device status. [Public contribution guidelines](CONTRIBUTING.md).
+> 24 November 2026. Start from the repository's `main` and the [current handoff](handoff.md). See the [normal Alice and supplier evidence](output/qa/2026-11-24-continuity/verification.md), [mainline integration history](output/qa/2026-11-24-mainline-review/verification.md) and [public contribution guidelines](CONTRIBUTING.md).
 <!-- /FYP-CONTEXT-20261027 -->
 
 21 November shopping follow-up. Amazon Pay completed the US$14.30 demo order and the separate US$1.00 merchant-controlled full refund. Link's approved FYP test allowance is US$500 monthly for 180 days, capped at US$10 per order. The Link API returned its published CLI test example, which fails the merchant's card-number check. Start with the [no-wallet reproduction and local scope fix](output/qa/2026-11-20-link-wallet-diagnosis/verification.md) before another checkout attempt. eBay rejected registration and the owner confirmed submission of one [developer-account review](output/qa/2026-11-21-shopping-next-step/verification.md). [Provider receipts](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).

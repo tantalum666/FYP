@@ -1,0 +1,46 @@
+{
+  "application": "867532894c84e4b597940035f0930736da3dc9c6",
+  "mac": {
+    "supervised": true,
+    "retained_tables": 142,
+    "same_table_count_after": 142,
+    "text_model": "gpt-6.2-sol",
+    "voice": {
+      "model": "gpt-live-1.1",
+      "version": 9
+    }
+  },
+  "simulator": {
+    "installed_files_checked": 79,
+    "durable_checks": 6,
+    "origin_preserved": true
+  },
+  "pi": {
+    "last_confirmed_application": "92acac8e",
+    "kit_prepared": true,
+    "installation_observed": false
+  },
+  "live_gmail": {
+    "read_granted": true,
+    "send_granted": true,
+    "new_send_attempts": 0,
+    "eligible_preview_count_first_read": 10,
+    "findings_first_run": 3,
+    "cited_preview_references": 5
+  },
+  "browser": {
+    "enrolled": true,
+    "later_browser_channel_delivery_record": true,
+    "lock_screen_display_observed": false
+  },
+  "live_flights": {
+    "authenticated": true,
+    "structured_results_in_checked_search": 658,
+    "matching_settled_read": true,
+    "local_live_order_count": 0
+  },
+  "fixture_checks": {
+    "gmail_setup_choices": 5,
+    "incomplete_total_blocks_payment": true
+  }
+}

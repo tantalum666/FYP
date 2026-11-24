@@ -4,6 +4,7 @@ import { errorText, write } from "../api";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import type { WorkspacePreferences } from "./types";
+import { BrowserReminders } from "./BrowserReminders";
 
 export function ExtrasPanel({ t }: { t: Translate }) {
   const { data, refresh } = useWorkspace();
@@ -241,15 +242,15 @@ export function ExtrasPanel({ t }: { t: Translate }) {
             "Alice 会联系新信息与手头的事，主动提醒值得关注的变化。较少只提示重要发现；关闭会暂停主动分析和邮件跟进。发信与购买仍单独控制。",
           )}
         </p>
+        {form.proactivity !== "off" && data?.initiative?.mail_check && <small>
+          {data.initiative.mail_check.available
+            ? t("Last Gmail check", "上次查看 Gmail") + " · " + new Date(data.initiative.mail_check.at).toLocaleString()
+            : t("Gmail could not be checked. Review the connection in Apps.", "暂时查不到 Gmail，请到应用连接查看授权状态。")}
+        </small>}
       </section>
       <section className="workspace-section">
         <h3>{t("Companion", "桌面助理")}</h3>
-        <p className="workspace-hint">
-          {t(
-            "Web Push stays off until DESK_WEB_PUSH=1. The private key is created on this machine only then, with mode 0600. Quiet hours and duplicate notice ids still apply.",
-            "在设置 DESK_WEB_PUSH=1 之前，Web Push 保持关闭。私钥只在那时在本机生成，权限为 0600。安静时段和重复的通知 id 仍然有效。",
-          )}
-        </p>
+        {data?.principal.kind === "owner" && <BrowserReminders t={t} />}
         <label className="check-field">
           <input
             type="checkbox"

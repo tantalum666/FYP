@@ -116,6 +116,7 @@ class TextSessions:
             encode(
                 [
                     r.personal_context.revision(),
+                    r.home_history.status()["generation"],
                     revision,
                     accounts,
                     r.data.preferences()["version"],
@@ -192,7 +193,7 @@ class TextSessions:
         specs = [{"type": "function", **tool} for tool in tools]
         system += alice_delivery.INSTRUCTIONS
         # Rotate remote history when an already-projected source or a controlling setting changes.
-        scope = {k: v for k, v in context.items() if k not in {"now", "turns", "user_message"}}
+        scope = {k: v for k, v in context.items() if k not in {"now", "turns", "history_matches", "user_message"}}
         permission_version = self.runtime.permissions.snapshot()["version"]
         binding = digest(encode([authority, permission_version, system, specs, scope]))
         fallback = interrupted(payload.language)

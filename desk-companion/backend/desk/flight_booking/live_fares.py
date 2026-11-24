@@ -4,7 +4,7 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 import re
 from typing import Annotated, Literal
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urlencode, urlsplit
 
 from pydantic import Field, field_validator, model_validator
 
@@ -229,6 +229,20 @@ def official_url(value):
         return None
 
 
+def offer_page(raw, search_id, currency):
+    if raw.get("booking_url") is not None:
+        return official_url(raw["booking_url"])
+    # The public agent connector identifies its result page with both IDs.
+    ident = raw["id"]
+    if re.fullmatch(r"ws_[A-Za-z0-9_-]{1,156}", search_id) and re.fullmatch(
+        r"wo_[A-Za-z0-9_-]{1,156}", ident
+    ):
+        return "https://letsfg.co/en?" + urlencode(
+            {"stage": "results", "sid": search_id, "offer": ident, "cur": currency}
+        )
+    return None
+
+
 def party_matches(parsed, query):
     if not isinstance(parsed, dict):
         return False
@@ -253,6 +267,7 @@ def party_matches(parsed, query):
     for key, want in (
         ("origin", query.origin),
         ("destination", query.destination),
+        ("date", query.departure),
         ("date_from", query.departure),
         ("return_date", query.return_date),
     ):
@@ -422,7 +437,7 @@ def price_offer(raw, query, search_id, version):
         "conditions_source": raw.get("conditions_source")
         if raw.get("conditions_source") in {"airline", "supplier", "provider", "estimate"}
         else None,
-        "booking_url": official_url(raw.get("booking_url")),
+        "booking_url": offer_page(raw, search_id, query.currency),
         "next_action": "confirm_allowance_and_all_in_fare_with_original_supplier"
         if reason == "checked_baggage_unverified"
         else None,

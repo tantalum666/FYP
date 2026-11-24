@@ -145,10 +145,26 @@ def decrypt(body: bytes, client_private, auth: bytes) -> bytes:
 class HttpPushSender:
     """POSTs one encrypted body. Pass a transport in tests so nothing leaves the process."""
 
-    def __init__(self, transport=None):
+    def __init__(self, transport=None, *, extra_origins=()):
         self.transport = transport
+        self.extra_origins = frozenset(extra_origins)
+
+    def validate(self, endpoint):
+        url = urlsplit(endpoint)
+        origin = f"{url.scheme}://{url.netloc}"
+        host = (url.hostname or "").lower()
+        try:
+            port = url.port
+        except ValueError:
+            raise DomainError("PUSH_ENDPOINT_UNSUPPORTED", 422) from None
+        if (url.scheme != "https" or url.username is not None or url.password is not None or url.fragment
+                or port not in (443, None) or not (origin in self.extra_origins
+                or host in {"fcm.googleapis.com", "updates.push.services.mozilla.com", "push.services.mozilla.com"}
+                or host.endswith((".push.apple.com", ".notify.windows.com", ".push.services.mozilla.com")))):
+            raise DomainError("PUSH_ENDPOINT_UNSUPPORTED", 422)
 
     def send(self, endpoint: str, body: bytes, headers: dict) -> None:
+        self.validate(endpoint)
         with httpx.Client(timeout=8, transport=self.transport, follow_redirects=False) as client:
             response = client.post(endpoint, content=body, headers=headers)
             response.raise_for_status()
@@ -174,6 +190,8 @@ class PushService:
         return b64url(self.keys.public_uncompressed())
 
     def save(self, endpoint: str, p256dh: str, auth: str, key: str) -> dict:
+        if isinstance(self.sender, HttpPushSender):
+            self.sender.validate(endpoint)
         ua_public, secret = b64url_decode(p256dh), b64url_decode(auth)
         if len(ua_public) != 65 or len(secret) != 16:
             raise DomainError("PUSH_KEY_INVALID", 422)
@@ -241,15 +259,19 @@ class PushService:
                 }
                 self.sender.send(row["endpoint"], body, headers)
                 sent += 1
+            except httpx.HTTPStatusError as exc:
+                if exc.response.status_code in (404, 410):
+                    with self.store.connection(write=True) as db:
+                        db.execute("""UPDATE push_subscriptions SET revoked_at=? WHERE id=? AND
+                            p256dh=? AND auth=? AND revoked_at IS NULL""",
+                            (self.store.clock().isoformat(), row["id"], row["p256dh"], row["auth"]))
             except (httpx.HTTPError, OSError, ValueError, DomainError):
                 continue
         return sent
 
 
-class PushSubscriptionInput(StrictModel):
+class PushEndpoint(StrictModel):
     endpoint: str = Field(min_length=12, max_length=500)
-    p256dh: str = Field(min_length=80, max_length=200)
-    auth: str = Field(min_length=16, max_length=64)
 
     @field_validator("endpoint")
     @classmethod
@@ -258,6 +280,11 @@ class PushSubscriptionInput(StrictModel):
         if parts.scheme != "https" or not parts.netloc:
             raise ValueError("Use an https push endpoint")
         return value
+
+
+class PushSubscriptionInput(PushEndpoint):
+    p256dh: str = Field(min_length=80, max_length=200)
+    auth: str = Field(min_length=16, max_length=64)
 
 
 def push_routes(runtime, owner, operation_id):
@@ -269,6 +296,15 @@ def push_routes(runtime, owner, operation_id):
         if service is None:
             return {"enabled": False, "public_key": None}
         return {"enabled": True, "public_key": service.public_key()}
+
+    @router.post("/subscriptions/lookup")
+    def lookup(payload: PushEndpoint):
+        if runtime.notify.push is None:
+            return {"id": None}
+        with runtime.store.connection() as conn:
+            row = conn.execute("SELECT id FROM push_subscriptions WHERE endpoint=? AND revoked_at IS NULL",
+                               (payload.endpoint,)).fetchone()
+        return {"id": row["id"] if row else None}
 
     @router.post("/subscriptions")
     def subscribe(payload: PushSubscriptionInput, key=Depends(operation_id)):

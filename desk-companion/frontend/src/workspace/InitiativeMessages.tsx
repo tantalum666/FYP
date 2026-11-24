@@ -9,11 +9,12 @@ export interface InitiativeFinding {
   kind: string;
   message_en: string;
   message_zh: string;
-  sources: { ref: string; kind: string; label: string }[];
+  created_at?: string;
+  sources: { ref: string; kind: string; label: string; href?: string }[];
 }
 
 /** Contextual messages in the conversation; no approval form or separate poll. */
-export function InitiativeMessages({ t }: { t: Translate }) {
+export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; t: Translate }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const mutation = usePrivateMutation();
   const visible =
@@ -27,14 +28,13 @@ export function InitiativeMessages({ t }: { t: Translate }) {
     return () => window.removeEventListener("desk:session", reset);
   }, []);
   if (!visible || offline || stale) return null;
-  const findings = data?.initiative?.findings ?? [];
   return (
-    <div className="initiative-messages">
-      {[...findings].reverse().map((finding) => (
+    <>
         <article
           className="assistant-turn assistant initiative-message"
           key={finding.id}
         >
+          {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
           <p>{t(finding.message_en, finding.message_zh)}</p>
           <details>
             <summary>
@@ -42,7 +42,8 @@ export function InitiativeMessages({ t }: { t: Translate }) {
             </summary>
             <ul>
               {finding.sources.map((source) => (
-                <li key={source.ref}>{source.label}</li>
+                <li key={source.ref}>{source.href?.startsWith("https://mail.google.com/mail/?") ?
+                  <a href={source.href} target="_blank" rel="noreferrer">{source.label}</a> : source.label}</li>
               ))}
             </ul>
           </details>
@@ -60,8 +61,7 @@ export function InitiativeMessages({ t }: { t: Translate }) {
             {t("Got it", "知道了")}
           </button>
         </article>
-      ))}
       <MutationFeedback mutation={mutation} t={t} />
-    </div>
+    </>
   );
 }

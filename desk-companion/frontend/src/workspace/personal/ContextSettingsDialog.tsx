@@ -68,10 +68,16 @@ export function ContextSettingsDialog({
         </label>
         <p className="workspace-hint">
           {t(
-            "Only text sent in a selected saved conversation is retained. Temporary chats and voice transcripts are not added automatically. Turning this off keeps existing conversations until you delete them.",
-            "仅保存你在已选择的持久会话中发送的文字。临时聊天与语音转写不会自动加入；关闭后，既有会话仍保留，直到你主动删除。",
+              "Reopen Alice to continue your saved conversation. You can delete it in History.",
+              "重新打开 Alice 可接续已保存的对话。你可以随时在历史记录里删除。",
           )}
         </p>
+        <label className="workspace-toggle">
+          <span>{t("Also remember completed voice captions", "也记住语音对话的最终转写")}</span>
+          <input type="checkbox" checked={!!form.save_voice_transcripts}
+            disabled={locked || !form.save_text_history}
+            onChange={e => setForm({ ...form, save_voice_transcripts: e.target.checked })}/>
+        </label>
         <label className="workspace-toggle">
           <span>
             {t(

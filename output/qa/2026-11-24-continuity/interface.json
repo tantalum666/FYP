@@ -1,0 +1,70 @@
+{
+  "before-desktop": {
+    "viewport": {
+      "width": 1267,
+      "height": 720
+    },
+    "rendered_lines_per_page": [
+      4
+    ],
+    "height_px": [
+      113
+    ],
+    "total_pages": 1,
+    "full_reply_in_conversation_verified": false,
+    "uncaught_errors": 0
+  },
+  "after-desktop": {
+    "viewport": {
+      "width": 1267,
+      "height": 720
+    },
+    "rendered_lines_per_page": [
+      2,
+      2
+    ],
+    "height_px": [
+      50,
+      50
+    ],
+    "total_pages": 2,
+    "full_reply_in_conversation_verified": true,
+    "uncaught_errors": 0
+  },
+  "after-phone": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "rendered_lines_per_page": [
+      2,
+      2,
+      1
+    ],
+    "height_px": [
+      50,
+      50,
+      50
+    ],
+    "total_pages": 3,
+    "full_reply_in_conversation_verified": true,
+    "uncaught_errors": 0
+  },
+  "closed_page": {
+    "sameThreadOnReopen": true,
+    "restoredMessages": 2,
+    "tabCountDuringDelivery": 0,
+    "openedSource": true,
+    "provider": "synthetic Gmail and local transport",
+    "decrypted_push_showed_only_generic_text": true
+  },
+  "isolated_ios": {
+    "paged": true,
+    "native": true,
+    "containsFullText": true,
+    "lines": 2,
+    "height": 874,
+    "width": 402,
+    "online": true
+  }
+}

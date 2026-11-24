@@ -1,5 +1,5 @@
 import json
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from urllib.parse import parse_qs, urlsplit
 import httpx
 import pytest
@@ -329,3 +329,58 @@ def test_calendar_decline_finishes_the_original_authorization_flow(tmp_path):
     assert response.status_code == 303
     assert r.google.flow_status(flow["flow_id"], token)["status"] == "declined"
     assert not r.google.account()["connected"]
+
+
+def test_gmail_readonly_reconnect_never_grants_sending_and_recovers_an_invalid_refresh(tmp_path):
+    from desk.app_specs import GOOGLE_SEND
+    from desk.outbound_mail_models import MailDraft
+
+    now = [datetime(2026, 11, 24, tzinfo=UTC)]
+    app = create_app(tmp_path, password="fixture", scheduler=False, clock=lambda: now[0])
+    rt = app.state.runtime
+    auth = rt.outbound_mail.auth
+    scopes = set(SCOPES["gmail"]) - {GOOGLE_SEND}
+    calls = configure(auth, scopes=" ".join(scopes))
+    client = TestClient(app, headers={"X-Desk-Request": "1"})
+    client.post(
+        "/api/session", json={"username": "owner", "password": "fixture"}
+    ).raise_for_status()
+
+    def consent():
+        begin = client.post("/api/apps/gmail/connect?read_only=true", json={})
+        begin.raise_for_status()
+        q = parse_qs(urlsplit(begin.json()["url"]).query)
+        assert set(q["scope"][0].split()) == scopes and q["code_challenge_method"] == ["S256"]
+        auth.callback(q["state"][0], "fixture-code")
+
+    consent()
+    assert (
+        auth.account()["connected"]
+        and not auth.account()["can_send"]
+        and GOOGLE_SEND not in auth.account()["scopes"]
+    )
+    assert auth.access_token()
+    with pytest.raises(DomainError) as denied:
+        rt.outbound_mail.draft(
+            MailDraft(provider="gmail", to="me", subject="fixture", body="test"), "cannot-send"
+        )
+    assert denied.value.code == "EMAIL_SEND_SCOPE_REQUIRED"
+    assert not any("messages/send" in str(c.url) for c in calls)
+    now[0] += timedelta(hours=2)
+    attempts = []
+
+    def invalid(req):
+        attempts.append(req.url.path)
+        return httpx.Response(400, json={"error": "invalid_grant"})
+
+    auth.transport = httpx.MockTransport(invalid)
+    for _ in range(2):
+        with pytest.raises(DomainError) as err:
+            auth.access_token()
+        assert err.value.code == "APP_RECONNECT_REQUIRED"
+    assert len(attempts) == 1
+    row = next(v for v in client.get("/api/apps").json()["apps"] if v["id"] == "gmail")
+    assert row["reconnect_required"] is True
+    configure(auth, scopes=" ".join(scopes))
+    consent()
+    assert not auth.account().get("reconnect_required") and auth.account()["can_send"] is False

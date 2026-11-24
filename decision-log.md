@@ -1008,3 +1008,8 @@ The original seller receipt outlived its owner login. The engineering recovery a
 ## 2026-11-24 主线评审与公开协作
 
 用户授权检查、修复并合并当前 FYP PR，并在已登录和匿名读取均核实 GitHub 仓库公开后明确选择保留此设置。新提交按公开分发核对。保留原提交及组员、API 开发者的署名。运行设备沿用已有部署记录。[主线评审](output/qa/2026-11-24-mainline-review/verification.md)。
+
+
+## 2026-11-24 · Ordinary memory, standing mail assistance and checkout review
+
+The owner opted into local retention of ordinary messages and the final text of completed voice exchanges. They permitted the current OpenAI destination to receive relevant previews and history within the existing operating allowance. Idle mail checks may read eligible previews. Sending is reviewed per message and the full Gmail grant remains available on reconnect. The owner requested a live flight price check only. The same supplier's published fare, exact seller page and baggage evidence are recorded separately when they disagree. A fresh purchase decision is required before a hold or charge. [Behavior and provider evidence](output/qa/2026-11-24-continuity/verification.md).

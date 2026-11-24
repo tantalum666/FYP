@@ -40,7 +40,7 @@ class OutboundMail:
         ]
         if provider != "auto":
             return next(item for item in accounts if item["provider"] == provider)
-        available = [item for item in accounts if item["connected"]]
+        available = [item for item in accounts if item["connected"] and item.get("can_send", True)]
         return {
             **(available[0] if len(available) == 1 else self.auth.account()),
             "connected": bool(available),
@@ -65,6 +65,10 @@ class OutboundMail:
 
     def draft(self, request, key, *, reply=None):
         state = self.snapshot(request.provider)
+        if state.get("reconnect_required"):
+            raise DomainError("APP_RECONNECT_REQUIRED", 409)
+        if state.get("can_send") is False:
+            raise DomainError("EMAIL_SEND_SCOPE_REQUIRED", 403)
         if not state["connected"]:
             return {
                 "connected": False,
@@ -127,6 +131,8 @@ class OutboundMail:
                 from .email_replies import verify_reply
 
                 draft["reply"] = verify_reply(self.runtime, provider, payload["reply"], account, draft)
+            if auth.account().get("can_send") is False:
+                raise DomainError("EMAIL_SEND_SCOPE_REQUIRED", 403)
             # Refresh before reserving a possible send; auth failure cannot have sent mail.
             access_token = auth.access_token()
             message_id = (

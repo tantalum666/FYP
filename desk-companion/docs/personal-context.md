@@ -1,5 +1,11 @@
 # Saved conversations and selected Work context
 
+## 24 November · Ordinary Home history
+
+Local text retention and model destination approval are distinct settings. Home reuses the existing retained conversation and message tables. The active thread restores up to 40 displayed messages, and approved model reads use bounded recent context and up to three relevant earlier owner statements from that thread. New conversation archives its text and starts a fresh context. Deleting the saved thread removes its messages and invalidates in-flight capture. A newly authenticated owner can reopen local text without adopting old login-bound supplier actions. Existing named histories and their limits still apply.
+
+Completed voice captions have a separate opt-in, disabled on upgrade. Only user and assistant words that reached the client in a completed spoken exchange are retained. Raw audio, partial interrupted speech, screenshots, attachments and tool arguments are excluded. Closed-budget mail processing does not require a paid model. [Owner controls and verification](../../output/qa/2026-11-24-continuity/verification.md).
+
 Integrated 31 October 2026. This is the explicit retained workspace, alongside ordinary Alice/Omni conversation. [Integration and migration contract](pr5-integration.md) is authoritative where the original PR5 design differs from the current application.
 
 ## One fact store, distinct retention choices
@@ -23,7 +29,7 @@ The owner explicitly enables saving and creates/selects a saved thread. Sending 
 
 Limits are 30 conversations, 120 characters per title, 200 messages per thread, 3,000 input characters and 4,000 saved reply characters. One turn per saved thread can be active. Reads, writes and late results are fenced by owner/private visibility, provider destination and context revision. Network I/O does not hold the privacy mutation lock. Retries preserve the original operation ID; source/identity changes do not create replacement effects.
 
-Provider dispatch reuses the current `TextAssistant.generate` and adapters. Task/calendar/note effects use the existing assistant and job services. Retained chat only prepares effects; the same owner review cards apply them. A voice transcript is never automatically appended to a saved thread, and Work is never started by an invented provider control tool.
+Provider dispatch reuses the current `TextAssistant.generate` and adapters. Task/calendar/note effects use the existing assistant and job services. Retained chat only prepares effects; the same owner review cards apply them. The ordinary desk can retain completed Live captions under its separate owner opt-in. It stores the delivered final speaker text only. Work continues to require its existing authority.
 
 ## Memory changes and forgetting
 

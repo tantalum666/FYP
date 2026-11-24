@@ -91,6 +91,7 @@ class AgentLane:
         self.take_search = {}
         self.extra = []
         self.token_posts = []
+        self.result_flags = {}
         self.drop_ack = False
         self.refresh_failure = False
 
@@ -158,7 +159,7 @@ class AgentLane:
             )
         if path.startswith("/api/results/"):
             return httpx.Response(
-                200, json={"status": "completed", "offers": [*self.extra, self.offer]}
+                200, json={"status": "completed", "offers": [*self.extra, self.offer], **self.result_flags}
             )
         if path == "/api/agent-book":
             self.book_body = json.loads(request.content)
@@ -223,6 +224,44 @@ def authorize(setup):
     )
     assert runtime.letsfg_auth.account()["connected"]
     return flow
+
+
+def test_settled_public_agent_quote_requires_named_client_and_same_offer_page(setup):
+    from desk.flight_booking.seller_verification import target
+
+    _, _, lane, provider, principal = setup
+    authorize(setup)
+    lane.offer.pop("booking_url")
+    lane.offer["ancillaries"] = {"checked_bag": {"included": True}, "price_source": "estimate"}
+    flags = lane.result_flags
+    flags["gf_enrich_pending"] = True
+    query = LiveFlightQuery(**REQUEST, checked_bag_kg=20)
+
+    def published_service(request):
+        if not request.headers["User-Agent"].startswith("FYP-Desk-Companion/"):
+            return httpx.Response(403, text="Forbidden")
+        return lane.route(request)
+
+    provider.transport = httpx.MockTransport(published_service)
+    pending = provider.search(query, principal=principal)
+    sid = pending["search_id"]
+    assert pending["state"] == "searching" and not pending["offers"]
+    flags.update(gf_enrich_pending=False, split_ticket_pending=True)
+    assert provider.search(query, principal=principal, search_id=sid)["state"] == "searching"
+    flags.update(split_ticket_pending=False)
+    active = provider.search(query, principal=principal, search_id=sid)
+    [offer] = active["offers"]
+    assert offer["fare_minor"] == 338959 and offer["total_minor"] is None and not offer["ready"]
+    receipt = {"source": {"url": "https://www.kiwi.com/u/test"}, "offers": [offer]}
+    seller, url, _ = target(receipt, 1)
+    params = parse_qs(urlsplit(url).query)
+    assert seller == "LetsFG" and params["sid"] == [sid] and params["offer"] == [offer["offer_id"]]
+    offer["booking_url"] = url.replace(sid, "ws_somewhere_else")
+    assert target(receipt, 1)[:2] == ("Kiwi.com", receipt["source"]["url"])
+    flags["parsed"] = {"date": "2026-11-25"}
+    with pytest.raises(DomainError, match="LETSFG_OFFER_UNVERIFIED"):
+        provider.search(query, principal=principal, search_id=sid)
+    assert lane.starts == 1 and not hasattr(lane, "book_body")
 
 
 def test_owner_pkce_rotating_refresh_and_reconnect_no_replay(setup):

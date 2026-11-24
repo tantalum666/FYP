@@ -47,6 +47,7 @@ from .retained_chat import RetainedChat
 from .personal_context import PersonalContext
 from .personal_memory import PersonalMemoryAdapter
 from .conversations import ConversationService
+from .home_history import HomeHistory
 from .routines import RoutineService
 from .sources import SourceService
 from .source_briefs import SourceBriefService
@@ -92,6 +93,7 @@ class Runtime:
         self.saved_skills = SavedSkillService(self)
         self.memories = PersonalMemoryAdapter(self)
         self.conversations = ConversationService(self)
+        self.home_history = HomeHistory(self)
         self.responsibilities = ResponsibilityService(self)
         self.routines = RoutineService(self)
         self.profile = ProfileService(self)
@@ -187,6 +189,7 @@ class Runtime:
             "output_history": self.outputs.history(),
         }
         if principal["kind"] == "owner":
+            result["home_history"] = self.home_history.status()
             result["pairing"] = self.access.listing()
             result["permissions"] = self.permissions.snapshot()
             result["initiative"] = self.initiative.snapshot()
