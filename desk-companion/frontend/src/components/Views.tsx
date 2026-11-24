@@ -1,252 +1,32 @@
 import { PermissionsPanel } from "../workspace/PermissionsPanel";
 import { ExportLink } from "../workspace/ExportLink";
 import { useDraftGuard } from "./DraftGuard";
-import { useEffect, useId, useState } from "react";
-import { DateTime } from "luxon";
+import { Fragment, useEffect, useId, useState } from "react";
 import {
   ArrowUpRight,
-  Check,
-  ChevronRight,
-  Circle,
-  Monitor,
-  Plus,
+  Activity,
+  Settings2,
+  ShieldCheck,
+  Activity as StatusIcon,
   Camera,
   Link2,
   SlidersHorizontal,
   Sparkles,
-  ListTodo,
 } from "lucide-react";
 import { isNative } from "../native";
 import { PhoneFeatures } from "../workspace/PhoneFeatures";
 import { useWorkspace } from "../workspace/WorkspaceContext";
-import { lunarDate } from "../workspace/calendarExtras";
-import { feedbackText, postureLabel } from "../workspace/PosturePanel";
+import { postureLabel } from "../workspace/PosturePanel";
 import { errorText, pendingWrite, request, write } from "../api";
-import { eventTime, inZone, locale, title } from "../dates";
+import { inZone, locale } from "../dates";
 import type {
   Language,
-  Occurrence,
   RecordEntry,
   Settings,
-  Snapshot,
   Translate,
 } from "../types";
 
-export function TodayView({
-  snapshot,
-  language,
-  now,
-  onNew,
-  onOpen,
-  onCalendar,
-  onDevice,
-  onTasks,
-  t,
-}: {
-  snapshot: Snapshot;
-  language: Language;
-  now: DateTime;
-  onNew: () => void;
-  onOpen: (event: Occurrence) => void;
-  onCalendar: () => void;
-  onDevice: () => void;
-  onTasks: () => void;
-  t: Translate;
-}) {
-  const zone = snapshot.settings.timezone;
-  const workspace = useWorkspace();
-  const events = snapshot.occurrences;
-  const upcoming =
-    events.find(
-      (e) => !e.completed && !e.all_day && inZone(e.end, zone) > now,
-    ) ?? events.find((e) => !e.completed && e.all_day);
-  return (
-    <div className="today-view">
-      <header className="page-heading">
-        <div>
-          <h1>{t("Today", "今天")}</h1>
-          <p>
-            {now
-              .setLocale(locale(language))
-              .toFormat(language === "en" ? "cccc, d LLLL" : "M月d日 cccc")}
-          </p>
-        </div>
-        <button className="add-today" onClick={onNew}>
-          <span>
-            <Plus />
-          </span>
-          {t("Add", "添加")}
-        </button>
-      </header>
-      {snapshot.has_samples && (
-        <p className="sample-note">{t("Example calendar", "含示例日程")}</p>
-      )}
-      <div className="today-at-a-glance">
-        {workspace.data?.calendar_extras.preferences.show_lunar && (
-          <span>{lunarDate(now, language)}</span>
-        )}
-        {workspace.data?.calendar_extras.holidays[language][
-          now.toISODate()!
-        ] && (
-          <span>
-            {
-              workspace.data.calendar_extras.holidays[language][
-                now.toISODate()!
-              ]
-            }
-          </span>
-        )}
-        {workspace.data?.calendar_extras.weather.temperature_c !==
-          undefined && (
-          <span>
-            {workspace.data.calendar_extras.weather.temperature_c}°C ·{" "}
-            {t("Hong Kong", "香港")}
-            {workspace.data.calendar_extras.weather.status === "stale"
-              ? t(" · Last reading", " · 上次观测")
-              : ""}
-          </span>
-        )}
-      </div>
-      <div className="today-clock">
-        <span>{now.toFormat("HH:mm")}</span>
-        <small>{zone.replaceAll("_", " ").split("/").at(-1)}</small>
-      </div>
-      <div className={`today-columns ${events.length ? "" : "is-empty"}`}>
-        <section className="next-section">
-          <h2>{t("Up next", "接下来")}</h2>
-          {upcoming ? (
-            <button
-              className={`next-event ${upcoming.color}`}
-              onClick={() => onOpen(upcoming)}
-            >
-              <span>
-                <strong>{title(upcoming, language)}</strong>
-                <span>{eventTime(upcoming, zone, language)}</span>
-                <small>
-                  {upcoming.calendar === "study"
-                    ? t("Study", "学习")
-                    : t("Personal", "个人")}
-                </small>
-              </span>
-              <ChevronRight />
-            </button>
-          ) : (
-            <div className="empty-next">
-              <strong>
-                {t("A little breathing room.", "留一点从容的时间。")}
-              </strong>
-              <p>{t("No upcoming events today.", "今天没有待进行的日程。")}</p>
-              <button className="text-button" onClick={onNew}>
-                {t("Add an event", "添加日程")}
-                <Plus size={16} />
-              </button>
-            </div>
-          )}
-        </section>
-        {events.length > 0 && (
-          <section className="agenda-section">
-            <div className="section-heading">
-              <h2>{t("Your schedule", "今日安排")}</h2>
-              <button className="text-button" onClick={onCalendar}>
-                {t("View calendar", "查看日历")}
-                <ChevronRight size={16} />
-              </button>
-            </div>
-            {events.length === 0 && (
-              <p className="empty-text">
-                {t(
-                  "Your day is yours to plan.",
-                  "从添加第一件事开始安排今天。",
-                )}
-              </p>
-            )}
-            {events.map((e) => (
-              <button
-                className={`agenda-row ${e.completed ? "completed" : ""}`}
-                key={e.id + e.occurrence_key}
-                onClick={() => onOpen(e)}
-              >
-                <time>
-                  {e.all_day
-                    ? t("All day", "全天")
-                    : inZone(e.start, zone).toFormat("HH:mm")}
-                </time>
-                <i className={e.color} />
-                <span>
-                  <strong>{title(e, language)}</strong>
-                  <small>
-                    {eventTime(e, zone, language)} ·{" "}
-                    {e.calendar === "study"
-                      ? t("Study", "学习")
-                      : t("Personal", "个人")}
-                  </small>
-                </span>
-                {e.completed && <Check size={17} />}
-              </button>
-            ))}
-          </section>
-        )}
-      </div>
-      <button className="desk-status-row" onClick={onDevice}>
-        <Monitor />
-        <span>
-          <strong>{t("Desk status", "设备状态")}</strong>
-          <small>
-            {workspace.offline
-              ? t("Desk connection lost", "桌面连接中断")
-              : postureLabel(workspace.data?.posture, t)}
-          </small>
-        </span>
-        <ChevronRight size={18} />
-      </button>
-      {!!workspace.data?.tasks?.active_count &&
-        !workspace.offline &&
-        !workspace.stale && (
-          <button
-            className="desk-status-row today-task-summary"
-            onClick={onTasks}
-          >
-            <ListTodo />
-            <span>
-              <strong>
-                {workspace.data.tasks.due_count
-                  ? t(
-                      `${workspace.data.tasks.due_count} task check-in${workspace.data.tasks.due_count === 1 ? "" : "s"} ready`,
-                      `${workspace.data.tasks.due_count}项事务待跟进`,
-                    )
-                  : t("Keep your next step in view", "继续推进下一步")}
-              </strong>
-              <small>
-                {t(
-                  `${workspace.data.tasks.active_count} active task${workspace.data.tasks.active_count === 1 ? "" : "s"} · Review progress`,
-                  `${workspace.data.tasks.active_count}项未完成事务 · 查看进展`,
-                )}
-              </small>
-            </span>
-            <ChevronRight size={18} />
-          </button>
-        )}
-      {workspace.data?.posture.feedback &&
-        !workspace.offline &&
-        now.toSeconds() - workspace.data.posture.feedback.created_at < 180 && (
-          <button className="posture-notice" onClick={onDevice}>
-            <Camera />
-            <span>
-              <strong>
-                {feedbackText(workspace.data.posture.feedback.kind, t)}
-              </strong>
-              <p>
-                {workspace.data.posture.source === "replay"
-                  ? t("Replay feedback · open to review", "回放反馈 · 点击查看")
-                  : t("Open posture feedback", "查看坐姿反馈")}
-              </p>
-            </span>
-            <ChevronRight />
-          </button>
-        )}
-    </div>
-  );
-}
+export { TodayView } from "./TodayView";
 
 export function RecordsView({
   revision,
@@ -358,16 +138,10 @@ export function RecordsView({
     waiting: ["Awaiting new observations", "等待新的观察"],
   };
   return (
-    <div className="standard-page">
+    <div className="standard-page workspace-page records-view">
       <header className="page-heading">
         <div>
           <h1>{t("Records", "记录")}</h1>
-          <p>
-            {t(
-              "Calendar changes, observations and actual action results.",
-              "查看日历变更、观察与实际操作结果。",
-            )}
-          </p>
         </div>
       </header>
       <div className="records-filter-summary">
@@ -469,68 +243,81 @@ export function RecordsView({
           </label>
         </div>
       </div>
-      <p className="footnote">
-        {t(
-          "Shows up to 300 entries; export includes up to 10,000 matching recent records.",
-          "界面最多显示300条，导出包含最近最多10,000条匹配记录。",
-        )}
-      </p>
       {!!error && (
         <p className="error-message" role="alert">
           {errorText(error, t)}
         </p>
       )}
       <div className="activity-list" aria-busy={loading}>
-        {currentRows.slice(0, 300).map((r) => (
-          <div className="activity-row" key={r.sequence}>
-            <span className="activity-icon">
-              <Circle size={12} />
-            </span>
-            <div>
-              <strong>
-                {t(
-                  ...(labels[r.action] ?? [
-                    r.action.replaceAll("_", " "),
-                    "活动：" + r.action,
-                  ]),
+        {currentRows.slice(0, 300).map((r, index) => (
+          <Fragment key={r.sequence}>
+            {(index === 0 ||
+              inZone(r.at, zone).toISODate() !==
+                inZone(currentRows[index - 1].at, zone).toISODate()) && (
+              <h2 className="record-date">
+                {inZone(r.at, zone)
+                  .setLocale(locale(language))
+                  .toFormat(language === "zh" ? "M月d日 cccc" : "cccc, d LLLL")}
+              </h2>
+            )}
+            <div className="activity-row">
+              <span className="activity-icon">
+                <Activity size={15} />
+              </span>
+              <div>
+                <strong>
+                  {t(
+                    ...(labels[r.action] ?? [
+                      r.action.replaceAll("_", " "),
+                      "工作空间更新",
+                    ]),
+                  )}
+                </strong>
+                {!labels[r.action] && (
+                  <details className="record-kind">
+                    <summary>{t("Event type", "事件类型")}</summary>
+                    <code>{r.action}</code>
+                  </details>
                 )}
-              </strong>
-              <p>{r.title === "" ? t("Private event", "私人事项") : r.title}</p>
-              {typeof r.details.source === "string" && (
-                <small
-                  className={
-                    r.details.source === "replay" ? "source-badge" : ""
-                  }
-                >
-                  {{
-                    replay: t("Replay input", "回放输入"),
-                    live: t("Live input", "实时输入"),
-                    manual: t("Entered by you", "由你录入"),
-                    assistant: t(
-                      "Assistant draft confirmed",
-                      "已确认的助理草稿",
-                    ),
-                    assistant_confirmed: t(
-                      "Assistant draft confirmed",
-                      "已确认的助理草稿",
-                    ),
-                    user_confirmed: t("Confirmed by you", "由你确认"),
-                    local_rules: t("Scheduled check-in", "计划检查"),
-                    backup: t("Restored from backup", "从备份恢复"),
-                  }[r.details.source] ?? t("System record", "系统记录")}
-                </small>
-              )}
-              {typeof r.details.outcome === "string" &&
-                outcomes[r.details.outcome] && (
-                  <p>{t(...outcomes[r.details.outcome])}</p>
+                <p>
+                  {r.title === "" ? t("Private event", "私人事项") : r.title}
+                </p>
+                {typeof r.details.source === "string" && (
+                  <small
+                    className={
+                      r.details.source === "replay" ? "source-badge" : ""
+                    }
+                  >
+                    {{
+                      replay: t("Replay input", "回放输入"),
+                      live: t("Live input", "实时输入"),
+                      manual: t("Entered by you", "由你录入"),
+                      assistant: t(
+                        "Assistant draft confirmed",
+                        "已确认的助理草稿",
+                      ),
+                      assistant_confirmed: t(
+                        "Assistant draft confirmed",
+                        "已确认的助理草稿",
+                      ),
+                      user_confirmed: t("Confirmed by you", "由你确认"),
+                      local_rules: t("Scheduled check-in", "计划检查"),
+                      backup: t("Restored from backup", "从备份恢复"),
+                    }[r.details.source] ?? t("System record", "系统记录")}
+                  </small>
                 )}
+                {typeof r.details.outcome === "string" &&
+                  outcomes[r.details.outcome] && (
+                    <p>{t(...outcomes[r.details.outcome])}</p>
+                  )}
+              </div>
+              <time>
+                {inZone(r.at, zone)
+                  .setLocale(locale(language))
+                  .toFormat("HH:mm")}
+              </time>
             </div>
-            <time>
-              {inZone(r.at, zone)
-                .setLocale(locale(language))
-                .toFormat("d LLL · HH:mm")}
-            </time>
-          </div>
+          </Fragment>
         ))}
         {!loading && !error && !currentRows.length && (
           <p className="empty-text">
@@ -543,9 +330,17 @@ export function RecordsView({
           </p>
         )}
       </div>
+      <p className="footnote">
+        {t(
+          "Shows up to 300 entries; export includes up to 10,000 matching recent records.",
+          "界面最多显示300条，导出包含最近最多10,000条匹配记录。",
+        )}
+      </p>
     </div>
   );
 }
+
+export type SettingsCategory = "general" | "apps" | "permissions" | "status";
 
 export function DeviceView({
   settings,
@@ -554,6 +349,8 @@ export function DeviceView({
   onSaved,
   onDeviceLayout,
   onOpenWorkspace,
+  preferredCategory,
+  onCategoryChange,
   t,
 }: {
   settings: Settings;
@@ -561,12 +358,24 @@ export function DeviceView({
   setLanguage: (l: Language) => void;
   onSaved: () => void;
   onDeviceLayout: () => void;
+  preferredCategory?: SettingsCategory;
+  onCategoryChange?: (category: SettingsCategory) => void;
   onOpenWorkspace: (
     panel: "posture" | "connections" | "assistant" | "extras" | "data",
   ) => void;
   t: Translate;
 }) {
   const workspace = useWorkspace();
+  const [localCategory, setLocalCategory] =
+    useState<SettingsCategory>("general");
+  const category = preferredCategory ?? localCategory;
+  const setCategory = onCategoryChange ?? setLocalCategory;
+  const categories = [
+    { id: "general", name: t("General", "通用"), Icon: Settings2 },
+    { id: "apps", name: t("Apps and devices", "应用与设备"), Icon: Link2 },
+    { id: "permissions", name: t("Permissions", "权限"), Icon: ShieldCheck },
+    { id: "status", name: t("Device status", "设备状态"), Icon: StatusIcon },
+  ] as const;
   const [zone, setZone] = useState(settings.timezone),
     [hidden, setHidden] = useState(settings.hide_private),
     [busy, setBusy] = useState(false),
@@ -602,208 +411,254 @@ export function DeviceView({
     }
   }
   return (
-    <div className="standard-page">
+    <div className="standard-page workspace-page settings-view">
       <header className="page-heading">
         <div>
           <h1>{t("Settings", "设置")}</h1>
         </div>
       </header>
-      <PermissionsPanel t={t} />
-      <section className="settings-section">
-        <h2>{t("Workspace", "工作空间")}</h2>
-        <div className="setting-row">
-          <span>
-            <strong>{t("Language", "语言")}</strong>
-          </span>
-          <select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as Language)}
-            aria-label={t("Language", "语言")}
-          >
-            <option value="en">English</option>
-            <option value="zh">简体中文</option>
-          </select>
-        </div>
-        <div className="setting-row">
-          <label htmlFor="timezone">
-            <strong>{t("Calendar timezone", "日历时区")}</strong>
-          </label>
-          <select
-            id="timezone"
-            value={zone}
-            disabled={busy}
-            onChange={(e) => {
-              setZone(e.target.value);
-              setSaved(false);
-            }}
-          >
-            {[
-              "Asia/Hong_Kong",
-              "Asia/Shanghai",
-              "Asia/Tokyo",
-              "Europe/London",
-              "America/New_York",
-              "UTC",
-              ...(![
-                "Asia/Hong_Kong",
-                "Asia/Shanghai",
-                "Asia/Tokyo",
-                "Europe/London",
-                "America/New_York",
-                "UTC",
-              ].includes(zone)
-                ? [zone]
-                : []),
-            ].map((z) => (
-              <option key={z}>{z}</option>
-            ))}
-          </select>
-        </div>
-        <div className="setting-row">
-          <label htmlFor="hide-private">
-            <strong>{t("Hide private details", "隐藏私人详情")}</strong>
-            <small>
-              {t(
-                "Show titles as “Private event” on connected screens",
-                "在已连接界面将标题显示为“私人事项”",
-              )}
-            </small>
-          </label>
-          <input
-            id="hide-private"
-            type="checkbox"
-            checked={hidden}
-            disabled={busy}
-            onChange={(e) => {
-              setHidden(e.target.checked);
-              setSaved(false);
-            }}
-          />
-        </div>
-        {!!error && <p className="error-message">{errorText(error, t)}</p>}
-        {dirty && settings.version !== baseline.version && (
-          <p role="alert">
-            {t(
-              "Preferences changed on another screen. Discard your edits to load the latest values before saving.",
-              "另一端已修改偏好。先放弃当前修改以加载最新设置，再重新编辑。",
-            )}
-          </p>
-        )}
-        <div className="settings-save">
-          <button
-            className="primary"
-            disabled={busy || !dirty || settings.version !== baseline.version}
-            onClick={save}
-          >
-            {busy ? t("Saving…", "保存中…") : t("Save preferences", "保存偏好")}
-          </button>
-          {dirty && (
+      <div className="settings-layout">
+        <nav
+          className="settings-index"
+          aria-label={t("Settings categories", "设置分类")}
+        >
+          {categories.map(({ id, name, Icon }) => (
             <button
-              className="secondary"
+              type="button"
+              key={id}
+              aria-pressed={category === id}
+              onClick={() => setCategory(id)}
               disabled={busy}
-              onClick={() => {
-                setZone(settings.timezone);
-                setHidden(settings.hide_private);
-                setBaseline(settings);
-                setError(null);
-              }}
             >
-              {t("Discard changes", "放弃修改")}
+              <Icon size={17} />
+              {name}
+              {id === "general" && dirty && (
+                <span
+                  className="settings-dirty"
+                  aria-label={t("Unsaved", "未保存")}
+                />
+              )}
             </button>
-          )}
-          {saved && <span role="status">{t("Saved", "已保存")}</span>}
-        </div>
-      </section>
-      <section className="settings-section">
-        <h2>{t("Desk connections", "桌面连接")}</h2>
-        <div className="workspace-entry-list">
-          <button onClick={() => onOpenWorkspace("data")}>
-            <Link2 />
-            {t("Import & share", "导入与分享")}
-          </button>
-          <button onClick={() => onOpenWorkspace("assistant")}>
-            <Sparkles />
-            {t("Assistant", "助理")}
-          </button>
-          <button onClick={() => onOpenWorkspace("extras")}>
-            <SlidersHorizontal />
-            {t("Calendar & companion", "日历与助理")}
-          </button>
-          <button onClick={() => onOpenWorkspace("posture")}>
-            <Camera />
-            {t("Posture & feedback", "坐姿与反馈")}
-          </button>
-          <button onClick={() => onOpenWorkspace("connections")}>
-            <Link2 />
-            {t("Apps & devices", "应用与设备")}
-          </button>
-        </div>
-        {[
-          [
-            t("Camera & posture", "摄像头与坐姿"),
-            postureLabel(workspace.data?.posture, t),
-          ],
-          [
-            t("Voice assistant", "语音助理"),
-            workspace.data?.voice.configured
-              ? t("Configured", "已配置")
-              : t("Not configured", "未配置"),
-          ],
-          [
-            t("Robotic arm", "机械臂"),
-            workspace.data?.outputs.connected &&
-            workspace.data.outputs.capabilities.includes("arm")
-              ? t("Controller connected", "控制器已连接")
-              : t("Not connected", "未连接"),
-          ],
-          [
-            t("Weather", "天气"),
-            workspace.data?.calendar_extras.weather.status === "current"
-              ? t("Current reading", "最新观测")
-              : workspace.data?.calendar_extras.weather.status ===
-                  "not_configured"
-                ? t("Location not selected", "未选择地区")
-                : t("Unavailable or stale", "不可用或已过期"),
-          ],
-          [
-            t("External calendars", "外部日历"),
-            workspace.data?.google.connected
-              ? t("Google connected", "Google已连接")
-              : t("Not connected", "未连接"),
-          ],
-        ].map(([name, state]) => (
-          <div className="connection-row" key={name}>
-            <span>{name}</span>
-            <small>{state}</small>
-          </div>
-        ))}
-
-        <button className="secondary" onClick={onDeviceLayout}>
-          {t("Open device layout", "打开设备布局")}
-          <ArrowUpRight size={16} />
-        </button>
-      </section>
-      <section className="settings-section">
-        <h2>{t("Connection", "连接")}</h2>
-        {isNative && (
-          <button
-            className="text-button"
-            disabled={dirty || busy}
-            onClick={() =>
-              window.dispatchEvent(new Event("desk:change-server"))
-            }
+          ))}
+        </nav>
+        <div className="settings-content">
+          <section
+            hidden={category !== "general"}
+            className="settings-section settings-general"
           >
-            {t("Change desk address", "更换桌面地址")}
-          </button>
-        )}
-        <div className="setting-row">
-          <span>
-            <strong>{workspace.data?.principal.name ?? "Owner"}</strong>
-            <small>{t("Connected workspace", "已连接工作空间")}</small>
-          </span>
+            <h2>{t("Workspace", "工作空间")}</h2>
+            <div className="setting-row">
+              <span>
+                <strong>{t("Language", "语言")}</strong>
+              </span>
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as Language)}
+                aria-label={t("Language", "语言")}
+              >
+                <option value="en">English</option>
+                <option value="zh">简体中文</option>
+              </select>
+            </div>
+            <div className="setting-row">
+              <label htmlFor="timezone">
+                <strong>{t("Calendar timezone", "日历时区")}</strong>
+              </label>
+              <select
+                id="timezone"
+                value={zone}
+                disabled={busy}
+                onChange={(e) => {
+                  setZone(e.target.value);
+                  setSaved(false);
+                }}
+              >
+                {[
+                  "Asia/Hong_Kong",
+                  "Asia/Shanghai",
+                  "Asia/Tokyo",
+                  "Europe/London",
+                  "America/New_York",
+                  "UTC",
+                  ...(![
+                    "Asia/Hong_Kong",
+                    "Asia/Shanghai",
+                    "Asia/Tokyo",
+                    "Europe/London",
+                    "America/New_York",
+                    "UTC",
+                  ].includes(zone)
+                    ? [zone]
+                    : []),
+                ].map((z) => (
+                  <option key={z}>{z}</option>
+                ))}
+              </select>
+            </div>
+            <div className="setting-row">
+              <label htmlFor="hide-private">
+                <strong>{t("Hide private details", "隐藏私人详情")}</strong>
+                <small>
+                  {t(
+                    "Show titles as “Private event” on connected screens",
+                    "在已连接界面将标题显示为“私人事项”",
+                  )}
+                </small>
+              </label>
+              <input
+                id="hide-private"
+                type="checkbox"
+                checked={hidden}
+                disabled={busy}
+                onChange={(e) => {
+                  setHidden(e.target.checked);
+                  setSaved(false);
+                }}
+              />
+            </div>
+            {!!error && <p className="error-message">{errorText(error, t)}</p>}
+            {dirty && settings.version !== baseline.version && (
+              <p role="alert">
+                {t(
+                  "Preferences changed on another screen. Discard your edits to load the latest values before saving.",
+                  "另一端已修改偏好。先放弃当前修改以加载最新设置，再重新编辑。",
+                )}
+              </p>
+            )}
+            <div className="settings-save">
+              <button
+                className="primary"
+                disabled={
+                  busy || !dirty || settings.version !== baseline.version
+                }
+                onClick={save}
+              >
+                {busy
+                  ? t("Saving…", "保存中…")
+                  : t("Save preferences", "保存偏好")}
+              </button>
+              {dirty && (
+                <button
+                  className="secondary"
+                  disabled={busy}
+                  onClick={() => {
+                    setZone(settings.timezone);
+                    setHidden(settings.hide_private);
+                    setBaseline(settings);
+                    setError(null);
+                  }}
+                >
+                  {t("Discard changes", "放弃修改")}
+                </button>
+              )}
+              {saved && <span role="status">{t("Saved", "已保存")}</span>}
+            </div>
+          </section>
+          <section
+            hidden={category !== "apps"}
+            className="settings-section settings-directory"
+          >
+            <h2>{t("Apps and devices", "应用与设备")}</h2>
+            <div className="workspace-entry-list">
+              <button onClick={() => onOpenWorkspace("data")}>
+                <Settings2 />
+                {t("Import & share", "导入与分享")}
+              </button>
+              <button onClick={() => onOpenWorkspace("assistant")}>
+                <Sparkles />
+                {t("Assistant", "助理")}
+              </button>
+              <button onClick={() => onOpenWorkspace("extras")}>
+                <SlidersHorizontal />
+                {t("Calendar & companion", "日历与助理")}
+              </button>
+              <button onClick={() => onOpenWorkspace("posture")}>
+                <Camera />
+                {t("Posture & feedback", "坐姿与反馈")}
+              </button>
+              <button onClick={() => onOpenWorkspace("connections")}>
+                <Link2 />
+                {t("Manage connections", "管理连接")}
+              </button>
+            </div>
+            <button className="secondary" onClick={onDeviceLayout}>
+              {t("Open device layout", "打开设备布局")}
+              <ArrowUpRight size={16} />
+            </button>
+          </section>
+          <div hidden={category !== "permissions"}>
+            <PermissionsPanel t={t} />
+          </div>
+          <section
+            hidden={category !== "status"}
+            className="settings-section settings-status"
+          >
+            <h2>{t("Device status", "设备状态")}</h2>
+            {[
+              [
+                t("Camera & posture", "摄像头与坐姿"),
+                postureLabel(workspace.data?.posture, t),
+              ],
+              [
+                t("Voice assistant", "语音助理"),
+                workspace.data?.voice.configured
+                  ? t("Configured", "已配置")
+                  : t("Not configured", "未配置"),
+              ],
+              [
+                t("Robotic arm", "机械臂"),
+                workspace.data?.outputs.connected &&
+                workspace.data.outputs.capabilities.includes("arm")
+                  ? t("Controller connected", "控制器已连接")
+                  : t("Not connected", "未连接"),
+              ],
+              [
+                t("Weather", "天气"),
+                workspace.data?.calendar_extras.weather.status === "current"
+                  ? t("Current reading", "最新观测")
+                  : workspace.data?.calendar_extras.weather.status ===
+                      "not_configured"
+                    ? t("Location not selected", "未选择地区")
+                    : t("Unavailable or stale", "不可用或已过期"),
+              ],
+              [
+                t("External calendars", "外部日历"),
+                workspace.data?.google.connected
+                  ? t("Google connected", "Google已连接")
+                  : t("Not connected", "未连接"),
+              ],
+            ].map(([name, state]) => (
+              <div className="connection-row" key={name}>
+                <span>{name}</span>
+                <small>{state}</small>
+              </div>
+            ))}
+          </section>
+          <section hidden={category !== "general"} className="settings-section">
+            <h2>{t("Connection", "连接")}</h2>
+            {isNative && (
+              <button
+                className="text-button"
+                disabled={dirty || busy}
+                onClick={() =>
+                  window.dispatchEvent(new Event("desk:change-server"))
+                }
+              >
+                {t("Change desk address", "更换桌面地址")}
+              </button>
+            )}
+            <div className="setting-row">
+              <span>
+                <strong>{workspace.data?.principal.name ?? "Owner"}</strong>
+                <small>{t("Connected workspace", "已连接工作空间")}</small>
+              </span>
+            </div>
+          </section>
+          <div hidden={category !== "general"}>
+            <PhoneFeatures t={t} />
+          </div>
         </div>
-      </section>
-      <PhoneFeatures t={t} />
+      </div>
     </div>
   );
 }

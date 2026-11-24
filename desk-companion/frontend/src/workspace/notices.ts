@@ -2,6 +2,7 @@
 
 export interface DeskNotice {
   id: string;
+  created_at?: string;
   kind?: string;
   state: string;
   title_en: string;
@@ -54,4 +55,18 @@ export function openNotices(notices: DeskNotice[]): DeskNotice[] {
     seen.add(notice.id);
     return true;
   });
+}
+
+
+/** Both lists are newest first. Filling a vacated page slot is not a new delivery. */
+export function newlyArrived(previous: DeskNotice[] | null, current: DeskNotice[]): DeskNotice[] {
+  if (previous === null) return [];
+  if (previous.length === 0) return current;
+  const known = new Set(previous.map(item => item.id));
+  const overlap = current.findIndex(item => known.has(item.id));
+  if (overlap >= 0) return current.slice(0, overlap).filter(item =>
+    !item.created_at || !previous[0].created_at || Date.parse(item.created_at) >= Date.parse(previous[0].created_at)
+  );
+  const lastTime = Date.parse(previous[0].created_at ?? "");
+  return current.filter(item => Date.parse(item.created_at ?? "") > lastTime);
 }

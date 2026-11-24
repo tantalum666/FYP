@@ -33,7 +33,7 @@ export interface DiagnosticsReport {
   scheduler: { ticks: Record<string, string>; backup: string };
 }
 
-export function diagnosticsLines(
+export function diagnosticsSections(
   report: DiagnosticsReport,
   language: Language,
 ) {
@@ -50,56 +50,82 @@ export function diagnosticsLines(
     .map(([name, status]) => `${name}: ${status}`)
     .join(", ");
   return [
-    { label: en ? "Service" : "服务", value: report.versions.service },
-    { label: "Python", value: report.versions.python },
     {
-      label: en ? "Provider" : "模型",
-      value: report.provider.configured
-        ? report.provider.name
-        : en
-          ? "Not configured"
-          : "未配置",
+      title: en ? "Runtime" : "运行环境",
+      lines: [
+        { label: en ? "Service" : "服务", value: report.versions.service },
+        { label: "Python", value: report.versions.python },
+        {
+          label: en ? "Provider" : "模型",
+          value: report.provider.configured
+            ? report.provider.name
+            : en
+              ? "Not configured"
+              : "未配置",
+        },
+      ],
     },
     {
-      label: en ? "Follow-up requests today" : "今日后续建议请求数",
-      value: `${report.provider.cap_used} / ${report.provider.cap_limit}`,
+      title: en ? "Usage" : "用量",
+      lines: [
+        {
+          label: en ? "Follow-up requests today" : "今日后续建议请求数",
+          value: `${report.provider.cap_used} / ${report.provider.cap_limit}`,
+        },
+        ...(spending?.reserved_or_unpriced_usd != null
+          ? [
+              {
+                label: en
+                  ? "Local reservations / unpriced work"
+                  : "本地预留与待定费用",
+                value: usd(spending.reserved_or_unpriced_usd),
+              },
+              {
+                label: en ? "Local usage estimate" : "基于用量的本地估算",
+                value: usd(spending.observed_usage_estimate_usd ?? 0),
+              },
+              {
+                label: en
+                  ? "Available local allowance (Hong Kong day)"
+                  : "本地可用额度（香港日）",
+                value: `${usd(spending.available_usd)} / ${usd(spending.allocated_usd)}`,
+              },
+              {
+                label: en
+                  ? "Latest platform cost export"
+                  : "最近导入的平台费用",
+                value: statement
+                  ? `${usd(statement.amount_usd)} · ${statement.utc_day} UTC · ${statement.scope}`
+                  : en
+                    ? "No imported statement"
+                    : "尚未导入费用报表",
+              },
+            ]
+          : []),
+      ],
     },
-    ...(spending?.reserved_or_unpriced_usd != null
-      ? [
-          {
-            label: en
-              ? "Local reservations / unpriced work"
-              : "本地预留与待定费用",
-            value: usd(spending.reserved_or_unpriced_usd),
-          },
-          {
-            label: en ? "Local usage estimate" : "基于用量的本地估算",
-            value: usd(spending.observed_usage_estimate_usd ?? 0),
-          },
-          {
-            label: en
-              ? "Available local allowance (Hong Kong day)"
-              : "本地可用额度（香港日）",
-            value: `${usd(spending.available_usd)} / ${usd(spending.allocated_usd)}`,
-          },
-          {
-            label: en ? "Latest platform cost export" : "最近导入的平台费用",
-            value: statement
-              ? `${usd(statement.amount_usd)} · ${statement.utc_day} UTC · ${statement.scope}`
-              : en
-                ? "No imported statement"
-                : "尚未导入费用报表",
-          },
-        ]
-      : []),
-    { label: en ? "Last backup" : "最近备份", value: backup },
     {
-      label: en ? "Database" : "数据库",
-      value: `${report.database.bytes} B`,
-    },
-    {
-      label: en ? "Scheduler" : "调度",
-      value: ticks || (en ? "No ticks yet" : "还没有调度"),
+      title: en ? "Storage and scheduler" : "存储与调度",
+      lines: [
+        { label: en ? "Last backup" : "最近备份", value: backup },
+        {
+          label: en ? "Database" : "数据库",
+          value: `${report.database.bytes} B`,
+        },
+        {
+          label: en ? "Scheduler" : "调度",
+          value: ticks || (en ? "No ticks yet" : "还没有调度"),
+        },
+      ],
     },
   ];
+}
+
+export function diagnosticsLines(
+  report: DiagnosticsReport,
+  language: Language,
+) {
+  return diagnosticsSections(report, language).flatMap(
+    (section) => section.lines,
+  );
 }

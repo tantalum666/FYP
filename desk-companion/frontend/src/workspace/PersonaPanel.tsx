@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { Sparkles } from "lucide-react";
 import { ApiError, errorText, request, write } from "../api";
 import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
@@ -130,103 +129,110 @@ export function PersonaPanel({ t }: { t: Translate }) {
       className="workspace-section persona-page"
       aria-label={t("Assistant style", "助理风格")}
     >
-      <div className="workspace-state">
-        <Sparkles />
-        <div>
-          <h1>{t("Assistant style", "助理风格")}</h1>
-        </div>
-      </div>
-      <VoiceSettingsPanel t={t} />
-      <div className="persona-summary">
-        <h2>
-          {persona?.source === "owner"
-            ? t("Your custom instructions", "你的自定义指令")
-            : t("Built-in assistant style", "内置助理风格")}
-        </h2>
-        <p>
-          {persona
-            ? persona.source === "default"
-              ? t(
-                  "Concise, natural replies that follow your language.",
-                  "简洁自然地回应，并跟随你的语言。",
-                )
-              : t(
-                  "Your saved instructions apply to both text and voice.",
-                  "你保存的指令会同时用于文字与语音。",
-                )
-            : t("Loading instructions…", "正在读取指令…")}
-        </p>
-        <button
-          className="secondary"
-          type="button"
-          aria-expanded={expanded}
-          onClick={() => setExpanded(!expanded)}
-        >
-          {expanded
-            ? t("Collapse editor", "收起编辑器")
-            : t("Edit instructions", "编辑指令")}
-        </button>
-        {dirty && (
-          <span className="unsaved-label" role="status">
-            {t("Unsaved changes", "有未保存的修改")}
-          </span>
-        )}
-      </div>
-      <form onSubmit={save} hidden={!expanded} className="persona-editor">
-        <label className="field">
-          {t("Assistant instructions", "助理指令")}
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            maxLength={4000}
-            rows={8}
-            required
-            disabled={busy || !persona}
-          />
-        </label>
-        <div className="workspace-inline-actions">
-          <button
-            className="primary"
-            disabled={busy || !persona || !body.trim() || !dirty}
-          >
-            {t("Save instructions", "保存指令")}
-          </button>
-          <button
-            type="button"
-            className="secondary"
-            disabled={busy || !persona || persona.source === "default"}
-            onClick={() => void reset()}
-          >
-            {t("Restore built-in text", "恢复内置文本")}
-          </button>
-        </div>
-      </form>
-      {notice && <p role="status">{notice}</p>}
-      {!!error && (
-        <p className="error-message" role="alert">
-          {errorText(error, t)}
-        </p>
-      )}
-      {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
-        <button
-          type="button"
-          className="secondary"
-          disabled={busy}
-          onClick={async () => {
-            try {
-              await reload();
-              setError(null);
-            } catch (reason) {
-              setError(reason);
-            }
-          }}
-        >
-          {t(
-            "Discard draft and load current persona",
-            "放弃草稿并加载当前人格",
+      <header className="page-heading">
+        <h1>{t("Assistant style", "助理风格")}</h1>
+      </header>
+      <div className="style-columns">
+        <div className="style-instructions">
+          <div className="persona-summary">
+            <div className="style-portrait" aria-hidden="true">
+              <img
+                src="/avatars/alice/phone-fallback.jpg"
+                alt=""
+                loading="lazy"
+              />
+            </div>
+            <h2>
+              {persona?.source === "owner"
+                ? t("Your custom instructions", "你的自定义指令")
+                : t("Built-in assistant style", "内置助理风格")}
+            </h2>
+            <p className="style-preview">
+              {persona
+                ? persona.source === "default"
+                  ? t(
+                      "Concise, natural replies that follow your language.",
+                      "简洁自然地回应，并跟随你的语言。",
+                    )
+                  : data.personal_context_visible
+                    ? persona.body
+                    : t("Custom instructions saved.", "已保存自定义指令。")
+                : t("Loading instructions…", "正在读取指令…")}
+            </p>
+            <button
+              className="secondary"
+              type="button"
+              aria-expanded={expanded}
+              onClick={() => setExpanded(!expanded)}
+            >
+              {expanded
+                ? t("Collapse editor", "收起编辑器")
+                : t("Edit instructions", "编辑指令")}
+            </button>
+            {dirty && (
+              <span className="unsaved-label" role="status">
+                {t("Unsaved changes", "有未保存的修改")}
+              </span>
+            )}
+          </div>
+          <form onSubmit={save} hidden={!expanded} className="persona-editor">
+            <label className="field">
+              {t("Assistant instructions", "助理指令")}
+              <textarea
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                maxLength={4000}
+                rows={8}
+                required
+                disabled={busy || !persona}
+              />
+            </label>
+            <div className="workspace-inline-actions">
+              <button
+                className="primary"
+                disabled={busy || !persona || !body.trim() || !dirty}
+              >
+                {t("Save instructions", "保存指令")}
+              </button>
+              <button
+                type="button"
+                className="secondary"
+                disabled={busy || !persona || persona.source === "default"}
+                onClick={() => void reset()}
+              >
+                {t("Restore built-in text", "恢复内置文本")}
+              </button>
+            </div>
+          </form>
+          {notice && <p role="status">{notice}</p>}
+          {!!error && (
+            <p className="error-message" role="alert">
+              {errorText(error, t)}
+            </p>
           )}
-        </button>
-      )}
+          {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={busy}
+              onClick={async () => {
+                try {
+                  await reload();
+                  setError(null);
+                } catch (reason) {
+                  setError(reason);
+                }
+              }}
+            >
+              {t(
+                "Discard draft and load current persona",
+                "放弃草稿并加载当前人格",
+              )}
+            </button>
+          )}
+        </div>
+        <VoiceSettingsPanel t={t} />
+      </div>
     </section>
   );
 }

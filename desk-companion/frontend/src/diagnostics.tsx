@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Activity, Database, Gauge, RefreshCw } from "lucide-react";
 import { request, errorText } from "./api";
-import { diagnosticsLines, type DiagnosticsReport } from "./diagnosticsData";
+import { diagnosticsSections, type DiagnosticsReport } from "./diagnosticsData";
 import type { Language, Translate } from "./types";
 
 export function DiagnosticsPanel({
@@ -12,38 +13,75 @@ export function DiagnosticsPanel({
 }) {
   const [report, setReport] = useState<DiagnosticsReport | null>(null);
   const [error, setError] = useState<unknown>(null);
+  const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(0);
   useEffect(() => {
-    let cancelled = false;
+    let live = true;
+    setLoading(true);
+    setError(null);
     request<DiagnosticsReport>("/diagnostics")
-      .then((body) => {
-        if (!cancelled) setReport(body);
+      .then((next) => {
+        if (live) setReport(next);
       })
-      .catch((reason: unknown) => {
-        if (!cancelled) setError(reason);
+      .catch((cause) => {
+        if (live) setError(cause);
+      })
+      .finally(() => {
+        if (live) setLoading(false);
       });
     return () => {
-      cancelled = true;
+      live = false;
     };
-  }, []);
-  if (error) {
-    return <p role="alert">{errorText(error, t)}</p>;
-  }
-  if (!report) {
-    return <p role="status">{t("Loading diagnostics", "正在读取诊断")}</p>;
-  }
-  const lines = diagnosticsLines(report, language);
+  }, [refresh]);
+  const icons = [Activity, Gauge, Database];
   return (
-    <section className="diagnostics" aria-labelledby="diagnostics-title">
-      <h1 id="diagnostics-title">{t("Diagnostics", "诊断")}</h1>
-      <p>{t("Read only. Secrets are not shown.", "只读。不显示密钥。")}</p>
-      <dl>
-        {lines.map((line) => (
-          <Fragment key={line.label}>
-            <dt>{line.label}</dt>
-            <dd>{line.value}</dd>
-          </Fragment>
-        ))}
-      </dl>
+    <section
+      className="diagnostics workspace-page"
+      aria-labelledby="diagnostics-title"
+      aria-busy={loading}
+    >
+      <header className="page-heading">
+        <h1 id="diagnostics-title">{t("Diagnostics", "诊断")}</h1>
+        <button
+          className="secondary"
+          disabled={loading}
+          onClick={() => setRefresh((n) => n + 1)}
+        >
+          <RefreshCw size={16} />
+          {t("Refresh", "刷新")}
+        </button>
+      </header>
+      {!!error && (
+        <p role="alert" className="error-message">
+          {errorText(error, t)}
+        </p>
+      )}
+      {!report && loading && (
+        <p role="status">{t("Loading diagnostics…", "正在读取诊断…")}</p>
+      )}
+      {report && (
+        <div className="diagnostic-groups">
+          {diagnosticsSections(report, language).map((section, index) => {
+            const Icon = icons[index];
+            return (
+              <section key={section.title}>
+                <h2>
+                  <Icon size={19} />
+                  {section.title}
+                </h2>
+                <dl>
+                  {section.lines.map((line) => (
+                    <div key={line.label}>
+                      <dt>{line.label}</dt>
+                      <dd>{line.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

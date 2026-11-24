@@ -1,3 +1,4 @@
+import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { errorText } from "../api";
@@ -30,9 +31,12 @@ export function ConnectionView({
     }
   };
   return (
-    <main className="connection-page">
+    <main className="connection-page public-workspace">
       <div className="connection-top">
-        <strong>Desk Companion</strong>
+        <strong className="public-wordmark">
+          <Sparkles size={21} />
+          Alice
+        </strong>
         <select
           value={language}
           aria-label="Language"

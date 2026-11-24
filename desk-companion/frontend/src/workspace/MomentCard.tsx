@@ -34,7 +34,7 @@ export function MomentCard({ t }: { t: Translate }) {
   const suggestion = moments.suggestion;
   if (!suggestion && !moments.paused && !moments.dismissals.length) return null;
   return (
-    <section className="connection-banner" role="status">
+    <section className="today-moment" role="status">
       {suggestion && (
         <p>
           {t(suggestion.reason_en, suggestion.reason_zh)}
@@ -50,7 +50,9 @@ export function MomentCard({ t }: { t: Translate }) {
           </button>
         </p>
       )}
-      {moments.paused && <p>{t(moments.pause_reason_en, moments.pause_reason_zh)}</p>}
+      {moments.paused && (
+        <p>{t(moments.pause_reason_en, moments.pause_reason_zh)}</p>
+      )}
       {moments.dismissals.length > 0 && (
         <button
           type="button"
