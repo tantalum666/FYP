@@ -253,6 +253,57 @@ def test_password_page_stays_open_for_the_owner_and_a_nav_link_does_not(tmp_path
     assert runtime.jobs.computer_use.launches == 2
 
 
+def test_payment_wall_and_privacy_or_restart_close_the_page(tmp_path):
+    from desk.schemas import SettingsInput
+
+    seen = []
+    runtime, client, principal, _clock = _world(tmp_path, seen)
+    payment = _prepare(runtime, principal, "live-pay", "demo:payment", "Stop before payment")
+    worker = threading.Thread(target=runtime.jobs.run_one, daemon=True)
+    worker.start()
+    paused = _wait_state(runtime, payment["id"], "owner_takeover")
+    assert paused["result"]["wall"] == "payment"
+    held = _post(client, payment["id"], "takeover", paused["version"], "pay-takeover")
+    assert held.status_code == 200
+    returned = _post(
+        client, payment["id"], "return", held.json()["job"]["version"], "pay-return"
+    )
+    assert returned.status_code == 200, returned.text
+    assert returned.json()["resumed"] is not True
+    still = runtime.jobs.detail(payment["id"], review=True)
+    assert still["state"] == "owner_takeover" and still["result"]["phase"] == "paused"
+    assert seen == []
+    runtime.store.update_settings(
+        SettingsInput(expected_version=1, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide-pay",
+    )
+    worker.join(timeout=20)
+    closed = runtime.jobs.detail(payment["id"], review=True)
+    assert closed["state"] == "unknown"
+    assert closed["error"] == "PRIVATE_CONTEXT_HIDDEN"
+    assert runtime.jobs.computer_use.launches == 1
+    runtime.store.update_settings(
+        SettingsInput(expected_version=2, timezone="Asia/Hong_Kong", hide_private=False),
+        "show-pay",
+    )
+
+    restart = _prepare(runtime, principal, "live-restart", "demo:verification", "Stop at the password")
+    again = threading.Thread(target=runtime.jobs.run_one, daemon=True)
+    again.start()
+    waiting = _wait_state(runtime, restart["id"], "owner_takeover")
+    assert waiting["result"]["takeover_available"] is True
+    runtime.jobs.computer_use.supervisor.live_page = None
+    lost = client.get(f"/api/computer/computer-use/jobs/{restart['id']}/screen")
+    assert lost.status_code == 409
+    assert lost.json()["error"]["code"] == "BROWSER_PAGE_LOST"
+    again.join(timeout=20)
+    assert runtime.jobs.detail(restart["id"])["state"] == "unknown"
+    launches = runtime.jobs.computer_use.launches
+    runtime.jobs.run_one()
+    assert runtime.jobs.computer_use.launches == launches
+    assert seen == []
+
+
 def test_dead_page_hidden_context_and_deadline_do_not_open_another_browser(tmp_path):
     from desk.schemas import SettingsInput
 

@@ -81,6 +81,8 @@ class VerificationDriver:
                 "wall": "captcha",
                 "state_sha256": state_sha,
                 "observed_text": "The rehearsal page is open again.",
+                "url": observation["url"],
+                "screen_sha256": observation["sha256"],
             }
             refresh_file(directory, "wall-evidence.json", encode(evidence).encode())
             outcome, reason = "review_ready", "review_prepared_page"

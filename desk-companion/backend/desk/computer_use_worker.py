@@ -528,6 +528,8 @@ async def run(request):
                                     cleared_note = {
                                         "text": observation.get("text") or "",
                                         "wall": reason,
+                                        "url": observation.get("url"),
+                                        "screen_sha256": observation.get("sha256"),
                                     }
                                     boundary.reason = None
                                 elif status == "lost":
@@ -604,6 +606,8 @@ async def run(request):
                                 cleared_note = {
                                     "text": observation.get("text") or "",
                                     "wall": reason,
+                                    "url": observation.get("url"),
+                                    "screen_sha256": observation.get("sha256"),
                                 }
                                 boundary.reason = None
                                 pending = observation
@@ -639,6 +643,8 @@ async def run(request):
                                 "wall": cleared_note["wall"],
                                 "state_sha256": state_sha,
                                 "observed_text": cleared_note["text"],
+                                "url": cleared_note.get("url"),
+                                "screen_sha256": cleared_note.get("screen_sha256"),
                             }
                         ).encode(),
                     )

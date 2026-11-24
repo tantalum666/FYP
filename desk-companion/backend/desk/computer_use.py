@@ -109,6 +109,8 @@ class LiveOwnerPage:
 
     def serve(self):
         while True:
+            if self.executor.supervisor.live_page is not self:
+                self._release("unknown", "BROWSER_PAGE_LOST")
             terminal = self._terminal()
             if terminal:
                 self._release(*terminal)
@@ -141,6 +143,14 @@ class LiveOwnerPage:
                 return "expired", "JOB_DEADLINE_EXCEEDED"
             if row["state"] not in {"running", "owner_takeover"}:
                 return "unknown", "BROWSER_PAGE_LOST"
+            if jobs.store.settings(conn)["hide_private"]:
+                return "unknown", "PRIVATE_CONTEXT_HIDDEN"
+            session_hash = json.loads(row["request"]).get("session_hash")
+            if session_hash and not conn.execute(
+                "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+                (session_hash, iso(jobs.store.clock())),
+            ).fetchone():
+                return "unknown", "RUN_SESSION_EXPIRED"
         return None
 
     def _release(self, state, code):
@@ -168,7 +178,19 @@ class LiveOwnerPage:
     def _input(self, payload, key, principal, box):
         jobs = self.executor.runtime.jobs
         action = payload.action.model_dump()
-        digest = hashlib.sha256(encode(action).encode()).hexdigest()
+        binding = hashlib.sha256(
+            encode(
+                {
+                    "job_id": self.job_id,
+                    "version": payload.expected_version,
+                    "type": action.get("type"),
+                    "x": action.get("x"),
+                    "y": action.get("y"),
+                    "key": action.get("key"),
+                    "text_sha256": hashlib.sha256((action.get("text") or "").encode()).hexdigest(),
+                }
+            ).encode()
+        ).hexdigest()
         try:
             with jobs.store.connection() as conn:
                 self._authorize(conn, principal)
@@ -184,12 +206,17 @@ class LiveOwnerPage:
             if cached:
                 with jobs.store.connection() as conn:
                     self._authorize(conn, principal)
-                if cached["digest"] != digest:
+                if cached["binding"] != binding:
                     raise DomainError("OPERATION_ID_CONFLICT")
+                if cached["state"] != "done":
+                    box.put(("error", PageLost()))
+                    return
                 box.put(("ok", cached["public"]))
                 return
+            self.receipts[key] = {"binding": binding, "state": "dispatched", "public": None}
             message = self.channel.exchange({"owner_action": action}, {"owner_view"})
             if message.get("type") != "owner_view":
+                self.receipts[key]["state"] = "unknown"
                 self.channel.drain(5)
                 box.put(("error", PageLost()))
                 raise OwnerHoldEnded(
@@ -213,9 +240,13 @@ class LiveOwnerPage:
                 jobs._state(conn, self.job_id, "owner_takeover", record.get("reason"), record)
                 view = jobs._view(jobs._row(conn, self.job_id), review=True)
             public = {"applied": True, "job": view, "operation_id": key}
-            self.receipts[key] = {"digest": digest, "public": public}
+            self.receipts[key] = {"binding": binding, "state": "done", "public": public}
             box.put(("ok", public))
         except DomainError as exc:
+            if self.receipts.get(key, {}).get("state") == "dispatched":
+                self.receipts[key]["state"] = "unknown"
+                box.put(("error", PageLost()))
+                self._release("unknown", "BROWSER_PAGE_LOST")
             box.put(("error", exc))
 
     def _hand_back(self, payload, key, principal, box):
@@ -255,8 +286,10 @@ class LiveOwnerPage:
             wall = classify_owner_wall(
                 observation.get("text") or "", observation.get("controls") or ()
             )
-            if view.get("url") and observation.get("url") and view["url"] != observation["url"]:
-                wall = wall or {"wall": "login", "reason": "login_needs_owner"}
+            paused_url = (record.get("observation") or {}).get("url")
+            if paused_url and observation.get("url") != paused_url and wall is None:
+                # A different document is not evidence the original wall cleared.
+                wall = {"wall": "login", "reason": "login_needs_owner"}
             safe = _safe_observation(observation)
 
             def apply(conn):
@@ -659,6 +692,9 @@ class ComputerUseExecutor:
             or evidence.get("state_sha256") != state_sha256
             or not isinstance(observed, str)
             or not observed.strip()
+            or not isinstance(evidence.get("url"), str)
+            or not evidence["url"]
+            or not isinstance(evidence.get("screen_sha256"), str)
         ):
             raise RuntimeError("Computer execution/cleanup is uncertain; inspect before retry")
         return hashlib.sha256(raw).hexdigest()
@@ -698,6 +734,8 @@ class ComputerUseExecutor:
                 and evidence.get("state_sha256") == result["state_sha256"]
                 and isinstance(observed, str)
                 and bool(observed.strip())
+                and evidence.get("url") == observation.get("url")
+                and evidence.get("screen_sha256") == observation.get("sha256")
                 and hashlib.sha256(evidence_raw).hexdigest() == result.get("evidence_sha256")
             )
         return ComputerUseReceipt(

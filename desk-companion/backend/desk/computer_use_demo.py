@@ -66,6 +66,10 @@ document.querySelector('#go').onclick=()=>{
 PUBLIC_NAV = """<nav><a href="#account">Sign in</a></nav>
 <h1>Shop tissues</h1><p>All products</p><button type=button>Add to cart</button>
 <p>No account is required for this catalogue.</p>"""
+PAYMENT = """<h1>Confirm payment</h1>
+<p>Pay now to finish this fictional checkout.</p>
+<button type=button>Pay now</button>
+<p>No card is collected here.</p>"""
 
 
 @contextmanager
@@ -76,6 +80,7 @@ def demo_server(kind):
         "demo:flights": FLIGHTS,
         "demo:verification": VERIFICATION,
         "demo:public-nav": PUBLIC_NAV,
+        "demo:payment": PAYMENT,
     }
     body = (
         "<!doctype html><html lang=en><meta charset=utf-8><title>FYP browser rehearsal</title>"

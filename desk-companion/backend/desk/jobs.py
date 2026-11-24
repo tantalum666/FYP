@@ -1447,8 +1447,15 @@ def job_routes(runtime, owner, operation_id):
         runtime.personal_context.require_visible(principal)
         with runtime.store.connection() as conn:
             runtime.jobs._handoff_authorize(conn, job_id, principal)
-        live = getattr(runtime.jobs.computer_use.supervisor, "live_page", None)
-        if live is not None and live.job_id == job_id:
+            row = runtime.jobs._row(conn, job_id)
+            held = row["state"] == "owner_takeover"
+            intent = json.loads(row["request"])
+        supervisor = runtime.jobs.browser_executor(intent).supervisor
+        if held and hasattr(supervisor, "live_page"):
+            live = supervisor.live_page
+            if live is None or live.job_id != job_id or not live.alive():
+                runtime.jobs.note_page_lost(job_id)
+                raise DomainError("BROWSER_PAGE_LOST", 409)
             try:
                 live.peek()
             except PageLost:
