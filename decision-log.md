@@ -863,3 +863,10 @@ Verification removed the misleading inference that a disappeared pending draft e
 **Cost:** new engineering capUS$5; Responses12requests/10receipts/2unknown holds totalUS$0.267201 conservative, plus4hostedUS$1unknown-usage reserves=US$4.267201. Not an invoice. All batch ledgers closed and temporary QA services stopped. This is not an ongoing budget. Normal Mac/native/Pi release remains last verified8c67ddbe; source merge and later deployment are separate. [Contract](desk-companion/docs/proactive-research.md), [evidence](output/qa/2026-11-17-proactive-agent-merge/verification.md).
 
 Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. All original124–128 independently report merged=true; main tree75550fed12c54c5112f3fbb1e358e8a9d7affced exactly matches tested42bc01ec. Final backend2,501passed/2Linux-only skips and frontend393/types/build/Ruff. Closeout changes are documentation/receipts only. [Receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json).
+
+## 2026-11-24 ArUco 独立演示与简化标定
+
+- **用户决定：**initial report 先以手机／电脑和五块牌验证，定位由用户本人负责；纸质打印后剪裁测试。后因三牌 X/Y 不易理解，选择 ID 0／1／2 成直角 L，只填两段码中心距（cm）。保留免测量像素演示。两边最新进度上传 GitHub 供组员审核，不部署 main。
+- **工程实现与范围：**三牌使用已知黑框尺寸、统一朝向的十二角点拟合，继续拒绝不合几何的标定；不放宽校验掩盖摆放错误。L 形 ID 3 不参与映射，也不能替代缺失参照。API／CSV 仍 mm，页面 L 形显示 cm；物品／未知变化和近障／越界均为图像证据提示，未接电机动作。
+- **硬件补充：**官方图示 RIG-Arm 含原底座至天线 234 mm；现有机箱 200 mm，叠加约 434 mm。无原机可切超广角的保证，手机 0.5× 覆盖结果不替代原机视野、取流和远端牌识别测试。
+- **验证边界：**生成录像、源码和浏览器操作可复验；真实 L 形厘米误差、原机全桌覆盖、小车路线／回充待验。[交付与下一步](research/2026-11-24-aruco-localisation/README.md)。

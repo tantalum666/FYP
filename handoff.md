@@ -23,3 +23,9 @@ Pi power diagnosis is paused; preserve2.4GHz/Alice/RTC settings. Supply instabil
 ## One next step
 
 Promote the reviewed main tree to normal Mac/native/Pi, with backup and source/build/data/A3/grant readback. Do not turn the deployment into another power experiment. Continue from the saved source/evidence instead of repeating completed research or restarting closed test budgets.
+
+## Parallel hardware / localisation update · 24 November
+
+[New hardware-member checkpoint](research/2026-11-24-aruco-localisation/README.md): standalone localhost ArUco UI and CLI, five-tag paper cutouts, source/model-download manifest/license and a ZIP (weights fetched once with SHA256 verification). Latest L-shape setup uses IDs0/1/2 and two measured distances in cm; default unmeasured mode outputs px, physical API/CSV mm (web37columns). Includes semantic/unknown-change candidates, edge/proximity alerts, recording and CSV. RIG official illustrated base-to-antenna height234mm; adding the current200mm enclosure gives about434mm in that pose. Camera height/FOV differs and remains unverified.
+
+This is a separate prototype, not main application or robot integration/deployment. Synthetic and browser checks are documented in [QA](output/qa/2026-11-24-aruco-progress/verification.md); no physical accuracy or robot route/charging acceptance. Next localisation action: fix the actual camera, measure the L's two centre distances and compare ID4 against ruler positions while saving real video/CSV. Existing software next step and paused power diagnosis remain as above.

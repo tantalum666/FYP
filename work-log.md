@@ -1004,3 +1004,10 @@ Local final backend2,501passed/2Linux-only skips; publication receipt: see [QA](
 Saved source, current product/contracts/research, sanitized QA and private raw archive; updated AGENTS/START/handoff and recovery-worktree marker. Private archive: `~/.config/desk-companion/proactive-agent-merge-20261117/`. Normal runtimes/A3/data/account grants unchanged. One next step after merge: promote this reviewed main tree to the normal endpoints and verify version/data/A3/grant parity; then resume the separately documented official text-orchestration migration.
 
 Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. All original124–128 independently report merged=true; main tree75550fed12c54c5112f3fbb1e358e8a9d7affced exactly matches tested42bc01ec. Final backend2,501passed/2Linux-only skips and frontend393/types/build/Ruff. Closeout changes are documentation/receipts only. [Receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json).
+
+## 2026-11-24 ArUco 两边进度协作同步
+
+- 读取 FYP (2) 最新已完成对话和本地交接，汇集本机定位台、L 形三牌简化记录、像素轨迹、物品／未知变化、近障与边界反馈，以及 FYP 的纸质 A4 牌和 RIG 尺寸结论。
+- [新入口](research/2026-11-24-aruco-localisation/README.md)提供可运行源文件、模型下载与 SHA256／Apache 许可、生成样本、截图、说明和程序 ZIP。共享启动器移除原电脑临时环境路径，原本地成果保留。
+- 发布前检查生成输入回归、源码语法、模型 SHA256、ZIP 文件一致性和公开内容／链接，结果记录在 [QA](output/qa/2026-11-24-aruco-progress/verification.md)。源码、下载包和计划不作为实物定位精度、行走、避障或回充证明。
+- 沿当前 main 创建独立 codex 分支和草稿 PR，供组员合并审核；本轮不部署、合并或触发 GitHub CI。下一项实测为固定手机、量 L 形中心间距，用尺核对 ID4 并保存真实 CSV／录像。
