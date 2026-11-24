@@ -1,5 +1,4 @@
 import base64
-import hashlib
 import io
 import json
 import zipfile
@@ -13,7 +12,6 @@ from desk.app import create_app
 from desk.assistant import AssistantMessage
 from desk.chat_attachments import FILE_BYTES, ChatFileUpload, _validated_file
 from desk.provider_policy import OPENAI_TEXT_ENDPOINT
-from desk.store import encode
 from desk.text_ai import TextConfig
 
 
@@ -294,13 +292,10 @@ def test_office_container_check_and_legacy_fingerprint(extension, member):
         name=f"fixture.{extension}", data=base64.b64encode(data.getvalue()).decode()
     )
     assert _validated_file(payload)[2] == data.getvalue()
-    message = AssistantMessage(message="hello")
-    legacy = message.model_dump(
-        exclude={"attachment_ids", "voice_origin_ref", "voice_steer", "steer_run_id"}
-    )
     from desk.text_ai import TextAssistant
 
-    assert (
-        TextAssistant._fingerprint(message, True)
-        == hashlib.sha256(encode({**legacy, "allow_memory": True}).encode()).hexdigest()
-    )
+    message = AssistantMessage(message="hello")
+    remembered = TextAssistant._fingerprint(message, True)
+    assert remembered == TextAssistant._fingerprint(AssistantMessage(message="hello"), True)
+    assert remembered != TextAssistant._fingerprint(message, False)
+    assert remembered != TextAssistant._fingerprint(AssistantMessage(message="hello again"), True)

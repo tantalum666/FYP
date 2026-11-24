@@ -177,7 +177,12 @@ def test_quote_approval_reprice_and_terminal_readback(desk, decision, terminal):
         and changed["review_minor"] == 3543
     )
     assert s.answer is None
-    assert send(c, "stale", "同意新总价", chat, fare).json()["flight_booking"]["state"] == "reprice"
+    stale = send(c, "stale", "同意新总价", chat, fare)
+    assert stale.is_success
+    body = stale.json()
+    assert body["acted"] is False and body["kind"] == "clarify"
+    assert "flight_booking" not in body
+    assert status(c, chat)[0]["state"] == "reprice"
     other = TestClient(c.app)
     login(other)
     assert status(other, chat) == []
