@@ -255,7 +255,10 @@ def test_settled_public_agent_quote_requires_named_client_and_same_offer_page(se
     receipt = {"source": {"url": "https://www.kiwi.com/u/test"}, "offers": [offer]}
     seller, url, _ = target(receipt, 1)
     params = parse_qs(urlsplit(url).query)
-    assert seller == "LetsFG" and params["sid"] == [sid] and params["offer"] == [offer["offer_id"]]
+    assert seller == "LetsFG" and urlsplit(url).path == "/en"
+    assert params == {
+        "stage": ["results"], "sid": [sid], "offer": [offer["offer_id"]], "cur": ["HKD"], "via": ["mcp"],
+    }
     offer["booking_url"] = url.replace(sid, "ws_somewhere_else")
     assert target(receipt, 1)[:2] == ("Kiwi.com", receipt["source"]["url"])
     flags["parsed"] = {"date": "2026-11-25"}
