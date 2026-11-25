@@ -4,6 +4,14 @@ import { usePrivateMutation } from "./personal/usePrivateMutation";
 import { MutationFeedback } from "./personal/MutationFeedback";
 import type { Translate } from "../types";
 
+export interface InitiativeFollowupStatus {
+  task_id: string;
+  title: string;
+  status: string;
+  open: boolean;
+  bound_at?: string;
+}
+
 export interface InitiativeFinding {
   id: string;
   kind: string;
@@ -11,6 +19,22 @@ export interface InitiativeFinding {
   message_zh: string;
   created_at?: string;
   sources: { ref: string; kind: string; label: string; href?: string }[];
+  followup_status?: InitiativeFollowupStatus | null;
+}
+
+function followupLabel(status: InitiativeFollowupStatus, t: Translate) {
+  if (status.status === "missing")
+    return t(
+      "The follow-up task is no longer available. Nothing was sent.",
+      "跟进事务已不可用。没有发送。",
+    );
+  if (status.status === "completed")
+    return t("Follow-up completed. Nothing was sent.", "跟进已完成。没有发送。");
+  if (status.status === "cancelled")
+    return t("Follow-up cancelled. Nothing was sent.", "跟进已取消。没有发送。");
+  if (status.status === "waiting")
+    return t("Follow-up waiting. Nothing was sent.", "跟进仍在等待。没有发送。");
+  return t("Follow-up open. Nothing was sent.", "跟进仍在进行。没有发送。");
 }
 
 /** Contextual messages in the conversation; no approval form or separate poll. */
@@ -28,10 +52,12 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
     return () => window.removeEventListener("desk:session", reset);
   }, []);
   if (!visible || offline || stale) return null;
+  const followup = finding.followup_status;
   return (
     <>
         <article
           className="assistant-turn assistant initiative-message"
+          aria-label={t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
@@ -47,6 +73,26 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
               ))}
             </ul>
           </details>
+          {followup ? (
+            <p role="status">
+              {followupLabel(followup, t)}
+              {followup.title ? ` · ${followup.title}` : ""}
+            </p>
+          ) : (
+            <button
+              className="primary"
+              disabled={mutation.busy || mutation.pending}
+              onClick={() =>
+                void mutation.run(
+                  "/initiative/" + finding.id + "/follow-ups",
+                  {},
+                  refresh,
+                )
+              }
+            >
+              {t("Follow up on this", "据此跟进")}
+            </button>
+          )}
           <button
             className="text-button"
             disabled={mutation.busy || mutation.pending}

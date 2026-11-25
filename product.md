@@ -11,6 +11,10 @@ After the owner chooses to follow a thread, one new reply raises one reminder on
 
 Home opens on Alice and the conversation. Today leads to a specific task or event. Desktop shows a task list beside the selected task. On a phone the same task has a full-width detail view, and Back restores the list and filters. Routine notices belong in Inbox. Group repeated morning and evening receipts there, keep each date and dismissal available, and link personal updates back to their conversation. Settings should lead directly to the effective permissions of a chosen app. [Workspace design and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
 
+## 25 November 2026 · Follow up from a proactive suggestion
+
+When Conversation shows a cited proactive finding, the owner can open its Sources, choose Follow up on this, and get one private task bound to that finding. The same card then shows accurate live status for that task. Nothing is sent by that choice. Got it still dismisses without claiming an external effect. [Acceptance](output/qa/2026-11-25-initiative-followup/verification.md).
+
 ## 2026-11-24 Continue the owner's conversation and surface inbox changes
 
 Home subtitles occupy at most two wrapped lines per page. Conversation retains the whole reply. The owner requested local continuity for ordinary text and opted into the final text of completed voice exchanges. Existing OpenAI destinations may use relevant previews and history within the approved ordinary operating budget. The active desk should discover actionable mail with no page open, show grounded suggestions in the conversation, honor quiet hours, and continue with local mail cues when paid reasoning is unavailable. Normal Gmail setup offers inbox reading and sending after review. Reminder-only users can choose a narrower grant. Reconnect preserves the active scope. A live flight quote shows the published fare while the bag-inclusive total is pending. The owner approves a purchase against current commercial terms. [Acceptance](output/qa/2026-11-24-continuity/verification.md).

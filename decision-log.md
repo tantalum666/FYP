@@ -1047,3 +1047,22 @@ Engineering choice for the next personal-agent slice, after the owner asked for 
 Engineering choice after the owner asked to keep moving on the personal agent once the local page handoff was ready for review. That handoff stays on its own unmerged branch. This change does not deploy the Pi.
 
 A person opening a task can tell an unknown file result from one that was never written, and from one still waiting for approval. Discussing the task does not check, approve, or write again. Check result remains the reread. A paired or revoked display cannot read a private task’s steps or linked results. The selected task keeps its own file action when another task has the same title. A completed step stays completed. The local rehearsal `cefe84e0` passed after the page-handoff test was kept on its own server. Both pull requests stay open for parent review. The Pi update remains a separate device step from both slices. [Evidence](output/qa/2026-11-25-task-recovery/verification.md).
+## 2026-11-25 · One next personal-agent follow-up from a finding
+
+- **Owner authorization:** Auto coding under the standing near-99.9% weekly-limit / no-extra-credits constraint; one bounded user-completable personal-agent slice then stop. No merge, CI, deploy, Pi/hardware, live account, external message, order, payment, paid model, or provider/A3 change. Defaults remain GPT-6.2 Sol / GPT-Live-1.1 / A3 v9. Do not treat agent go-ahead as owner permission beyond that scope.
+- **Engineering choice:** On current main after #157, the highest-value honest gap inside Alice Conversation was proactive finding → Sources → explicit Follow up on this → private task bound by id → revisitable status. Implemented on a new branch from `fc3b8d2a` without stacking #158–#160. Local fake findings and Chrome on owned ports only; not live-mailbox acceptance. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Adversarial review and four-way local gate for #161
+
+- **Owner authorization:** Continue one bounded PR #161 adversarial + main→158→159→160→161 local throwaway integration; no new feature, merge, CI, deploy, or history rewrite. Review is not send permission.
+- **Engineering findings:** Stale/withdrawn sources could still open a follow-up; `_followup_status` nested a second DB connection inside the write transaction. Fixed on #161 with `INITIATIVE_STALE` and same-connection status reads, plus adversarial tests. Four-way combined tree `43b82c75` kept all features and stronger baseline asserts; #158–#160 GitHub tips untouched. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Root-cause closeout of the two four-way UI failures
+
+- **Owner authorization:** One bounded root-cause + verification closeout; no new feature, merge, CI, deploy, force-push, or history rewrite. Review is not send permission.
+- **Engineering findings:** Retained log named `test_owner_page_ui` (`API did not start` / 8831 EADDRINUSE) and `test_task_recovery_ui` (`Leave this one alone` timeout). Root cause was leaky harness (shared 5190/8831, Vite without process-group ownership, attach-to-stranger). Fixed on source PRs #158 and #159 only; #161 product tip `be5cfaf3` unchanged. Fresh combined `23d9f44a` clears those two nodeids; full backend still has one unrelated `test_live_owner_page` `COMPUTER_CLEANUP_REQUIRED` race under load (focused alone passes) — full gate not accepted green. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Live-owner COMPUTER_CLEANUP_REQUIRED premise attack
+
+- **Owner authorization:** One bounded root-cause cycle only; no new feature, merge, CI, deploy, force-push, history rewrite, or weakening of cleanup safety. Review is not send permission.
+- **Engineering findings:** Premise that Vite contention or isolated re-pass explained the remaining four-way failure is **false**. Screen correctly returns `BROWSER_PAGE_LOST`; failure is later `_prepare` after the old `_kill_chrome` kill-all fallback SIGKILLed the worker before cleanup confirmation, leaving a legitimate `cleanup-required` blocker. Fixed chrome-only on source #158 `0e9ea44a` with a kill-all regression; product cleanup order unchanged; #161 product `be5cfaf3` unchanged. Fresh combined `0234fc1ebb`: **3082 passed / 1 skipped / 0 failed**, frontend 442, four UIs 4 passed. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).

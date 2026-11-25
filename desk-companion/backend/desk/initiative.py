@@ -153,8 +153,143 @@ class Initiative:
                             continue
                         item["historical"] = True
                     item["sources"] = self.sources.display_sources(data["sources"], sources)
+                item["followup_status"] = self._followup_status(data.get("followup"))
                 result.append(item)
         return sorted(result, key=lambda item: item["importance"] != "high")
+
+    def _followup_status(self, followup, conn=None):
+        """Live task status for an owner-chosen follow-up. Bound by task id only."""
+        if not isinstance(followup, dict) or not followup.get("task_id"):
+            return None
+        task_id = followup["task_id"]
+
+        def read(active):
+            try:
+                task = self.runtime.tasks.get(active, task_id)
+            except DomainError:
+                return {
+                    "task_id": task_id,
+                    "title": followup.get("title") or "",
+                    "status": "missing",
+                    "open": False,
+                    "bound_at": followup.get("bound_at"),
+                }
+            return {
+                "task_id": task_id,
+                "title": task.get("title") or followup.get("title") or "",
+                "status": task["status"],
+                "open": task["status"] in {"todo", "in_progress", "waiting"},
+                "bound_at": followup.get("bound_at"),
+            }
+
+        # Reuse the write connection when called inside a follow-up transaction.
+        if conn is not None:
+            return read(conn)
+        with self.store.connection() as active:
+            return read(active)
+
+    def follow_up(self, ident, key, principal):
+        """Owner explicitly opens one follow-up task bound to this finding. Does not send."""
+        from .tasks import TaskInput
+
+        def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
+            row = conn.execute(
+                "SELECT id,data,state FROM initiative_findings WHERE id=?", (ident,)
+            ).fetchone()
+            if not row or row["state"] != "pending":
+                raise DomainError("INITIATIVE_NOT_FOUND", 404)
+            data = json.loads(row["data"])
+            existing = data.get("followup")
+            if isinstance(existing, dict) and existing.get("task_id"):
+                # Keep the original binding; never invent a second task for this finding.
+                status = self._followup_status(existing, conn)
+                return {
+                    "saved": False,
+                    "already_following": True,
+                    "acted": False,
+                    "sent": False,
+                    "finding_id": ident,
+                    "followup": existing,
+                    "followup_status": status,
+                }
+            # Withdrawn or changed evidence must not create a task from a stale finding.
+            try:
+                _, sources = self.sources.collect()
+            except DomainError as error:
+                raise DomainError("INITIATIVE_STALE", 409) from error
+            if not self.sources.matches(data.get("sources") or [], sources):
+                raise DomainError("INITIATIVE_STALE", 409)
+            title = (data.get("message_en") or "Follow up on this finding").strip()
+            if len(title) > 160:
+                title = title[:157].rstrip() + "..."
+            labels = [
+                source.get("label") or source.get("ref")
+                for source in data.get("sources") or []
+                if isinstance(source, dict)
+            ]
+            next_step = "Review the cited sources and decide the next action."
+            if labels:
+                next_step = f"Review: {', '.join(labels[:4])}."
+            task = self.runtime.tasks.insert_task(
+                conn,
+                TaskInput(
+                    title=title,
+                    next_step=next_step[:500],
+                    visibility="private",
+                    follow_up_enabled=False,
+                ),
+                origin="initiative_followup",
+            )
+            fingerprints = [
+                source.get("fingerprint")
+                for source in data.get("sources") or []
+                if isinstance(source, dict) and source.get("fingerprint")
+            ]
+            bound = {
+                "task_id": task["id"],
+                "title": task["title"],
+                "bound_at": iso(self.store.clock()),
+                "source_fingerprints": fingerprints,
+            }
+            data["followup"] = bound
+            conn.execute(
+                "UPDATE initiative_findings SET data=? WHERE id=?",
+                (encode(data), ident),
+            )
+            self.runtime.tasks.evidence(
+                conn,
+                task["id"],
+                task["version"],
+                "initiative_followup",
+                encode(
+                    {
+                        "finding_id": ident,
+                        "source_fingerprints": fingerprints,
+                    }
+                ),
+                "initiative_followup",
+            )
+            return {
+                "saved": True,
+                "already_following": False,
+                "acted": False,
+                "sent": False,
+                "finding_id": ident,
+                "followup": bound,
+                "followup_status": {
+                    "task_id": task["id"],
+                    "title": task["title"],
+                    "status": task["status"],
+                    "open": True,
+                    "bound_at": bound["bound_at"],
+                },
+                "task": task,
+            }
+
+        return self.store.operation(
+            key, {"type": "initiative_followup", "id": ident}, apply
+        )
 
     def snapshot(self):
         with self.store.connection() as db:
@@ -499,7 +634,7 @@ class Initiative:
                 raise DomainError("INITIATIVE_NOT_FOUND", 404)
             conn.execute("UPDATE initiative_findings SET state='dismissed' WHERE id=?", (ident,))
             self._dismiss_notice(conn, ident)
-            return {"saved": True, "id": ident}
+            return {"saved": True, "id": ident, "sent": False, "acted": False}
 
         return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply)
 
@@ -513,6 +648,12 @@ def initiative_routes(runtime, owner, operation_id):
     @router.get("")
     def current():
         return runtime.initiative.snapshot()
+
+    @router.post("/{ident}/follow-ups")
+    def follow_up(ident: str, request: Request, principal=Depends(owner), key=Depends(operation_id)):
+        return runtime.initiative.follow_up(
+            ident, key, {**principal, "session": request.cookies.get("desk_companion_session")}
+        )
 
     @router.post("/{ident}/dismissals")
     def dismiss(ident: str, request: Request, principal=Depends(owner), key=Depends(operation_id)):

@@ -1229,3 +1229,30 @@ The nine earlier backend failures and the two frontend source-pattern failures w
 The page-handoff branch and pull request were left unmerged. This change starts from `main` `fc3b8d2`. A task now says when a linked file result is unknown, waiting for approval, checked, or never written. The discuss button does not repeat the write. Check result still only rereads the file. A paired or revoked display cannot read a private task. The same title on another task does not receive the file. A finished step stays finished. Local Chrome covered the desktop and 320px task card. Not merged, not deployed, and not a live-account acceptance. The Pi update remains a separate device step from both this readback and the page handoff. [Evidence](output/qa/2026-11-25-task-recovery/verification.md).
 
 The combined hold-card failure was a leftover Vite on port 5190 serving the other checkout. The test fix is on the page-handoff branch at `59547453`, with product files unchanged from `32066b8b`. Three consecutive runs passed. A fresh local rehearsal `cefe84e0` (`fc3b8d2`, then `59547453`, then `96319658`) passed 3061 backend tests with 1 skipped and 440 frontend tests, plus typecheck, build, ruff, and diff check. Both pull requests stay open.
+## 25 November 2026 · Initiative finding follow-up status
+
+**Goal:** One end-to-end personal-agent journey from current main: suggestion → sources → owner-chosen follow-up → revisitable status.
+
+**Done:** Branch `cursor/suggestion-followup-status-e853` from `fc3b8d2a`. `POST /api/initiative/{id}/follow-ups` binds a private task by id; Conversation shows Follow up on this and live status; stranger/hide-private/idempotence/same-title decoy covered. Owned ports 5200/8840 allowed for local Chrome. Reused #160-class baseline expectation fixes only. Ancillary #160 EOF blank-line hygiene recorded on `a4882b89`.
+
+**Verified (initial):** Focused initiative 24 passed; full backend 3058 passed / 1 skipped; frontend 438 passed; tsc/build/ruff/diff --check clean; Chrome 1440 and 320 with fail-then-retry. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+### Adversarial + four-way gate
+
+**Done:** Product tip `be5cfaf3` — refuse `INITIATIVE_STALE`, same-conn status, adversarial permission/replay/delete/title tests; UI abort→retry. Local throwaway four-way `43b82c75` (main→158→159→160→161); prior `65eb854e` preserved.
+
+**Verified:** Independent backend **3062 passed / 1 skipped** (clean re-run); frontend 438; focused initiative 28; combined backend 3079/1 skip with 2 UI failures (named below); four sequential browser UIs 4 passed; combined frontend 442; tsc/build/ruff/diff clean.
+
+### Four-way UI failure root-cause closeout
+
+**Done:** Named `test_owner_page_ui` (8831 EADDRINUSE) and `test_task_recovery_ui` (`Leave this one alone` under foreign Vite). Causal + negative-control proofs retained. Harness fixes on #158 `70accc16` and #159 `1f760a41`; #161 product unchanged at `be5cfaf3`. Fresh local four-way `23d9f44a`.
+
+**Verified on `23d9f44a`:** frontend 442; tsc/build/ruff/diff clean; four UIs 4 passed no port leaks; full backend **3080 passed / 1 skipped / 1 failed** (`test_live_owner_page` cleanup race; focused alone passed). Full combined backend **not** accepted green.
+
+### Live-owner cleanup premise attack + final four-way
+
+**Done:** Attack-the-premise wrote and falsified “Vite contention / isolated pass = correct.” Causal A/B/C proved kill-all-descendants leaves blocker → `COMPUTER_CLEANUP_REQUIRED` on second prepare while screen stays `BROWSER_PAGE_LOST`; chrome-only does not. #158 `0e9ea44a` chrome-only `_kill_chrome` + regression; no cleanup-safety weakening. Focused 3/3, preceding-order 7/7, 5× repeat. Fresh throwaway four-way `0234fc1ebb` (main `fc3b8d2` → 158 `0e9ea44a` → 159 `1f760a41` → 160 `a4882b89` → 161 `a09c4993`).
+
+**Verified on `0234fc1ebb`:** backend **3082 passed / 1 skipped / 0 failed** (1099.92s); frontend **442**; tsc/build/ruff passed; four Chrome UIs **4 passed** @1440+320; ports free after. `git diff --check` only pre-existing #160 trailing whitespace. #161 product still `be5cfaf3`. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md); causal `/tmp/fourway-failure-preserve/live-owner-closeout/`.
+
+**Remaining:** Parent budget decision; Codex review of #158–#161; no merge/CI/deploy/live mailbox/paid model. Optional independent managed-browser deadline flake not in scope.
