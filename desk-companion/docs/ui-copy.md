@@ -3,6 +3,9 @@
 ## 25 November · A followed reply
 
 On the task and in Chat, one card names the task and says a reply arrived. Say whether the source is the local mail sample or a connected mailbox. Offer Read the message, Check again, and Draft a reply. Show the draft editor only after Draft a reply. Say that saving the draft does not send it. After saving, say that nothing was sent. A failed check says it failed and is not a new confirmed reply.
+## 25 November · Finding remind-later
+
+On a Conversation finding, keep Sources and Got it. Add Remind me later for a one-hour deferral of that same cited finding. Do not imply mail was sent or a task was created. After the snooze ends, Alice may raise the finding again under the existing quiet-hours and delivery caps.
 
 ## 25 November · Workspace navigation and notices
 

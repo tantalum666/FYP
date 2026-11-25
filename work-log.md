@@ -1265,3 +1265,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Verified:** Focused 25 passed; preceding 5 passed; managed modules 32 passed / 2 deselected (pristine-main `unadmitted`→`unknown` out of scope); ruff/diff clean. Evidence: [verification](output/qa/2026-11-25-managed-deadline/verification.md).
 
 **Remaining:** Parent budget; Codex; no merge/deploy. Optional separate `unadmitted` unknown investigation.
+## 25 November 2026 · Finding Remind me later (Grok Bot)
+
+**Goal** — One owner-facing personal-agent journey gap not already on `main` or open #158–#162: defer a Conversation finding without discarding it or creating a task.
+
+**Done** — Premise first. `POST /api/initiative/{id}/snoozes`, `snooze_until` column, release-before-deliver, Conversation Remind me later button, proactive/ui-copy notes, focused initiative + frontend tests. Branch `cursor/finding-snooze-reminder-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `tests/test_initiative.py` 23 passed; snooze hide/restore and fence cases green; `initiative-snooze.test.ts` 1 passed; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-finding-snooze/verification.md).
+
+**Remaining** — Parent budget check; Codex review; do not stack #161 product onto this PR.

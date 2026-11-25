@@ -36,6 +36,12 @@ class Findings(StrictModel):
     findings: list[Finding] = Field(max_length=3)
 
 
+class InitiativeSnoozeInput(StrictModel):
+    """Owner-chosen deferral of one cited finding. Nothing is sent."""
+
+    minutes: int = Field(default=60, ge=15, le=24 * 60)
+
+
 INSTRUCTIONS = """You are Alice doing private read-only proactive research.
 Connect new evidence to the owner's saved facts, open tasks and calendar.
 Look for meaningful changes, inconsistent facts, imminent risks or useful next steps.
@@ -113,6 +119,11 @@ class Initiative:
                 )
             if "retry_at" not in columns:
                 conn.execute("ALTER TABLE initiative_state ADD COLUMN retry_at TEXT")
+            finding_columns = {
+                row["name"] for row in conn.execute("PRAGMA table_info(initiative_findings)")
+            }
+            if "snooze_until" not in finding_columns:
+                conn.execute("ALTER TABLE initiative_findings ADD COLUMN snooze_until TEXT")
 
     def enabled(self):
         return self.runtime.data.preferences()["proactivity"] != "off"
@@ -312,6 +323,17 @@ class Initiative:
             return None
         rows = self.current()
         return {**rows[0], "finding_kind": rows[0]["kind"], "kind": "initiative"} if rows else None
+
+    def _release_snoozes(self):
+        """Return due snoozed findings to pending so delivery can raise them once."""
+        now = iso(self.store.clock())
+        with self.store.connection(write=True) as conn:
+            conn.execute(
+                """UPDATE initiative_findings
+                SET state='pending', notified=0, notice_id=NULL, snooze_until=NULL
+                WHERE state='snoozed' AND snooze_until IS NOT NULL AND snooze_until<=?""",
+                (now,),
+            )
 
     def advance(self):
         if self.stopping or not self.lock.acquire(False):
@@ -632,11 +654,44 @@ class Initiative:
                 "SELECT 1 FROM initiative_findings WHERE id=?", (ident,)
             ).fetchone():
                 raise DomainError("INITIATIVE_NOT_FOUND", 404)
-            conn.execute("UPDATE initiative_findings SET state='dismissed' WHERE id=?", (ident,))
+            conn.execute(
+                "UPDATE initiative_findings SET state='dismissed', snooze_until=NULL WHERE id=?",
+                (ident,),
+            )
             self._dismiss_notice(conn, ident)
             return {"saved": True, "id": ident, "sent": False, "acted": False}
 
         return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply)
+
+    def snooze(self, ident, key, principal, minutes=60):
+        payload = InitiativeSnoozeInput(minutes=minutes)
+
+        def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
+            row = conn.execute(
+                "SELECT state, snooze_until FROM initiative_findings WHERE id=?", (ident,)
+            ).fetchone()
+            if not row:
+                raise DomainError("INITIATIVE_NOT_FOUND", 404)
+            until = iso(self.store.clock() + timedelta(minutes=payload.minutes))
+            if row["state"] == "snoozed" and row["snooze_until"] == until:
+                return {"saved": True, "id": ident, "snooze_until": until, "already": True}
+            if row["state"] not in {"pending", "snoozed"}:
+                raise DomainError("INITIATIVE_NOT_PENDING", 409)
+            conn.execute(
+                """UPDATE initiative_findings
+                SET state='snoozed', snooze_until=?, notified=0, notice_id=NULL
+                WHERE id=?""",
+                (until, ident),
+            )
+            self._dismiss_notice(conn, ident)
+            return {"saved": True, "id": ident, "snooze_until": until}
+
+        return self.store.operation(
+            key,
+            {"type": "initiative_snooze", "id": ident, "minutes": payload.minutes},
+            apply,
+        )
 
     def shutdown(self):
         self.stopping = True
@@ -659,6 +714,21 @@ def initiative_routes(runtime, owner, operation_id):
     def dismiss(ident: str, request: Request, principal=Depends(owner), key=Depends(operation_id)):
         return runtime.initiative.dismiss(
             ident, key, {**principal, "session": request.cookies.get("desk_companion_session")}
+        )
+
+    @router.post("/{ident}/snoozes")
+    def snooze(
+        ident: str,
+        payload: InitiativeSnoozeInput,
+        request: Request,
+        principal=Depends(owner),
+        key=Depends(operation_id),
+    ):
+        return runtime.initiative.snooze(
+            ident,
+            key,
+            {**principal, "session": request.cookies.get("desk_companion_session")},
+            minutes=payload.minutes,
         )
 
     return router

@@ -1070,3 +1070,8 @@ A person opening a task can tell an unknown file result from one that was never 
 
 - **Owner authorization:** One bounded reliability workstream on the reported managed-browser `JOB_DEADLINE_EXCEEDED` race; no merge, CI, deploy, Pi, live account, paid model, provider/A3, or history rewrite. Do not equate test timeout with product defect without proof.
 - **Engineering findings:** Premise that ~375ms expiry meant a false 180s job-deadline/clock bug is false. Offline `FastClient.active_seconds=0.25` burned during pre-auth origin work before `auth_wait` credits; suite scheduling delay >250ms matches the stale_form failure. Fixed fixture to 2.0s on a new main branch; production 90s unchanged. #160 trailing whitespace at verification.md:102 fixed separately (`d8aad9fb`). [Verification](output/qa/2026-11-25-managed-deadline/verification.md).
+## 2026-11-25 · Conversation finding Remind me later
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent slice; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, Conversation initiative findings only had Sources and Got it. Add Remind me later that snoozes the same finding id/sources for a bounded interval, then returns it to pending without a second model call, send, or follow-up task. Do not stack open #161 Follow up. Ownership, hide_private, revocation, dismiss, and operation idempotence stay as-is.
+- **验证边界：** API fake-clock + fixture session; frontend source contract; no live mailbox or paid Responses. [QA](output/qa/2026-11-25-finding-snooze/verification.md).

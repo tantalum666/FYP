@@ -226,6 +226,91 @@ def test_dismiss_has_no_reapproval_and_does_not_create_another_insight(world):
     assert all(n["state"] == "dismissed" for n in r.notify.listing()["notices"])
 
 
+def test_snooze_hides_finding_then_returns_same_sources_after_clock(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    assert len(calls) == 1
+    finding = r.initiative.current()[0]
+    ident = finding["id"]
+    sources = finding["sources"]
+    first = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-once"},
+    )
+    assert first.status_code == 200, first.text
+    assert first.json()["snooze_until"]
+    assert not r.initiative.current()
+    assert r.initiative.cue() is None
+    replay = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-once"},
+    )
+    assert replay.status_code == 200
+    assert replay.json()["snooze_until"] == first.json()["snooze_until"]
+    now[0] += timedelta(minutes=61)
+    r.initiative.advance()
+    restored = r.initiative.current()
+    assert len(restored) == 1
+    assert restored[0]["id"] == ident
+    assert restored[0]["sources"] == sources
+    assert len(calls) == 1  # no second model call to restore a snooze
+
+
+def test_snooze_fences_hide_private_revocation_and_dismissed(world):
+    from desk.schemas import SettingsInput
+
+    r, client, actor, *_ = world
+    r.initiative.advance()
+    ident = r.initiative.current()[0]["id"]
+    r.store.update_settings(
+        SettingsInput(expected_version=1, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide",
+    )
+    hidden = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-hidden"},
+    )
+    assert hidden.status_code == 403
+    r.store.update_settings(
+        SettingsInput(expected_version=2, timezone="Asia/Hong_Kong", hide_private=False),
+        "show",
+    )
+    r.store.logout(client.cookies.get("desk_companion_session"))
+    revoked = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-revoked"},
+    )
+    assert revoked.status_code == 403
+    client.post(
+        "/api/session",
+        json={"username": "owner", "password": "fixture"},
+        headers={"X-Desk-Request": "1"},
+    )
+    actor["session"] = client.cookies.get("desk_companion_session")
+    assert client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-ok"},
+    ).status_code == 200
+    assert not r.initiative.current()
+    gone = client.post(
+        f"/api/initiative/{ident}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "dismiss-after-snooze"},
+    )
+    assert gone.status_code == 200
+    again = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-dismissed"},
+    )
+    assert again.status_code == 409
+
+
 def test_disabled_background_does_not_read_apps_or_call_model(world):
     r = world[0]
     r.text_ai.config.background = False
