@@ -1,6 +1,6 @@
 # One reminder after a followed thread receives a reply
 
-25 November 2026. Grok Bot. Source baseline `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157). This branch was cut from that commit. Pull requests #158 and #159 were not checked out, stacked, or modified.
+25 November 2026. Grok Bot. Source baseline `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157). This branch was cut from that commit. The tested product and tests are `3b2881a38a1355e53e600e4ce98f65df61d2e890`. A later commit only removes an intermediate debug screenshot. Pull requests #158 and #159 were not checked out, stacked, or modified.
 
 ## What was read
 
