@@ -1018,6 +1018,12 @@ The owner opted into local retention of ordinary messages and the final text of 
 
 **Engineering choice, not a new owner purchase or send authorization.** The research journey named on 18 November is now a local owner path: one reminder on the same task, then an explicit draft that does not send. It reuses the existing follow-up poll, notice, task, and proposal review. It does not add a model call, a second scheduler, or an Agents Automation. A local sample is labeled as not a live mailbox. Reading the message does not become saved memory. Quiet hours, a failed read, the wrong thread, a stale draft, and an unknown send stay distinct. Live mailbox acceptance, deployment, and the open page-handoff and task-readback pull requests stay separate. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
 
+### Same day · Owner Auto closeout of #160 suite gate
+
+**User decision (t33u, 13:16 HKT):** Use AUTO model selection; continue personal-agent work up to near 99.9% weekly included usage with no extra paid credits; one bounded closeout round first, then return results so the parent rechecks budget. Preserve no CI/deploy/Pi/live sends/provider-A3/merge/force-push restrictions; do not stack on or edit #158/#159.
+
+**Engineering follow-through:** Close #160’s outstanding full-suite failures by matching tests/fixtures to current product contracts (fingerprint empty review fields, reprice clarify, managed-browser session allowlist, forget `home_archived`, Google composer mocks, requestDeadline behavior, Today MomentCard mount). Overlapping baseline repairs on #158/#159 are recorded as Codex merge conflicts, not as authorization to take their features. No new product journey in this round.
+
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).

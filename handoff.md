@@ -34,6 +34,8 @@ The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped ma
 
 ## Followed reply
 
-A thread the owner chose to follow now raises one reminder on that same task after a new reply. Chat shows the evidence. The owner can read the original message and then choose a draft. Saving the draft does not send it. Quiet hours hold the reminder. The local sample and synthetic provider are not a live mailbox. [Verification](output/qa/2026-11-25-followed-reply/verification.md). Pull requests #158 and #159 stay open and were not used.
+A thread the owner chose to follow now raises one reminder on that same task after a new reply. Chat shows the evidence. The owner can read the original message and then choose a draft. Saving the draft does not send it. Quiet hours hold the reminder. The local sample and synthetic provider are not a live mailbox. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
 
-**Next step** — Review the unmerged followed-reply pull request. The Pi update from `92acac8e` to `b759950c` stays a separate device step when the original Pi is back on its pinned relay.
+Closeout on pull request #160 repaired the prior full-suite gate (9 backend + 2 frontend failures) against current product contracts without stacking or editing #158/#159. Local full suites on the closeout tip: backend **3068 passed / 1 skipped**, frontend **440 passed**, typecheck/build green; browser 1440 and 320 including failed-read recovery. Implemented and locally verified on the sample/synthetic path only — not merged, not deployed, not live Gmail accepted. Overlapping baseline test fixes also exist on #158/#159; Codex should treat those as duplicate baseline repair, not feature merge.
+
+**Next step** — Parent rechecks remaining weekly included usage, then chooses the next personal-agent slice or lands #160 after Codex review. The Pi update from `92acac8e` to `b759950c` stays a separate device step when the original Pi is back on its pinned relay.

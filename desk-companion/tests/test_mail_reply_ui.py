@@ -95,6 +95,26 @@ def test_followed_reply_card_on_desktop_and_narrow_screen(servers):
         assert "Local mail sample" in card.inner_text()
         assert "Draft a reply" in card.inner_text()
         assert card.get_by_role("textbox").count() == 0
+        # Failed read is recovery, not a confirmed reply and not a send.
+        failed_reads = {"count": 0}
+
+        def fail_then_pass(route):
+            if failed_reads["count"] == 0:
+                failed_reads["count"] += 1
+                route.fulfill(
+                    status=200,
+                    content_type="application/json",
+                    body='{"read_state":"failed","confirmed_reply":false,"sent":false,"error":"MAIL_REPLY_UNAVAILABLE"}',
+                )
+                return
+            route.continue_()
+
+        page.route("**/api/mail-followups/*/reads", fail_then_pass)
+        card.get_by_role("button", name="Read the message").click()
+        card.get_by_text(
+            "The message could not be read. That is not a confirmed new reply, and nothing was sent."
+        ).wait_for()
+        assert card.get_by_role("textbox").count() == 0
         card.get_by_role("button", name="Read the message").click()
         card.get_by_text("Friday after 3 still works for me.").wait_for()
         assert "Not saved as a memory" in card.inner_text()

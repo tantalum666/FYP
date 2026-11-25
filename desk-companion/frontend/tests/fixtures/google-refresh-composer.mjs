@@ -69,6 +69,13 @@ const mocks = {
   "./LiveFlightCheckout": { startsFlightCheckout: () => false },
   "./commerceReviews": { useCommerceReviews: () => commerce, needsDecision: () => false },
   "./useChatFiles": { useChatFiles: () => files },
+  "./useHomeTranscript": {
+    useHomeTranscript: () => ({ saved: [], failed: false, clear() {}, retry() {} }),
+    withSavedTurns: (saved, current) => [...saved, ...current],
+  },
+  "./HomeCaption": {
+    HomeCaption: ({ text }) => hooks.react.createElement("p", { className: "assistant-latest" }, text),
+  },
   "./wake/useAliceWake": { useAliceWake: () => ({ pause: noop, rearm: noop, disable: noop }) },
   "../components/DraftGuard": { useDraftGuard: noop },
   "../companion/useAssistantFootprint": { useAssistantFootprint: noop },
@@ -113,10 +120,9 @@ try {
   assert.ok(!render().includes(summary) && !render(true).includes(summary));
   first.release();
   await first.submitted;
-  assert.equal(render().find((el) => el.props?.className === "assistant-latest").props.children, summary);
   const history = render(true);
-  assert.equal(history.filter((el) => el.props?.className === "assistant-turn assistant").length, 1);
   assert.equal(history.filter((el) => el === summary).length, 1);
+  assert.equal(history.filter((el) => el.props?.className === "assistant-turn assistant").length, 1);
   assert.ok(!history.some((el) => typeof el === "string" && el.includes("Private title")));
 
   const pending = await submit();

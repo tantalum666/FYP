@@ -9,6 +9,21 @@ export class ApiError extends Error {
   }
 }
 
+/** Long reads stay on the routes that wait for a provider. Everything else stays short. */
+export function requestDeadline(path: string) {
+  return [
+    "/assistant/messages",
+    "/assistant/retained-messages",
+    "/browser/observations",
+    "/google/preview",
+    "/google/refresh",
+  ].includes(path) ||
+    path.startsWith("/assistant/flight-checkouts/") ||
+    path === "/apps/letsfg/connect"
+    ? 75000
+    : 12000;
+}
+
 export async function request<T>(
   path: string,
   options: RequestInit = {},
@@ -16,15 +31,7 @@ export async function request<T>(
   const controller = new AbortController();
   const timer = window.setTimeout(
     () => controller.abort(),
-    [
-      "/assistant/messages",
-      "/assistant/retained-messages",
-      "/browser/observations",
-      "/google/preview",
-      "/google/refresh",
-    ].includes(path) || path.startsWith("/assistant/flight-checkouts/") || path === "/apps/letsfg/connect"
-      ? 75000
-      : 12000,
+    requestDeadline(path),
   );
   try {
     const response = await apiFetch(path, {

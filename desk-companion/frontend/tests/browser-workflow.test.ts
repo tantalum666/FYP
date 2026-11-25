@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import ts from "typescript";
 import {
   browserReady,
   browserReviewable,
@@ -349,14 +351,39 @@ test("browser UI uses volatile mutations, explicit review and plain-text source 
     /<pre tabIndex=\{0\}>\s*\{job.request.content\}\s*<\/pre>/,
   );
 });
-test("public browser observation gets the bounded read timeout without changing other request timeouts", () => {
-  const api = readFileSync(new URL("../src/api.ts", import.meta.url), "utf8");
-  for (const path of [
-    "/assistant/messages",
-    "/assistant/retained-messages",
-    "/browser/observations",
-  ])
-    assert.ok(api.includes(`"${path}"`));
-  assert.match(api, /\.includes\(path\)\s*\? 75000\s*: 12000/);
-  assert.match(api, /controller\.abort\(\)/);
+test("public browser observation gets the bounded read timeout without changing other request timeouts", async () => {
+  const source = readFileSync(new URL("../src/api.ts", import.meta.url), "utf8");
+  const code = ts.transpileModule(source, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  const api: {
+    requestDeadline: (path: string) => number;
+    request: (path: string) => Promise<unknown>;
+  } = { requestDeadline: () => 0, request: async () => undefined };
+  new Function("require", "exports", code)(
+    (name: string) => (name.startsWith(".") ? {} : createRequire(import.meta.url)(name)),
+    api,
+  );
+  assert.equal(api.requestDeadline("/browser/observations"), 75000);
+  assert.equal(api.requestDeadline("/assistant/messages"), 75000);
+  assert.equal(api.requestDeadline("/assistant/flight-checkouts/abc"), 75000);
+  assert.equal(api.requestDeadline("/apps/letsfg/connect"), 75000);
+  assert.equal(api.requestDeadline("/computer/jobs/abc/page"), 12000);
+  assert.equal(api.requestDeadline("/tasks"), 12000);
+  const seen: number[] = [];
+  const previous = globalThis.window;
+  globalThis.window = {
+    setTimeout: ((_fn: TimerHandler, ms?: number) => {
+      seen.push(ms ?? 0);
+      return 0;
+    }) as typeof setTimeout,
+    clearTimeout() {},
+  } as unknown as Window & typeof globalThis;
+  try {
+    await assert.rejects(() => api.request("/tasks"));
+    await assert.rejects(() => api.request("/browser/observations"));
+  } finally {
+    globalThis.window = previous;
+  }
+  assert.deepEqual(seen, [12000, 75000]);
 });
