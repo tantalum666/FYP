@@ -1,5 +1,6 @@
 """Owner form admission, no credential persistence, and one-task resumption."""
 
+import asyncio
 import copy
 import json
 import time
@@ -13,7 +14,7 @@ from desk.managed_browser_auth import BrowserAuthInput, ManagedBrowserAuth, regi
 from desk.store import DomainError
 from desk.schemas import SettingsInput
 import test_managed_browser as cases
-from test_managed_browser import prepare, approve, result
+from test_managed_browser import Provider, FastClient, prepare, approve, result
 
 
 @pytest.fixture(name="world")
@@ -258,6 +259,70 @@ def test_abandoned_auth_form_expires_and_deletes_remote_session(world):
         assert r.jobs.managed_browser.auth.form(job["id"]) is None
     finally:
         pool.shutdown(wait=True)
+
+
+def test_pre_auth_delay_still_reaches_stale_form_fence(tmp_path):
+    """Regression: pre-auth work must not burn FastClient active before owner_input.
+
+    A 300ms stall on the first session snapshot (before origin approval) exhausted
+    the old 0.25s active_seconds and failed pending() with JOB_DEADLINE_EXCEEDED
+    in ~375ms — the intermittent stale_form suite failure. Production active is
+    90s; this only hardens the offline FastClient handshake budget.
+    """
+    from desk.app import create_app
+    from desk.text_ai import TextConfig
+    from fastapi.testclient import TestClient
+
+    class SlowOrigin(Provider):
+        def __init__(self):
+            super().__init__()
+            self._delay = 0.30
+
+        async def __call__(self, request):
+            if (
+                self._delay
+                and not self.approved
+                and request.method == "GET"
+                and request.url.path.endswith("/sessions/sess_fixture")
+            ):
+                await asyncio.sleep(self._delay)
+                self._delay = 0
+            return await super().__call__(request)
+
+    app = create_app(tmp_path, password="fixture", scheduler=False)
+    r = app.state.runtime
+    r.text_ai.config = TextConfig(
+        "openai", "gpt-6.1-sol", "https://api.openai.com/v1/responses", "synthetic-key"
+    )
+    provider = SlowOrigin()
+    r.text_ai.transport = httpx.MockTransport(provider)
+    r.jobs.managed_browser.enabled = True
+    r.jobs.managed_browser.client_factory = FastClient
+    client = TestClient(app)
+    assert (
+        client.post(
+            "/api/session",
+            json={"username": "owner", "password": "fixture"},
+            headers={"X-Desk-Request": "1"},
+        ).status_code
+        == 200
+    )
+    owner = {"kind": "owner", "session": client.cookies.get("desk_companion_session")}
+    world = (r, provider, client, owner)
+    job, path, payload, worker, pool = pending(world)
+    try:
+        assert FastClient.active_seconds >= 0.30
+        payload = {**payload, "nonce": "f" * 32}
+        response = client.post(path, json=payload, headers={"X-Desk-Request": "1"})
+        assert response.status_code == 409
+        assert SECRET not in response.text
+        assert not any(d.get("action") == "submit" for d in provider.decisions)
+    finally:
+        r.jobs.cancel(job["id"], "cleanup")
+        worker.result(timeout=5)
+        pool.shutdown(wait=True)
+        assert r.jobs.managed_browser.auth.form(job["id"]) is None
+        assert provider.deleted
 
 
 def test_lost_provider_auth_reply_keeps_account_scope_and_never_retries(world):

@@ -20,10 +20,10 @@ Normal Mac Web and Simulator still run application `b759950c`. Defaults stay GPT
 
 No GitHub merge, CI, deploy, Pi/hardware, live mailbox, paid model, or feature import across #158–#160 beyond the harness fixes above.
 
-The standard storefront is the WooCommerce sandbox. Stripe’s original test-mode charges and refunds were read independently on isolated merchant copies. The separate Link recurring test authorization has an issuer-fixture compatibility issue. eBay’s developer registration review remains pending. [Marketplace evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [eBay follow-up](output/qa/2026-11-21-shopping-next-step/verification.md). The organisation's billing, keys, customer data and operator allowances are kept outside Git. Previous paid acceptance trials retain their original closed status.
+Mac Web / Simulator `b759950c`. Defaults GPT-6.2 Sol / GPT-Live-1.1 / A3 v9.
 
-## Hardware localisation
+## Not done
 
-The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
+No GitHub merge, CI, deploy, Pi, live mailbox, paid model. Pristine-main `test_unadmitted_origin_and_auth_are_never_auto_approved` → `unknown` remains out of scope.
 
 **Next step** — When the original Pi comes back on its pinned owner relay, apply its saved update from `92acac8e` to `83bcf577` and verify its existing store, accounts, A3 profile and kiosk build on the device.

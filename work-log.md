@@ -1256,3 +1256,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Verified on `0234fc1ebb`:** backend **3082 passed / 1 skipped / 0 failed** (1099.92s); frontend **442**; tsc/build/ruff passed; four Chrome UIs **4 passed** @1440+320; ports free after. `git diff --check` only pre-existing #160 trailing whitespace. #161 product still `be5cfaf3`. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md); causal `/tmp/fourway-failure-preserve/live-owner-closeout/`.
 
 **Remaining:** Parent budget decision; Codex review of #158–#161; no merge/CI/deploy/live mailbox/paid model. Optional independent managed-browser deadline flake not in scope.
+## 25 November 2026 · Managed-browser FastClient active budget
+
+**Goal:** Root-cause intermittent `test_auth_input_is_fenced_before_credentials_reach_provider[stale_form]` `JOB_DEADLINE_EXCEEDED` (~375ms vs 180s nominal).
+
+**Done:** Attack-the-premise; causal pre-auth delay proves FastClient `active_seconds=0.25` (not 180s job deadline). Raised to 2.0; regression `test_pre_auth_delay_still_reaches_stale_form_fence`. Ancillary #160 tip whitespace fix `d8aad9fb`. New branch from `main` only.
+
+**Verified:** Focused 25 passed; preceding 5 passed; managed modules 32 passed / 2 deselected (pristine-main `unadmitted`→`unknown` out of scope); ruff/diff clean. Evidence: [verification](output/qa/2026-11-25-managed-deadline/verification.md).
+
+**Remaining:** Parent budget; Codex; no merge/deploy. Optional separate `unadmitted` unknown investigation.
