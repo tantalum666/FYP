@@ -137,10 +137,34 @@ def _descendants(pid):
     return found
 
 
+def _chrome_children(pid):
+    return [child for child, command in _descendants(pid) if "chrome" in command.lower()]
+
+
 def _kill_chrome(pid):
-    victims = [child for child, command in _descendants(pid) if "chrome" in command.lower()]
+    """Kill only Chromium descendants so the owned worker can confirm cleanup.
+
+    Falling back to every descendant (the previous helper) SIGKILLs the worker
+    before it reports cleanup. That correctly leaves cleanup-required and makes
+    the next prepare raise COMPUTER_CLEANUP_REQUIRED — which this suite then
+    misread as a flaky screen error.
+    """
+    deadline = time.monotonic() + 10
+    victims = []
+    while time.monotonic() < deadline:
+        victims = _chrome_children(pid)
+        if victims:
+            break
+        try:
+            os.kill(pid, 0)
+        except OSError:
+            return
+        time.sleep(0.05)
     if not victims:
-        victims = [child for child, _command in _descendants(pid)]
+        raise AssertionError(
+            "No Chromium child appeared under the owned browser worker; "
+            "refusing to kill the worker process group and erase cleanup evidence"
+        )
     for child in victims:
         try:
             os.kill(child, 9)
@@ -372,3 +396,42 @@ def test_dead_page_hidden_context_and_deadline_do_not_open_another_browser(tmp_p
     assert expired["state"] == "expired", expired
     assert seen == []
     assert runtime.jobs.computer_use.launches == launches + 1
+
+
+def test_killing_the_worker_instead_of_chrome_keeps_cleanup_required(tmp_path):
+    """Regression for the four-way COMPUTER_CLEANUP_REQUIRED failure.
+
+    SIGKILL of every descendant (the old _kill_chrome fallback when /proc had not
+    yet listed Chromium) stops the worker before cleanup is confirmed. Product
+    correctly blocks the next prepare. Screen still reports BROWSER_PAGE_LOST.
+    """
+    from desk.store import DomainError
+
+    seen = []
+    runtime, client, principal, _clock = _world(tmp_path, seen)
+    job = _prepare(
+        runtime,
+        principal,
+        "cleanup-kill",
+        "demo:verification",
+        "Stop at the password",
+    )
+    worker = threading.Thread(target=runtime.jobs.run_one, daemon=True)
+    worker.start()
+    _wait_state(runtime, job["id"], "owner_takeover")
+    live = runtime.jobs.computer_use.supervisor.live_page
+    assert live is not None
+    for child, _command in _descendants(live.channel.process.pid):
+        try:
+            os.kill(child, 9)
+        except OSError:
+            pass
+    lost = client.get(f"/api/computer/computer-use/jobs/{job['id']}/screen")
+    assert lost.status_code == 409
+    assert lost.json()["error"]["code"] == "BROWSER_PAGE_LOST"
+    worker.join(timeout=20)
+    assert runtime.jobs.detail(job["id"])["error"] == "BROWSER_PAGE_LOST"
+    assert runtime.jobs.computer_use.blocker.exists()
+    with pytest.raises(DomainError, match="COMPUTER_CLEANUP_REQUIRED"):
+        _prepare(runtime, principal, "blocked-next", "demo:verification", "Stop at the password")
+    assert seen == []
