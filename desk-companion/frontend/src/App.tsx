@@ -688,6 +688,7 @@ export function App() {
           onClearTask={() => setAssistantTask(undefined)}
           onOpenTask={(id) => goPage("tasks", id)}
           onConversationState={setChatState}
+          onReviewSurface={(target) => goPage(target)}
         />
         {page !== "assistant" &&
           (!visible ? (

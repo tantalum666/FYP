@@ -30,6 +30,9 @@ On a Morning briefing receipt, offer View today so the owner can open Today with
 ## 25 November · Withdrawn proactive suggestion
 
 When a Conversation finding’s Sources no longer match, keep the card as a withdrawn suggestion: say Sources changed and that nothing was sent. Got it clears it. Do not promote a withdrawn item as the home cue.
+## 25 November · Home morning and evening check-ins
+
+When the Alice home cue is a Morning briefing, offer View today beside Got it. When it is an Evening check-in, offer View tasks. Those controls open Today or Tasks without dismissing. Got it remains the explicit clear. Match the Inbox labels View today / 查看今天 and View tasks / 查看待办.
 
 ## 25 November · Workspace navigation and notices
 

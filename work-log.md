@@ -1332,5 +1332,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** `current()` exposes withdrawn pending/obsolete findings; UI copy + Got it; home cue skips withdrawn; Chrome 1440+320 on 5198/8839; unit + contract; docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-finding-withdrawn/verification.md) — local real Chrome + fixture fake initiative + memory delete; not live mailbox or paid model.
+## 25 November 2026 · Home morning/evening check-in opens cited surface
+
+**Goal.** One independent owner-facing personal-agent journey: home morning/evening check-ins open Today/Tasks without stacking #158–#171.
+
+**Done.** View today / View tasks on the home Alice cue; evening → Tasks Chrome 1440+320 on 5199/8840; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-home-nudge-review/verification.md) — local real Chrome + rule nudge fixture; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.

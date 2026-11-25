@@ -117,6 +117,7 @@ export function AliceHome({
           onClearTask={onClearTask}
           onOpenTask={onOpenTask}
           onStateChange={onConversationState}
+          onReviewSurface={onReviewSurface}
         />
       </div>
     </section>

@@ -1115,3 +1115,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, invalidating cited evidence silently dropped the Conversation finding. Keep a withdrawn card until Got it. Do not stack open #158–#170 (including #161 Follow up stale).
 - **验证边界：** Local Chrome 1440+320 on owned ports 5198/8839; focused initiative unit test; frontend source contract. [QA](output/qa/2026-11-25-finding-withdrawn/verification.md).
+## 2026-11-25 · Home morning/evening check-in opens cited surface
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, the home Alice cue for morning briefing and evening check-in only offered Got it (Inbox View today/tasks is open #170 and must not be stacked). Add View today / View tasks on the home cue. Do not dismiss. Do not stack open #158–#171.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5199/8840 (evening → Tasks); frontend source contract. [QA](output/qa/2026-11-25-home-nudge-review/verification.md).
