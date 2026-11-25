@@ -36,6 +36,12 @@ class Findings(StrictModel):
     findings: list[Finding] = Field(max_length=3)
 
 
+class InitiativeSnoozeInput(StrictModel):
+    """Owner-chosen deferral of one cited finding. Nothing is sent."""
+
+    minutes: int = Field(default=60, ge=15, le=24 * 60)
+
+
 INSTRUCTIONS = """You are Alice doing private read-only proactive research.
 Connect new evidence to the owner's saved facts, open tasks and calendar.
 Look for meaningful changes, inconsistent facts, imminent risks or useful next steps.
@@ -113,6 +119,11 @@ class Initiative:
                 )
             if "retry_at" not in columns:
                 conn.execute("ALTER TABLE initiative_state ADD COLUMN retry_at TEXT")
+            finding_columns = {
+                row["name"] for row in conn.execute("PRAGMA table_info(initiative_findings)")
+            }
+            if "snooze_until" not in finding_columns:
+                conn.execute("ALTER TABLE initiative_findings ADD COLUMN snooze_until TEXT")
 
     def enabled(self):
         return self.runtime.data.preferences()["proactivity"] != "off"
@@ -142,19 +153,168 @@ class Initiative:
             if undelivered and row["notified"]:
                 continue
             data = json.loads(row["data"])
-            if self.sources.matches(data["sources"], sources):
-                item = {"id": row["id"], "created_at": row["created_at"], **data}
-                if display:
-                    historical = row["state"] == "obsolete" or (row["notified"] and any(
-                        sources[ref["ref"]].get("historical") for ref in data["sources"]
-                    ))
-                    if historical:
-                        if not row["notified"] or not any(ref["ref"].startswith("mail:gmail:") for ref in data["sources"]):
-                            continue
-                        item["historical"] = True
-                    item["sources"] = self.sources.display_sources(data["sources"], sources)
-                result.append(item)
-        return sorted(result, key=lambda item: item["importance"] != "high")
+            refs = data["sources"]
+            if not self.sources.matches(refs, sources):
+                # Forgetting or changing a source also withdraws derived private text.
+                # A temporarily missing mailbox, or a different mailbox, reveals nothing.
+                if history and row["notified"] and refs and all(
+                    ref["kind"] in {"task", "memory", "calendar"} and not ref["ref"].startswith("calendar:google:")
+                    for ref in refs
+                ):
+                    result.append({"id": row["id"], "created_at": row["created_at"],
+                                   "kind": "withdrawn", "importance": "normal", "withdrawn": True,
+                                   "message_en": "", "message_zh": "", "sources": []})
+                continue
+            item = {"id": row["id"], "created_at": row["created_at"], **data}
+            if row["notice_id"]:
+                item["notice_id"] = row["notice_id"]
+            if row["snooze_until"]:
+                item["reminder_at"] = row["snooze_until"]
+            if display:
+                historical = row["state"] == "obsolete" or (row["notified"] and any(
+                    sources[ref["ref"]].get("historical") for ref in refs
+                ))
+                if historical:
+                    if not row["notified"] or not any(ref["ref"].startswith("mail:gmail:") for ref in refs):
+                        continue
+                    item["historical"] = True
+                item["sources"] = self.sources.display_sources(refs, sources)
+                item["followup_status"] = self._followup_status(data.get("followup"))
+            result.append(item)
+        return sorted(result, key=lambda item: (bool(item.get("withdrawn")), item["importance"] != "high"))
+
+    def _followup_status(self, followup, conn=None):
+        """Live task status for an owner-chosen follow-up. Bound by task id only."""
+        if not isinstance(followup, dict) or not followup.get("task_id"):
+            return None
+        task_id = followup["task_id"]
+
+        def read(active):
+            try:
+                task = self.runtime.tasks.get(active, task_id)
+            except DomainError:
+                return {
+                    "task_id": task_id,
+                    "title": followup.get("title") or "",
+                    "status": "missing",
+                    "open": False,
+                    "bound_at": followup.get("bound_at"),
+                }
+            return {
+                "task_id": task_id,
+                "title": task.get("title") or followup.get("title") or "",
+                "status": task["status"],
+                "open": task["status"] in {"todo", "in_progress", "waiting"},
+                "bound_at": followup.get("bound_at"),
+            }
+
+        # Reuse the write connection when called inside a follow-up transaction.
+        if conn is not None:
+            return read(conn)
+        with self.store.connection() as active:
+            return read(active)
+
+    def follow_up(self, ident, key, principal):
+        """Owner explicitly opens one follow-up task bound to this finding. Does not send."""
+        from .tasks import TaskInput
+
+        def authorize(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
+            row = conn.execute("SELECT data,state FROM initiative_findings WHERE id=?", (ident,)).fetchone()
+            if not row or row["state"] != "pending":
+                raise DomainError("INITIATIVE_NOT_FOUND", 404)
+            data = json.loads(row["data"])
+            _, sources = self.sources.collect()
+            if not self.sources.matches(data["sources"],sources):
+                raise DomainError("INITIATIVE_STALE",409)
+            return data
+
+        def apply(conn):
+            data = authorize(conn)
+            existing = data.get("followup")
+            if isinstance(existing, dict) and existing.get("task_id"):
+                # Keep the original binding; never invent a second task for this finding.
+                status = self._followup_status(existing, conn)
+                return {
+                    "saved": False,
+                    "already_following": True,
+                    "acted": False,
+                    "sent": False,
+                    "finding_id": ident,
+                    "followup": existing,
+                    "followup_status": status,
+                }
+            title = (data.get("message_en") or "Follow up on this finding").strip()
+            if len(title) > 160:
+                title = title[:157].rstrip() + "..."
+            labels = [
+                source.get("label") or source.get("ref")
+                for source in data.get("sources") or []
+                if isinstance(source, dict)
+            ]
+            next_step = "Review the cited sources and decide the next action."
+            if labels:
+                next_step = f"Review: {', '.join(labels[:4])}."
+            task = self.runtime.tasks.insert_task(
+                conn,
+                TaskInput(
+                    title=title,
+                    next_step=next_step[:500],
+                    visibility="private",
+                    follow_up_enabled=False,
+                ),
+                origin="initiative_followup",
+            )
+            fingerprints = [
+                source.get("fingerprint")
+                for source in data.get("sources") or []
+                if isinstance(source, dict) and source.get("fingerprint")
+            ]
+            bound = {
+                "task_id": task["id"],
+                "title": task["title"],
+                "bound_at": iso(self.store.clock()),
+                "source_fingerprints": fingerprints,
+            }
+            data["followup"] = bound
+            conn.execute(
+                "UPDATE initiative_findings SET data=? WHERE id=?",
+                (encode(data), ident),
+            )
+            self.runtime.tasks.evidence(
+                conn,
+                task["id"],
+                task["version"],
+                "initiative_followup",
+                encode(
+                    {
+                        "finding_id": ident,
+                        "source_fingerprints": fingerprints,
+                    }
+                ),
+                "initiative_followup",
+            )
+            return {
+                "saved": True,
+                "already_following": False,
+                "acted": False,
+                "sent": False,
+                "finding_id": ident,
+                "followup": bound,
+                "followup_status": {
+                    "task_id": task["id"],
+                    "title": task["title"],
+                    "status": task["status"],
+                    "open": True,
+                    "bound_at": bound["bound_at"],
+                },
+                "task": task,
+            }
+
+        return self.store.operation(
+            key, {"type": "initiative_followup", "id": ident}, apply,
+            authorize=authorize,
+        )
 
     def snapshot(self):
         with self.store.connection() as db:
@@ -164,7 +324,8 @@ class Initiative:
             "enabled": self.enabled(),
             "research_ready": self.runtime.text_ai.config.valid()
             and self.runtime.text_ai.config.background,
-            "findings": [row for row in visible if not row.get("historical")][:3],
+            "findings": [row for row in visible if not row.get("historical") and not row.get("withdrawn")][:3],
+            "withdrawn": [row for row in visible if row.get("withdrawn")][:5],
             "history": [row for row in visible if row.get("historical")][:12],
             "last_checked_at": state["last_checked_at"],
             "last_error": state["error"],
@@ -178,12 +339,24 @@ class Initiative:
         rows = self.current()
         return {**rows[0], "finding_kind": rows[0]["kind"], "kind": "initiative"} if rows else None
 
+    def _release_snoozes(self):
+        """Return due snoozed findings to pending so delivery can raise them once."""
+        now = iso(self.store.clock())
+        with self.store.connection(write=True) as conn:
+            conn.execute(
+                """UPDATE initiative_findings
+                SET state='pending', notified=0, notice_id=NULL
+                WHERE state='snoozed' AND snooze_until IS NOT NULL AND snooze_until<=?""",
+                (now,),
+            )
+
     def advance(self):
         if self.stopping or not self.lock.acquire(False):
             return
         token = None
         try:
             self.sources.fence()
+            self._release_snoozes()
             config = self.runtime.text_ai.config
             if not (config.valid() and config.background):
                 self._deliver()
@@ -293,7 +466,7 @@ class Initiative:
                          "already_reported": [{"kind": x["kind"], "sources": [s["ref"] for s in x["sources"]]} for x in known]},
                         Findings, "initiative", checkpoint=current)
                 except DomainError as error:
-                    if error.code not in {"OPENAI_DAILY_BUDGET_REACHED", "OPENAI_BUDGET_DAY_END", "OPENAI_BUDGET_PERIOD_CLOSED"} and not (
+                    if error.code not in {"OPENAI_DAILY_BUDGET_REACHED", "OPENAI_MONTHLY_BUDGET_REACHED", "OPENAI_BUDGET_DAY_END", "OPENAI_BUDGET_PERIOD_CLOSED"} and not (
                         metered and error.code == "TEXT_AI_UNAVAILABLE" and any(s["kind"] == "mail" for s in sources.values())
                     ):
                         raise
@@ -411,7 +584,11 @@ class Initiative:
         if not batch:
             return
         ids = [row["id"] for row in batch]
-        notice_id = "insight-" + (ids[0] if len(ids) == 1 else fingerprint(sorted(ids)))
+        reminders = [(row["id"], row["reminder_at"]) for row in batch if row.get("reminder_at")]
+        if reminders:
+            notice_id = "insight-" + fingerprint([sorted(ids), sorted(reminders)])
+        else:
+            notice_id = "insight-" + (ids[0] if len(ids) == 1 else fingerprint(sorted(ids)))
 
         def current(conn):
             now = self.store.clock()
@@ -459,7 +636,7 @@ class Initiative:
 
         def mark(conn):
             conn.executemany(
-                "UPDATE initiative_findings SET notified=1,notice_id=? WHERE id=?",
+                "UPDATE initiative_findings SET notified=1,notice_id=?,snooze_until=NULL WHERE id=?",
                 [(notice_id, ident) for ident in ids],
             )
 
@@ -497,11 +674,49 @@ class Initiative:
                 "SELECT 1 FROM initiative_findings WHERE id=?", (ident,)
             ).fetchone():
                 raise DomainError("INITIATIVE_NOT_FOUND", 404)
-            conn.execute("UPDATE initiative_findings SET state='dismissed' WHERE id=?", (ident,))
+            conn.execute(
+                "UPDATE initiative_findings SET state='dismissed', snooze_until=NULL WHERE id=?",
+                (ident,),
+            )
             self._dismiss_notice(conn, ident)
-            return {"saved": True, "id": ident}
+            return {"saved": True, "id": ident, "sent": False, "acted": False}
 
-        return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply)
+        return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply,
+                                    authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(conn, principal))
+
+    def snooze(self, ident, key, principal, minutes=60):
+        payload = InitiativeSnoozeInput(minutes=minutes)
+
+        def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
+            row = conn.execute(
+                "SELECT state, snooze_until, notice_id FROM initiative_findings WHERE id=?", (ident,)
+            ).fetchone()
+            if not row:
+                raise DomainError("INITIATIVE_NOT_FOUND", 404)
+            until = iso(self.store.clock() + timedelta(minutes=payload.minutes))
+            if row["state"] == "snoozed" and row["snooze_until"] == until:
+                return {"saved": True, "id": ident, "snooze_until": until, "already": True}
+            if row["state"] not in {"pending", "snoozed"}:
+                raise DomainError("INITIATIVE_NOT_PENDING", 409)
+            conn.execute(
+                """UPDATE initiative_findings
+                SET state='snoozed', snooze_until=?, notified=0, notice_id=NULL
+                WHERE id=?""",
+                (until, ident),
+            )
+            old_notice = row["notice_id"]
+            if old_notice and not conn.execute(
+                "SELECT 1 FROM initiative_findings WHERE state='pending' AND notice_id=?", (old_notice,)
+            ).fetchone():
+                self.runtime.notify.dismiss_pending(conn, old_notice)
+            return {"saved": True, "id": ident, "snooze_until": until}
+
+        return self.store.operation(
+            key,
+            {"type": "initiative_snooze", "id": ident, "minutes": payload.minutes},
+            apply, authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(conn, principal),
+        )
 
     def shutdown(self):
         self.stopping = True
@@ -514,10 +729,31 @@ def initiative_routes(runtime, owner, operation_id):
     def current():
         return runtime.initiative.snapshot()
 
+    @router.post("/{ident}/follow-ups")
+    def follow_up(ident: str, request: Request, principal=Depends(owner), key=Depends(operation_id)):
+        return runtime.initiative.follow_up(
+            ident, key, {**principal, "session": request.cookies.get("desk_companion_session")}
+        )
+
     @router.post("/{ident}/dismissals")
     def dismiss(ident: str, request: Request, principal=Depends(owner), key=Depends(operation_id)):
         return runtime.initiative.dismiss(
             ident, key, {**principal, "session": request.cookies.get("desk_companion_session")}
+        )
+
+    @router.post("/{ident}/snoozes")
+    def snooze(
+        ident: str,
+        payload: InitiativeSnoozeInput,
+        request: Request,
+        principal=Depends(owner),
+        key=Depends(operation_id),
+    ):
+        return runtime.initiative.snooze(
+            ident,
+            key,
+            {**principal, "session": request.cookies.get("desk_companion_session")},
+            minutes=payload.minutes,
         )
 
     return router

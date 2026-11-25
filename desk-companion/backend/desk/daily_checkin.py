@@ -51,7 +51,11 @@ def current_checkin(runtime, principal, tasks, posture, initiative=None):
             "position": "movement",
             "outcome": "notice",
         }
-    if findings := (initiative or {}).get("findings"):
+    if findings := [
+        item
+        for item in ((initiative or {}).get("findings") or [])
+        if not item.get("withdrawn")
+    ]:
         return {**findings[0], "finding_kind": findings[0]["kind"], "kind": "initiative"}
     for task in tasks.get("attention", []):
         if not task.get("redacted") and task.get("followup") and not task["paused"]:

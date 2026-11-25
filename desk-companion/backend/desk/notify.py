@@ -27,9 +27,10 @@ class Notice:
     body_zh: str
     reason_en: str
     reason_zh: str
+    task_id: str | None = None
 
     def payload(self) -> dict:
-        return {
+        data = {
             "id": self.id,
             "kind": self.kind,
             "title_en": self.title_en,
@@ -40,6 +41,9 @@ class Notice:
             "reason_zh": self.reason_zh,
             "push": push_payload(self),
         }
+        if self.task_id:
+            data["task_id"] = self.task_id
+        return data
 
 
 def push_payload(notice: Notice) -> dict:
@@ -133,6 +137,7 @@ class Notifier:
     def __init__(self, store, channels=None, push=None):
         self.store = store
         self.owner_projection = lambda notice: notice
+        self.locked = None
         self.push = push
         self.channels = (
             channels
@@ -228,9 +233,11 @@ class Notifier:
                 for item in results
             ):
                 on_inbox(conn)
+            if browser_delivered and self.locked:
+                self.locked.enqueue(conn, notice, at)
             if wrote:
                 self.store.bump(conn)
-        if browser_delivered and self.push is not None and self.push.dispatch(notice.payload()["push"]):
+        if browser_delivered and not self.locked and self.push is not None and self.push.dispatch(notice.payload()["push"]):
             # A browser outbox entry is local. Record the separate push-service
             # acknowledgement only after at least one subscription accepted the payload.
             with self.store.connection(write=True) as conn:
@@ -281,17 +288,39 @@ class Notifier:
 
     def dismiss(self, notice_id: str, key: str) -> dict:
         def apply(conn):
+            import json
+
             row = conn.execute(
                 "SELECT * FROM notice_inbox WHERE id=? AND source IS NULL", (notice_id,)
             ).fetchone()
             if not row:
                 raise DomainError("NOTICE_NOT_FOUND", 404)
+            content = json.loads(row["content"])
+            changed = False
             if row["state"] != "dismissed":
-                conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
+                conn.execute(
+                    "UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,)
+                )
+                changed = True
+            # Inbox Dismiss for an initiative notice must clear the bound finding(s),
+            # matching Conversation Got it — otherwise the home cue returns.
+            if content.get("kind") == "initiative":
+                if conn.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type='table' AND name='initiative_findings'"
+                ).fetchone():
+                    cleared = conn.execute(
+                        """UPDATE initiative_findings
+                        SET state='dismissed'
+                        WHERE notice_id=? AND state IN ('pending','obsolete')""",
+                        (notice_id,),
+                    )
+                    if cleared.rowcount:
+                        changed = True
+                conn.execute("DELETE FROM browser_notices WHERE id=?", (notice_id,))
+                conn.execute("DELETE FROM device_notices WHERE id=?", (notice_id,))
+            if changed:
                 self.store.bump(conn)
-            import json
-
-            return {"notice": {**json.loads(row["content"]), "state": "dismissed"}, "saved": True}
+            return {"notice": {**content, "state": "dismissed"}, "saved": True}
 
         result = self.store.operation(key, {"type": "notice_dismiss", "id": notice_id}, apply)
         return {**result, "notice": self.owner_projection(result["notice"])}

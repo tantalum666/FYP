@@ -306,7 +306,7 @@ class TaskService:
         )
         return {"task": self.get(conn, task_id), "saved": True}
 
-    def listing(self, query="", include_closed=False, display=False):
+    def listing(self, query="", include_closed=False, display=False, conceal_private=False):
         with self.store.connection() as conn:
             hide = self.store.settings(conn)["hide_private"]
             if display:
@@ -329,7 +329,9 @@ class TaskService:
                 task = self.view(row)
                 if not include_closed and task["status"] not in OPEN:
                     continue
-                redacted = bool(hide and task["visibility"] == "private")
+                redacted = bool(
+                    (hide or conceal_private) and task["visibility"] == "private"
+                )
                 if query and (redacted or query.casefold() not in task["title"].casefold()):
                     continue
                 task["due_at"] = (
@@ -386,11 +388,13 @@ class TaskService:
                 "timezone": self.store.settings(conn)["timezone"],
             }
 
-    def detail(self, task_id, display=False, *, describe_jobs=False):
+    def detail(self, task_id, display=False, *, describe_jobs=False, conceal_private=False):
         projected = next(
             (
                 t
-                for t in self.listing(include_closed=True, display=display)["tasks"]
+                for t in self.listing(
+                    include_closed=True, display=display, conceal_private=conceal_private
+                )["tasks"]
                 if t["id"] == task_id
             ),
             None,
@@ -513,6 +517,7 @@ class TaskService:
                             body_zh,
                             body_en,
                             body_zh,
+                            task_id=data["id"],
                         )
                     )
             if changed:
@@ -623,22 +628,48 @@ class TaskService:
 def task_routes(runtime, authenticated, operation_id):
     router = APIRouter(prefix="/api/tasks", dependencies=[Depends(authenticated)])
 
+    def owner_only(principal):
+        if principal["kind"] != "owner":
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+
     @router.get("")
-    def listing(query: str = "", include_closed: bool = False, display: bool = False):
-        return runtime.tasks.listing(query[:160], include_closed, display)
+    def listing(
+        query: str = "",
+        include_closed: bool = False,
+        display: bool = False,
+        principal=Depends(authenticated),
+    ):
+        # A paired display is not an owner session. Private rows stay redacted.
+        return runtime.tasks.listing(
+            query[:160],
+            include_closed,
+            display,
+            conceal_private=principal["kind"] != "owner",
+        )
 
     @router.post("")
-    def create(payload: TaskInput, key=Depends(operation_id)):
+    def create(payload: TaskInput, key=Depends(operation_id), principal=Depends(authenticated)):
+        owner_only(principal)
         return runtime.tasks.create(payload, key)
 
     @router.get("/{task_id}")
     def detail(task_id: str, display: bool = False, principal=Depends(authenticated)):
+        owner = principal["kind"] == "owner"
         return runtime.tasks.detail(
-            task_id, display=display, describe_jobs=principal["kind"] == "owner" and not display
+            task_id,
+            display=display,
+            describe_jobs=owner and not display,
+            conceal_private=not owner,
         )
 
     @router.post("/{task_id}/actions")
-    def action(task_id: str, payload: TaskAction, key=Depends(operation_id)):
+    def action(
+        task_id: str,
+        payload: TaskAction,
+        key=Depends(operation_id),
+        principal=Depends(authenticated),
+    ):
+        owner_only(principal)
         return runtime.tasks.action(task_id, payload, key)
 
     return router

@@ -13,3 +13,5 @@ Anthropic 的 William Hu 于 2026 年 11 月 13 日发表《Building always-on a
 例如，Alice 在静音时段发现一项预订待确认，又发现用户打算去的场地当天休息。她可以在静音结束后只提醒一次。打开对话仍能查看两条依据。确认其中一项，另一项继续保留。本轮用虚构事务验证了这条投递路径。生产环境是否真的能持续挑出值得打断用户的变化，仍需要使用者反馈。[主动发现契约](../desk-companion/docs/proactive-research.md)
 
 文章还讨论了定期整理记忆，以及等待批准期间释放工作进程。FYP 已要求长期记忆由用户批准。本轮保留这个决定，远端会话和临时模型输出也不充当事实记录。一个后续验收旅程是让已选择跟进的真实邮件收到回复后，在同一事务出现一次提醒，再由用户决定是否拟回信。这个旅程可以衡量重复提醒、漏报、错误关联和用户主动查看原文的次数。[文字会话契约](../desk-companion/docs/official-text-sessions.md) · [官方调度](https://developers.openai.com/api/docs/guides/agents-api/sessions/automations)
+
+25 November 2026. The owner journey now exists on the current desk for a thread the owner has chosen to follow. A new reply raises one reminder on that same task. The owner can open the original message and then decide whether to draft a reply. Quiet hours hold the reminder. The local sample and the synthetic provider are not a live mailbox, and saving a draft does not send it. Live mailbox acceptance remains open. [Contract](../desk-companion/docs/mail-thread-followup.md) · [verification](../output/qa/2026-11-25-followed-reply/verification.md)

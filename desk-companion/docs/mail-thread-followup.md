@@ -1,6 +1,20 @@
 # Group 2 · Selected mail-thread follow-up
 
+## 26 November · Followed-reply readback
+
+The inbox resolves a reply receipt to its current private task using the active followed thread and the current account grant. A receipt with an unavailable link offers the task list. Opening the original records success only after the provider supplies it and authority is checked again. An unavailable response cannot mark the message as read. Saving a draft has its own receipt. [Verification](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 18 November 2026. A selected Gmail/Outlook conversation can be linked to one existing or new task, checked for incoming updates, and replied to through the existing reviewed sender. This is a bounded source subscription. It is not whole-inbox ingestion or an autonomous agent scheduler. [Official capability audit](../../research/2026-11-17-official-capability-audit.md), [verification](../../output/qa/2026-11-17-mail-thread-followup/verification.md).
+
+## 25 November 2026 · One reminder, then a draft the owner chooses
+
+The poll above still watches a thread the owner chose to follow. When a new incoming message id appears, Alice keeps one reminder on that same task. Chat shows the summary and source. Inbox offers the task. The task card is the same reminder. Quiet hours leave it unpublished until quiet hours end. A restart or the same message does not add a second reminder.
+
+**Read the message** rereads that message from its source. The text is shown and is not written into saved memory, task evidence, or the stored read receipt. A failed read says it failed and does not become a confirmed new reply.
+
+**Draft a reply** appears only after the owner asks for it. **Save draft** stores the text the owner reviewed, bound to the message, revision, and summary on screen. It does not send. **Check again** rereads and, if an earlier send is unknown, says so without sending again. **Not now** clears this reminder only.
+
+A local sample in Work & tools is labeled “Not a live mailbox.” Following one sample thread does not attach a reply from the other sample thread. Connected Gmail or Outlook still use the same reminder when a synthetic or real selected thread reports a new message. This slice did not accept a live mailbox, did not call a model, and did not change GPT-6.2 Sol, GPT-Live 1.1, or A3 v9. [Verification](../../output/qa/2026-11-25-followed-reply/verification.md).
 
 ## Owner journey
 

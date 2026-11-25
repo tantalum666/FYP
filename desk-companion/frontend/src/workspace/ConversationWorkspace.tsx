@@ -20,7 +20,13 @@ export function ConversationWorkspace({
   taskId?: string;
   taskTitle?: string;
   onClearTask: () => void;
+  onOpenTask?: (taskId: string) => void;
+  onOpenMemory?: (memoryId: string) => void;
+  onOpenCalendar?: (ref: string) => void;
+  focusNoticeId?: string;
+  onFocusNoticeConsumed?: () => void;
   onStateChange: (state: { dirty: boolean; busy: boolean }) => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   return (
     <section

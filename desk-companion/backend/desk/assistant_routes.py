@@ -91,7 +91,11 @@ def assistant_routes(runtime, authenticated, operation_id):
         )
         proposals = visible_calendar_proposals(proposals, principal)
         if not runtime.personal_context.visible(principal):
-            proposals = [item for item in proposals if item.get("kind") != "browser_research"]
+            proposals = [
+                item
+                for item in proposals
+                if item.get("kind") not in {"browser_research", "followed_reply_draft"}
+            ]
         proposals = runtime.agent_runs.filter_proposals(proposals, principal)
         if principal["kind"] != "owner" or not runtime.store.session_valid(
             principal.get("session")
@@ -110,7 +114,7 @@ def assistant_routes(runtime, authenticated, operation_id):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
         if (
             proposal_kind(runtime, proposal_id)
-            in {"mailbox_reply", "calendar_advice", "email_send", "browser_research"}
+            in {"mailbox_reply", "calendar_advice", "email_send", "browser_research", "followed_reply_draft"}
             and principal["kind"] != "owner"
         ):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)

@@ -4,7 +4,7 @@ import Foundation
 @MainActor
 final class DeskRoute {
     static func request(_ route: String) {
-        guard ["today", "new"].contains(route) else { return }
+        guard ["today", "new", "assistant"].contains(route) else { return }
         UserDefaults.standard.set(route, forKey: "desk.pending.route.v1")
         NotificationCenter.default.post(name: Notification.Name("DeskRouteRequested"), object: nil)
     }

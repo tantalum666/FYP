@@ -1,0 +1,31 @@
+{
+  "software": "e64d6285375c3c2803f615db669c1cb2c7ab6182",
+  "review_base": "689a72442096d193663a054be0ef9e09faf065be",
+  "historical_ancestry": 81,
+  "reviewed_new_heads": 19,
+  "incoming_fixture_images_reviewed": 34,
+  "staged_web_and_native_identical_assets": 79,
+  "retained_native_data_checks": 7,
+  "normal_schemas_before_after": [
+    145,
+    145
+  ],
+  "normal_background": {
+    "multiple_successful_scheduled_gmail_reads": true,
+    "paid_worker_response_observed": true,
+    "model": "gpt-6.2-sol",
+    "power_assertion_owns_server_pid": true,
+    "no_test_alert_during_actual_quiet_time": true
+  },
+  "simulator": {
+    "operating_system_lock_confirmed_before_mail": true,
+    "app_terminated_before_mail": true,
+    "operating_system_showed_generic_alert": true,
+    "accepted_for_synthetic_notice": 1,
+    "normal_native_consent_and_server_binding": true,
+    "device_tested": "iPhone 17 Pro Simulator, iOS 26.5"
+  },
+  "mac_lock_banner": "owner selected a background-only check in quiet hours",
+  "physical_iPhone_APNs": "deferred by owner",
+  "pi": "package retained from its last recorded release; pinned device connection unavailable"
+}

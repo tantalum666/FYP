@@ -3,11 +3,13 @@
 import hashlib
 
 import pytest
+from fastapi.testclient import TestClient
 
 from desk.app import create_app
 from desk.assistant import AssistantMessage
 from desk.computer import LocalNotesExecutor
 from desk.jobs import FolderNaming
+from desk.schemas import SettingsInput
 from desk.tasks import TaskInput
 
 from test_text_conversation_scope import owner_client, send
@@ -123,3 +125,93 @@ def test_http_task_journey_recovers_after_restart_without_rewriting_or_auto_comp
     assert final["task"]["completion_source"] == "user_confirmed"
     assert final["jobs"][0]["id"] == job_id
     assert len(list(path.parent.glob("*.txt"))) == 1 and path.stat().st_mtime_ns == original
+
+
+def test_selected_task_keeps_an_unknown_result_away_from_a_same_name_task_and_a_paired_screen(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv("DESK_COMPUTER_ENABLED", "1")
+    app = create_app(tmp_path, password="fixture", scheduler=False)
+    client = owner_client(app)
+    runtime = app.state.runtime
+    selected = write(client, "/api/tasks", {
+        "title": "Fixture review",
+        "next_step": "Read the saved file",
+        "follow_up_enabled": False,
+        "steps": [{"title": "Gather the notes", "done": True}],
+    }, "selected-task")["task"]
+    other = write(client, "/api/tasks", {
+        "title": "Fixture review",
+        "next_step": "Leave this one alone",
+        "follow_up_enabled": False,
+    }, "other-task")["task"]
+    text = "Fixture review\n核对文件后继续处理。"
+    response = send(client, "Save note: " + text, task_id=selected["id"], key="prepare-selected")
+    job_id = response.json()["job"]["id"]
+    job = client.get(f"/api/computer/jobs/{job_id}").json()["job"]
+    path = runtime.jobs.executor.root / (job_id + ".txt")
+    approval = {"expected_version": job["version"], "intent_hash": job["intent_hash"]}
+    write(client, f"/api/computer/jobs/{job_id}/approve", approval, "approval-once")
+
+    class ProcessCrash(BaseException):
+        pass
+
+    class CrashAfterWrite(LocalNotesExecutor):
+        def execute(self, request, checkpoint):
+            super().execute(request, checkpoint)
+            raise ProcessCrash()
+
+    runtime.jobs.executor = CrashAfterWrite(tmp_path)
+    with pytest.raises(ProcessCrash):
+        runtime.jobs.run_one()
+    original = path.stat().st_mtime_ns
+    restarted = create_app(tmp_path, password="fixture", scheduler=False)
+    phone = owner_client(restarted)
+    recovered = write(
+        phone, f"/api/computer/jobs/{job_id}/approve", approval, "approval-once"
+    )["job"]
+    assert recovered["state"] == "unknown"
+    detail = phone.get(f"/api/tasks/{selected['id']}").json()
+    assert detail["jobs"][0]["state"] == "unknown"
+    assert detail["jobs"][0]["task_id"] == selected["id"]
+    assert detail["task"]["steps"] == [{"title": "Gather the notes", "done": True}]
+    assert phone.get(f"/api/tasks/{other['id']}").json()["jobs"] == []
+    paired = TestClient(restarted)
+    paired.cookies.set(
+        "desk_companion_device",
+        restarted.state.runtime.access.enrol_display("Lobby", "pair-lobby")["token"],
+    )
+    hidden = paired.get(f"/api/tasks/{selected['id']}")
+    assert hidden.status_code == 403
+    assert hidden.json()["error"]["code"] == "PRIVATE_TASK_HIDDEN"
+    assert "Gather the notes" not in hidden.text and text not in hidden.text
+    listed = paired.get("/api/tasks").json()["tasks"]
+    assert all(row["title"] != "Fixture review" for row in listed)
+    denied = paired.post(
+        f"/api/tasks/{selected['id']}/actions",
+        json={"action": "note", "expected_version": 1, "note": "paired note"},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "paired-note"},
+    )
+    assert denied.status_code == 403
+    enrolled = restarted.state.runtime.access.enrol_display("Later", "pair-later")
+    client_id, token = enrolled["client_id"], enrolled["token"]
+    restarted.state.runtime.access.revoke(client_id, "revoke-later")
+    revoked = TestClient(restarted)
+    revoked.cookies.set("desk_companion_device", token)
+    assert revoked.get(f"/api/tasks/{selected['id']}").status_code == 401
+    checked = write(phone, f"/api/computer/jobs/{job_id}/reconcile", {}, "read-existing")
+    again = write(phone, f"/api/computer/jobs/{job_id}/reconcile", {}, "read-existing")
+    assert checked["job"]["state"] == again["job"]["state"] == "succeeded"
+    assert path.stat().st_mtime_ns == original
+    after = phone.get(f"/api/tasks/{selected['id']}").json()["task"]
+    assert after["steps"] == [{"title": "Gather the notes", "done": True}]
+    assert after["status"] == "todo"
+    with restarted.state.runtime.store.connection() as conn:
+        version = restarted.state.runtime.store.settings(conn)["version"]
+    restarted.state.runtime.store.update_settings(
+        SettingsInput(expected_version=version, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide-task",
+    )
+    concealed = phone.get(f"/api/tasks/{selected['id']}")
+    assert concealed.status_code == 403
+    assert "Gather the notes" not in concealed.text

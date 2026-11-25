@@ -1,5 +1,51 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · A followed reply
+
+On the task and in Chat, one card names the task and says a reply arrived. Say whether the source is the local mail sample or a connected mailbox. Offer Read the message, Check again, and Draft a reply. Show the draft editor only after Draft a reply. Say that saving the draft does not send it. After saving, say that nothing was sent. A failed check says it failed and is not a new confirmed reply.
+## 25 November · Finding remind-later
+
+On a Conversation finding, keep Sources and Got it. Add Remind me later for a one-hour deferral of that same cited finding. Do not imply mail was sent or a task was created. After the snooze ends, Alice may raise the finding again under the existing quiet-hours and delivery caps.
+## 25 November · Home cue opens Conversation for Sources
+
+When the Alice home cue is a proactive finding, offer View in conversation beside Got it. That control only expands Conversation so Sources stay available; it does not dismiss, send mail, or create a task. Got it on the cue still dismisses. Match the Inbox label View in conversation / 在对话中查看.
+## 25 November · Inbox Dismiss for proactive findings
+
+When an Inbox entry is an initiative notice, Dismiss clears that notice and the pending finding(s) bound to it, matching Conversation Got it. View in conversation still opens Alice without dismissing. Do not imply mail was sent.
+## 25 November · Open a cited task from finding Sources
+
+On a Conversation finding, Sources may include a task citation. Offer Open task with the existing title so the owner can open that task in Tasks. Do not dismiss the finding, create a follow-up, or imply mail was sent.
+## 25 November · Open a cited memory from finding Sources
+
+On a Conversation finding, Sources may include a memory citation. Offer Open memory with the existing fact text so the owner can open that fact in Memory. Do not dismiss the finding, create a follow-up, or imply mail was sent.
+## 25 November · Open a cited calendar event from finding Sources
+
+On a Conversation finding, Sources may include a local calendar citation. Offer Open calendar with the existing title so the owner can open that occurrence’s Event details. Do not dismiss the finding, create a follow-up, or imply mail was sent. Google preview citations stay labels until a separate import story maps them.
+## 25 November · Inbox initiative opens its Conversation finding
+
+On an Inbox initiative receipt, View in conversation opens Assistant, expands Conversation, and focuses the bound finding with Sources open. It does not dismiss the receipt or the finding. Dismiss remains the explicit clear.
+## 25 November · Inbox morning and evening check-ins
+
+On a Morning briefing receipt, offer View today so the owner can open Today without dismissing. On an Evening check-in receipt, offer View tasks so the owner can open Tasks. Dismiss remains the explicit clear.
+## 25 November · Withdrawn proactive suggestion
+
+When a Conversation finding’s Sources no longer match, keep the card as a withdrawn suggestion: say Sources changed and that nothing was sent. Got it clears it. Do not promote a withdrawn item as the home cue.
+## 25 November · Home morning and evening check-ins
+
+When the Alice home cue is a Morning briefing, offer View today beside Got it. When it is an Evening check-in, offer View tasks. Those controls open Today or Tasks without dismissing. Got it remains the explicit clear. Match the Inbox labels View today / 查看今天 and View tasks / 查看待办.
+## 25 November · Home task cue opens the cited task
+
+When the Alice home cue is a task follow-up, offer Open task beside Done, Still working and In an hour. That control opens the cited task in Tasks. It does not complete, snooze, or dismiss the follow-up. Match Open task / 打开待办.
+## 25 November · Inbox task follow-up opens the cited task
+
+On a task follow-up receipt, offer Open task so the owner can open that cited task in Tasks. Do not dismiss the receipt. Match Open task / 打开待办.
+## 25 November · Inbox memory follow-up opens Memory
+
+On an individual memory follow-up receipt (Alice remembered), offer View memories so the owner can open Memory without dismissing. Match the morning check-in label View memories / 查看记忆.
+## 25 November · Inbox calendar update opens Calendar
+
+On a Calendar update receipt (deadline, conflict, decision, or cancelled), offer View calendar so the owner can open Calendar without dismissing. Match View calendar / 查看日历. This is not the Sources Open calendar control for a cited occurrence.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.
@@ -15,6 +61,8 @@ A confirmed browser research task shows the status of its original job card. The
 ## 21 November · One order result per turn
 
 Keep the ordinary home on Alice. A fresh quote offers a single way to open the review; a finished order fits on one line. In the conversation, render an order response once. Keep the active decision visible, place other orders behind one disclosure, and let the result itself expand to show the original payment, net amount and provenance. Eligibility questions and errors keep their own answer. Choosing a flight uses a short action label and opens a freshly checked price. A passive update must preserve an existing decision, focus and unsent text. [Before and after](../../output/qa/2026-11-21-quiet-order-followup/verification.md).
+
+A proactive finding keeps Sources and Got it. Follow up on this is the explicit owner choice that opens a private task; status lines say Nothing was sent. Do not imply mail or purchase from that control. [Initiative follow-up](../../output/qa/2026-11-25-initiative-followup/verification.md).
 
 ## 17 November browser work in conversation
 

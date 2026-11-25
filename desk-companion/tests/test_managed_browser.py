@@ -48,7 +48,8 @@ class Provider:
     def __init__(self):
         self.calls, self.decisions = [], []
         self.input = self.approved = self.deleted = False
-        self.origin = "https://books.toscrape.com"
+        self.session_origin = "https://books.toscrape.com"
+        self.origin = self.session_origin
         self.report = "The first book costs GBP51.77. https://books.toscrape.com/"
         self.authentication = self.never_complete = self.delete_fails = self.create_uncertain = (
             False
@@ -70,7 +71,7 @@ class Provider:
             assert request.headers["Idempotency-Key"].endswith("/create")
             assert body["environment"]["network"] == {
                 "access": "restricted",
-                "allowed_domains": [self.origin.removeprefix("https://")],
+                "allowed_domains": [self.session_origin.removeprefix("https://")],
             }
             assert body["agent"]["multi_agent"] == {"enabled": False}
             assert body["agent"]["tools"] == [{"type": "computer_use"}]
@@ -195,7 +196,10 @@ class Provider:
 
 
 class FastClient(ManagedBrowserClient):
-    active_seconds = 0.25
+    # Active budget must clear origin approval before auth_wait credits start.
+    # 0.25s raced suite scheduling (~375ms JOB_DEADLINE_EXCEEDED before owner_input).
+    # Keep this far below production 90s; auth abandonment still uses auth_seconds.
+    active_seconds = 2.0
     auth_seconds = 1
     poll_seconds = 0.001
     snapshot_seconds = 0.005

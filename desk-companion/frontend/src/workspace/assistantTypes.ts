@@ -18,6 +18,7 @@ export interface Proposal {
     | "email_send"
     | "browser_research"
     | "mail_followup"
+    | "followed_reply_draft"
     | "routine_skip"
     | "shopping_advice"
     | "calendar_advice";

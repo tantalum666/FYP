@@ -11,6 +11,8 @@ export interface DeskNotice {
   body_zh: string;
   reason_en: string;
   reason_zh: string;
+  /** Present on task follow-up receipts so Inbox can open the cited task. */
+  task_id?: string;
   push: { title: string; body: string; tag: string };
 }
 

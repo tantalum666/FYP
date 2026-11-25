@@ -81,6 +81,7 @@ def create_app(
     allow_watch_retention_migration=False,
     allow_public_capture_migration=False,
     public_capture_enabled=None,
+    development_origin=None,
 ):
     if public_capture_enabled is not None and type(public_capture_enabled) is not bool:
         raise DomainError("CAPTURE_CAPABILITY_INVALID", 422)
@@ -152,9 +153,13 @@ def create_app(
             if scheduler
             else []
         )
+        if scheduler and services.notify.locked:
+            workers.append(asyncio.create_task(worker("locked_reminders", services.notify.locked.tick, 10)))
         try:
             yield
         finally:
+            if services.notify.locked:
+                services.notify.locked.stop()
             failure = None
             for stop in (
                 services.public_captures.stop,
@@ -188,6 +193,12 @@ def create_app(
         for host in ("localhost", "127.0.0.1", "testserver")
         for port in ("", ":5190", ":8831", ":5191", ":8832")
     }
+    if development_origin:
+        dev = urlsplit(development_origin)
+        if (dev.scheme != "http" or dev.hostname not in {"localhost","127.0.0.1"} or not dev.port
+                or dev.path or dev.query or dev.fragment or dev.username or dev.password):
+            raise ValueError("Specify one loopback development origin")
+        allowed_origins.add(development_origin)
     # The Mac-to-Pi SSH launcher binds this port on Mac loopback only.
     allowed_origins.update({"http://127.0.0.1:8891", "http://localhost:8891"})
     allowed_hosts = ["localhost", "127.0.0.1", "testserver"]
@@ -431,8 +442,10 @@ def create_app(
         return {"revision": store.revision()}
 
     @app.get("/api/phone/snapshot", dependencies=[Depends(authenticated)])
-    def phone():
-        return phone_snapshot(services)
+    def phone(principal=Depends(authenticated)):
+        return {**phone_snapshot(services), "owner_reminders": principal.get("kind") == "owner"
+                and services.notify.locked is not None and services.notify.locked.active()
+                and services.personal_context.visible(principal)}
 
     @app.get("/api/calendar", dependencies=[Depends(authenticated)])
     def calendar(start: datetime, end: datetime, display: bool = False):
@@ -473,7 +486,10 @@ def create_app(
 
     @app.post("/api/settings", dependencies=[Depends(authenticated)])
     def settings(payload: SettingsInput, key=Depends(operation_id)):
-        return store.update_settings(payload, key)
+        saved = store.update_settings(payload, key)
+        if payload.hide_private:
+            services.mail_replies.conceal()
+        return saved
 
     @app.get("/api/records", dependencies=[Depends(authenticated)])
     def records(

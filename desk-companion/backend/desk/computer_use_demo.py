@@ -54,16 +54,37 @@ document.querySelector('#harbor').onclick=()=>show('Harbor');document.querySelec
 document.querySelector('#confirm').onclick=()=>fetch('/commit',{method:'POST',body:'fictional-booking'});
 if(state){document.querySelector('#date').value=state.d;document.querySelector('#adults').value=state.q;document.querySelector('#bag').value=state.b}render();
 </script>"""
+VERIFICATION = """<h1>Site verification</h1>
+<p id=prompt>Enter the password to continue.</p>
+<input id=secret type=password aria-label=Password style="position:absolute;left:100px;top:140px;width:240px;height:40px">
+<button id=go type=button style="position:absolute;left:100px;top:220px;width:160px;height:48px">Continue</button>
+<script>
+document.querySelector('#go').onclick=()=>{
+  document.body.innerHTML='<h1>Rehearsal open</h1><p>The rehearsal page is open again.</p>';
+};
+</script>"""
+PUBLIC_NAV = """<nav><a href="#account">Sign in</a></nav>
+<h1>Shop tissues</h1><p>All products</p><button type=button>Add to cart</button>
+<p>No account is required for this catalogue.</p>"""
+PAYMENT = """<h1>Confirm payment</h1>
+<p>Pay now to finish this fictional checkout.</p>
+<button type=button>Pay now</button>
+<p>No card is collected here.</p>"""
 
 
 @contextmanager
 def demo_server(kind):
     counters = {"submissions": 0}
+    pages = {
+        "demo:shopping": SHOP,
+        "demo:flights": FLIGHTS,
+        "demo:verification": VERIFICATION,
+        "demo:public-nav": PUBLIC_NAV,
+        "demo:payment": PAYMENT,
+    }
     body = (
         "<!doctype html><html lang=en><meta charset=utf-8><title>FYP browser rehearsal</title>"
-        f"<style>{STYLE}</style><main>"
-        + (SHOP if kind == "demo:shopping" else FLIGHTS)
-        + "</main></html>"
+        f"<style>{STYLE}</style><main>{pages[kind]}</main></html>"
     ).encode()
 
     class Handler(BaseHTTPRequestHandler):

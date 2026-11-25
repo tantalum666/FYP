@@ -1,3 +1,4 @@
+import { cueTarget } from "./findingNavigation";
 import { useEffect, useState } from "react";
 import { Check, Clock3, Sparkles, X } from "lucide-react";
 import { errorText, write } from "../api";
@@ -26,12 +27,18 @@ export interface AliceCue {
 export function AliceCheckIn({
   t,
   visible,
+  onOpenConversation, onOpenTask, onReviewSurface,
 }: {
   t: Translate;
   visible: boolean;
+  /** Opens Conversation so the owner can read Sources before dismissing. */
+  onOpenConversation?: () => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
+  onOpenTask?: (taskId: string) => void;
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const cue = data?.check_in;
+  const review = cue && cueTarget(cue);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [feedback, setFeedback] = useState("");
@@ -187,6 +194,9 @@ export function AliceCheckIn({
         <div className="alice-checkin-actions">
           {cue.kind === "task" ? (
             <>
+              {review && onOpenTask && review.itemId && (
+                <button type="button" disabled={busy} onClick={() => onOpenTask(review.itemId!)}>{t(review.en,review.zh)}</button>
+              )}
               <button disabled={busy} onClick={() => void act("complete")}>
                 <Check size={14} />
                 {t("Done", "完成了")}
@@ -200,11 +210,19 @@ export function AliceCheckIn({
               </button>
             </>
           ) : (
-            <button disabled={busy} onClick={() => void act("dismiss")}>
-              {cue.kind === "posture"
-                ? t("Quiet for 10 minutes", "安静十分钟")
-                : t("Got it", "知道了")}
-            </button>
+            <>
+              {review && review.page === "assistant" && onOpenConversation && (
+                <button type="button" disabled={busy} onClick={onOpenConversation}>{t(review.en,review.zh)}</button>
+              )}
+              {review && (review.page === "today" || review.page === "tasks") && onReviewSurface && (
+                <button type="button" disabled={busy} onClick={() => onReviewSurface(review.page === "today" ? "today" : "tasks")}>{t(review.en,review.zh)}</button>
+              )}
+              <button disabled={busy} onClick={() => void act("dismiss")}>
+                {cue.kind === "posture"
+                  ? t("Quiet for 10 minutes", "安静十分钟")
+                  : t("Got it", "知道了")}
+              </button>
+            </>
           )}
         </div>
         {!!error && <small role="alert">{errorText(error, t)}</small>}

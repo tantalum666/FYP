@@ -451,6 +451,8 @@ class AssistantService:
         if kind == "mail_followup":
             mail = payload["mail_followup"]
             return (kind, mail["provider"], mail["account_version"], mail["thread_id"], mail["request"]["task_id"])
+        if kind == "followed_reply_draft":
+            return (kind, payload.get("followup_id"), payload.get("message_id"))
         if kind == "change":
             change = payload["change"]
             return (
@@ -848,7 +850,13 @@ class AssistantService:
                         raise DomainError("OWNER_APPROVAL_REQUIRED", 403)
                 if not allow_memory and (
                     row["kind"].startswith("memory_")
-                    or row["kind"] in {"email_send", "browser_research", "mail_followup", "routine_skip"}
+                    or row["kind"] in {
+                        "email_send",
+                        "browser_research",
+                        "mail_followup",
+                        "routine_skip",
+                        "followed_reply_draft",
+                    }
                     or json.loads(row["data"]).get("goal")
                 ):
                     raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
@@ -942,6 +950,8 @@ class AssistantService:
                     internal_key,
                     principal=principal,
                 )
+            elif apply_kind == "followed_reply_draft":
+                result = self.runtime.mail_replies.confirm_draft(payload, internal_key, principal)
             elif apply_kind == "mail_followup":
                 result = self.runtime.mail_followups.start(payload, internal_key, principal, follow_mail_thread,
                     automatic_version=automatic_follow_version)

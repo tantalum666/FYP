@@ -6,7 +6,24 @@ import Capacitor
 let deskAppGroup = "group.dev.group2.deskcompanion"
 
 enum DeskPhoneFeatures {
+    private static var receiverURL: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("alice-lock-reminder-receiver.json")
+    }
+    static func setReceiver(_ origin: String?) {
+        #if targetEnvironment(simulator)
+        let file = receiverURL
+        guard let origin, !origin.isEmpty else {
+            try? FileManager.default.removeItem(at: file)
+            return
+        }
+        let bytes = try? JSONSerialization.data(withJSONObject: ["origin": origin])
+        try? FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+        if let bytes { try? bytes.write(to: file, options: .atomic) }
+        #endif
+    }
     static func clear() {
+        setReceiver(nil)
         UserDefaults(suiteName: deskAppGroup)?.removeObject(forKey: "calendar.snapshot")
         WidgetCenter.shared.reloadAllTimelines()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -28,6 +45,11 @@ enum DeskPhoneFeatures {
     }
     static func sync(_ supplied: [String: Any], completion: @escaping ([String: Any]) -> Void) {
         var snapshot = supplied
+        let prefs = UserDefaults.standard
+        let origin = prefs.string(forKey: "desk.server.origin.v1")
+        if supplied["owner_reminders"] as? Bool != true || !prefs.bool(forKey: "desk.notifications.enabled") {
+            setReceiver(nil)
+        }
         let chinese = snapshot["language"] as? String == "zh"
         let items = (snapshot["items"] as? [[String: Any]] ?? []).prefix(3).map { row -> [String: Any] in
             var result = row
@@ -43,7 +65,11 @@ enum DeskPhoneFeatures {
         let centre = UNUserNotificationCenter.current()
         guard UserDefaults.standard.bool(forKey: "desk.notifications.enabled") else { centre.removeAllPendingNotificationRequests(); status(completion); return }
         centre.getNotificationSettings { settings in
-            guard [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus) else { status(completion); return }
+            guard [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus) else {
+                setReceiver(nil); status(completion); return
+            }
+            let bound = supplied["owner_reminders"] as? Bool == true && prefs.bool(forKey: "desk.notifications.enabled") && origin == prefs.string(forKey: "desk.server.origin.v1")
+            setReceiver(bound ? origin : nil)
             let rows = (supplied["notifications"] as? [[String: Any]] ?? []).prefix(64)
             let formatter = ISO8601DateFormatter(); formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             // Replace the local cache on each explicit sync. It cannot reflect edits
@@ -70,6 +96,7 @@ extension DeskNativePlugin {
     @objc func enableNotifications(_ call: CAPPluginCall) {
         if call.getBool("enabled") == false {
             UserDefaults.standard.set(false, forKey: "desk.notifications.enabled")
+            DeskPhoneFeatures.setReceiver(nil)
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             DeskPhoneFeatures.status { call.resolve($0) }; return
         }

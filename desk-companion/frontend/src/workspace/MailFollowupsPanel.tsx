@@ -3,6 +3,7 @@ import { ApiError, request, errorText } from "../api";
 import type { Translate } from "../types";
 import { usePrivateMutation } from "./personal/usePrivateMutation";
 import { MutationFeedback } from "./personal/MutationFeedback";
+import { MailReplyReminders } from "./MailReplyReminder";
 import "./mail-followups.css";
 
 interface MailFollowup {
@@ -63,8 +64,13 @@ export function MailFollowupsPanel({
       setData(null);
       clear.current();
     };
+    const reload = () => setReload((value) => value + 1);
     window.addEventListener("desk:session", reset);
-    return () => window.removeEventListener("desk:session", reset);
+    window.addEventListener("desk:mail-reply", reload);
+    return () => {
+      window.removeEventListener("desk:session", reset);
+      window.removeEventListener("desk:mail-reply", reload);
+    };
   }, []);
   useEffect(() => {
     if (!visible) {
@@ -111,8 +117,11 @@ export function MailFollowupsPanel({
     );
   }
   if (!visible || !fresh) return null;
+  const reminders = <MailReplyReminders t={t} taskId={taskId} />;
   if (error)
     return (
+      <>
+      {reminders}
       <p role="status" className="mail-followup-error">
         {errorText(error, t)}{" "}
         <button
@@ -122,10 +131,13 @@ export function MailFollowupsPanel({
           {t("Refresh", "刷新")}
         </button>
       </p>
+      </>
     );
-  if (!rows.length && !mutation.pending && !mutation.error) return null;
+  if (!rows.length && !mutation.pending && !mutation.error) return reminders;
   const unread = rows.reduce((sum, row) => sum + row.unread_count, 0);
   return (
+    <>
+    {reminders}
     <details
       className="mail-followups"
       open={mutation.pending || !!mutation.error || (!!taskId && unread > 0)}
@@ -220,5 +232,6 @@ export function MailFollowupsPanel({
       ))}
       <MutationFeedback mutation={mutation} t={t} />
     </details>
+    </>
   );
 }

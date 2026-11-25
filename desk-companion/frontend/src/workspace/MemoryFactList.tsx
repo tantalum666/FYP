@@ -34,6 +34,8 @@ interface Props {
   loading: boolean;
   busy: boolean;
   editing: MemoryEdit | null;
+  /** Marks the cited fact when Memory opens from finding Sources. */
+  focusFactId?: string;
   onEdit: (edit: MemoryEdit | null) => void;
   onSave: () => Promise<void>;
   onDelete: (fact: MemoryFact) => void;
@@ -47,6 +49,7 @@ export function MemoryFactList({
   loading,
   busy,
   editing,
+  focusFactId,
   onEdit,
   onSave,
   onDelete,
@@ -108,7 +111,12 @@ export function MemoryFactList({
         {visibleFacts.map((fact) => {
           const actions = actionsFor("active", fact.expires_at);
           return (
-            <li key={fact.id}>
+            <li
+              key={fact.id}
+              data-memory-id={fact.id}
+              tabIndex={focusFactId === fact.id ? -1 : undefined}
+              aria-current={focusFactId === fact.id ? "true" : undefined}
+            >
               {editing?.id === fact.id ? (
                 <textarea
                   aria-label={t("Correct saved memory", "更正已保存记忆")}

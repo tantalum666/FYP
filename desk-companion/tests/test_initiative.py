@@ -7,6 +7,7 @@ from desk.app import create_app
 from desk.context import pack_conversation, voice_context_note
 from desk.initiative import Findings, Initiative
 from desk.schemas import CreateEvents, EventAction, EventInput, SettingsInput
+from desk.store import DomainError
 from desk.tasks import TaskInput, TaskAction
 from desk.text_ai import TextConfig
 from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
@@ -93,6 +94,29 @@ def test_changed_evidence_produces_cited_insight_without_request_or_action(world
     assert len(r.notify.listing()["notices"]) == 1
     assert rows[0]["message_en"] in voice_context_note(r)
     assert pack_conversation(r, include_memory=False)["initiative"] == []
+
+
+def test_changed_cited_memory_keeps_finding_visible_as_withdrawn(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    assert len(r.initiative.current()) == 1
+    assert not r.initiative.current()[0].get("withdrawn")
+    r.memory.delete(fact["id"], fact["version"], "forget-cited")
+    rows = r.initiative.current(display=True)
+    assert len(rows) == 1 and rows[0]["withdrawn"] is True
+    assert rows[0]["message_en"] == "" and rows[0]["sources"] == []
+    snap = r.snapshot(actor)
+    assert snap["initiative"]["withdrawn"][0]["withdrawn"] is True
+    cue = snap.get("check_in")
+    assert cue is None or cue.get("id") != rows[0]["id"]
+    assert (
+        client.post(
+            f"/api/initiative/{rows[0]['id']}/dismissals",
+            headers={"X-Desk-Request": "1", "X-Operation-Id": "clear-withdrawn"},
+        ).status_code
+        == 200
+    )
+    assert r.initiative.current() == []
 
 
 def test_no_finding_means_no_alert_and_no_repeated_inference(world):
@@ -223,6 +247,98 @@ def test_dismiss_has_no_reapproval_and_does_not_create_another_insight(world):
     r.initiative.advance()
     assert not r.initiative.current()
     assert all(n["state"] == "dismissed" for n in r.notify.listing()["notices"])
+
+
+def test_snooze_hides_finding_then_returns_same_sources_after_clock(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    assert len(calls) == 1
+    finding = r.initiative.current()[0]
+    ident = finding["id"]
+    sources = finding["sources"]
+    first = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-once"},
+    )
+    assert first.status_code == 200, first.text
+    assert first.json()["snooze_until"]
+    assert not r.initiative.current()
+    assert r.initiative.cue() is None
+    replay = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-once"},
+    )
+    assert replay.status_code == 200
+    assert replay.json()["snooze_until"] == first.json()["snooze_until"]
+    now[0] += timedelta(minutes=61)
+    r.initiative.advance()
+    restored = r.initiative.current()
+    assert len(restored) == 1
+    assert restored[0]["id"] == ident
+    assert restored[0]["sources"] == sources
+    assert len(calls) == 1  # no second model call to restore a snooze
+    notices = r.notify.listing()["notices"]
+    assert len(notices) == 2
+    assert {notice["state"] for notice in notices} == {"open", "dismissed"}
+    assert len({notice["id"] for notice in notices}) == 2
+    r.initiative.advance()
+    assert len(r.notify.listing()["notices"]) == 2
+
+
+
+def test_snooze_fences_hide_private_revocation_and_dismissed(world):
+    from desk.schemas import SettingsInput
+
+    r, client, actor, *_ = world
+    r.initiative.advance()
+    ident = r.initiative.current()[0]["id"]
+    r.store.update_settings(
+        SettingsInput(expected_version=1, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide",
+    )
+    hidden = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-hidden"},
+    )
+    assert hidden.status_code == 403
+    r.store.update_settings(
+        SettingsInput(expected_version=2, timezone="Asia/Hong_Kong", hide_private=False),
+        "show",
+    )
+    r.store.logout(client.cookies.get("desk_companion_session"))
+    revoked = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-revoked"},
+    )
+    assert revoked.status_code == 403
+    client.post(
+        "/api/session",
+        json={"username": "owner", "password": "fixture"},
+        headers={"X-Desk-Request": "1"},
+    )
+    actor["session"] = client.cookies.get("desk_companion_session")
+    assert client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-ok"},
+    ).status_code == 200
+    assert not r.initiative.current()
+    gone = client.post(
+        f"/api/initiative/{ident}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "dismiss-after-snooze"},
+    )
+    assert gone.status_code == 200
+    again = client.post(
+        f"/api/initiative/{ident}/snoozes",
+        json={"minutes": 60},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "snooze-dismissed"},
+    )
+    assert again.status_code == 409
 
 
 def test_disabled_background_does_not_read_apps_or_call_model(world):
@@ -546,3 +662,420 @@ def test_preupgrade_single_notice_remains_dismissible(world):
     assert not r.initiative.current(undelivered=True)
     r.initiative.dismiss(ident, "legacy-dismiss", actor)
     assert r.notify.listing()["notices"][0]["state"] == "dismissed"
+
+
+def test_owner_followup_binds_task_by_id_and_revisits_live_status(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    finding = r.initiative.current(display=True)[0]
+    assert finding["followup_status"] is None
+    first = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-once"},
+    )
+    assert first.status_code == 200
+    body = first.json()
+    assert body["saved"] is True and body["sent"] is False and body["acted"] is False
+    assert body["already_following"] is False
+    bound = body["followup"]["task_id"]
+    assert bound != task["id"]
+    assert body["followup_status"]["open"] is True
+    # Same operation id is idempotent.
+    again = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-once"},
+    )
+    assert again.json()["followup"]["task_id"] == bound
+    # A second key still returns the same task without creating another.
+    second = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-twice"},
+    )
+    assert second.json()["already_following"] is True
+    assert second.json()["followup"]["task_id"] == bound
+    assert second.json()["saved"] is False
+    # Same-title distraction task does not steal the binding.
+    decoy = r.tasks.create(
+        TaskInput(title=body["task"]["title"], next_step="Other work"),
+        "decoy-same-title",
+    )["task"]
+    status = r.initiative.current(display=True)[0]["followup_status"]
+    assert status["task_id"] == bound and status["task_id"] != decoy["id"]
+    # Completing the bound task updates revisitable status; finding stays pending.
+    live = r.tasks.detail(bound)["task"]
+    r.tasks.action(
+        bound,
+        TaskAction(action="complete", expected_version=live["version"]),
+        "complete-followup",
+    )
+    refreshed = r.initiative.current(display=True)[0]
+    assert refreshed["id"] == finding["id"]
+    assert refreshed["followup_status"]["status"] == "completed"
+    assert refreshed["followup_status"]["open"] is False
+    # Dismiss does not send and does not reopen the completed task.
+    dismissed = client.post(
+        f"/api/initiative/{finding['id']}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "dismiss-after"},
+    )
+    assert dismissed.json()["sent"] is False
+    assert r.tasks.detail(bound)["task"]["status"] == "completed"
+
+
+def test_followup_requires_owner_session_and_creates_private_task(world):
+    r, client, actor, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    stranger = TestClient(client.app)
+    denied = stranger.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "stranger"},
+    )
+    assert denied.status_code in {401, 403}
+    follow = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-private"},
+    )
+    assert follow.status_code == 200
+    assert follow.json()["task"]["visibility"] == "private"
+    assert follow.json()["sent"] is False
+    bound = follow.json()["followup"]["task_id"]
+    before = r.initiative.current(display=True)[0]["followup_status"]
+    assert before["task_id"] == bound and before["open"] is True
+    r.store.update_settings(
+        SettingsInput(expected_version=1, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide-followup",
+    )
+    with pytest.raises(DomainError) as hidden:
+        r.tasks.detail(bound, display=True)
+    assert hidden.value.code == "PRIVATE_TASK_HIDDEN"
+    # Binding remains by task id even when the display listing hides the private task.
+    assert r.initiative._followup_status(follow.json()["followup"])["task_id"] == bound
+
+
+def test_followup_replay_and_second_key_bind_one_task(world):
+    r, client, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    first = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-race-a"},
+    )
+    assert first.status_code == 200 and first.json()["saved"] is True
+    bound = first.json()["followup"]["task_id"]
+    replay = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-race-a"},
+    )
+    assert replay.json()["followup"]["task_id"] == bound
+    other = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-race-b"},
+    )
+    assert other.json()["already_following"] is True
+    assert other.json()["followup"]["task_id"] == bound
+    assert other.json()["saved"] is False and other.json()["sent"] is False
+    with r.store.connection() as conn:
+        count = conn.execute(
+            "SELECT count(*) FROM task_evidence WHERE kind=?", ("initiative_followup",)
+        ).fetchone()[0]
+    assert count == 1
+
+
+def test_followup_refuses_revoked_paired_hidden_and_got_it_path(world):
+    r, client, actor, fact, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    # Got it dismisses; it never opens a follow-up task.
+    dismissed = client.post(
+        f"/api/initiative/{finding['id']}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "got-it-only"},
+    )
+    assert dismissed.status_code == 200
+    assert dismissed.json()["sent"] is False and dismissed.json()["acted"] is False
+    with r.store.connection() as conn:
+        assert (
+            conn.execute(
+                "SELECT count(*) FROM task_evidence WHERE kind=?",
+                ("initiative_followup",),
+            ).fetchone()[0]
+            == 0
+        )
+    blocked = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "after-dismiss"},
+    )
+    assert blocked.status_code == 404
+    assert blocked.json()["error"]["code"] == "INITIATIVE_NOT_FOUND"
+
+    r.initiative.advance()
+    # A fresh finding after dismiss of the previous one.
+    open_finding = r.initiative.current()
+    if not open_finding:
+        # Advance may no-op when signature unchanged; seed another conflict.
+        now = world[5]
+        now[0] = now[0] + timedelta(minutes=20)
+        r.memory.create("A second fictional clause says March 2026.", "fact-2")
+        r.initiative.advance()
+        open_finding = r.initiative.current()
+    assert open_finding
+    target = open_finding[0]["id"]
+
+    enrol = client.post(
+        "/api/devices/enrol-display",
+        json={"name": "Paired screen"},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "pair-screen"},
+    )
+    assert enrol.status_code == 200
+    paired = TestClient(client.app)
+    paired.headers.update(
+        {
+            "Authorization": "Bearer " + client.cookies.get("desk_companion_device"),
+            "X-Desk-Request": "1",
+        }
+    )
+    assert (
+        paired.post(
+            f"/api/initiative/{target}/follow-ups",
+            json={},
+            headers={"X-Operation-Id": "paired-follow"},
+        ).status_code
+        == 403
+    )
+
+    r.store.update_settings(
+        SettingsInput(expected_version=1, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide-before-follow",
+    )
+    hidden = client.post(
+        f"/api/initiative/{target}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "hidden-follow"},
+    )
+    assert hidden.status_code == 403
+    assert hidden.json()["error"]["code"] == "PRIVATE_CONTEXT_HIDDEN"
+    r.store.update_settings(
+        SettingsInput(expected_version=2, timezone="Asia/Hong_Kong", hide_private=False),
+        "unhide-follow",
+    )
+
+    token = client.cookies.get("desk_companion_session")
+    r.store.logout(token)
+    revoked = client.post(
+        f"/api/initiative/{target}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "revoked-follow"},
+    )
+    assert revoked.status_code == 403
+
+
+def test_stale_finding_cannot_open_followup_and_deleted_task_stays_bound(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    finding = r.initiative.current(display=True)[0]
+    # Forget a cited fact so source fingerprints no longer match.
+    r.memory.delete(fact["id"], fact["version"], "forget-cited")
+    stale = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "stale-follow"},
+    )
+    assert stale.status_code == 409
+    assert stale.json()["error"]["code"] == "INITIATIVE_STALE"
+    with r.store.connection() as conn:
+        assert (
+            conn.execute(
+                "SELECT count(*) FROM task_evidence WHERE kind=?",
+                ("initiative_followup",),
+            ).fetchone()[0]
+            == 0
+        )
+
+    # Restore matching evidence via a new conflict, then bind and remove the task row.
+    now[0] = now[0] + timedelta(minutes=30)
+    r.memory.create("The fictional contract begins in January 2025.", "fact-restored")
+    r.initiative.advance()
+    live = r.initiative.current(display=True)
+    assert live
+    created = client.post(
+        f"/api/initiative/{live[0]['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "bind-then-delete"},
+    )
+    assert created.status_code == 200
+    bound = created.json()["followup"]["task_id"]
+    with r.store.connection(write=True) as conn:
+        conn.execute("DELETE FROM tasks WHERE id=?", (bound,))
+    status = r.initiative._followup_status(created.json()["followup"])
+    assert status["task_id"] == bound and status["status"] == "missing"
+    assert status["open"] is False
+    # A later request keeps the original binding instead of writing another task.
+    again = client.post(
+        f"/api/initiative/{live[0]['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "after-delete"},
+    )
+    assert again.json()["already_following"] is True
+    assert again.json()["followup"]["task_id"] == bound
+    assert again.json()["followup_status"]["status"] == "missing"
+    with r.store.connection() as conn:
+        assert (
+            conn.execute(
+                "SELECT count(*) FROM task_evidence WHERE kind=? AND task_id=?",
+                ("initiative_followup", bound),
+            ).fetchone()[0]
+            == 1
+        )
+        assert conn.execute("SELECT 1 FROM tasks WHERE id=?", (bound,)).fetchone() is None
+    # Notices stay generic; finding wording is not copied into the notice title.
+    notices = r.notify.listing()["notices"]
+    for notice in notices:
+        body = json.dumps(notice)
+        assert "January 2025" not in body
+        assert "contract dates differ" not in body.lower()
+
+
+def test_concurrent_dismiss_beats_followup_and_edited_title_does_not_rebind(world):
+    r, client, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    follow = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "title-bind"},
+    )
+    bound = follow.json()["followup"]["task_id"]
+    live = r.tasks.detail(bound)["task"]
+    r.tasks.action(
+        bound,
+        TaskAction(
+            action="update",
+            expected_version=live["version"],
+            task=TaskInput(
+                title="Renamed follow-up title",
+                next_step=live["next_step"],
+                visibility="private",
+                follow_up_enabled=False,
+            ),
+        ),
+        "rename-bound",
+    )
+    decoy = r.tasks.create(
+        TaskInput(title="Renamed follow-up title", next_step="Other"),
+        "decoy-renamed",
+    )["task"]
+    status = r.initiative.current(display=True)[0]["followup_status"]
+    assert status["task_id"] == bound and status["task_id"] != decoy["id"]
+    assert status["title"] == "Renamed follow-up title"
+
+    # Cancelled status is reflected; dismiss does not send or overwrite the task.
+    cancelled = r.tasks.detail(bound)["task"]
+    r.tasks.action(
+        bound,
+        TaskAction(action="cancel", expected_version=cancelled["version"]),
+        "cancel-bound",
+    )
+    assert r.initiative.current(display=True)[0]["followup_status"]["status"] == "cancelled"
+    gone = client.post(
+        f"/api/initiative/{finding['id']}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "dismiss-bound"},
+    )
+    assert gone.json()["sent"] is False
+    assert r.tasks.detail(bound)["task"]["status"] == "cancelled"
+    assert (
+        client.post(
+            f"/api/initiative/{finding['id']}/follow-ups",
+            json={},
+            headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-after-dismiss"},
+        ).status_code
+        == 404
+    )
+
+
+def test_inbox_dismiss_clears_bound_initiative_findings(world):
+    """Inbox Dismiss must not leave the same finding on the home cue."""
+    r, client, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    open_notices = [
+        n
+        for n in r.notify.listing()["notices"]
+        if n["kind"] == "initiative" and n["state"] == "open"
+    ]
+    assert len(open_notices) == 1
+    notice_id = open_notices[0]["id"]
+    first = client.post(
+        f"/api/notices/{notice_id}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "inbox-dismiss-once"},
+    )
+    assert first.status_code == 200, first.text
+    assert first.json()["notice"]["state"] == "dismissed"
+    assert not r.initiative.current()
+    assert r.initiative.cue() is None
+    replay = client.post(
+        f"/api/notices/{notice_id}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "inbox-dismiss-once"},
+    )
+    assert replay.status_code == 200
+    assert replay.json()["notice"]["id"] == notice_id
+    # Finding Got it path remains distinct: a fresh finding can still be dismissed alone.
+    r.initiative.advance()
+    assert all(row["id"] != finding["id"] for row in r.initiative.current())
+
+
+def test_got_it_on_one_batched_finding_keeps_the_other(world):
+    r, client, *_ = world
+
+    def generate(system, context, schema, purpose, **kwargs):
+        refs = [s["ref"] for s in context["sources"] if s["kind"] in {"memory", "task"}]
+        return Findings(
+            findings=[
+                {
+                    "kind": "conflict",
+                    "importance": "high",
+                    "message_en": "First batched finding about the contract dates.",
+                    "message_zh": "第一条关于合同日期的发现。",
+                    "source_refs": refs,
+                },
+                {
+                    "kind": "deadline",
+                    "importance": "high",
+                    "message_en": "Second batched finding about the draft deadline.",
+                    "message_zh": "第二条关于草稿截止的发现。",
+                    "source_refs": refs[:1],
+                },
+            ]
+        )
+
+    r.text_ai.generate = generate
+    r.initiative.advance()
+    rows = r.initiative.current()
+    assert len(rows) == 2
+    first_id, second_id = rows[0]["id"], rows[1]["id"]
+    assert client.post(
+        f"/api/initiative/{first_id}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "got-one"},
+    ).status_code == 200
+    remaining = r.initiative.current()
+    assert len(remaining) == 1
+    assert remaining[0]["id"] == second_id
+    open_notices = [
+        n
+        for n in r.notify.listing()["notices"]
+        if n["kind"] == "initiative" and n["state"] == "open"
+    ]
+    assert open_notices, "batch notice stays open while a member is pending"

@@ -1186,6 +1186,20 @@ A real authorized re-query reused a prior supplier ID, and a completed reply sti
 
 The corresponding airline guest page published each selected leg’s checked weight and the complete fare, surcharge and taxes for the return journey. The exact price and screenshot are retained privately for the owner. No payment, ticket or reservation was created. [Redacted verification](output/qa/2026-11-24-continuity/verification.md).
 
+## 25 November 2026 · One reminder when a followed thread receives a reply
+
+Grok Bot, on `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d`. Read the current handoff, product, decisions, the always-on research journey, the mail follow-up and proactive contracts, and the current task, inbox, and permission code. The poll already recorded one notice. The owner could not open that reply and choose a draft on Chat or the task.
+
+Added that path. A local sample and a synthetic Gmail provider exercise it. Neither is a live mailbox. No model call, no provider or A3 change, no CI, no deployment, and no use of pull requests #158 or #159. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
+### Same day · PR #160 suite closeout (Auto, no extra credits)
+
+Owner t33u superseded Fable/Opus-only preference for Auto and one bounded closeout of #160’s suite gate. Reproduced each of 9 backend + 2 frontend failures against product contracts. Fixed stale baseline expectations/fixtures and extracted `requestDeadline` for behavioral timeout checks. Did not merge or edit #158/#159; recorded overlapping baseline-test conflicts for Codex. Full local suites: backend 3068 passed / 1 skipped; frontend 440 passed; typecheck/build/Ruff green; browser 1440/320 with failed-read recovery on owned ports 8832/5191. No new feature. Not merged, not deployed, not live Gmail. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
+### Same day · Local three-way integration verify (no GitHub merge)
+
+Bounded integration round only. Throwaway worktree merged `main`→#158→#159→#160 to local tree `65eb854e`. Resolved duplicated baseline test conflicts retaining behavioral asserts and all three feature sets; handoff keeps page-handoff, task-readback, and followed-reply status (Pi not overriding next step). Combined suites: backend 3074 passed / 1 skipped (PHP CLI), frontend 442 passed, tsc/build/Ruff green. Browser journeys on owned ports: owner hold/type/handback, interrupted-task readback, followed-mail failed-read→draft-save. No product code push to any of the three PRs. Notes-only update on #160 records the evidence. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
 ## 25 November 2026 · Alice’s workspace redesign
 
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
@@ -1197,3 +1211,167 @@ Verified task selection and drafts, reminders, calendar writes and Records, memo
 Checked the normal Mac’s current authorization, latest read, actual findings, delivery rows and independent spending ledger. The old reader allowed a transient error or a busy inbox to invalidate delivered suggestions. The same grant recovered without a new login. The repair rechecks previous evidence in a bounded historical window, restores the original dated entry, and distinguishes local browser queuing from a successful push-service response. Closed allowances continue to use local cues. No charge, email send or purchase was requested.
 
 Exercised a closed-tab outage and recovery, first delivery after quiet time, consent changes, dismissal and the new receipt. Mac Web and the normal iPhone Simulator run `83bcf577`. The Pi’s package is ready from the last installed revision. Its pinned relay remained unavailable. [Current source checks, local tests and release readback](output/qa/2026-11-25-proactive-mail/verification.md).
+## 2026-11-24 · Local Playwright page handoff
+
+Kept one local Chromium context open when a password, OTP, captcha, or payment control appears. The admitting owner operates that same page from the job card and hands it back for one fresh snapshot. A clear page continues the original goal and records wall evidence from that snapshot. A remaining wall stays paused. A dead page or failed read becomes unknown with no second launch and no model call during the hold. Paired, revoked, and hidden-private checks reject the screen and the handoff at read, write, replay, and commit. Local Chrome fixtures covered the password page, a Sign-in navigation link, idempotent hand-back, a stale version, a killed browser, and deadline expiry. Desktop and 320px card checks covered the hold, the closed-page error, and recovery without horizontal overflow. This is app-mediated control of the Playwright page, not a headed window, hosted desktop, or live account. Not merged and not deployed. The Pi update remains the separate next step. Evidence: [QA](output/qa/2026-11-24-owner-page-handoff/verification.md).
+
+## 2026-11-25 · Same page handoff on the workspace baseline
+
+Fetched `origin/main` `fc3b8d2` (PR #157) and merged it into `cursor/owner-page-handoff-f7ae`. Conflicts were only in the handoff, decision log, and work log. The workspace navigation and this page handoff both remain. The Pi next step now targets `b759950c`.
+
+Bound owner input to the job, version, and action, and refused a second send when the outcome is unknown. Hiding private context, an expired admitting session, the deadline, and a missing live page close the held page. A payment wall and a changed URL stay paused. Screen reads do not return a stale image after the page is gone. Leaving Computer actions refreshes the conversation card.
+
+The nine earlier backend failures and the two frontend source-pattern failures were expectation or harness gaps, including one source path the workspace redesign had already moved. They are fixed without dropping permission or receipt checks. Full local backend pytest: 3059 passed, 1 skipped. Frontend: 439 passed, typecheck passed, build passed. Ruff and `git diff --check` passed. Desktop and 320px screenshots are in the QA folder. Not merged, not deployed, and not a live merchant or account acceptance. Evidence: [QA](output/qa/2026-11-24-owner-page-handoff/verification.md).
+
+`59547453` keeps the hold-card test on the Vite process it starts. Product files are unchanged from `32066b8b`. Three consecutive runs passed. The local rehearsal `cefe84e0` includes that test. The Pi update remains a separate device step.
+## 2026-11-25 · Interrupted task readback
+
+The page-handoff branch and pull request were left unmerged. This change starts from `main` `fc3b8d2`. A task now says when a linked file result is unknown, waiting for approval, checked, or never written. The discuss button does not repeat the write. Check result still only rereads the file. A paired or revoked display cannot read a private task. The same title on another task does not receive the file. A finished step stays finished. Local Chrome covered the desktop and 320px task card. Not merged, not deployed, and not a live-account acceptance. The Pi update remains a separate device step from both this readback and the page handoff. [Evidence](output/qa/2026-11-25-task-recovery/verification.md).
+
+The combined hold-card failure was a leftover Vite on port 5190 serving the other checkout. The test fix is on the page-handoff branch at `59547453`, with product files unchanged from `32066b8b`. Three consecutive runs passed. A fresh local rehearsal `cefe84e0` (`fc3b8d2`, then `59547453`, then `96319658`) passed 3061 backend tests with 1 skipped and 440 frontend tests, plus typecheck, build, ruff, and diff check. Both pull requests stay open.
+## 25 November 2026 · Initiative finding follow-up status
+
+**Goal:** One end-to-end personal-agent journey from current main: suggestion → sources → owner-chosen follow-up → revisitable status.
+
+**Done:** Branch `cursor/suggestion-followup-status-e853` from `fc3b8d2a`. `POST /api/initiative/{id}/follow-ups` binds a private task by id; Conversation shows Follow up on this and live status; stranger/hide-private/idempotence/same-title decoy covered. Owned ports 5200/8840 allowed for local Chrome. Reused #160-class baseline expectation fixes only. Ancillary #160 EOF blank-line hygiene recorded on `a4882b89`.
+
+**Verified (initial):** Focused initiative 24 passed; full backend 3058 passed / 1 skipped; frontend 438 passed; tsc/build/ruff/diff --check clean; Chrome 1440 and 320 with fail-then-retry. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+### Adversarial + four-way gate
+
+**Done:** Product tip `be5cfaf3` — refuse `INITIATIVE_STALE`, same-conn status, adversarial permission/replay/delete/title tests; UI abort→retry. Local throwaway four-way `43b82c75` (main→158→159→160→161); prior `65eb854e` preserved.
+
+**Verified:** Independent backend **3062 passed / 1 skipped** (clean re-run); frontend 438; focused initiative 28; combined backend 3079/1 skip with 2 UI failures (named below); four sequential browser UIs 4 passed; combined frontend 442; tsc/build/ruff/diff clean.
+
+### Four-way UI failure root-cause closeout
+
+**Done:** Named `test_owner_page_ui` (8831 EADDRINUSE) and `test_task_recovery_ui` (`Leave this one alone` under foreign Vite). Causal + negative-control proofs retained. Harness fixes on #158 `70accc16` and #159 `1f760a41`; #161 product unchanged at `be5cfaf3`. Fresh local four-way `23d9f44a`.
+
+**Verified on `23d9f44a`:** frontend 442; tsc/build/ruff/diff clean; four UIs 4 passed no port leaks; full backend **3080 passed / 1 skipped / 1 failed** (`test_live_owner_page` cleanup race; focused alone passed). Full combined backend **not** accepted green.
+
+### Live-owner cleanup premise attack + final four-way
+
+**Done:** Attack-the-premise wrote and falsified “Vite contention / isolated pass = correct.” Causal A/B/C proved kill-all-descendants leaves blocker → `COMPUTER_CLEANUP_REQUIRED` on second prepare while screen stays `BROWSER_PAGE_LOST`; chrome-only does not. #158 `0e9ea44a` chrome-only `_kill_chrome` + regression; no cleanup-safety weakening. Focused 3/3, preceding-order 7/7, 5× repeat. Fresh throwaway four-way `0234fc1ebb` (main `fc3b8d2` → 158 `0e9ea44a` → 159 `1f760a41` → 160 `a4882b89` → 161 `a09c4993`).
+
+**Verified on `0234fc1ebb`:** backend **3082 passed / 1 skipped / 0 failed** (1099.92s); frontend **442**; tsc/build/ruff passed; four Chrome UIs **4 passed** @1440+320; ports free after. `git diff --check` only pre-existing #160 trailing whitespace. #161 product still `be5cfaf3`. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md); causal `/tmp/fourway-failure-preserve/live-owner-closeout/`.
+
+**Remaining:** Parent budget decision; Codex review of #158–#161; no merge/CI/deploy/live mailbox/paid model. Optional independent managed-browser deadline flake not in scope.
+## 25 November 2026 · Managed-browser FastClient active budget
+
+**Goal:** Root-cause intermittent `test_auth_input_is_fenced_before_credentials_reach_provider[stale_form]` `JOB_DEADLINE_EXCEEDED` (~375ms vs 180s nominal).
+
+**Done:** Attack-the-premise; causal pre-auth delay proves FastClient `active_seconds=0.25` (not 180s job deadline). Raised to 2.0; regression `test_pre_auth_delay_still_reaches_stale_form_fence`. Ancillary #160 tip whitespace fix `d8aad9fb`. New branch from `main` only.
+
+**Verified:** Focused 25 passed; preceding 5 passed; managed modules 32 passed / 2 deselected (pristine-main `unadmitted`→`unknown` out of scope); ruff/diff clean. Evidence: [verification](output/qa/2026-11-25-managed-deadline/verification.md).
+
+**Remaining:** Parent budget; Codex; no merge/deploy. Optional separate `unadmitted` unknown investigation.
+## 25 November 2026 · Finding Remind me later (Grok Bot)
+
+**Goal** — One owner-facing personal-agent journey gap not already on `main` or open #158–#162: defer a Conversation finding without discarding it or creating a task.
+
+**Done** — Premise first. `POST /api/initiative/{id}/snoozes`, `snooze_until` column, release-before-deliver, Conversation Remind me later button, proactive/ui-copy notes, focused initiative + frontend tests. Branch `cursor/finding-snooze-reminder-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `tests/test_initiative.py` 23 passed; snooze hide/restore and fence cases green; `initiative-snooze.test.ts` 1 passed; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-finding-snooze/verification.md).
+
+**Remaining** — Parent budget check; Codex review; do not stack #161 product onto this PR.
+## 25 November 2026 · Home cue View in conversation (Grok Bot)
+
+**Goal** — One visible owner-facing personal-agent journey gap not on `main` or open #158–#163: from the home initiative cue, open Conversation and read Sources before Got it.
+
+**Done** — Premise first. AliceCheckIn View in conversation → onExpandedChange; finding aria-label; ui-copy / proactive notes; frontend contract + Playwright 1440/320. Branch `cursor/cue-review-conversation-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `cue-review-conversation.test.ts` 1 passed; `test_cue_review_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-cue-review/verification.md).
+## 25 November 2026 · Inbox initiative dismiss (Grok Bot)
+
+**Goal** — Fix owner-facing Inbox Dismiss so an initiative notice does not leave the same finding on the home cue / Conversation.
+
+**Done** — Premise and failing reproduction on main. `Notifier.dismiss` clears bound pending findings; batch Got it regression; Chrome 1440/320 on ports 5193/8834; docs. Branch `cursor/inbox-initiative-dismiss-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — initiative+notify 24 passed; UI 1 passed with screenshots; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-inbox-initiative-dismiss/verification.md).
+## 25 November 2026 · Open cited task from Sources (Grok Bot)
+
+**Goal** — One visible owner-facing personal-agent journey gap not on `main` or open #158–#165: from a finding’s Sources, open the already-cited task.
+
+**Done** — Premise first. InitiativeMessage Open task → App goPage(tasks, id); docs; frontend contract + Playwright 1440/320. Branch `cursor/source-open-task-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `source-open-task.test.ts` 1 passed; `test_source_open_task_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-source-open-task/verification.md).
+
+**Remaining** — Parent budget check; Codex review.
+## 25 November 2026 · Open cited memory from finding Sources
+
+**Goal.** One independent owner-facing personal-agent journey: open an existing cited memory from Conversation finding Sources, without stacking #158–#166.
+
+**Done.** Finding Sources offer Open memory for `memory:` citations; Memory focuses that fact; finding stays pending. Ports 5195/8836 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-source-open-memory/verification.md) — local real Chrome + fixture fake initiative; not live mailbox or paid model.
+## 25 November 2026 · Open cited local calendar from finding Sources
+
+**Goal.** One independent owner-facing personal-agent journey: open an existing cited local calendar occurrence from Conversation finding Sources, without stacking #158–#167.
+
+**Done.** Finding Sources offer Open calendar for local `calendar:{id}:{occurrence_key}` citations; Event details opens on that day; finding stays pending. Ports 5193/8834 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-source-open-calendar/verification.md) — local real Chrome + fixture fake initiative; not live mailbox, live Google Calendar, or paid model.
+## 25 November 2026 · Inbox initiative opens bound finding Sources
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox View in conversation focuses the bound finding with Sources open, without stacking #158–#168.
+
+**Done.** Notice id passed from Inbox; Conversation focuses matching finding; Sources open; notice and finding stay pending. Ports 5196/8837 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-finding-focus/verification.md) — local real Chrome + fixture fake initiative; not live mailbox or paid model.
+## 25 November 2026 · Inbox morning/evening check-in opens cited surface
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox morning/evening check-ins open Today/Tasks without stacking #158–#169.
+
+**Done.** View today / View tasks on those receipts; evening → Tasks Chrome 1440+320 on 5197/8838; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-nudge-inbox-review/verification.md) — local real Chrome + rule nudge fixture; not live mailbox or paid model.
+## 25 November 2026 · Withdrawn finding when Sources change
+
+**Goal.** One independent owner-facing personal-agent journey: Conversation keeps a withdrawn card when cited evidence changes, without stacking #158–#170.
+
+**Done.** `current()` exposes withdrawn pending/obsolete findings; UI copy + Got it; home cue skips withdrawn; Chrome 1440+320 on 5198/8839; unit + contract; docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-finding-withdrawn/verification.md) — local real Chrome + fixture fake initiative + memory delete; not live mailbox or paid model.
+## 25 November 2026 · Home morning/evening check-in opens cited surface
+
+**Goal.** One independent owner-facing personal-agent journey: home morning/evening check-ins open Today/Tasks without stacking #158–#171.
+
+**Done.** View today / View tasks on the home Alice cue; evening → Tasks Chrome 1440+320 on 5199/8840; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-home-nudge-review/verification.md) — local real Chrome + rule nudge fixture; not live mailbox or paid model.
+## 25 November 2026 · Home task cue opens the cited task
+
+**Goal.** One independent owner-facing personal-agent journey: home task follow-up cue opens that task without stacking #158–#172.
+
+**Done.** Open task on the home Alice task cue; Chrome 1440+320 on 5200/8841; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-home-task-open/verification.md) — local real Chrome + rule task follow-up fixture; not live mailbox or paid model.
+## 25 November 2026 · Inbox task follow-up opens the cited task
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox follow-up opens the cited task without stacking #158–#173.
+
+**Done.** Open task on Inbox follow-up receipts; Chrome 1440+320 on 5201/8842; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-followup-open/verification.md) — local real Chrome + rule follow-up fixture; not live mailbox or paid model.
+## 25 November 2026 · Inbox memory follow-up opens Memory
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox memory follow-up opens Memory without stacking #158–#174.
+
+**Done.** View memories on Alice remembered receipts; Chrome 1440+320 on 5202/8843; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-memory-followup/verification.md) — local real Chrome + owner-approved memory follow-up fixture; not live mailbox or paid model.
+
+**Remaining.** Leave PR open for Codex. Parent budget check before the next slice.
+## 25 November 2026 · Inbox calendar update opens Calendar
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox calendar update opens Calendar without stacking #158–#175.
+
+**Done.** View calendar on Calendar update receipts; Chrome 1440+320 on 5203/8844; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-calendar-view/verification.md) — local real Chrome + fixture-published calendar notice; not live Google, mailbox, or paid model.
+
+**Remaining.** Leave PR open for Codex. Parent budget check before any further slice.
+
+## 26 November 2026 · All Grok contributions and lock-screen operation
+
+Verified the ancestry of 81 previously integrated Grok heads and reviewed the 19 new heads (#158–176) individually. Reconciled source navigation, provider authority, snooze identity, withdrawn messages, the browser worker and linked reply tasks. The existing budget service now enforces both calendar windows. The Mac continued its authorized work during quiet hours, and a terminated native Simulator app received one generic, visible lock-screen alert. Application `e64d6285` reached normal Mac Web and the iPhone Simulator. Private finances and source content stay outside the repository. The Pi package is prepared. [Exact heads and checks](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).

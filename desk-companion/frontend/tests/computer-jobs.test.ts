@@ -122,7 +122,8 @@ test("read-back and fingerprint failures name a recoverable next step", () => {
   } as ComputerJob;
   assert.match(recoveryCopy(rebound)![0], /prepare a new job/i);
   const cancelled = { ...job("cancelled"), result: null } as ComputerJob;
-  assert.match(recoveryCopy(cancelled)![0], /No new file was written/);
+  assert.match(recoveryCopy(cancelled)![0], /outcome was not checked/);
+  assert.doesNotMatch(recoveryCopy(cancelled)![0], /No new file was written/);
   assert.equal(recoveryCopy(job("succeeded")), null);
   for (const reason of [
     "content_mismatch",

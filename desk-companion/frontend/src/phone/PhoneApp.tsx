@@ -1,3 +1,5 @@
+import { citedCalendarOccurrence } from "../workspace/calendarCitation";
+import type { ReviewPage } from "../workspace/findingNavigation";
 import type { SettingsCategory } from "../components/Views";
 import { useDeskInbox } from "../workspace/useDeskInbox";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -61,8 +63,12 @@ export function PhoneApp() {
     setTrail((old) => (old.at(-1) === next ? old : [...old, next]));
   const [planTab, setPlanTab] = useState<"calendar" | "tasks">("calendar");
   const [reminders, setReminders] = useState(false);
+  const [selectedTask, selectTask] = useState<string>();
+  const [selectedMemory, selectMemory] = useState<string>();
+  const [focusedNotice, focusNotice] = useState<string>();
+  const calendarRead = useRef(0);
   const [inboxCanNavigate, setInboxCanNavigate] = useState(false);
-  const [conversation, setConversation] = useState(false);
+  const [conversation, setConversation] = useState(() => new URLSearchParams(location.search).get("conversation") === "open");
   const [task, setTask] = useState<{ id: string; title: string }>();
   const [notice, setNotice] = useState("");
   const [recovering, setRecovering] = useState(false);
@@ -115,7 +121,8 @@ export function PhoneApp() {
         setNotice(t("Finish your current edit first.", "请先完成当前编辑。"));
         return;
       }
-      if ((event as CustomEvent).detail === "new") newEventOnDate(todayKey);
+      if ((event as CustomEvent).detail === "assistant") setConversation(true);
+      else if ((event as CustomEvent).detail === "new") newEventOnDate(todayKey);
       else {
         setPlanTab("calendar");
         calendar.setDate(todayKey);
@@ -186,6 +193,31 @@ export function PhoneApp() {
       setRecovering(false);
     }
   };
+  useEffect(() => {
+    calendarRead.current++;
+    const revoke=()=>{calendarRead.current++};
+    window.addEventListener("desk:session",revoke);
+    return ()=>{revoke();window.removeEventListener("desk:session",revoke);};
+  },[session,panel,conversation,assistantGuard.busy,assistantGuard.dirty,data?.personal_context_visible,offline,stale]);
+  function reviewPage(target: ReviewPage, id?: string) {
+    if (assistantGuard.dirty || assistantGuard.busy || offline || stale) return;
+    setReminders(false);
+    if (target === "assistant") { focusNotice(id); showConversation(); return; }
+    if (target === "memory") { selectMemory(id); pushPanel("memory"); return; }
+    if (target === "tasks") { selectTask(id); setPlanTab("tasks"); }
+    else { setPlanTab("calendar"); if(target==="today") {calendar.setMonth(false);calendar.setDate(todayKey);} }
+    setRootPanel("plan");
+  }
+  async function openCalendarCitation(ref:string) {
+    if (!data?.personal_context_visible || offline || stale || assistantGuard.dirty || assistantGuard.busy) return;
+    const read=++calendarRead.current;
+    try {
+      const found=await citedCalendarOccurrence(ref,zone);
+      if(read!==calendarRead.current) return;
+      if(!found){setNotice(t("That calendar item is no longer available.","该日程已不可用。"));return;}
+      reviewPage("calendar");calendar.setDate(found.day);calendar.setMonth(false);setDetail(found.event);
+    } catch (e) {if(read===calendarRead.current)setError(e);}
+  }
   const problem = error ?? calendar.error;
   if (session === undefined)
     return (
@@ -275,6 +307,9 @@ export function PhoneApp() {
           }
           taskId={task?.id}
           taskTitle={task?.title}
+          onOpenTask={(id)=>reviewPage("tasks",id)} onOpenMemory={(id)=>reviewPage("memory",id)}
+          onOpenCalendar={openCalendarCitation} onReviewSurface={reviewPage}
+          focusNoticeId={focusedNotice} onFocusNoticeConsumed={()=>focusNotice(undefined)}
           onClearTask={() => changeDiscussion()}
         />
       </div>
@@ -324,6 +359,7 @@ export function PhoneApp() {
         >
           {panel === "plan" ? (
             <PhonePlan
+              initialTaskId={selectedTask}
               calendar={calendar}
               t={t}
               language={language}
@@ -344,6 +380,7 @@ export function PhoneApp() {
             />
           ) : (
             <PhoneManagement
+              initialFactId={selectedMemory}
               panel={panel}
               t={t}
               language={language}
@@ -416,19 +453,7 @@ export function PhoneApp() {
       )}
       {reminders && (
         <ReminderDialog
-          onReview={
-            inboxCanNavigate
-              ? (target) => {
-                  setReminders(false);
-                  if (target === "assistant") showConversation();
-                  else if (target === "memory") pushPanel("memory");
-                  else {
-                    setPlanTab("tasks");
-                    setRootPanel("plan");
-                  }
-                }
-              : undefined
-          }
+          onReview={inboxCanNavigate ? reviewPage : undefined}
           inbox={inbox}
           reminders={homeSnapshot?.reminders ?? []}
           language={language}

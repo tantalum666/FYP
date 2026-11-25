@@ -9,6 +9,22 @@ export class ApiError extends Error {
   }
 }
 
+/** Long reads stay on the routes that wait for a provider. Everything else stays short. */
+export function requestDeadline(path: string) {
+  if (/^\/computer\/jobs\/[^/]+\/(page|return|takeover)$/.test(path)) return 30000;
+  return [
+    "/assistant/messages",
+    "/assistant/retained-messages",
+    "/browser/observations",
+    "/google/preview",
+    "/google/refresh",
+  ].includes(path) ||
+    path.startsWith("/assistant/flight-checkouts/") ||
+    path === "/apps/letsfg/connect"
+    ? 75000
+    : 12000;
+}
+
 export async function request<T>(
   path: string,
   options: RequestInit = {},
@@ -16,15 +32,7 @@ export async function request<T>(
   const controller = new AbortController();
   const timer = window.setTimeout(
     () => controller.abort(),
-    [
-      "/assistant/messages",
-      "/assistant/retained-messages",
-      "/browser/observations",
-      "/google/preview",
-      "/google/refresh",
-    ].includes(path) || path.startsWith("/assistant/flight-checkouts/") || path === "/apps/letsfg/connect"
-      ? 75000
-      : 12000,
+    requestDeadline(path),
   );
   try {
     const response = await apiFetch(path, {
@@ -250,8 +258,20 @@ export function errorText(
     MAIL_FOLLOWUP_NOT_FOUND: ["This email follow-up is no longer available.", "这项邮件跟进已不可用。"],
     MAIL_FOLLOWUP_CONSENT_REQUIRED: ["Allow background follow-up before starting this thread.", "请先允许后台跟进这段邮件对话。"],
     MAIL_FOLLOWUP_CHANGED: ["A newer email update is available. Refresh before marking it reviewed.", "有更新的邮件进展，请刷新后再标记已查看。"],
+    MAIL_REPLY_CHANGED: ["This reply changed. Review the current message before saving a draft.", "这封回复已变化。保存草稿前请先核对当前邮件。"],
+    MAIL_REPLY_UNRELATED: ["That message belongs to a different thread.", "这封邮件属于另一段对话。"],
+    MAIL_REPLY_SEND_FORBIDDEN: ["This draft cannot send email.", "这份草稿不能发送邮件。"],
+    MAIL_REPLY_DRAFT_INVALID: ["The reply draft is incomplete. Review it again.", "回复草稿不完整，请重新核对。"],
     MAIL_THREAD_ALREADY_FOLLOWED: ["This thread is already linked to another task.", "这段邮件对话已经关联到另一件事务。"],
     MAIL_FOLLOWUP_LIMIT: ["The email follow-up limit has been reached.", "已达到当前邮件跟进上限。"],
+    INITIATIVE_STALE: [
+      "This suggestion is no longer current. Refresh before opening a follow-up. Nothing was sent.",
+      "这项建议已不再有效。请刷新后再跟进。没有发送。",
+    ],
+    INITIATIVE_NOT_FOUND: [
+      "That suggestion is no longer available. Nothing was sent.",
+      "该项建议已不可用。没有发送。",
+    ],
     APP_SCOPE_REQUIRED: [
       "The app did not receive the required permissions. Reconnect and review the access requested.",
       "此应用未获得必要权限，请重新连接并核对访问范围。",
@@ -501,6 +521,10 @@ export function errorText(
     COMPUTER_TAKEOVER_UNAVAILABLE: [
       "An interactive browser is not connected. This job remains paused.",
       "尚未连接可接管的浏览器，作业保持暂停。",
+    ],
+    BROWSER_PAGE_LOST: [
+      "The page closed. Alice did not open another one.",
+      "页面已关闭。Alice 没有再打开新的页面。",
     ],
     COMPUTER_TARGET_EXISTS: [
       "A file already exists at this destination. It was left unchanged.",

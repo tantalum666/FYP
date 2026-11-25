@@ -1014,6 +1014,22 @@ The original seller receipt outlived its owner login. The engineering recovery a
 
 The owner opted into local retention of ordinary messages and the final text of completed voice exchanges. They permitted the current OpenAI destination to receive relevant previews and history within the existing operating allowance. Idle mail checks may read eligible previews. Sending is reviewed per message and the full Gmail grant remains available on reconnect. The owner requested a live flight price check only. The same supplier's published fare, exact seller page and baggage evidence are recorded separately when they disagree. A fresh purchase decision is required before a hold or charge. [Behavior and provider evidence](output/qa/2026-11-24-continuity/verification.md).
 
+## 2026-11-25 · One reminder after a followed thread receives a reply
+
+**Engineering choice, not a new owner purchase or send authorization.** The research journey named on 18 November is now a local owner path: one reminder on the same task, then an explicit draft that does not send. It reuses the existing follow-up poll, notice, task, and proposal review. It does not add a model call, a second scheduler, or an Agents Automation. A local sample is labeled as not a live mailbox. Reading the message does not become saved memory. Quiet hours, a failed read, the wrong thread, a stale draft, and an unknown send stay distinct. Live mailbox acceptance, deployment, and the open page-handoff and task-readback pull requests stay separate. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
+### Same day · Owner Auto closeout of #160 suite gate
+
+**User decision (t33u, 13:16 HKT):** Use AUTO model selection; continue personal-agent work up to near 99.9% weekly included usage with no extra paid credits; one bounded closeout round first, then return results so the parent rechecks budget. Preserve no CI/deploy/Pi/live sends/provider-A3/merge/force-push restrictions; do not stack on or edit #158/#159.
+
+**Engineering follow-through:** Close #160’s outstanding full-suite failures by matching tests/fixtures to current product contracts (fingerprint empty review fields, reprice clarify, managed-browser session allowlist, forget `home_archived`, Google composer mocks, requestDeadline behavior, Today MomentCard mount). Overlapping baseline repairs on #158/#159 are recorded as Codex merge conflicts, not as authorization to take their features. No new product journey in this round.
+
+### Same day · Three-way local integration evidence (not a merge)
+
+**User decision:** One bounded integration verification of #158+#159+#160 on a throwaway local tree; report and stop for the next budget decision. No GitHub merge, no new feature, no permission to land.
+
+**Engineering follow-through:** Local merge `main`→#158→#159→#160 to `65eb854e` retained all feature product and stronger baseline asserts. Combined suites green; three browser journeys green on owned ports. No product fix pushed. Independent closeout and 158+159 rehearsal do not substitute this three-way evidence. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
@@ -1021,3 +1037,110 @@ The owner requested a redesign of every destination outside Alice’s home and a
 ## 2026-11-25 · Evidence for standing mail reminders
 
 The owner asked whether Alice’s proactive behavior was actually working. Keep the existing scheduler, Google grant, read-only provider adapter and current spending authorization. Recheck the historical inbox window under the active grant and bind each displayed suggestion to the verified evidence and original time. The inbox browser queue and a push-service acknowledgement are different observations. The closed ordinary OpenAI allowance is not renewed by this work. [Failure and recovery](output/qa/2026-11-25-proactive-mail/verification.md).
+## 2026-11-24 · Hold one local page across owner takeover
+
+Engineering choice for the next personal-agent slice, after the owner asked for the real same-task browser handoff. The local worker keeps the Chromium context that hit a password, OTP, captcha, or payment control. The admitting owner clicks and types on that page from the job card, then hands it back for one new read of the same document. The original goal continues only when that read is clear of the wall. A lost page becomes unknown and is not opened again. This is app-mediated control of the Playwright page already in the job. It does not add a headed desktop, a hosted OpenAI computer, a credential form, or a merchant login. Model defaults stay GPT-6.2 Sol, GPT-Live-1.1, and A3 v9. The 25 November workspace redesign remains in force. The Pi update remains a separate device step. The parent evaluates acceptance of this pull request; applying the Pi update is not the next action.
+
+`origin/main` at `fc3b8d2` (PR #157, the workspace redesign) was merged into this branch. Conflicts were only in the handoff, decision log, and work log; both the redesign and this page handoff remain. Owner input is bound to the job, version, and action. An uncertain input is not sent again. Hiding private context, session expiry, the deadline, and loss of the live page close it. A payment page and a different URL stay paused. Hand back is not payment approval. Local suites on the integrated branch: 3059 backend passed, 1 skipped; 439 frontend passed; typecheck and build passed. Not merged, not deployed, and not accepted against a live account. [Evidence](output/qa/2026-11-24-owner-page-handoff/verification.md).
+## 2026-11-25 · Read an interrupted task without repeating it
+
+Engineering choice after the owner asked to keep moving on the personal agent once the local page handoff was ready for review. That handoff stays on its own unmerged branch. This change does not deploy the Pi.
+
+A person opening a task can tell an unknown file result from one that was never written, and from one still waiting for approval. Discussing the task does not check, approve, or write again. Check result remains the reread. A paired or revoked display cannot read a private task’s steps or linked results. The selected task keeps its own file action when another task has the same title. A completed step stays completed. The local rehearsal `cefe84e0` passed after the page-handoff test was kept on its own server. Both pull requests stay open for parent review. The Pi update remains a separate device step from both slices. [Evidence](output/qa/2026-11-25-task-recovery/verification.md).
+## 2026-11-25 · One next personal-agent follow-up from a finding
+
+- **Owner authorization:** Auto coding under the standing near-99.9% weekly-limit / no-extra-credits constraint; one bounded user-completable personal-agent slice then stop. No merge, CI, deploy, Pi/hardware, live account, external message, order, payment, paid model, or provider/A3 change. Defaults remain GPT-6.2 Sol / GPT-Live-1.1 / A3 v9. Do not treat agent go-ahead as owner permission beyond that scope.
+- **Engineering choice:** On current main after #157, the highest-value honest gap inside Alice Conversation was proactive finding → Sources → explicit Follow up on this → private task bound by id → revisitable status. Implemented on a new branch from `fc3b8d2a` without stacking #158–#160. Local fake findings and Chrome on owned ports only; not live-mailbox acceptance. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Adversarial review and four-way local gate for #161
+
+- **Owner authorization:** Continue one bounded PR #161 adversarial + main→158→159→160→161 local throwaway integration; no new feature, merge, CI, deploy, or history rewrite. Review is not send permission.
+- **Engineering findings:** Stale/withdrawn sources could still open a follow-up; `_followup_status` nested a second DB connection inside the write transaction. Fixed on #161 with `INITIATIVE_STALE` and same-connection status reads, plus adversarial tests. Four-way combined tree `43b82c75` kept all features and stronger baseline asserts; #158–#160 GitHub tips untouched. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Root-cause closeout of the two four-way UI failures
+
+- **Owner authorization:** One bounded root-cause + verification closeout; no new feature, merge, CI, deploy, force-push, or history rewrite. Review is not send permission.
+- **Engineering findings:** Retained log named `test_owner_page_ui` (`API did not start` / 8831 EADDRINUSE) and `test_task_recovery_ui` (`Leave this one alone` timeout). Root cause was leaky harness (shared 5190/8831, Vite without process-group ownership, attach-to-stranger). Fixed on source PRs #158 and #159 only; #161 product tip `be5cfaf3` unchanged. Fresh combined `23d9f44a` clears those two nodeids; full backend still has one unrelated `test_live_owner_page` `COMPUTER_CLEANUP_REQUIRED` race under load (focused alone passes) — full gate not accepted green. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Live-owner COMPUTER_CLEANUP_REQUIRED premise attack
+
+- **Owner authorization:** One bounded root-cause cycle only; no new feature, merge, CI, deploy, force-push, history rewrite, or weakening of cleanup safety. Review is not send permission.
+- **Engineering findings:** Premise that Vite contention or isolated re-pass explained the remaining four-way failure is **false**. Screen correctly returns `BROWSER_PAGE_LOST`; failure is later `_prepare` after the old `_kill_chrome` kill-all fallback SIGKILLed the worker before cleanup confirmation, leaving a legitimate `cleanup-required` blocker. Fixed chrome-only on source #158 `0e9ea44a` with a kill-all regression; product cleanup order unchanged; #161 product `be5cfaf3` unchanged. Fresh combined `0234fc1ebb`: **3082 passed / 1 skipped / 0 failed**, frontend 442, four UIs 4 passed. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+## 2026-11-25 · Managed-browser FastClient active budget
+
+- **Owner authorization:** One bounded reliability workstream on the reported managed-browser `JOB_DEADLINE_EXCEEDED` race; no merge, CI, deploy, Pi, live account, paid model, provider/A3, or history rewrite. Do not equate test timeout with product defect without proof.
+- **Engineering findings:** Premise that ~375ms expiry meant a false 180s job-deadline/clock bug is false. Offline `FastClient.active_seconds=0.25` burned during pre-auth origin work before `auth_wait` credits; suite scheduling delay >250ms matches the stale_form failure. Fixed fixture to 2.0s on a new main branch; production 90s unchanged. #160 trailing whitespace at verification.md:102 fixed separately (`d8aad9fb`). [Verification](output/qa/2026-11-25-managed-deadline/verification.md).
+## 2026-11-25 · Conversation finding Remind me later
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent slice; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, Conversation initiative findings only had Sources and Got it. Add Remind me later that snoozes the same finding id/sources for a bounded interval, then returns it to pending without a second model call, send, or follow-up task. Do not stack open #161 Follow up. Ownership, hide_private, revocation, dismiss, and operation idempotence stay as-is.
+- **验证边界：** API fake-clock + fixture session; frontend source contract; no live mailbox or paid Responses. [QA](output/qa/2026-11-25-finding-snooze/verification.md).
+## 2026-11-25 · Home initiative cue opens Conversation for Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, the home Alice initiative cue only offered Got it. Add View in conversation that expands Conversation so Sources stay available before dismiss. Do not stack open #158–#163 product. Ownership / hide-private / offline-stale fences unchanged; opening Conversation does not dismiss or send.
+- **验证边界：** Local Chrome 1440+320 on owned ports with fake initiative; frontend source contract. [QA](output/qa/2026-11-25-cue-review/verification.md).
+## 2026-11-25 · Inbox Dismiss clears bound initiative findings
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, Inbox Dismiss for an initiative notice left pending findings and the home cue. Dismiss now clears bound pending findings for that notice id (same outcome as Got it for those members). Got it on one of two batched findings still keeps the other. Do not stack open #158–#164.
+- **验证边界：** API fixture + local Chrome 1440+320 on owned ports 5193/8834. [QA](output/qa/2026-11-25-inbox-initiative-dismiss/verification.md).
+## 2026-11-25 · Open cited task from finding Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, task citations in finding Sources were plain text. Add Open task to open that existing task in Tasks. Do not dismiss, create a follow-up (#161), or send. Do not stack open #158–#165.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5194/8835; frontend source contract. [QA](output/qa/2026-11-25-source-open-task/verification.md).
+## 2026-11-25 · Open cited memory from finding Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, memory citations in finding Sources were plain text. Add Open memory to open that existing fact in Memory. Do not dismiss, create a follow-up (#161), or send. Do not stack open #158–#166 (including Open task).
+- **验证边界：** Local Chrome 1440+320 on owned ports 5195/8836; frontend source contract. [QA](output/qa/2026-11-25-source-open-memory/verification.md).
+## 2026-11-25 · Open cited local calendar from finding Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, local calendar citations in finding Sources were plain text. Add Open calendar to open that existing occurrence’s Event details. Do not dismiss, create a follow-up (#161), or send. Do not stack open #158–#167 (including Open task / Open memory). Google preview refs stay labels.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5193/8834; frontend source contract. [QA](output/qa/2026-11-25-source-open-calendar/verification.md).
+## 2026-11-25 · Inbox initiative opens bound finding Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, Inbox View in conversation only switched to Assistant. Pass the notice id, focus the bound finding, open Sources. Do not dismiss. Do not stack open #158–#168 (including #164 home cue View and #165 Dismiss heal).
+- **验证边界：** Local Chrome 1440+320 on owned ports 5196/8837; frontend source contract. [QA](output/qa/2026-11-25-inbox-finding-focus/verification.md).
+## 2026-11-25 · Inbox morning/evening check-in opens cited surface
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, morning briefing and evening check-in Inbox receipts lacked View actions. Add View today / View tasks. Do not dismiss. Do not stack open #158–#169.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5197/8838 (evening → Tasks); frontend source contract. [QA](output/qa/2026-11-25-nudge-inbox-review/verification.md).
+## 2026-11-25 · Withdrawn finding when Sources change
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, invalidating cited evidence silently dropped the Conversation finding. Keep a withdrawn card until Got it. Do not stack open #158–#170 (including #161 Follow up stale).
+- **验证边界：** Local Chrome 1440+320 on owned ports 5198/8839; focused initiative unit test; frontend source contract. [QA](output/qa/2026-11-25-finding-withdrawn/verification.md).
+## 2026-11-25 · Home morning/evening check-in opens cited surface
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, the home Alice cue for morning briefing and evening check-in only offered Got it (Inbox View today/tasks is open #170 and must not be stacked). Add View today / View tasks on the home cue. Do not dismiss. Do not stack open #158–#171.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5199/8840 (evening → Tasks); frontend source contract. [QA](output/qa/2026-11-25-home-nudge-review/verification.md).
+## 2026-11-25 · Home task cue opens the cited task
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, the home Alice task follow-up cue only offered Done / Still working / In an hour. Add Open task to open that task in Tasks. Do not complete/snooze/dismiss. Do not stack open #158–#172.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5200/8841; frontend source contract. [QA](output/qa/2026-11-25-home-task-open/verification.md).
+## 2026-11-25 · Inbox task follow-up opens the cited task
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, Inbox follow-up receipts only offered View tasks (list). Open the cited task via Open task. Do not dismiss. Do not stack open #158–#173.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5201/8842; frontend source contract. [QA](output/qa/2026-11-25-inbox-followup-open/verification.md).
+## 2026-11-25 · Inbox memory follow-up opens Memory
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, individual memory follow-up Inbox receipts had no action despite “Open Memory” copy. Add View memories. Do not dismiss. Do not stack open #158–#174.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5202/8843; frontend source contract. [QA](output/qa/2026-11-25-inbox-memory-followup/verification.md).
+## 2026-11-25 · Inbox calendar update opens Calendar
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts. May be the last product slice before handoff capacity.
+- **工程选择：** On current `main`, calendar update Inbox receipts had only Dismiss. Add View calendar. Do not dismiss. Do not stack open #158–#175.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5203/8844; frontend source contract. Fixture notice, not live Google. [QA](output/qa/2026-11-25-inbox-calendar-view/verification.md).
+
+## 26 November 2026 · Standing authorization and reviewed Grok integration
+
+The owner approved six calendar months of FYP use with explicit Hong Kong daily and monthly maximums. Keep financial details local, retain historical holds separately, and avoid assigning the same allowance to two hosts. The owner selected individual review by the current engineer, native Simulator delivery without creating Apple developer keys, and a background-only check of the real Mac during its existing quiet period. The 19 new Grok heads were reviewed in combination with current main. [Review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).

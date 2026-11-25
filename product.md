@@ -1,12 +1,23 @@
 # Group 2 Project Contract
 
+## 26 November · Continuing personal assistance
+
+The owner authorized a six-month operating period with both calendar-day and calendar-month ceilings. Keep numerical limits and actual account figures in the operator’s private ledger. The Mac worker should keep checking during screen lock and respect quiet hours. The enrolled native Simulator can show a generic notification while the application is closed. Real-device push credentials are deferred. Opening a notification or source is a read action. Follow, snooze, acknowledgement, saving a reply draft and sending a message are explicit, separate actions. [Combined review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 ## 25 November · Quiet, continuous mail assistance
 
 Closing the ordinary Alice page leaves the existing desk worker running on the awake, connected host. Opening Conversation should restore the original date and source of a previously delivered suggestion whose Gmail evidence can still be verified. New mail arriving ahead of an existing item, or a temporarily unavailable provider, must not by itself generate a second notification or establish that the owner finished the task. Quiet hours defer first alerts. A closed model allowance leaves the existing read-only inbox checks and explicit local action cues available. [Release and normal-account check](output/qa/2026-11-25-proactive-mail/verification.md).
+## 25 November 2026 · One reminder when a followed thread receives a reply
+
+After the owner chooses to follow a thread, one new reply raises one reminder on that same task. Chat keeps the evidence. Inbox can open the task. Quiet hours hold the reminder until they end. The owner can read the original message, then choose whether to draft a reply. Saving that draft does not send it. A missed or failed read is not shown as a confirmed new reply. Dismissing one reminder leaves a different one in place. A local mail sample covers this journey when paid reasoning or a live mailbox is unavailable. The sample and synthetic provider checks are not live-mailbox acceptance. [Contract](desk-companion/docs/mail-thread-followup.md) · [verification](output/qa/2026-11-25-followed-reply/verification.md).
 
 ## 25 November 2026 · Alice’s workspace
 
 Home opens on Alice and the conversation. Today leads to a specific task or event. Desktop shows a task list beside the selected task. On a phone the same task has a full-width detail view, and Back restores the list and filters. Routine notices belong in Inbox. Group repeated morning and evening receipts there, keep each date and dismissal available, and link personal updates back to their conversation. Settings should lead directly to the effective permissions of a chosen app. [Workspace design and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 25 November 2026 · Follow up from a proactive suggestion
+
+When Conversation shows a cited proactive finding, the owner can open its Sources, choose Follow up on this, and get one private task bound to that finding. The same card then shows accurate live status for that task. Nothing is sent by that choice. Got it still dismisses without claiming an external effect. [Acceptance](output/qa/2026-11-25-initiative-followup/verification.md).
 
 ## 2026-11-24 Continue the owner's conversation and surface inbox changes
 

@@ -74,7 +74,9 @@ async def snapshot(page, directory, sequence, boundary):
         identity = {"url": page.url, "document_generation": boundary.document_generation}
         if not same_document(page, boundary, identity) or len(identity["url"]) > 2000:
             raise DomainError("BROWSER_TARGET_CHANGED", 409)
-        screen = await page.screenshot(type="png", full_page=False)
+        screen = await page.screenshot(type="png", full_page=False, mask=[
+            page.locator("input:not([type=button]):not([type=submit]), textarea, [contenteditable=true], iframe")
+        ])
         if not same_document(page, boundary, identity):
             continue  # Discard bytes; never persist/upload the changed document.
         if len(screen) > MAX_SCREEN_BYTES:
@@ -83,6 +85,7 @@ async def snapshot(page, directory, sequence, boundary):
           title: document.title.slice(0,300), text:(document.body?.innerText||'').slice(0,6000),
           controls:Array.from(document.querySelectorAll('button,input,select,a')).slice(0,80).map(el=>{
             const r=el.getBoundingClientRect();return {tag:el.tagName.toLowerCase(),
+              type:(el.getAttribute('type')||'').slice(0,40),
               label:(el.getAttribute('aria-label')||el.labels?.[0]?.innerText||el.innerText||el.getAttribute('placeholder')||'').slice(0,120),
               x:r.x+r.width/2,y:r.y+r.height/2,visible:r.width>0&&r.height>0&&r.y>=0&&r.bottom<=innerHeight};
           }).filter(x=>x.visible).slice(0,40)

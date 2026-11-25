@@ -1,3 +1,5 @@
+import { citedCalendarOccurrence } from "./workspace/calendarCitation";
+import { useWorkspace } from "./workspace/WorkspaceContext";
 import { usePendingWrite } from "./usePendingWrite";
 import {
   useCallback,
@@ -66,7 +68,7 @@ function watchDesktopRail(notify: () => void) {
 export function App() {
   const pendingOperation = usePendingWrite();
   const draftState = useDraftState();
-  const [leavePage, setLeavePage] = useState<Page | null>(null);
+  const [leavePage, setLeavePage] = useState<{page: Page; itemId?: string} | null>(null);
   const [language, setLanguageState] = useState<Language>(() =>
     localStorage.getItem("desk.language") === "zh" ? "zh" : "en",
   );
@@ -146,6 +148,7 @@ export function App() {
     if (pinned) setNavigationOpen(false);
   }, [pinned]);
   const [taskToOpen, setTaskToOpen] = useState<string>();
+  const [memoryToOpen, setMemoryToOpen] = useState<string>();
   const [chatState, setChatState] = useState({ dirty: false, busy: false });
   const [assistantTask, setAssistantTask] = useState<{
     id: string;
@@ -155,10 +158,16 @@ export function App() {
     if (session === null) setAssistantTask(undefined);
   }, [session]);
   const [conversationRequest, requestConversation] = useState(0);
+  const [focusNoticeId, setFocusNoticeId] = useState<string>();
   const openAssistant = () => goPage("assistant");
-  function reviewNotice(target: "assistant" | "memory" | "tasks") {
+  function reviewNotice(
+    target: "assistant" | "memory" | "tasks" | "today" | "calendar",
+    itemId?: string,
+  ) {
     setShowReminders(false);
-    goPage(target);
+    if (target === "assistant") setFocusNoticeId(itemId);
+    else setFocusNoticeId(undefined);
+    goPage(target, target === "tasks" || target === "memory" ? itemId : undefined);
     if (target === "assistant") requestConversation((n) => n + 1);
   }
   const discussTask = (id: string, title: string) => {
@@ -330,20 +339,41 @@ export function App() {
       document.querySelector<HTMLButtonElement>(trigger)?.focus();
     });
   }
-  function goPage(p: Page, taskId?: string) {
-    if (p === page) {
+  function goPage(p: Page, itemId?: string) {
+    if (p === page && !itemId) {
       closeNavigation();
       return;
     }
     if (draftState.busy) return;
     if (draftState.dirty) {
-      setLeavePage(p);
+      setLeavePage({page:p, itemId});
       return;
     }
-    setTaskToOpen(p === "tasks" ? taskId : undefined);
+    setTaskToOpen(p === "tasks" ? itemId : undefined);
+    setMemoryToOpen(p === "memory" ? itemId : undefined);
     setPage(p);
     if (navigationOpen) closeNavigation();
     setError(null);
+  }
+  const { data: ownerWorkspace, offline: deskOffline, stale: deskStale } = useWorkspace();
+  const calendarRead = useRef(0);
+  const calendarVisible = ownerWorkspace?.principal.kind === "owner" && ownerWorkspace.personal_context_visible && !deskOffline && !deskStale;
+  useEffect(() => {
+    calendarRead.current++;
+    const invalidate = () => { calendarRead.current++; };
+    window.addEventListener("desk:session", invalidate);
+    return () => { invalidate(); window.removeEventListener("desk:session", invalidate); };
+  }, [page, session, calendarVisible, draftState.dirty, draftState.busy, chatState.busy]);
+  async function openCitedCalendar(ref: string) {
+    if (!calendarVisible || draftState.busy || chatState.busy || draftState.dirty) return;
+    const read = ++calendarRead.current;
+    try {
+      const result = await citedCalendarOccurrence(ref,zone);
+      if (read !== calendarRead.current) return;
+      if (!result) { setNotice(t("That calendar item is no longer available.", "该日程已不可用。")); return; }
+      setAnchorDate(result.day); setPickerDate(result.day); setView("day");
+      goPage("calendar"); setDetail(result.event);
+    } catch (reason) { if (read===calendarRead.current) failOwnerRequest(reason); }
   }
   function selectDay(d: DateTime) {
     setAnchorDate(dayISO(d));
@@ -622,7 +652,13 @@ export function App() {
           onEvent={setDetail}
           task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
+          onOpenTask={(id) => goPage("tasks", id)}
+          onOpenMemory={(id) => goPage("memory", id)}
+          onOpenCalendar={openCitedCalendar}
+          focusNoticeId={focusNoticeId}
+          onFocusNoticeConsumed={() => setFocusNoticeId(undefined)}
           onConversationState={setChatState}
+          onReviewSurface={(target) => goPage(target)}
         />
         {page !== "assistant" &&
           (!visible ? (
@@ -727,7 +763,7 @@ export function App() {
               )}
               {page === "memory" && (
                 <div className="standard-page management-view workspace-panel">
-                  <MemoryPanel t={t} />
+                  <MemoryPanel t={t} initialFactId={memoryToOpen} />
                 </div>
               )}
               {page === "persona" && (
@@ -821,8 +857,9 @@ export function App() {
             <button
               className="secondary"
               onClick={() => {
-                setTaskToOpen(undefined);
-                setPage(leavePage);
+                setTaskToOpen(leavePage.page === "tasks" ? leavePage.itemId : undefined);
+                setMemoryToOpen(leavePage.page === "memory" ? leavePage.itemId : undefined);
+                setPage(leavePage.page);
                 setNavigationOpen(false);
                 setLeavePage(null);
               }}

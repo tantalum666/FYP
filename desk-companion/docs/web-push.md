@@ -1,5 +1,11 @@
 # Web Push
 
+## 26 November · Lock-screen delivery on the normal desk
+
+A Mac operator can opt in using a private mode-0600 `locked-reminders.json` in the selected runtime directory. It contains an inclusive Hong Kong `through` date, the `keep_awake` preference and, for Simulator delivery, a `simulator` object with an exact `udid`, loopback server `origin` and optional absolute CoreSimulator `device_set`. Screen lock does not require the page or native application to run. The local operator must enable notifications on the named Simulator against the same server. A change of server or an explicit opt-out clears its native receiver binding.
+
+With that configuration, the existing backend schedule drains the durable notice outbox in quiet-aware, recipient-specific attempts. Each current subscription has its own acknowledgement. A simulator acceptance is separate from a Web Push service acceptance and from evidence on the screen. The Mac idle-sleep assertion belongs to the backend process. Browser or OS Focus settings still determine presentation. [Validated scope](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 ## 25 November · Delivery evidence
 
 The local browser queue records preparation for delivery. A separate `web_push_accepted` row records when the sender has received a successful response for at least one enrolled subscription. The receipt contains the notice ID, channel and time. The desk cannot establish whether the device displayed the banner or the owner read it from that response. Previous browser queue records remain available. [Verification](../../output/qa/2026-11-25-proactive-mail/verification.md).
