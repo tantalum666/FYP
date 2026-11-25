@@ -1017,3 +1017,9 @@ The owner opted into local retention of ordinary messages and the final text of 
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 2026-11-25 · Inbox memory follow-up opens Memory
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, individual memory follow-up Inbox receipts had no action despite “Open Memory” copy. Add View memories. Do not dismiss. Do not stack open #158–#174.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5202/8843; frontend source contract. [QA](output/qa/2026-11-25-inbox-memory-followup/verification.md).

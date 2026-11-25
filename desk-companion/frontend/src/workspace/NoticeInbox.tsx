@@ -108,6 +108,14 @@ export function NoticeInbox({
                         {t("View memories", "查看记忆")}
                       </button>
                     )}
+                    {onReview && item.kind === "memory_followup" && (
+                      <button
+                        className="text-button"
+                        onClick={() => onReview("memory")}
+                      >
+                        {t("View memories", "查看记忆")}
+                      </button>
+                    )}
                     {onReview && item.kind === "followup" && (
                       <button
                         className="text-button"
