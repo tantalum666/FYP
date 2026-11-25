@@ -4,7 +4,7 @@
 
 ## This slice
 
-Independent branch `cursor/suggestion-followup-status-e853` tip `aab9308582d1f70ea8e290585c8bc15f05482390` from that main tip (not #158/#159/#160, not throwaway `65eb854e`). Conversation findings already had Sources and Got it; they lacked an explicit owner follow-up bound to a private task with revisitable status. That journey is implemented and locally verified: Follow up on this → private task by id → live status on the finding card → Tasks listing; draft/send never claimed. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+Independent branch `cursor/suggestion-followup-status-e853` (tested product `aab9308582d1f70ea8e290585c8bc15f05482390`; notes tip cites that SHA) from that main tip (not #158/#159/#160, not throwaway `65eb854e`). Conversation findings already had Sources and Got it; they lacked an explicit owner follow-up bound to a private task with revisitable status. That journey is implemented and locally verified: Follow up on this → private task by id → live status on the finding card → Tasks listing; draft/send never claimed. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
 
 Open PRs #158 / #159 / #160 stay untouched. #160 EOF blank-line hygiene is on tip `a4882b89` (whitespace only; suites remain on `87a38f48` / `65eb854e`).
 
