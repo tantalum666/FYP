@@ -27,9 +27,10 @@ class Notice:
     body_zh: str
     reason_en: str
     reason_zh: str
+    task_id: str | None = None
 
     def payload(self) -> dict:
-        return {
+        data = {
             "id": self.id,
             "kind": self.kind,
             "title_en": self.title_en,
@@ -40,6 +41,9 @@ class Notice:
             "reason_zh": self.reason_zh,
             "push": push_payload(self),
         }
+        if self.task_id:
+            data["task_id"] = self.task_id
+        return data
 
 
 def push_payload(notice: Notice) -> dict:

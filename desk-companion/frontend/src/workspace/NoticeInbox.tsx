@@ -15,9 +15,15 @@ export function NoticeInbox({
   inbox: DeskInbox;
   language: Language;
   zone: string;
-  onReview?: (page: "assistant" | "memory" | "tasks") => void;
+  onReview?: (
+    page: "assistant" | "memory" | "tasks",
+    taskId?: string,
+  ) => void;
   t: Translate;
 }) {
+  function followupTaskId(notice: DeskNotice) {
+    return notice.kind === "followup" && notice.task_id ? notice.task_id : null;
+  }
   const [expanded, setExpanded] = useState<string[]>([]);
   if (!inbox.enabled) return null;
   const groups = new Map<string, DeskNotice[]>();
@@ -111,9 +117,11 @@ export function NoticeInbox({
                     {onReview && item.kind === "followup" && (
                       <button
                         className="text-button"
-                        onClick={() => onReview("tasks")}
+                        onClick={() =>
+                          onReview("tasks", followupTaskId(item) ?? undefined)
+                        }
                       >
-                        {t("View tasks", "查看待办")}
+                        {t("Open task", "打开待办")}
                       </button>
                     )}
                     {t(item.reason_en, item.reason_zh) && (
