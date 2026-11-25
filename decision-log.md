@@ -1027,3 +1027,8 @@ The owner requested a redesign of every destination outside Alice’s home and a
 
 - **Owner authorization:** Continue one bounded PR #161 adversarial + main→158→159→160→161 local throwaway integration; no new feature, merge, CI, deploy, or history rewrite. Review is not send permission.
 - **Engineering findings:** Stale/withdrawn sources could still open a follow-up; `_followup_status` nested a second DB connection inside the write transaction. Fixed on #161 with `INITIATIVE_STALE` and same-connection status reads, plus adversarial tests. Four-way combined tree `43b82c75` kept all features and stronger baseline asserts; #158–#160 GitHub tips untouched. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Root-cause closeout of the two four-way UI failures
+
+- **Owner authorization:** One bounded root-cause + verification closeout; no new feature, merge, CI, deploy, force-push, or history rewrite. Review is not send permission.
+- **Engineering findings:** Retained log named `test_owner_page_ui` (`API did not start` / 8831 EADDRINUSE) and `test_task_recovery_ui` (`Leave this one alone` timeout). Root cause was leaky harness (shared 5190/8831, Vite without process-group ownership, attach-to-stranger). Fixed on source PRs #158 and #159 only; #161 product tip `be5cfaf3` unchanged. Fresh combined `23d9f44a` clears those two nodeids; full backend still has one unrelated `test_live_owner_page` `COMPUTER_CLEANUP_REQUIRED` race under load (focused alone passes) — full gate not accepted green. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).

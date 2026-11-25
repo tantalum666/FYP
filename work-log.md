@@ -1202,8 +1202,14 @@ Verified task selection and drafts, reminders, calendar writes and Records, memo
 
 ### Adversarial + four-way gate
 
-**Done:** Product tip `be5cfaf3` — refuse `INITIATIVE_STALE`, same-conn status, adversarial permission/replay/delete/title tests; UI abort→retry. Local throwaway four-way `43b82c75` (main→158→159→160→161); prior `65eb854e` preserved; #158–#160 untouched on GitHub.
+**Done:** Product tip `be5cfaf3` — refuse `INITIATIVE_STALE`, same-conn status, adversarial permission/replay/delete/title tests; UI abort→retry. Local throwaway four-way `43b82c75` (main→158→159→160→161); prior `65eb854e` preserved.
 
-**Verified:** Independent backend **3062 passed / 1 skipped** (clean re-run); frontend 438; focused initiative 28; combined backend 3079/1 skip with 2 UI port-contention fails that each re-passed alone; four sequential browser UIs 4 passed; combined frontend 442; tsc/build/ruff/diff clean.
+**Verified:** Independent backend **3062 passed / 1 skipped** (clean re-run); frontend 438; focused initiative 28; combined backend 3079/1 skip with 2 UI failures (named below); four sequential browser UIs 4 passed; combined frontend 442; tsc/build/ruff/diff clean.
 
-**Remaining:** Parent budget decision; Codex review of #158–#161; no merge/CI/deploy/live mailbox/paid model.
+### Four-way UI failure root-cause closeout
+
+**Done:** Named `test_owner_page_ui` (8831 EADDRINUSE) and `test_task_recovery_ui` (`Leave this one alone` under foreign Vite). Causal + negative-control proofs retained. Harness fixes on #158 `70accc16` and #159 `1f760a41`; #161 product unchanged at `be5cfaf3`. Fresh local four-way `23d9f44a`.
+
+**Verified on `23d9f44a`:** frontend 442; tsc/build/ruff/diff clean; four UIs 4 passed no port leaks; full backend **3080 passed / 1 skipped / 1 failed** (`test_live_owner_page` cleanup race; focused alone passed). Full combined backend **not** accepted green.
+
+**Remaining:** Parent budget; live-owner race if authorized; Codex review; no merge/CI/deploy/live mailbox/paid model.
