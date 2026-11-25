@@ -129,20 +129,43 @@ class Initiative:
         except DomainError:
             return []
         with self.store.connection() as conn:
-            rows = conn.execute(
+            pending = conn.execute(
                 "SELECT * FROM initiative_findings WHERE state='pending' ORDER BY created_at DESC LIMIT 100"
             ).fetchall()
+            # Keep recently invalidated findings visible until the owner clears them.
+            obsolete = (
+                []
+                if undelivered
+                else conn.execute(
+                    "SELECT * FROM initiative_findings WHERE state='obsolete' "
+                    "ORDER BY created_at DESC LIMIT 20"
+                ).fetchall()
+            )
         result = []
-        for row in rows:
+        for row in [*pending, *obsolete]:
             if undelivered and row["notified"]:
                 continue
             data = json.loads(row["data"])
-            if self.sources.matches(data["sources"], sources):
-                item = {"id": row["id"], "created_at": row["created_at"], **data}
-                if display:
-                    item["sources"] = self.sources.display_sources(data["sources"], sources)
-                result.append(item)
-        return sorted(result, key=lambda item: item["importance"] != "high")
+            live = row["state"] == "pending" and self.sources.matches(
+                data["sources"], sources
+            )
+            if undelivered and not live:
+                continue
+            item = {"id": row["id"], "created_at": row["created_at"], **data}
+            if not live:
+                item["withdrawn"] = True
+            if display:
+                item["sources"] = self.sources.display_sources(
+                    data["sources"], sources
+                )
+            result.append(item)
+        return sorted(
+            result,
+            key=lambda item: (
+                bool(item.get("withdrawn")),
+                item["importance"] != "high",
+            ),
+        )
 
     def snapshot(self):
         with self.store.connection() as db:

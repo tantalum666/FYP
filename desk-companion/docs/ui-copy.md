@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Withdrawn proactive suggestion
+
+When a Conversation finding’s Sources no longer match, keep the card as a withdrawn suggestion: say Sources changed and that nothing was sent. Got it clears it. Do not promote a withdrawn item as the home cue.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.
