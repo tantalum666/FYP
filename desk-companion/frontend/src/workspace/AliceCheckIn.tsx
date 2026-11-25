@@ -26,9 +26,12 @@ export interface AliceCue {
 export function AliceCheckIn({
   t,
   visible,
+  onOpenConversation,
 }: {
   t: Translate;
   visible: boolean;
+  /** Opens Conversation so the owner can read Sources before dismissing. */
+  onOpenConversation?: () => void;
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const cue = data?.check_in;
@@ -200,11 +203,22 @@ export function AliceCheckIn({
               </button>
             </>
           ) : (
-            <button disabled={busy} onClick={() => void act("dismiss")}>
-              {cue.kind === "posture"
-                ? t("Quiet for 10 minutes", "安静十分钟")
-                : t("Got it", "知道了")}
-            </button>
+            <>
+              {cue.kind === "initiative" && onOpenConversation && (
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onOpenConversation()}
+                >
+                  {t("View in conversation", "在对话中查看")}
+                </button>
+              )}
+              <button disabled={busy} onClick={() => void act("dismiss")}>
+                {cue.kind === "posture"
+                  ? t("Quiet for 10 minutes", "安静十分钟")
+                  : t("Got it", "知道了")}
+              </button>
+            </>
           )}
         </div>
         {!!error && <small role="alert">{errorText(error, t)}</small>}

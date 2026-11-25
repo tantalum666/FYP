@@ -1191,3 +1191,13 @@ The corresponding airline guest page published each selected leg’s checked wei
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
 
 Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 25 November 2026 · Home cue View in conversation (Grok Bot)
+
+**Goal** — One visible owner-facing personal-agent journey gap not on `main` or open #158–#163: from the home initiative cue, open Conversation and read Sources before Got it.
+
+**Done** — Premise first. AliceCheckIn View in conversation → onExpandedChange; finding aria-label; ui-copy / proactive notes; frontend contract + Playwright 1440/320. Branch `cursor/cue-review-conversation-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `cue-review-conversation.test.ts` 1 passed; `test_cue_review_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-cue-review/verification.md).
+
+**Remaining** — Parent budget check; Codex review.

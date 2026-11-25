@@ -32,6 +32,7 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
     <>
         <article
           className="assistant-turn assistant initiative-message"
+          aria-label={t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
