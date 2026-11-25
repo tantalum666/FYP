@@ -1,6 +1,6 @@
 # Group 2 · Initiative finding → follow-up → revisitable status
 
-25 November 2026. Grok Bot. Independent branch from public `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157 workspace). Pull requests #158, #159 and #160 were not checked out, stacked, merged, or edited. Throwaway three-way tree `65eb854e` was not used as a build base.
+25 November 2026. Grok Bot. Independent branch from public `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157 workspace). Tested product/docs tip `aab9308582d1f70ea8e290585c8bc15f05482390`. Pull requests #158, #159 and #160 were not checked out, stacked, merged, or edited. Throwaway three-way tree `65eb854e` was not used as a build base.
 
 ## Chosen gap (current main)
 
