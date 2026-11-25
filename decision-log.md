@@ -1085,3 +1085,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, Inbox Dismiss for an initiative notice left pending findings and the home cue. Dismiss now clears bound pending findings for that notice id (same outcome as Got it for those members). Got it on one of two batched findings still keeps the other. Do not stack open #158–#164.
 - **验证边界：** API fixture + local Chrome 1440+320 on owned ports 5193/8834. [QA](output/qa/2026-11-25-inbox-initiative-dismiss/verification.md).
+## 2026-11-25 · Open cited task from finding Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, task citations in finding Sources were plain text. Add Open task to open that existing task in Tasks. Do not dismiss, create a follow-up (#161), or send. Do not stack open #158–#165.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5194/8835; frontend source contract. [QA](output/qa/2026-11-25-source-open-task/verification.md).

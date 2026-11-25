@@ -112,6 +112,7 @@ export function AssistantPanel({
   suspended = false,
   homeHint,
   onClearTask,
+  onOpenTask,
 }: {
   t: Translate;
   taskId?: string;
@@ -124,6 +125,7 @@ export function AssistantPanel({
   suspended?: boolean;
   homeHint?: ReactNode;
   onClearTask?: () => void;
+  onOpenTask?: (taskId: string) => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
   const ownerView = data?.principal.kind === "owner";

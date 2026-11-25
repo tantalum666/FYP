@@ -1288,5 +1288,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done** — Premise and failing reproduction on main. `Notifier.dismiss` clears bound pending findings; batch Got it regression; Chrome 1440/320 on ports 5193/8834; docs. Branch `cursor/inbox-initiative-dismiss-e853` from `fc3b8d2`. PR left open; no merge.
 
 **Verification** — initiative+notify 24 passed; UI 1 passed with screenshots; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-inbox-initiative-dismiss/verification.md).
+## 25 November 2026 · Open cited task from Sources (Grok Bot)
+
+**Goal** — One visible owner-facing personal-agent journey gap not on `main` or open #158–#165: from a finding’s Sources, open the already-cited task.
+
+**Done** — Premise first. InitiativeMessage Open task → App goPage(tasks, id); docs; frontend contract + Playwright 1440/320. Branch `cursor/source-open-task-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `source-open-task.test.ts` 1 passed; `test_source_open_task_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-source-open-task/verification.md).
 
 **Remaining** — Parent budget check; Codex review.

@@ -12,6 +12,9 @@ When the Alice home cue is a proactive finding, offer View in conversation besid
 ## 25 November · Inbox Dismiss for proactive findings
 
 When an Inbox entry is an initiative notice, Dismiss clears that notice and the pending finding(s) bound to it, matching Conversation Got it. View in conversation still opens Alice without dismissing. Do not imply mail was sent.
+## 25 November · Open a cited task from finding Sources
+
+On a Conversation finding, Sources may include a task citation. Offer Open task with the existing title so the owner can open that task in Tasks. Do not dismiss the finding, create a follow-up, or imply mail was sent.
 
 ## 25 November · Workspace navigation and notices
 
