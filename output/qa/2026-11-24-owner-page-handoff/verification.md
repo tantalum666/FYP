@@ -65,4 +65,8 @@ Desktop and 320px captures of the held rehearsal card, with no typed secret:
 
 The synthetic `VerificationDriver` remains for API fences. There is no headed operating-system window, no hosted OpenAI desktop, no ordinary browser profile, and no merchant or live-account sign-in. The Pi update is not applied. The pull request is not merged and nothing is deployed.
 
-**Next step** — When the original Pi comes back on its pinned owner relay, apply its saved update from `92acac8e` to `b759950c` and verify its existing store, accounts, A3 profile and kiosk build on the device. This page-handoff pull request stays open for review.
+## Closeout of the combined hold-card failure
+
+`59547453` changes only `tests/test_owner_page_ui.py` and the two hold screenshots. Product files are unchanged from `32066b8b`. The combined failure on `8f580c83` happened because a Vite process from the other checkout was still listening on port 5190. The card that loaded had Hand back and the non-owner screen, and it did not mount the held typing control. The test now requires that listener to belong to the server it started, waits until Type on this page is visible, and opens Work & tools without reloading the connected page. Three consecutive runs passed in 27.81s, 27.77s, and 27.66s. The local rehearsal `cefe84e0` includes this test and passed 3061 backend tests with 1 skipped. This note is not part of that rehearsal.
+
+**Next step** — The parent evaluates whether this pull request and the interrupted-task pull request are accepted. The Pi update from `92acac8e` to `b759950c` stays a separate device step. This pull request stays open.
