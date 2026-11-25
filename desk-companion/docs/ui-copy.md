@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Open a cited calendar event from finding Sources
+
+On a Conversation finding, Sources may include a local calendar citation. Offer Open calendar with the existing title so the owner can open that occurrence’s Event details. Do not dismiss the finding, create a follow-up, or imply mail was sent. Google preview citations stay labels until a separate import story maps them.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.

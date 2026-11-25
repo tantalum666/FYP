@@ -27,6 +27,7 @@ export function AliceHome({
   onConversationState,
   task,
   onClearTask,
+  onOpenCalendar,
 }: {
   visible?: boolean;
   conversationRequest?: number;
@@ -46,6 +47,7 @@ export function AliceHome({
   onConversationState: (value: { dirty: boolean; busy: boolean }) => void;
   task?: { id: string; title: string };
   onClearTask: () => void;
+  onOpenCalendar?: (ref: string) => void;
 }) {
   const scene = useSceneActivity();
   const { data } = useWorkspace();
@@ -113,6 +115,7 @@ export function AliceHome({
           taskId={task?.id}
           taskTitle={task?.title}
           onClearTask={onClearTask}
+          onOpenCalendar={onOpenCalendar}
           onStateChange={onConversationState}
         />
       </div>

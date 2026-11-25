@@ -345,6 +345,62 @@ export function App() {
     if (navigationOpen) closeNavigation();
     setError(null);
   }
+  /** Open Event details for a local calendar:{id}:{occurrence_key} citation. */
+  async function openCitedCalendar(ref: string) {
+    if (ref.startsWith("calendar:google:") || !ref.startsWith("calendar:")) return;
+    if (draftState.busy || chatState.busy) {
+      setNotice(
+        t("Wait for the current reply first.", "请先等待当前回复结束。"),
+      );
+      return;
+    }
+    if (draftState.dirty) {
+      setNotice(t("Finish your current edit first.", "请先完成当前编辑。"));
+      return;
+    }
+    const rest = ref.slice("calendar:".length);
+    const cut = rest.indexOf(":");
+    if (cut <= 0) return;
+    const eventId = rest.slice(0, cut);
+    const occurrenceKey = rest.slice(cut + 1);
+    const day = occurrenceKey.slice(0, 10);
+    const dayStart = DateTime.fromISO(day, { zone });
+    if (!dayStart.isValid) {
+      setNotice(
+        t("That calendar item is no longer available.", "该日程已不可用。"),
+      );
+      return;
+    }
+    try {
+      const start = dayStart.startOf("day").toUTC().toISO()!;
+      const end = dayStart.plus({ days: 1 }).startOf("day").toUTC().toISO()!;
+      const snap = await request<Snapshot>(
+        `/calendar?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`,
+      );
+      const match = snap.occurrences.find(
+        (item) =>
+          item.id === eventId && item.occurrence_key === occurrenceKey,
+      );
+      if (!match) {
+        setNotice(
+          t("That calendar item is no longer available.", "该日程已不可用。"),
+        );
+        return;
+      }
+      setAnchorDate(day);
+      setPickerDate(day);
+      setPage("calendar");
+      setView("day");
+      setSnapshot(snap);
+      setLoadedRange(start + "/" + end);
+      currentRevision.current = snap.revision;
+      setDetail(match);
+      if (navigationOpen) closeNavigation();
+      setError(null);
+    } catch (reason) {
+      failOwnerRequest(reason);
+    }
+  }
   function selectDay(d: DateTime) {
     setAnchorDate(dayISO(d));
     setPickerDate(dayISO(d));
@@ -622,6 +678,7 @@ export function App() {
           onEvent={setDetail}
           task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
+          onOpenCalendar={openCitedCalendar}
           onConversationState={setChatState}
         />
         {page !== "assistant" &&

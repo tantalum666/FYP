@@ -13,8 +13,28 @@ export interface InitiativeFinding {
   sources: { ref: string; kind: string; label: string; href?: string }[];
 }
 
+/** Local desk occurrence only; Google preview refs stay labels. */
+export function localCalendarRef(source: { ref: string; kind: string }) {
+  if (source.kind !== "calendar") return null;
+  if (!source.ref.startsWith("calendar:") || source.ref.startsWith("calendar:google:"))
+    return null;
+  const rest = source.ref.slice("calendar:".length);
+  const cut = rest.indexOf(":");
+  if (cut <= 0 || cut >= rest.length - 1) return null;
+  return source.ref;
+}
+
 /** Contextual messages in the conversation; no approval form or separate poll. */
-export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; t: Translate }) {
+export function InitiativeMessage({
+  finding,
+  t,
+  onOpenCalendar,
+}: {
+  finding: InitiativeFinding;
+  t: Translate;
+  /** Opens the existing cited local calendar occurrence. Does not create a follow-up or dismiss. */
+  onOpenCalendar?: (ref: string) => void;
+}) {
   const { data, offline, stale, refresh } = useWorkspace();
   const mutation = usePrivateMutation();
   const visible =
@@ -32,6 +52,7 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
     <>
         <article
           className="assistant-turn assistant initiative-message"
+          aria-label={t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
@@ -41,10 +62,31 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
               {t("Sources", "依据")} · {finding.sources.length}
             </summary>
             <ul>
-              {finding.sources.map((source) => (
-                <li key={source.ref}>{source.href?.startsWith("https://mail.google.com/mail/?") ?
-                  <a href={source.href} target="_blank" rel="noreferrer">{source.label}</a> : source.label}</li>
-              ))}
+              {finding.sources.map((source) => {
+                const calendarRef = onOpenCalendar
+                  ? localCalendarRef(source)
+                  : null;
+                return (
+                  <li key={source.ref}>
+                    {source.href?.startsWith("https://mail.google.com/mail/?") ? (
+                      <a href={source.href} target="_blank" rel="noreferrer">
+                        {source.label}
+                      </a>
+                    ) : calendarRef && onOpenCalendar ? (
+                      <button
+                        type="button"
+                        className="text-button"
+                        onClick={() => onOpenCalendar(calendarRef)}
+                      >
+                        {t("Open calendar: ", "打开日程：")}
+                        {source.label}
+                      </button>
+                    ) : (
+                      source.label
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </details>
           <button
