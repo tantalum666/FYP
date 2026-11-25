@@ -1191,3 +1191,13 @@ The corresponding airline guest page published each selected leg’s checked wei
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
 
 Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 25 November 2026 · Initiative finding follow-up status
+
+**Goal:** One end-to-end personal-agent journey from current main: suggestion → sources → owner-chosen follow-up → revisitable status.
+
+**Done:** Branch `cursor/suggestion-followup-status-e853` from `fc3b8d2a`. `POST /api/initiative/{id}/follow-ups` binds a private task by id; Conversation shows Follow up on this and live status; stranger/hide-private/idempotence/same-title decoy covered. Owned ports 5200/8840 allowed for local Chrome. Reused #160-class baseline expectation fixes only. Ancillary #160 EOF blank-line hygiene recorded on `a4882b89`.
+
+**Verified:** Focused initiative 24 passed; full backend 3058 passed / 1 skipped; frontend 438 passed; tsc/build/ruff/diff --check clean; Chrome 1440 and 320 with fail-then-retry. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+**Remaining:** Parent budget decision; Codex review; no merge/CI/deploy/live mailbox/paid model; #158–#160 stay independent.

@@ -273,9 +273,9 @@ def test_forget_context_route_requires_owner_session(tmp_path):
     another = TestClient(app)
     another.post("/api/session", json={"username": "owner", "password": "fixture"}, headers=headers)
     assert another.delete(f"/api/voice/conversations/{cid}", headers=headers).status_code == 404
-    assert client.delete(f"/api/voice/conversations/{cid}", headers=headers).json() == {
-        "cleared": True
-    }
+    cleared = client.delete(f"/api/voice/conversations/{cid}", headers=headers).json()
+    assert cleared["cleared"] is True
+    assert cleared["home_archived"] is False
     assert cid not in runtime.voice.conversations.entries
 
 

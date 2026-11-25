@@ -16,6 +16,8 @@ A confirmed browser research task shows the status of its original job card. The
 
 Keep the ordinary home on Alice. A fresh quote offers a single way to open the review; a finished order fits on one line. In the conversation, render an order response once. Keep the active decision visible, place other orders behind one disclosure, and let the result itself expand to show the original payment, net amount and provenance. Eligibility questions and errors keep their own answer. Choosing a flight uses a short action label and opens a freshly checked price. A passive update must preserve an existing decision, focus and unsent text. [Before and after](../../output/qa/2026-11-21-quiet-order-followup/verification.md).
 
+A proactive finding keeps Sources and Got it. Follow up on this is the explicit owner choice that opens a private task; status lines say Nothing was sent. Do not imply mail or purchase from that control. [Initiative follow-up](../../output/qa/2026-11-25-initiative-followup/verification.md).
+
 ## 17 November browser work in conversation
 
 Use a compact task/site card with unchecked cloud screenshot consent; exact task details stay available in a disclosure. Use progress in the same conversation and current result evidence, without claiming an order or ticket. Generic pending-request copy says “action”, not “save”, because approval may have started a browser job. A recovery button appears after interrupted submission, not while that submission is still busy. The shared desktop/phone/device labels retain the same meaning. [Contract](conversation-browser.md).

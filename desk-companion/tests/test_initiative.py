@@ -7,6 +7,7 @@ from desk.app import create_app
 from desk.context import pack_conversation, voice_context_note
 from desk.initiative import Findings, Initiative
 from desk.schemas import CreateEvents, EventAction, EventInput, SettingsInput
+from desk.store import DomainError
 from desk.tasks import TaskInput, TaskAction
 from desk.text_ai import TextConfig
 from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
@@ -546,3 +547,97 @@ def test_preupgrade_single_notice_remains_dismissible(world):
     assert not r.initiative.current(undelivered=True)
     r.initiative.dismiss(ident, "legacy-dismiss", actor)
     assert r.notify.listing()["notices"][0]["state"] == "dismissed"
+
+
+def test_owner_followup_binds_task_by_id_and_revisits_live_status(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    finding = r.initiative.current(display=True)[0]
+    assert finding["followup_status"] is None
+    first = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-once"},
+    )
+    assert first.status_code == 200
+    body = first.json()
+    assert body["saved"] is True and body["sent"] is False and body["acted"] is False
+    assert body["already_following"] is False
+    bound = body["followup"]["task_id"]
+    assert bound != task["id"]
+    assert body["followup_status"]["open"] is True
+    # Same operation id is idempotent.
+    again = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-once"},
+    )
+    assert again.json()["followup"]["task_id"] == bound
+    # A second key still returns the same task without creating another.
+    second = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-twice"},
+    )
+    assert second.json()["already_following"] is True
+    assert second.json()["followup"]["task_id"] == bound
+    assert second.json()["saved"] is False
+    # Same-title distraction task does not steal the binding.
+    decoy = r.tasks.create(
+        TaskInput(title=body["task"]["title"], next_step="Other work"),
+        "decoy-same-title",
+    )["task"]
+    status = r.initiative.current(display=True)[0]["followup_status"]
+    assert status["task_id"] == bound and status["task_id"] != decoy["id"]
+    # Completing the bound task updates revisitable status; finding stays pending.
+    live = r.tasks.detail(bound)["task"]
+    r.tasks.action(
+        bound,
+        TaskAction(action="complete", expected_version=live["version"]),
+        "complete-followup",
+    )
+    refreshed = r.initiative.current(display=True)[0]
+    assert refreshed["id"] == finding["id"]
+    assert refreshed["followup_status"]["status"] == "completed"
+    assert refreshed["followup_status"]["open"] is False
+    # Dismiss does not send and does not reopen the completed task.
+    dismissed = client.post(
+        f"/api/initiative/{finding['id']}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "dismiss-after"},
+    )
+    assert dismissed.json()["sent"] is False
+    assert r.tasks.detail(bound)["task"]["status"] == "completed"
+
+
+def test_followup_requires_owner_session_and_creates_private_task(world):
+    r, client, actor, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    stranger = TestClient(client.app)
+    denied = stranger.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "stranger"},
+    )
+    assert denied.status_code in {401, 403}
+    follow = client.post(
+        f"/api/initiative/{finding['id']}/follow-ups",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "follow-private"},
+    )
+    assert follow.status_code == 200
+    assert follow.json()["task"]["visibility"] == "private"
+    assert follow.json()["sent"] is False
+    bound = follow.json()["followup"]["task_id"]
+    before = r.initiative.current(display=True)[0]["followup_status"]
+    assert before["task_id"] == bound and before["open"] is True
+    r.store.update_settings(
+        SettingsInput(expected_version=1, timezone="Asia/Hong_Kong", hide_private=True),
+        "hide-followup",
+    )
+    with pytest.raises(DomainError) as hidden:
+        r.tasks.detail(bound, display=True)
+    assert hidden.value.code == "PRIVATE_TASK_HIDDEN"
+    # Binding remains by task id even when the display listing hides the private task.
+    assert r.initiative._followup_status(follow.json()["followup"])["task_id"] == bound
