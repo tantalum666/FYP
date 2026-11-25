@@ -1353,5 +1353,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** Open task on Inbox follow-up receipts; Chrome 1440+320 on 5201/8842; contract, docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-inbox-followup-open/verification.md) — local real Chrome + rule follow-up fixture; not live mailbox or paid model.
+## 25 November 2026 · Inbox memory follow-up opens Memory
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox memory follow-up opens Memory without stacking #158–#174.
+
+**Done.** View memories on Alice remembered receipts; Chrome 1440+320 on 5202/8843; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-memory-followup/verification.md) — local real Chrome + owner-approved memory follow-up fixture; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.

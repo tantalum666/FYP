@@ -39,6 +39,9 @@ When the Alice home cue is a task follow-up, offer Open task beside Done, Still 
 ## 25 November · Inbox task follow-up opens the cited task
 
 On a task follow-up receipt, offer Open task so the owner can open that cited task in Tasks. Do not dismiss the receipt. Match Open task / 打开待办.
+## 25 November · Inbox memory follow-up opens Memory
+
+On an individual memory follow-up receipt (Alice remembered), offer View memories so the owner can open Memory without dismissing. Match the morning check-in label View memories / 查看记忆.
 
 ## 25 November · Workspace navigation and notices
 

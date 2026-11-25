@@ -12,7 +12,7 @@ Alice can raise one saved memory at a local time the owner approves. Quiet hours
 
 1. On Memory, choose one active fact and a future minute, then prepare a follow-up. Preparation does not write a row.
 2. Approve it. That is the only step that arms the follow-up. A paired display cannot prepare, approve, change, or close one.
-3. The rules tick raises it once the approved instant has arrived, quiet hours are over, and proactive reminders are not off. The bell says to open Memory. It does not include the fact. The memory page shows the current wording and why it fired.
+3. The rules tick raises it once the approved instant has arrived, quiet hours are over, and proactive reminders are not off. The bell says to open Memory. It does not include the fact. Inbox offers View memories on that receipt without dismissing it. The memory page shows the current wording and why it fired.
 4. The owner can mark it handled, dismiss it, or, after it has been raised, ask for another reminder in one hour. Handled and dismissed do not fire again.
 
 A memory can have one open follow-up. At most 50 can be open. One tick publishes at most three. The rest wait one minute, still as the same follow-up.
