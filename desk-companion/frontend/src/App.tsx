@@ -622,6 +622,7 @@ export function App() {
           onEvent={setDetail}
           task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
+          onOpenTask={(id) => goPage("tasks", id)}
           onConversationState={setChatState}
         />
         {page !== "assistant" &&

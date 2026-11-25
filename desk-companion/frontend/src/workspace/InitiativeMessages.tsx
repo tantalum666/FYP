@@ -13,8 +13,23 @@ export interface InitiativeFinding {
   sources: { ref: string; kind: string; label: string; href?: string }[];
 }
 
+function taskIdFromSource(source: { ref: string; kind: string }) {
+  if (source.kind !== "task" || !source.ref.startsWith("task:")) return null;
+  const ident = source.ref.slice("task:".length).trim();
+  return ident || null;
+}
+
 /** Contextual messages in the conversation; no approval form or separate poll. */
-export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; t: Translate }) {
+export function InitiativeMessage({
+  finding,
+  t,
+  onOpenTask,
+}: {
+  finding: InitiativeFinding;
+  t: Translate;
+  /** Opens the existing cited task. Does not create a follow-up or dismiss. */
+  onOpenTask?: (taskId: string) => void;
+}) {
   const { data, offline, stale, refresh } = useWorkspace();
   const mutation = usePrivateMutation();
   const visible =
@@ -32,6 +47,7 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
     <>
         <article
           className="assistant-turn assistant initiative-message"
+          aria-label={t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
@@ -41,10 +57,29 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
               {t("Sources", "依据")} · {finding.sources.length}
             </summary>
             <ul>
-              {finding.sources.map((source) => (
-                <li key={source.ref}>{source.href?.startsWith("https://mail.google.com/mail/?") ?
-                  <a href={source.href} target="_blank" rel="noreferrer">{source.label}</a> : source.label}</li>
-              ))}
+              {finding.sources.map((source) => {
+                const taskId = onOpenTask ? taskIdFromSource(source) : null;
+                return (
+                  <li key={source.ref}>
+                    {source.href?.startsWith("https://mail.google.com/mail/?") ? (
+                      <a href={source.href} target="_blank" rel="noreferrer">
+                        {source.label}
+                      </a>
+                    ) : taskId && onOpenTask ? (
+                      <button
+                        type="button"
+                        className="text-button"
+                        onClick={() => onOpenTask(taskId)}
+                      >
+                        {t("Open task: ", "打开待办：")}
+                        {source.label}
+                      </button>
+                    ) : (
+                      source.label
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </details>
           <button

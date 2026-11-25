@@ -20,6 +20,7 @@ export function ConversationWorkspace({
   taskId?: string;
   taskTitle?: string;
   onClearTask: () => void;
+  onOpenTask?: (taskId: string) => void;
   onStateChange: (state: { dirty: boolean; busy: boolean }) => void;
 }) {
   return (
