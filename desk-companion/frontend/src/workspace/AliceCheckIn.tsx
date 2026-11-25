@@ -190,6 +190,15 @@ export function AliceCheckIn({
         <div className="alice-checkin-actions">
           {cue.kind === "task" ? (
             <>
+              {onOpenTask && cue.task_id && (
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onOpenTask(cue.task_id!)}
+                >
+                  {t("Open task", "打开待办")}
+                </button>
+              )}
               <button disabled={busy} onClick={() => void act("complete")}>
                 <Check size={14} />
                 {t("Done", "完成了")}

@@ -33,6 +33,9 @@ When a Conversation finding’s Sources no longer match, keep the card as a with
 ## 25 November · Home morning and evening check-ins
 
 When the Alice home cue is a Morning briefing, offer View today beside Got it. When it is an Evening check-in, offer View tasks. Those controls open Today or Tasks without dismissing. Got it remains the explicit clear. Match the Inbox labels View today / 查看今天 and View tasks / 查看待办.
+## 25 November · Home task cue opens the cited task
+
+When the Alice home cue is a task follow-up, offer Open task beside Done, Still working and In an hour. That control opens the cited task in Tasks. It does not complete, snooze, or dismiss the follow-up. Match Open task / 打开待办.
 
 ## 25 November · Workspace navigation and notices
 

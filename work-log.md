@@ -1339,5 +1339,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** View today / View tasks on the home Alice cue; evening → Tasks Chrome 1440+320 on 5199/8840; contract, docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-home-nudge-review/verification.md) — local real Chrome + rule nudge fixture; not live mailbox or paid model.
+## 25 November 2026 · Home task cue opens the cited task
+
+**Goal.** One independent owner-facing personal-agent journey: home task follow-up cue opens that task without stacking #158–#172.
+
+**Done.** Open task on the home Alice task cue; Chrome 1440+320 on 5200/8841; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-home-task-open/verification.md) — local real Chrome + rule task follow-up fixture; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.
