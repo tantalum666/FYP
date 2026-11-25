@@ -26,9 +26,12 @@ export interface AliceCue {
 export function AliceCheckIn({
   t,
   visible,
+  onReviewSurface,
 }: {
   t: Translate;
   visible: boolean;
+  /** Opens Today or Tasks from a morning/evening cue without dismissing. */
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const cue = data?.check_in;
@@ -200,11 +203,31 @@ export function AliceCheckIn({
               </button>
             </>
           ) : (
-            <button disabled={busy} onClick={() => void act("dismiss")}>
-              {cue.kind === "posture"
-                ? t("Quiet for 10 minutes", "安静十分钟")
-                : t("Got it", "知道了")}
-            </button>
+            <>
+              {onReviewSurface && cue.kind === "morning_brief" && (
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onReviewSurface("today")}
+                >
+                  {t("View today", "查看今天")}
+                </button>
+              )}
+              {onReviewSurface && cue.kind === "evening_check" && (
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onReviewSurface("tasks")}
+                >
+                  {t("View tasks", "查看待办")}
+                </button>
+              )}
+              <button disabled={busy} onClick={() => void act("dismiss")}>
+                {cue.kind === "posture"
+                  ? t("Quiet for 10 minutes", "安静十分钟")
+                  : t("Got it", "知道了")}
+              </button>
+            </>
           )}
         </div>
         {!!error && <small role="alert">{errorText(error, t)}</small>}

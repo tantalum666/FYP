@@ -21,6 +21,7 @@ export function ConversationWorkspace({
   taskTitle?: string;
   onClearTask: () => void;
   onStateChange: (state: { dirty: boolean; busy: boolean }) => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   return (
     <section

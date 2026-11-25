@@ -623,6 +623,7 @@ export function App() {
           task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
           onConversationState={setChatState}
+          onReviewSurface={(target) => goPage(target)}
         />
         {page !== "assistant" &&
           (!visible ? (

@@ -27,6 +27,7 @@ export function AliceHome({
   onConversationState,
   task,
   onClearTask,
+  onReviewSurface,
 }: {
   visible?: boolean;
   conversationRequest?: number;
@@ -46,6 +47,7 @@ export function AliceHome({
   onConversationState: (value: { dirty: boolean; busy: boolean }) => void;
   task?: { id: string; title: string };
   onClearTask: () => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   const scene = useSceneActivity();
   const { data } = useWorkspace();
@@ -114,6 +116,7 @@ export function AliceHome({
           taskTitle={task?.title}
           onClearTask={onClearTask}
           onStateChange={onConversationState}
+          onReviewSurface={onReviewSurface}
         />
       </div>
     </section>

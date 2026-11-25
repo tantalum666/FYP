@@ -111,6 +111,7 @@ export function AssistantPanel({
   suspended = false,
   homeHint,
   onClearTask,
+  onReviewSurface,
 }: {
   t: Translate;
   taskId?: string;
@@ -123,6 +124,7 @@ export function AssistantPanel({
   suspended?: boolean;
   homeHint?: ReactNode;
   onClearTask?: () => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
   const ownerView = data?.principal.kind === "owner";
@@ -1592,6 +1594,7 @@ export function AssistantPanel({
         <AliceCheckIn
           t={t}
           visible={!expanded && !suspended && !busy && !voiceActive}
+          onReviewSurface={onReviewSurface}
         />
       )}
       <div className="assistant-toolbar">

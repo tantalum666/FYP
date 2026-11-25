@@ -186,7 +186,7 @@ def create_app(
     allowed_origins = {
         f"http://{host}{port}"
         for host in ("localhost", "127.0.0.1", "testserver")
-        for port in ("", ":5190", ":8831", ":5191", ":8832")
+        for port in ("", ":5190", ":8831", ":5191", ":8832", ":5199", ":8840")
     }
     # The Mac-to-Pi SSH launcher binds this port on Mac loopback only.
     allowed_origins.update({"http://127.0.0.1:8891", "http://localhost:8891"})
