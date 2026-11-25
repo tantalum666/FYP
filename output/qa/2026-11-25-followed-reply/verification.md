@@ -99,7 +99,7 @@ Feature product from all three PRs retained. No tests dropped.
 
 Worktree `/tmp/fyp-integrate-158-159-160`. Interpreter `/tmp/desk-venv/bin/python`.
 
-- Backend: `PYTHONPATH=backend … pytest -q --tb=line -p no:cacheprovider` → **3074 passed, 1 skipped, 0 failed**, 1110.57s  
+- Backend: `PYTHONPATH=backend … pytest -q --tb=line -p no:cacheprovider` → **3074 passed, 1 skipped, 0 failed**, 1110.57s
   - Single skip: `tests/test_shop_basket.py:407` — `local PHP CLI unavailable`
 - Frontend: `npm test` → **442 passed, 0 failed**
 - `npx tsc --noEmit` passed; `npm run build` passed (existing chunk-size warning)
