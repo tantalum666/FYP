@@ -1,5 +1,9 @@
 # Group 2 · Selected mail-thread follow-up
 
+## 26 November · Followed-reply readback
+
+The inbox resolves a reply receipt to its current private task using the active followed thread and the current account grant. A receipt with an unavailable link offers the task list. Opening the original records success only after the provider supplies it and authority is checked again. An unavailable response cannot mark the message as read. Saving a draft has its own receipt. [Verification](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 18 November 2026. A selected Gmail/Outlook conversation can be linked to one existing or new task, checked for incoming updates, and replied to through the existing reviewed sender. This is a bounded source subscription. It is not whole-inbox ingestion or an autonomous agent scheduler. [Official capability audit](../../research/2026-11-17-official-capability-audit.md), [verification](../../output/qa/2026-11-17-mail-thread-followup/verification.md).
 
 ## 25 November 2026 · One reminder, then a draft the owner chooses

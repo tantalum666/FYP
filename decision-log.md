@@ -1140,3 +1140,7 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts. May be the last product slice before handoff capacity.
 - **工程选择：** On current `main`, calendar update Inbox receipts had only Dismiss. Add View calendar. Do not dismiss. Do not stack open #158–#175.
 - **验证边界：** Local Chrome 1440+320 on owned ports 5203/8844; frontend source contract. Fixture notice, not live Google. [QA](output/qa/2026-11-25-inbox-calendar-view/verification.md).
+
+## 26 November 2026 · Standing authorization and reviewed Grok integration
+
+The owner approved six calendar months of FYP use with explicit Hong Kong daily and monthly maximums. Keep financial details local, retain historical holds separately, and avoid assigning the same allowance to two hosts. The owner selected individual review by the current engineer, native Simulator delivery without creating Apple developer keys, and a background-only check of the real Mac during its existing quiet period. The 19 new Grok heads were reviewed in combination with current main. [Review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).

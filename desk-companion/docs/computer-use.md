@@ -1,5 +1,9 @@
 # Group 2 · Public browser computer use
 
+## 26 November · Local owner control
+
+The admitting owner can review a parked local page. Recheck the original document, session and current version before input and hand-back. A lost response provides no authority to repeat an input. A dead page ends the original job with an unknown outcome. Editable controls are masked in captured images. The public preparation driver permits read-only navigation and does not relay typed credentials to external sites. The built-in rehearsal accepts synthetic input. See the existing managed browser for supported provider authentication. [Integrated review](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 17 November: [conversation admission](conversation-browser.md) now connects text/voice browser drafts to the existing owner decision and JobService. Screenshot sharing cannot be supplied by the model. Status reads independently reopen stored evidence, and interrupted approval retries recover one job. Real Chromium/fictional-site and rendered desktop/phone checks passed with scripted model decisions; no new paid model or transaction acceptance. The local worker's network/account limits below remain unchanged.
 
 16November addition: the optional [managed research executor](managed-browser.md) uses the official Agents harness on the same JobService. The detailed GET/HEAD local-worker policy below still applies to the local executor only; it must not be attributed to the hosted browser. Local execution remains default, managed execution is disabled unless explicitly configured.

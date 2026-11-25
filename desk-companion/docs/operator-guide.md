@@ -1,5 +1,11 @@
 # Desk Companion 操作与安装说明
 
+## 26 November · Locked devices and monthly admission
+
+The normal Mac is the single paid host for the enrolled simulator and Web client. Keep the spending ledger private. Renew through `desk.openai_calendar_allowance.renew` only after reconciling the organization’s cost opening; identical terms are idempotent and overlapping terms are rejected. Store separate day and month ceilings in micro-USD. Keep the former daily-only term closed for older executables. In Diagnostics the statement opening, observed estimates and unresolved holds have different meanings.
+
+[Mac and Simulator setup](web-push.md) · [Current release and hardware scope](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 2026-11-02当前网页：[OpenAI／Alice唤醒契约](openai-alice-wake.md)。页面勾选一次“叫Alice唤醒”后，本机监听名字，再启动云端对话；安静后回待机。不要同时启动下方旧设备CLI工作进程争用麦克风／会话。最新配置与实验关闭状态以handoff为准。
 
 2026-10-31：**已有数据库先按[显式迁移步骤](pr5-integration.md#store-migration)升级，再启动新版。**正常启动拒绝旧 schema 1／2；原 PR5 personal_memories 另有转换。先停所有服务并独立核对备份，命令不会代做这两步。本轮只验证了虚构副本。

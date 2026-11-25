@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 26 November · Continuing personal assistance
+
+The owner authorized a six-month operating period with both calendar-day and calendar-month ceilings. Keep numerical limits and actual account figures in the operator’s private ledger. The Mac worker should keep checking during screen lock and respect quiet hours. The enrolled native Simulator can show a generic notification while the application is closed. Real-device push credentials are deferred. Opening a notification or source is a read action. Follow, snooze, acknowledgement, saving a reply draft and sending a message are explicit, separate actions. [Combined review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 ## 25 November · Quiet, continuous mail assistance
 
 Closing the ordinary Alice page leaves the existing desk worker running on the awake, connected host. Opening Conversation should restore the original date and source of a previously delivered suggestion whose Gmail evidence can still be verified. New mail arriving ahead of an existing item, or a temporarily unavailable provider, must not by itself generate a second notification or establish that the owner finished the task. Quiet hours defer first alerts. A closed model allowance leaves the existing read-only inbox checks and explicit local action cues available. [Release and normal-account check](output/qa/2026-11-25-proactive-mail/verification.md).

@@ -1,5 +1,9 @@
 # Group 2 · Contextual proactive assistance
 
+## 26 November · Operating policy and finding actions
+
+Normal read-only assistance has a renewed, operator-managed allowance. The same spending ledger enforces the daily and monthly allocation. Quiet hours hold interruptions while the source checks continue. A current finding can open its source, become one explicitly chosen private task, or be snoozed. Previously delivered Gmail history remains dated. A withdrawn local finding contains no forgotten text or source labels. A followed-mail receipt opens only its currently bound task. [UI, account-scope and notification checks](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
 ## 25 November · Mail that leaves the newest inbox results
 
 The worker checks recent mail with or without an open page. When Gmail times out, unverified mail stays out of the conversation; a transient failure alone cannot close a pending notice. The next scheduled check uses the same grant. For a pending or already delivered item absent from the recent sample, one bounded date-window query can verify the original message again. It searches up to seven days on the current grant. It uses the existing permission, private-content filters and exact account/content fingerprints. A dated suggestion may return to the conversation with its original Gmail link. Previously delivered items stay out of new-alert queues. Quiet-hour items require a positive source check before their first alert. The user’s explicit dismissal continues to apply.

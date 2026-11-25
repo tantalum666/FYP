@@ -1,0 +1,279 @@
+{
+  "sourceRevision": "e64d6285375c3c2803f615db669c1cb2c7ab6182",
+  "patchFormat": "git diff --binary --full-index <common-ancestor> <original-head>",
+  "previouslyMerged": {
+    "61": 49,
+    "83": 5,
+    "121": 27
+  },
+  "newContributions": [
+    {
+      "pr": 158,
+      "head": "0e9ea44a78a815a8d616f7a0056b5db9a258331c",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "37e433984162442f90db3dfc02d4167c85b042eec31b45c2d7d65efb8a781e20",
+      "files": 36,
+      "title": "Keep one local page across owner takeover (#158)",
+      "reviewedBehavior": "Same-page browser handoff",
+      "disposition": "Checked the admitting session, pending version, captured document identity and shutdown. Private typing is available only in the registered local rehearsal. The public read-only driver keeps its private session state out of durable storage.",
+      "checks": [
+        "test_live_owner_page.py",
+        "test_owner_takeover.py",
+        "test_owner_page_ui.py"
+      ]
+    },
+    {
+      "pr": 159,
+      "head": "1f760a41eac90734e496943937adcb42355f7eb0",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "0489d6573a9c29c6b5def22f660d01844d6112783d724e838334dc32e282f41f",
+      "files": 25,
+      "title": "Show an interrupted task without repeating the action",
+      "reviewedBehavior": "Interrupted task recovery",
+      "disposition": "Owner scope protects private task history. Unknown and confirmed outcomes remain separate; switching tasks or reading a saved result makes no second file change.",
+      "checks": [
+        "test_task_job_journey.py",
+        "test_task_recovery_ui.py"
+      ]
+    },
+    {
+      "pr": 160,
+      "head": "d8aad9fbba682f0d271cd4a5bcf3692e4be63473",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "071bf325de2f047e30593d0cd8b348b2900de632cb3ccb30c50b83ca11e0e14b",
+      "files": 39,
+      "title": "Show one reminder when a followed thread receives a reply",
+      "reviewedBehavior": "Followed mail replies",
+      "disposition": "The original must read successfully before a read receipt exists. Recheck the owner, followed thread and current provider grant on reads and draft receipts. The current or legacy Inbox receipt resolves the linked task when its binding is still valid. Saving a draft sends no email.",
+      "checks": [
+        "test_mail_reply_reminder.py",
+        "test_mail_reply_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 161,
+      "head": "ea6965e81551eff2277ea6cbee61c14a2b5a8887",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "f7478df072192a43ba1b5084abce4e111341a8dae921393167b188684b7e5547",
+      "files": 23,
+      "title": "Initiative finding → Follow up → bound private task → revisitable status (#161)",
+      "reviewedBehavior": "Turn a finding into a task",
+      "disposition": "Recheck owner and source before idempotent replay. One explicit follow-up creates one bound private task; editing or revisiting cannot create a duplicate.",
+      "checks": [
+        "test_initiative.py",
+        "test_initiative_followup_ui.py"
+      ]
+    },
+    {
+      "pr": 162,
+      "head": "3079cddfd240831146f7db0c67d5b293fa19c278",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "3ed1811b3c02051727305a7909e7f2b4e4a2184a84c68c8d31bedccf2e155ae1",
+      "files": 7,
+      "title": "FastClient active budget before auth wait (managed-browser reliability)",
+      "reviewedBehavior": "Managed browser authorization timing",
+      "disposition": "A synthetic slow pre-authorization step now reaches the original stale-form guard. Verified cancellation, loss of a provider acknowledgement and no second submission. Production time limits retain their own settings.",
+      "checks": [
+        "test_managed_browser_auth.py"
+      ]
+    },
+    {
+      "pr": 163,
+      "head": "685b4d1a015be16cd32a98ef37f1ca16e6341d7c",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "84660a3648fef0a234863848ebc50139a78b11f222d5dadfaf345187c09f4a71",
+      "files": 11,
+      "title": "Remind me later for Conversation initiative findings",
+      "reviewedBehavior": "Remind me later",
+      "disposition": "Release a due snooze from the existing worker. A new notification gets a distinct occurrence identity; replay does not repeat it or spend another model call.",
+      "checks": [
+        "test_initiative.py",
+        "initiative-snooze.test.ts"
+      ]
+    },
+    {
+      "pr": 164,
+      "head": "abe9d9c25fdf1d5cbd194a55155bf3b3edd55e45",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "fcf0db9f319739bc25c5b77f275ea631b37e2ee66f08477cb5537bbeb6860f1d",
+      "files": 14,
+      "title": "Home initiative cue opens Conversation for Sources",
+      "reviewedBehavior": "Home cue to conversation",
+      "disposition": "Opening a current initiative cue reveals Conversation; its sources, task and dismissal keep independent actions.",
+      "checks": [
+        "test_cue_review_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 165,
+      "head": "82155e24e9d634d8dc344c3f6ef6ea9fcc10b235",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "5f6533ea65be106c62ac742cc22a0862a834f1479fca776fa6e8926ef52cc866",
+      "files": 13,
+      "title": "Inbox Dismiss clears bound initiative findings",
+      "reviewedBehavior": "Inbox dismissal",
+      "disposition": "Owner dismissal clears only members still bound to that notice. Acknowledging one member leaves its remaining batch visible.",
+      "checks": [
+        "test_initiative.py",
+        "test_inbox_initiative_dismiss_ui.py"
+      ]
+    },
+    {
+      "pr": 166,
+      "head": "496322d30012de94621ec815d0e44ea9d10063ca",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "27b9bd88653a467d2f1c0faee23db20051d735f71906846debf427b85e14d872",
+      "files": 17,
+      "title": "Open a cited task from proactive finding Sources",
+      "reviewedBehavior": "Cited task",
+      "disposition": "Resolve a task citation only when its kind and prefix agree. Open the exact task and retain the underlying suggestion. Preserve selected-item intent across draft review.",
+      "checks": [
+        "test_source_open_task_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 167,
+      "head": "17580928437f394ddf2183690a85fa208037e24f",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "8df6e56b1311e4ade933863978a8db298836009d23dca984e2603e4b0365d41f",
+      "files": 19,
+      "title": "Open a cited memory from finding Sources",
+      "reviewedBehavior": "Cited memory",
+      "disposition": "Open and focus the existing saved fact. An unavailable source cannot create a fact or a follow-up.",
+      "checks": [
+        "test_source_open_memory_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 168,
+      "head": "3728c90d9fa8f34cd73928f117e0a1eda85bcd3e",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "8d2fec2561d63e173dbcd4d543ce260d4103a45849cd05b72f24fdb7c1173923",
+      "files": 17,
+      "title": "Open a cited local calendar from finding Sources",
+      "reviewedBehavior": "Cited calendar occurrence",
+      "disposition": "Match the local series and occurrence key across time zones. Ignore Google preview references and reject late fetches after the view or permission changes.",
+      "checks": [
+        "test_source_open_calendar_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 169,
+      "head": "14ce65237e036aebb9a12080d71a33f6836abfe1",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "d3723016f7ac1eb421e5326747bf456d418b8cc619fbe0f0127fbfb74f0e1c85",
+      "files": 20,
+      "title": "Focus the bound finding when Inbox opens Conversation",
+      "reviewedBehavior": "Focus a finding from Inbox",
+      "disposition": "Bind the receipt to its original finding or original batch. Preserve an opened disclosure across a transient refresh. A different batch cannot focus the wrong item.",
+      "checks": [
+        "test_inbox_finding_focus_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 170,
+      "head": "6caa66f00c068aadb233882a0d3f3902f3870c1c",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "a49ffcc86b29e79fe6a1a68689345b98ac1d8cb9db4a6cf385a0b3f0c1473cbc",
+      "files": 15,
+      "title": "Open Today or Tasks from Inbox morning/evening check-ins",
+      "reviewedBehavior": "Morning and evening Inbox review",
+      "disposition": "Morning opens Today, evening opens Tasks. Opening either preserves the receipt and performs no task operation.",
+      "checks": [
+        "test_nudge_inbox_review_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 171,
+      "head": "c4b960fecbb4e81cbc84e5945147403284d47449",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "0beaab4c7b6acccc3a0136d6380bbc8a295ad8b81db9b42e76c9419b55c5e9f8",
+      "files": 16,
+      "title": "Keep withdrawn findings visible when Sources change",
+      "reviewedBehavior": "Withdrawn suggestions",
+      "disposition": "Use a generic dated receipt for changed local evidence. Deleted wording and source links stay out of the withdrawn row, Home cue and model context. Reverified dated Gmail history remains distinct.",
+      "checks": [
+        "test_finding_withdrawn_ui.py",
+        "test_initiative.py",
+        "test_initiative_mail_history.py"
+      ]
+    },
+    {
+      "pr": 172,
+      "head": "9275a788432dd05a2b14f5ecf67e633c4f0b0747",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "95a5474eadb61a6d5c75b0a594e1450beecc031e6dba201cf30a3491738d1398",
+      "files": 18,
+      "title": "Open Today or Tasks from the home morning/evening check-in cue",
+      "reviewedBehavior": "Morning and evening Home cues",
+      "disposition": "Navigate from the existing compact cue and retain the user’s ability to acknowledge it independently.",
+      "checks": [
+        "test_home_nudge_review_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 173,
+      "head": "02e84cb6e59d40ebdcb7f267e14218b69c1a2009",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "1033f1a375a6c79bf16df463d7319f673942169ae0e622f7a211a50a2739f9eb",
+      "files": 18,
+      "title": "Open the cited task from the home task follow-up cue",
+      "reviewedBehavior": "Home task cue",
+      "disposition": "Open the named task. Done, still working and snooze remain separate explicit actions.",
+      "checks": [
+        "test_home_task_open_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 174,
+      "head": "19d6b2d49e6f3df5d90f77bfc44ed4ca5c3f6943",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "761af550264a55b1c565a11b18db94c47ded47978eb684722177457e6791a1d7",
+      "files": 20,
+      "title": "Open the cited task from an Inbox follow-up receipt",
+      "reviewedBehavior": "Follow-up Inbox task",
+      "disposition": "Use the stored task binding when available; historical unbound receipts open the list. No private task detail is returned to a paired display.",
+      "checks": [
+        "test_inbox_followup_open.py",
+        "test_inbox_followup_open_ui.py"
+      ]
+    },
+    {
+      "pr": 175,
+      "head": "cc66c38700ef4b708c627ca9e64f2f0ab15e4d69",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "ed1b490ebaa2fd424d2cea8f6661add6cefe096bda1398a2fe93c489bf7c4139",
+      "files": 14,
+      "title": "Open Memory from an Inbox memory follow-up receipt",
+      "reviewedBehavior": "Memory follow-up Inbox",
+      "disposition": "Individual and morning memory receipts lead to the existing Memory page. Opening a receipt does not forget or acknowledge a memory.",
+      "checks": [
+        "test_inbox_memory_followup_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    },
+    {
+      "pr": 176,
+      "head": "758462d89af7d192efb1f54b3d5c57ae64bd55f4",
+      "base": "fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d",
+      "sha256": "f228b63f27dcf8a2f56675f70987487e557c30ac077b28fb94d95d79ec352884",
+      "files": 17,
+      "title": "Open Calendar from an Inbox calendar update receipt",
+      "reviewedBehavior": "Calendar update Inbox",
+      "disposition": "Calendar change receipts open Calendar on Web and the phone workspace. Independent receipt dismissal and existing calendar consent remain intact.",
+      "checks": [
+        "test_inbox_calendar_view_ui.py",
+        "finding-navigation.test.ts"
+      ]
+    }
+  ]
+}

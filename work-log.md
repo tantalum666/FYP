@@ -1371,3 +1371,7 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Evidence.** [verification](output/qa/2026-11-25-inbox-calendar-view/verification.md) — local real Chrome + fixture-published calendar notice; not live Google, mailbox, or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before any further slice.
+
+## 26 November 2026 · All Grok contributions and lock-screen operation
+
+Verified the ancestry of 81 previously integrated Grok heads and reviewed the 19 new heads (#158–176) individually. Reconciled source navigation, provider authority, snooze identity, withdrawn messages, the browser worker and linked reply tasks. The existing budget service now enforces both calendar windows. The Mac continued its authorized work during quiet hours, and a terminated native Simulator app received one generic, visible lock-screen alert. Application `e64d6285` reached normal Mac Web and the iPhone Simulator. Private finances and source content stay outside the repository. The Pi package is prepared. [Exact heads and checks](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
