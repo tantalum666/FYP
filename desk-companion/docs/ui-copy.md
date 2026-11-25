@@ -42,6 +42,9 @@ On a task follow-up receipt, offer Open task so the owner can open that cited ta
 ## 25 November · Inbox memory follow-up opens Memory
 
 On an individual memory follow-up receipt (Alice remembered), offer View memories so the owner can open Memory without dismissing. Match the morning check-in label View memories / 查看记忆.
+## 25 November · Inbox calendar update opens Calendar
+
+On a Calendar update receipt (deadline, conflict, decision, or cancelled), offer View calendar so the owner can open Calendar without dismissing. Match View calendar / 查看日历. This is not the Sources Open calendar control for a cited occurrence.
 
 ## 25 November · Workspace navigation and notices
 

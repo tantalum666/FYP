@@ -1362,3 +1362,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Evidence.** [verification](output/qa/2026-11-25-inbox-memory-followup/verification.md) — local real Chrome + owner-approved memory follow-up fixture; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.
+## 25 November 2026 · Inbox calendar update opens Calendar
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox calendar update opens Calendar without stacking #158–#175.
+
+**Done.** View calendar on Calendar update receipts; Chrome 1440+320 on 5203/8844; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-calendar-view/verification.md) — local real Chrome + fixture-published calendar notice; not live Google, mailbox, or paid model.
+
+**Remaining.** Leave PR open for Codex. Parent budget check before any further slice.

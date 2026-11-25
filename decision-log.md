@@ -1135,3 +1135,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, individual memory follow-up Inbox receipts had no action despite “Open Memory” copy. Add View memories. Do not dismiss. Do not stack open #158–#174.
 - **验证边界：** Local Chrome 1440+320 on owned ports 5202/8843; frontend source contract. [QA](output/qa/2026-11-25-inbox-memory-followup/verification.md).
+## 2026-11-25 · Inbox calendar update opens Calendar
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts. May be the last product slice before handoff capacity.
+- **工程选择：** On current `main`, calendar update Inbox receipts had only Dismiss. Add View calendar. Do not dismiss. Do not stack open #158–#175.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5203/8844; frontend source contract. Fixture notice, not live Google. [QA](output/qa/2026-11-25-inbox-calendar-view/verification.md).
