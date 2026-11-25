@@ -2,6 +2,7 @@
 
 import os
 import signal
+import socket
 import subprocess
 import threading
 import time
@@ -17,7 +18,15 @@ from desk.text_ai import TextConfig
 
 CHROME = "/usr/local/bin/google-chrome"
 ROOT = Path(__file__).resolve().parents[1]
+API_PORT = 8831
+WEB_PORT = 5190
 pytestmark = pytest.mark.skipif(not os.access(CHROME, os.X_OK), reason="local Chrome is required")
+
+
+def _free(port):
+    with socket.socket() as sock:
+        sock.settimeout(0.2)
+        return sock.connect_ex(("127.0.0.1", port)) != 0
 
 
 def _listening_pids(port):
@@ -70,7 +79,21 @@ def _descendants(pid):
     return found
 
 
+def _wait_port_free(port, timeout=10):
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if _free(port):
+            return True
+        time.sleep(0.05)
+    return _free(port)
+
+
 def test_hold_card_on_desktop_and_narrow_screen(tmp_path):
+    if not _free(API_PORT) or not _free(WEB_PORT):
+        pytest.fail(
+            f"owner-page ports {API_PORT}/{WEB_PORT} are already taken; "
+            "refusing to attach to another worker's servers"
+        )
     seen = []
     app = create_app(tmp_path, password="fixture", scheduler=True)
     runtime = app.state.runtime
@@ -95,17 +118,27 @@ def test_hold_card_on_desktop_and_narrow_screen(tmp_path):
     )
     runtime.jobs.computer_use.enabled = True
     runtime.jobs.computer_use.supervisor.executable = CHROME
-    server = uvicorn.Server(uvicorn.Config(app, host="127.0.0.1", port=8831, log_level="error"))
-    threading.Thread(target=server.run, daemon=True).start()
+    server = uvicorn.Server(uvicorn.Config(app, host="127.0.0.1", port=API_PORT, log_level="error"))
+    api_thread = threading.Thread(target=server.run, daemon=True)
+    api_thread.start()
     deadline = time.monotonic() + 20
     while not server.started:
         if time.monotonic() > deadline:
+            server.should_exit = True
             raise AssertionError("API did not start")
+        if not api_thread.is_alive() and not server.started:
+            raise AssertionError("API thread exited before the server started")
         time.sleep(0.05)
+    if _listening_pids(API_PORT) and os.getpid() not in _listening_pids(API_PORT):
+        # Uvicorn may listen in this process; accept our pid. Reject strangers.
+        owners = _listening_pids(API_PORT)
+        if owners and os.getpid() not in owners:
+            server.should_exit = True
+            raise AssertionError(f"API port {API_PORT} owned by strangers {owners}")
     vite = subprocess.Popen(
-        ["npm", "run", "dev", "--", "--host", "127.0.0.1", "--port", "5190", "--strictPort"],
+        ["npm", "run", "dev", "--", "--host", "127.0.0.1", "--port", str(WEB_PORT), "--strictPort"],
         cwd=ROOT / "frontend",
-        env={**os.environ, "DESK_API_TARGET": "http://127.0.0.1:8831"},
+        env={**os.environ, "DESK_API_TARGET": f"http://127.0.0.1:{API_PORT}"},
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
@@ -124,17 +157,24 @@ def test_hold_card_on_desktop_and_narrow_screen(tmp_path):
     ready = time.monotonic() + 20
     while time.monotonic() < ready:
         if vite.poll() is not None:
+            server.should_exit = True
             raise AssertionError(
                 f"The page server exited before it was ready ({vite.returncode}): {' | '.join(page_log[-5:])}"
             )
         family = {vite.pid, *(child for child, _command in _descendants(vite.pid))}
-        owners = _listening_pids(5190)
+        owners = _listening_pids(WEB_PORT)
         if owners and owners <= family:
             break
         time.sleep(0.05)
     else:
+        server.should_exit = True
+        try:
+            os.killpg(vite.pid, signal.SIGTERM)
+        except OSError:
+            vite.terminate()
         raise AssertionError("The page server did not become ready")
     if vite.poll() is not None:
+        server.should_exit = True
         raise AssertionError("The page server exited after it claimed port 5190")
     try:
         with sync_playwright() as playwright:
@@ -142,7 +182,7 @@ def test_hold_card_on_desktop_and_narrow_screen(tmp_path):
                 executable_path=CHROME, headless=True, args=["--no-sandbox"]
             )
             page = browser.new_page(viewport={"width": 1440, "height": 1000})
-            page.goto("http://127.0.0.1:5190/", wait_until="domcontentloaded")
+            page.goto(f"http://127.0.0.1:{WEB_PORT}/", wait_until="domcontentloaded")
             page.get_by_role("button", name="Tasks").wait_for(timeout=30000)
             assert page.locator("textarea").count() >= 1
             assert page.evaluate(
@@ -250,5 +290,15 @@ def test_hold_card_on_desktop_and_narrow_screen(tmp_path):
             os.killpg(vite.pid, signal.SIGTERM)
         except OSError:
             vite.terminate()
-        vite.wait(timeout=10)
+        try:
+            vite.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(vite.pid, signal.SIGKILL)
+            except OSError:
+                vite.kill()
+            vite.wait(timeout=5)
         server.should_exit = True
+        api_thread.join(timeout=10)
+        assert _wait_port_free(WEB_PORT), f"page port {WEB_PORT} still held after owned cleanup"
+        assert _wait_port_free(API_PORT), f"API port {API_PORT} still held after owned cleanup"
