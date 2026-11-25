@@ -1716,9 +1716,9 @@ export function AssistantPanel({
         aria-label={t("Conversation", "对话")}
       >
         <ConversationScroll followLatest={followLatest}>
-          {(!immersive || expanded) && privateOrdersVisible && data?.initiative?.mail_check?.available === false &&
+          {(!immersive || expanded) && privateOrdersVisible && data?.initiative?.mail_check?.error === "APP_RECONNECT_REQUIRED" &&
             <a className="text-button" href="/?page=assistant&settings=connections">
-              {t("Gmail reminders need attention · View connection", "邮件提醒需要重新核对 · 查看 Gmail 连接")}
+              {t("Reconnect Gmail to resume mail reminders", "重新连接 Gmail 以恢复邮件提醒")}
             </a>}
           {(!immersive || expanded) && home.failed && <button type="button" className="text-button" onClick={home.retry}>
             {t("Retry loading the conversation", "重新读取对话记录")}
@@ -1733,7 +1733,7 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? (data?.initiative?.findings ?? []) : []).map(item => {
+            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? [...(data?.initiative?.findings ?? []), ...(!taskId ? data?.initiative?.history ?? [] : [])] : []).map(item => {
               if ("finding" in item) return <InitiativeMessage t={t} finding={item.finding} key={item.finding.id}/>;
               const turn = item.turn;
               return (

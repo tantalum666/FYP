@@ -130,3 +130,23 @@ def test_open_notice_pages_keep_history_after_one_dismissal(tmp_path):
     assert not set(first_ids).intersection(row["id"] for row in last["notices"])
     assert all(row["state"] == "open" for row in notifier.listing(open_only=True)["notices"])
     assert any(row["state"] == "dismissed" for row in notifier.listing()["notices"])
+
+
+def test_browser_outbox_and_push_service_acceptance_are_distinct(tmp_path):
+    from types import SimpleNamespace
+
+    store = Store(tmp_path, password="fixture", clock=lambda: datetime(2026, 11, 25, 4, tzinfo=UTC))
+    attempts = []
+
+    def dispatch(payload):
+        attempts.append(payload)
+        return int(len(attempts) == 2)
+
+    notifier = Notifier(store, push=SimpleNamespace(dispatch=dispatch))
+    for ident in ("not-accepted", "accepted", "accepted"):
+        notifier.publish(Notice(ident, "initiative", "Update", "动态", "", "", "", ""), quiet=False)
+    with store.connection() as db:
+        assert len(attempts) == 2
+        accepted = db.execute("SELECT notice_id FROM notice_deliveries WHERE channel='web_push_accepted'")
+        assert [r[0] for r in accepted] == ["accepted"]
+        assert db.execute("SELECT count(*) FROM notice_deliveries WHERE channel='browser'").fetchone()[0] == 2
