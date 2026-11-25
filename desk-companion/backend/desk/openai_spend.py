@@ -16,6 +16,7 @@ from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 from .bounded_json import bounded_json_post
+from .openai_calendar_allowance import calendar_room, effective_rule
 from .provider_policy import OPENAI_BROWSER_MODELS, OPENAI_TEXT_ENDPOINT
 from .store import DomainError
 
@@ -156,7 +157,7 @@ class DailySpend:
     def _period(self, db, *, record=False):
         now = self.clock().astimezone(HONG_KONG)
         day = now.date().isoformat()
-        rule = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+        rule = effective_rule(db)
         if not rule:
             raise DomainError("OPENAI_BUDGET_UNAVAILABLE", 503)
         if record and day > rule["through"] and day > rule["latest_day"]:
@@ -175,10 +176,18 @@ class DailySpend:
     def allocate_today(self, *, local, other_devices, margin, reason):
         """Record an operator's HK-day split of the existing US$20 fleet authorization."""
         if (any(type(v) is not int or v < 0 for v in (local, other_devices, margin))
-                or local <= 0 or local + other_devices + margin != 20 * USD or not reason.strip()):
+                or local <= 0 or not reason.strip()):
             raise ValueError("The allocations and headroom must account for the authorized fleet total")
+        with self._db() as db:
+            approved = effective_rule(db)
+        if (local + other_devices + margin !=
+                (approved["share"] if "calendar" in approved.keys() else 20 * USD)):
+            raise ValueError("The split must match this term's fleet authorization")
         with self._db(True) as db:
-            _, day, _ = self._period(db, record=True)
+            _, day, rule = self._period(db, record=True)
+            total = rule["share"] if "calendar" in rule.keys() else 20 * USD
+            if local + other_devices + margin != total:
+                raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
             db.execute("CREATE TABLE IF NOT EXISTS daily_allocations("
                        "day TEXT PRIMARY KEY, local INTEGER, other_devices INTEGER, margin INTEGER, reason TEXT)")
             db.execute("INSERT OR IGNORE INTO daily_allocations VALUES(?,?,?,?,?)",
@@ -215,6 +224,14 @@ class DailySpend:
                 "SELECT COALESCE(SUM(accounted),0) FROM charges WHERE day=?", (day,)
             ).fetchone()[0]
             share = self._daily_share(db, day, rule["share"])
+            calendar = calendar_room(db, day, rule)
+            if calendar:
+                share = min(share, calendar["daily_limit"])
+                used += calendar["day_opening"]
+                if kind == "flight_mcp":
+                    amount = min(amount, calendar["remaining"])
+                if amount > calendar["remaining"] or (kind == "flight_mcp" and amount < 2 * TEXT_STAGE):
+                    raise DomainError("OPENAI_MONTHLY_BUDGET_REACHED", 429)
             if kind == "flight_mcp":
                 # One fixed search without a hosted computer may use a smaller
                 # reservation. Admit at least two text stages and fence against
@@ -290,7 +307,7 @@ class DailySpend:
             return {"configured": False}
         day = self.clock().astimezone(HONG_KONG).date().isoformat()
         with self._db() as db:
-            rule = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+            rule = effective_rule(db)
             share = self._daily_share(db, day, rule["share"])
             used = db.execute(
                 "SELECT COALESCE(SUM(accounted),0) FROM charges WHERE day=?", (day,)
@@ -301,6 +318,15 @@ class DailySpend:
                 " FROM charges WHERE day=?", (day,)
             ).fetchone()
             opening, estimate = amounts
+            calendar = calendar_room(db, day, rule)
+            active = rule["starts"] <= day <= rule["through"] and day >= rule["latest_day"]
+            if calendar:
+                share = min(share, calendar["daily_limit"])
+                used += calendar["day_opening"]
+                opening += calendar["day_opening"]
+            available = max(0, share - used) if active else 0
+            if calendar:
+                available = min(available, calendar["remaining"])
             return {
                 "configured": True,
                 "day": day,
@@ -314,7 +340,14 @@ class DailySpend:
                 "reserved_or_unpriced_usd": (used - opening - estimate) / USD,
                 "opening_debit_usd": opening / USD,
                 "last_platform_statement": latest_statement(db),
-                "available_usd": max(0, share - used) / USD,
+                "available_usd": available / USD,
+                **({
+                    "monthly_limit_usd": calendar["monthly_limit"] / USD,
+                    "month_platform_opening_usd": calendar["month_opening"] / USD,
+                    "month_local_accounted_usd": calendar["month_accounted"] / USD,
+                    "prior_unpriced_reserve_usd": calendar["old_holds"] / USD,
+                    "monthly_available_usd": calendar["remaining"] / USD if active else 0,
+                } if calendar else {}),
             }
 
     def import_cost_statement(self, raw, scope):

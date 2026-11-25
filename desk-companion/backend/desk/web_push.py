@@ -241,11 +241,12 @@ class PushService:
 
         return self.store.operation(key, {"type": "push_revoke", "id": sub_id}, apply)
 
-    def dispatch(self, payload: dict) -> int:
+    def dispatch(self, payload: dict, *, subscription_id: str | None = None) -> int:
         raw = json.dumps(payload, separators=(",", ":")).encode()
         with self.store.connection() as conn:
             rows = conn.execute(
-                "SELECT * FROM push_subscriptions WHERE revoked_at IS NULL"
+                "SELECT * FROM push_subscriptions WHERE revoked_at IS NULL AND (? IS NULL OR id=?)",
+                (subscription_id, subscription_id),
             ).fetchall()
         sent = 0
         for row in rows:

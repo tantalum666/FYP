@@ -326,6 +326,7 @@ class TextSessions:
         except DomainError as error:
             if error.code.startswith("OPENAI_BUDGET_") or error.code in {
                 "OPENAI_DAILY_BUDGET_REACHED",
+                "OPENAI_MONTHLY_BUDGET_REACHED",
                 "OPENAI_SESSION_BUDGET_REACHED",
             }:
                 messages = {
@@ -340,6 +341,10 @@ class TextSessions:
                     "OPENAI_SESSION_BUDGET_REACHED": (
                         "这段对话已达到本地会话额度。",
                         "This conversation reached its local spending allowance.",
+                    ),
+                    "OPENAI_MONTHLY_BUDGET_REACHED": (
+                        "这个月的 AI 额度已用完。",
+                        "This month's AI allowance is used up.",
                     ),
                     "OPENAI_DAILY_BUDGET_REACHED": (
                         "这台设备今天可用的 API 额度不足。",

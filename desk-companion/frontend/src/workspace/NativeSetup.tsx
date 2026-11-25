@@ -15,9 +15,11 @@ export function NativeSetup({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isNative) return;
     const applyRoute = (route: string) => {
-      if (!["today", "new"].includes(route)) return;
+      if (!["today", "new", "assistant"].includes(route)) return;
       const query = new URLSearchParams(location.search);
-      query.set("page", "today");
+      query.set("page", route === "assistant" ? "assistant" : "today");
+      if (route === "assistant") query.set("conversation", "open");
+      else query.delete("conversation");
       if (route === "new") query.set("action", "new");
       else query.delete("action");
       history.replaceState(null, "", "?" + query.toString());

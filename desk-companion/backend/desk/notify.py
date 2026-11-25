@@ -137,6 +137,7 @@ class Notifier:
     def __init__(self, store, channels=None, push=None):
         self.store = store
         self.owner_projection = lambda notice: notice
+        self.locked = None
         self.push = push
         self.channels = (
             channels
@@ -232,9 +233,11 @@ class Notifier:
                 for item in results
             ):
                 on_inbox(conn)
+            if browser_delivered and self.locked:
+                self.locked.enqueue(conn, notice, at)
             if wrote:
                 self.store.bump(conn)
-        if browser_delivered and self.push is not None and self.push.dispatch(notice.payload()["push"]):
+        if browser_delivered and not self.locked and self.push is not None and self.push.dispatch(notice.payload()["push"]):
             # A browser outbox entry is local. Record the separate push-service
             # acknowledgement only after at least one subscription accepted the payload.
             with self.store.connection(write=True) as conn:
