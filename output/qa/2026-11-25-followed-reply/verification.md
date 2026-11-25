@@ -51,7 +51,7 @@ Full backend: `PYTHONPATH=backend … pytest -q --tb=line -p no:cacheprovider` �
 
 Frontend: `npm test` → **440 passed, 0 failed**. `npx tsc --noEmit` passed. `npm run build` passed (Vite; existing chunk-size warning). Ruff on the edited Python test files passed.
 
-Tested product-and-test commit: . Suites above were run on the closeout working tree that became that commit. A later notes-only tip must cite this SHA and must not claim the suites ran on untested later code.
+Tested product-and-test commit: `87a38f489606d6a672fa88faf6dd389bfd05c1f7`. Suites above were run on the closeout working tree that became that commit. A later notes-only tip must cite this SHA and must not claim the suites ran on untested later code.
 
 ## Not claimed
 
