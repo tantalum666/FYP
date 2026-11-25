@@ -26,9 +26,12 @@ export interface AliceCue {
 export function AliceCheckIn({
   t,
   visible,
+  onOpenTask,
 }: {
   t: Translate;
   visible: boolean;
+  /** Opens the cited task in Tasks without completing or snoozing it. */
+  onOpenTask?: (taskId: string) => void;
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const cue = data?.check_in;
@@ -187,6 +190,15 @@ export function AliceCheckIn({
         <div className="alice-checkin-actions">
           {cue.kind === "task" ? (
             <>
+              {onOpenTask && cue.task_id && (
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onOpenTask(cue.task_id!)}
+                >
+                  {t("Open task", "打开待办")}
+                </button>
+              )}
               <button disabled={busy} onClick={() => void act("complete")}>
                 <Check size={14} />
                 {t("Done", "完成了")}

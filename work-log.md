@@ -1191,3 +1191,13 @@ The corresponding airline guest page published each selected leg’s checked wei
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
 
 Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 25 November 2026 · Home task cue opens the cited task
+
+**Goal.** One independent owner-facing personal-agent journey: home task follow-up cue opens that task without stacking #158–#172.
+
+**Done.** Open task on the home Alice task cue; Chrome 1440+320 on 5200/8841; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-home-task-open/verification.md) — local real Chrome + rule task follow-up fixture; not live mailbox or paid model.
+
+**Remaining.** Leave PR open for Codex. Parent budget check before the next slice.

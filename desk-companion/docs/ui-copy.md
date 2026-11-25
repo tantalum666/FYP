@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Home task cue opens the cited task
+
+When the Alice home cue is a task follow-up, offer Open task beside Done, Still working and In an hour. That control opens the cited task in Tasks. It does not complete, snooze, or dismiss the follow-up. Match Open task / 打开待办.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.
