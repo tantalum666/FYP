@@ -179,9 +179,17 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
         "Stopped before publishing this file revision.",
         "已在发布本次文件修订前停止。",
       ];
+    if (
+      job.error === "USER_CANCELLED" ||
+      job.error === "JOB_CANCELLED_BEFORE_DISPATCH"
+    )
+      return [
+        "No new file was written for this job.",
+        "这次作业没有写入新文件。",
+      ];
     return [
-      "No new file was written for this job.",
-      "这次作业没有写入新文件。",
+      "Cancelled. The outcome was not checked. Check result only rereads the file.",
+      "已取消。结果尚未核验。核验只会重新读取文件。",
     ];
   }
   return null;
@@ -225,6 +233,73 @@ export function recoveryMatchesNote(
 
 /** Safe task-detail projection; full text/intent are owner-review only. */
 export type ComputerJobSummary = Omit<ComputerJob, "request" | "intent_hash">;
+
+/** What a returning owner can safely do with one linked file action. */
+export function taskRecoveryGuidance(job: {
+  state: string;
+  action?: string;
+  error?: string | null;
+  result?: { verified?: boolean } | null;
+}): {
+  kind: "unknown" | "needs_approval" | "checked" | "nothing_written" | "stopped" | "unconfirmed";
+  text: [string, string];
+} | null {
+  if (job.state === "unknown")
+    return {
+      kind: "unknown",
+      text: [
+        "The saved result is unknown. The safe next step is Check result on this file in the chat. That only rereads the file.",
+        "已保存的结果未知。安全的下一步是在对话中核验这个文件。核验只会重新读取文件。",
+      ],
+    };
+  if (job.state === "review")
+    return {
+      kind: "needs_approval",
+      text: [
+        "This action is waiting for your approval. Opening the chat does not approve or send it.",
+        "这个操作正在等待你的批准。打开对话不会批准或发送它。",
+      ],
+    };
+  if (job.state === "succeeded" && job.result?.verified)
+    return {
+      kind: "checked",
+      text: [
+        "Result checked. The file was not written again.",
+        "结果已核验。文件没有被再次写入。",
+      ],
+    };
+  if (job.state === "cancelled" && job.action === "computer_use")
+    return {
+      kind: "stopped",
+      text: [
+        "Browser stopped; earlier steps may remain. Opening the chat does not continue that browser.",
+        "浏览器已停止，之前的步骤可能已经生效。打开对话不会继续那个浏览器。",
+      ],
+    };
+  // Cancel from review/queue, or a checkpoint rejection before the write.
+  // Failure, expiry, and any other cancellation can follow a dispatched effect.
+  if (
+    job.state === "cancelled" &&
+    job.action !== "computer_use" &&
+    (job.error === "USER_CANCELLED" || job.error === "JOB_CANCELLED_BEFORE_DISPATCH")
+  )
+    return {
+      kind: "nothing_written",
+      text: [
+        "No new file was written for this action.",
+        "这次操作没有写入新文件。",
+      ],
+    };
+  if (job.state === "cancelled" || job.state === "failed" || job.state === "expired")
+    return {
+      kind: "unconfirmed",
+      text: [
+        "This action stopped without a checked result. Check the existing file before another write. That check only rereads.",
+        "这个操作已停止，结果尚未核验。再次写入前请先核验已有文件。核验只会重新读取。",
+      ],
+    };
+  return null;
+}
 
 export function jobStateLabel(state: JobState, t: Translate): string {
   return {

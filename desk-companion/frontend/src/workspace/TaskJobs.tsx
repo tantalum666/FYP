@@ -3,7 +3,7 @@ import { FileCheck2 } from "lucide-react";
 import { useState } from "react";
 import { ApiError, errorText } from "../api";
 import type { Translate } from "../types";
-import { jobStateLabel } from "./jobTypes";
+import { jobStateLabel, taskRecoveryGuidance } from "./jobTypes";
 import type { ComputerJobSummary } from "./jobTypes";
 import type { ApplicationState } from "./applicationTypes";
 import { ExportLink } from "./ExportLink";
@@ -26,6 +26,10 @@ export function TaskJobs({
 }) {
   const [exportError, setExportError] = useState<unknown>(null);
   const notes = jobs?.filter((job) => job.action !== "application");
+  const hold = notes?.some((job) => {
+    const kind = taskRecoveryGuidance(job)?.kind;
+    return kind === "unknown" || kind === "needs_approval" || kind === "unconfirmed";
+  });
   return (
     <section
       className="workspace-section task-job-results"
@@ -79,7 +83,9 @@ export function TaskJobs({
       {jobs?.length === 0 && (
         <p>{t("No file actions are linked yet.", "还没有关联的文件操作。")}</p>
       )}
-      {notes?.slice(0, 3).map((job) => (
+      {notes?.slice(0, 3).map((job) => {
+        const guidance = taskRecoveryGuidance(job);
+        return (
         <article key={job.id} className="task-job-result">
           <strong>{job.title ?? t("File action", "文件操作")}</strong>
           <small>
@@ -91,18 +97,12 @@ export function TaskJobs({
                 .toFormat("d LLL HH:mm")}
             </time>
           </small>
-          {job.state === "succeeded" && job.result?.verified ? (
-            <p>
-              <FileCheck2 size={16} /> {t("Result checked", "结果已核验")}
+          {guidance && (
+            <p className={`task-recovery task-recovery-${guidance.kind}`}>
+              {guidance.kind === "checked" && <FileCheck2 size={16} />}
+              {t(...guidance.text)}
             </p>
-          ) : job.state === "unknown" ? (
-            <p>
-              {t(
-                "Check the existing result before preparing another write.",
-                "请先核验已有结果，再决定是否准备另一次写入。",
-              )}
-            </p>
-          ) : null}
+          )}
           {job.result?.artifact && (
             <details>
               <summary>{t("File details", "文件详情")}</summary>
@@ -110,7 +110,8 @@ export function TaskJobs({
             </details>
           )}
         </article>
-      ))}
+        );
+      })}
       {!!notes && notes.length > 3 && (
         <p className="workspace-hint">
           {t(
@@ -119,8 +120,18 @@ export function TaskJobs({
           )}
         </p>
       )}
+      {hold && (
+        <p className="workspace-hint task-recovery-hold">
+          {t(
+            "Discussing this task does not check, approve, or write the file again.",
+            "讨论这个事务不会核验、批准或再次写入文件。",
+          )}
+        </p>
+      )}
       <button className="secondary" disabled={blocked} onClick={onDiscuss}>
-        {t("Continue with Alice", "和 Alice 继续处理")}
+        {hold
+          ? t("Discuss this task", "讨论这个事务")
+          : t("Continue with Alice", "和 Alice 继续处理")}
       </button>
     </section>
   );

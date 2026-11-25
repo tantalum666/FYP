@@ -1,0 +1,51 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { recoveryCopy, taskRecoveryGuidance } from "../src/workspace/jobTypes.ts";
+
+test("an unknown file result is distinct from a write that never happened", () => {
+  const unknown = taskRecoveryGuidance({ state: "unknown", action: "save_note" });
+  const cancelled = taskRecoveryGuidance({
+    state: "cancelled",
+    action: "save_note",
+    error: "USER_CANCELLED",
+  });
+  const failed = taskRecoveryGuidance({ state: "failed", action: "save_note" });
+  const expired = taskRecoveryGuidance({ state: "expired", action: "computer_use" });
+  const review = taskRecoveryGuidance({ state: "review", action: "save_note" });
+  const checked = taskRecoveryGuidance({
+    state: "succeeded",
+    action: "save_note",
+    result: { verified: true },
+  });
+  assert.equal(unknown?.kind, "unknown");
+  assert.equal(cancelled?.kind, "nothing_written");
+  assert.equal(failed?.kind, "unconfirmed");
+  assert.equal(expired?.kind, "unconfirmed");
+  assert.doesNotMatch(failed?.text[0] ?? "", /No new file was written/);
+  assert.doesNotMatch(expired?.text[0] ?? "", /No new file was written/);
+  assert.equal(review?.kind, "needs_approval");
+  assert.equal(checked?.kind, "checked");
+  assert.notEqual(unknown?.text[0], cancelled?.text[0]);
+  assert.match(unknown?.text[0] ?? "", /Check result/);
+  assert.match(review?.text[0] ?? "", /does not approve/);
+  assert.match(checked?.text[0] ?? "", /not written again/);
+  assert.equal(
+    taskRecoveryGuidance({ state: "running", action: "save_note" }),
+    null,
+  );
+  const cancelledAlone = taskRecoveryGuidance({ state: "cancelled", action: "save_note" });
+  assert.equal(cancelledAlone?.kind, "unconfirmed");
+  assert.doesNotMatch(cancelledAlone?.text[0] ?? "", /No new file was written/);
+  const detailAlone = recoveryCopy({
+    state: "cancelled",
+    action: "save_note",
+  } as Parameters<typeof recoveryCopy>[0]);
+  assert.doesNotMatch(detailAlone?.[0] ?? "", /No new file was written/);
+  assert.match(detailAlone?.[0] ?? "", /not checked/);
+  const detailBeforeDispatch = recoveryCopy({
+    state: "cancelled",
+    action: "save_note",
+    error: "JOB_CANCELLED_BEFORE_DISPATCH",
+  } as Parameters<typeof recoveryCopy>[0]);
+  assert.match(detailBeforeDispatch?.[0] ?? "", /No new file was written/);
+});
