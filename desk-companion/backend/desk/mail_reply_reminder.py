@@ -89,9 +89,7 @@ def _summary(unread_ids, headers):
         return "No unreviewed reply"
     last = headers.get(unread_ids[-1])
     text = (
-        f"{last['sender']} replied: {last['subject']}"
-        if last
-        else f"{len(unread_ids)} new replies"
+        f"{last['sender']} replied: {last['subject']}" if last else f"{len(unread_ids)} new replies"
     )
     if len(unread_ids) > 1:
         text = f"{len(unread_ids)} new replies. Latest: {text}"
@@ -127,12 +125,9 @@ class MailReplyReminders:
         }
 
     def _principal(self, principal):
-        try:
-            self.runtime.personal_context.require_visible(principal)
-        except DomainError as error:
-            if error.code == "PRIVATE_CONTEXT_HIDDEN":
-                self.conceal()
-            raise
+        # The explicit privacy-setting change owns redaction. A stale reader
+        # must never be able to erase another active owner's drafts.
+        self.runtime.personal_context.require_visible(principal)
 
     def _sample(self, conn=None):
         if conn is None:
@@ -234,7 +229,9 @@ class MailReplyReminders:
                 "request": {"message_id": spec["original_id"], "task_id": None},
             }
             scope = hashlib.sha256(
-                encode([definition[k] for k in ("provider", "account_version", "thread_id")]).encode()
+                encode(
+                    [definition[k] for k in ("provider", "account_version", "thread_id")]
+                ).encode()
             ).hexdigest()
             old = conn.execute(
                 "SELECT id, task_id FROM mail_followups WHERE scope_hash=? AND state IN ('active','blocked')",
@@ -304,7 +301,14 @@ class MailReplyReminders:
             conn.execute("UPDATE local_mail_sample SET released=1 WHERE id=1")
             return {"released": True, "live_mailbox": False}
 
-        result = self.store.operation(key, {"type": "local_mail_reply"}, apply)
+        result = self.store.operation(
+            key,
+            {"type": "local_mail_reply"},
+            apply,
+            authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(
+                conn, principal
+            ),
+        )
         self.reload()
         with self.store.connection(write=True) as conn:
             conn.execute(
@@ -346,6 +350,15 @@ class MailReplyReminders:
             "headers": headers,
         }
 
+    def _authorized_binding(self, conn, followup_id, principal):
+        self.runtime.personal_context.require_owner_transaction(conn, principal)
+        row = self._row(conn, followup_id)
+        if row["state"] != "active" or row["expires_at"] <= iso(self.store.clock()):
+            raise DomainError("MAIL_REPLY_CHANGED", 409)
+        bound = self._binding(conn, row)
+        self.runtime.mail_followups._account(bound["definition"])
+        return bound
+
     def _drafts(self, conn, now):
         pending, saved = {}, set()
         rows = conn.execute(
@@ -382,9 +395,15 @@ class MailReplyReminders:
             for row in rows:
                 if task_id and row["task_id"] != task_id:
                     continue
-                binding = self._binding(conn, row)
+                try:
+                    binding = self._authorized_binding(conn, row["id"], principal)
+                except DomainError:
+                    continue
                 task = self.runtime.tasks.get(conn, row["task_id"])
-                draft_key = (row["id"], binding["unread_ids"][-1] if binding["unread_ids"] else None)
+                draft_key = (
+                    row["id"],
+                    binding["unread_ids"][-1] if binding["unread_ids"] else None,
+                )
                 draft = pending.get(draft_key)
                 items.append(
                     {
@@ -398,7 +417,9 @@ class MailReplyReminders:
                         "source_label": binding["source_label"],
                         "live_mailbox": False,
                         "count": len(binding["unread_ids"]),
-                        "draft_state": "pending" if draft else ("saved" if draft_key in saved else "none"),
+                        "draft_state": "pending"
+                        if draft
+                        else ("saved" if draft_key in saved else "none"),
                         "draft": draft,
                     }
                 )
@@ -444,11 +465,39 @@ class MailReplyReminders:
     def read(self, followup_id, message_id, key, principal):
         self._principal(principal)
 
-        def apply(conn):
+        def authorize(conn):
             self.runtime.personal_context.require_owner_transaction(conn, principal)
-            binding = self._binding(conn, self._row(conn, followup_id))
+            binding = self._authorized_binding(conn, followup_id, principal)
             if message_id not in binding["seen"] or binding["state"] != "active":
                 raise DomainError("MAIL_REPLY_UNRELATED", 409)
+            return binding
+
+        with self.store.connection() as conn:
+            original = authorize(conn)
+        try:
+            message = self._original(original, message_id)
+        except DomainError as error:
+            return {
+                "opened": False,
+                "stored_body": False,
+                "followup_id": followup_id,
+                "message_id": message_id,
+                "read_state": "failed",
+                "confirmed_reply": False,
+                "error": error.code,
+                "sent": False,
+            }
+
+        def still_current(conn):
+            current = authorize(conn)
+            if (
+                current["definition"] != original["definition"]
+                or current["fingerprint"] != original["fingerprint"]
+            ):
+                raise DomainError("MAIL_REPLY_CHANGED", 409)
+            self.runtime.mail_followups._account(current["definition"])
+
+        def apply(conn):
             digest = hashlib.sha256(encode([followup_id, message_id]).encode()).hexdigest()
             conn.execute(
                 """INSERT OR IGNORE INTO mail_reply_reads(followup_id,message_id,fingerprint,read_at)
@@ -464,25 +513,22 @@ class MailReplyReminders:
             }
 
         receipt = self.store.operation(
-            key, {"type": "mail_reply_read", "followup_id": followup_id, "message_id": message_id}, apply
+            key,
+            {"type": "mail_reply_read", "followup_id": followup_id, "message_id": message_id},
+            apply,
+            authorize=still_current,
         )
-        with self.store.connection() as conn:
-            binding = self._binding(conn, self._row(conn, followup_id))
-        try:
-            message = self._original(binding, message_id)
-        except DomainError as error:
-            return {
-                **receipt,
-                "read_state": "failed",
-                "confirmed_reply": False,
-                "error": error.code,
-                "sent": False,
-            }
         shown = {
             k: message[k]
             for k in ("id", "subject", "sender", "at", "body", "body_status", "source_label")
         }
-        return {**receipt, "read_state": "read", "confirmed_reply": False, "sent": False, "message": shown}
+        return {
+            **receipt,
+            "read_state": "read",
+            "confirmed_reply": False,
+            "sent": False,
+            "message": shown,
+        }
 
     def _send_state(self, message_ids):
         if not message_ids:
@@ -512,13 +558,22 @@ class MailReplyReminders:
             self._row(conn, followup_id)
             return {"checked": True, "followup_id": followup_id, "sent": False}
 
-        receipt = self.store.operation(key, {"type": "mail_reply_reread", "followup_id": followup_id}, apply)
+        receipt = self.store.operation(
+            key,
+            {"type": "mail_reply_reread", "followup_id": followup_id},
+            apply,
+            authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(
+                conn, principal
+            ),
+        )
         with self.store.connection() as conn:
             binding = self._binding(conn, self._row(conn, followup_id))
         send_state = self._send_state(binding["unread_ids"])
         try:
             if binding["provider"] == "local":
-                messages = self.local_thread(binding["definition"], lambda: self._principal(principal))
+                messages = self.local_thread(
+                    binding["definition"], lambda: self._principal(principal)
+                )
             else:
                 messages = self.runtime.mail_followups.reader.thread(
                     binding["provider"],
@@ -538,7 +593,11 @@ class MailReplyReminders:
             }
         found = [m["id"] for m in messages if m["id"] in binding["unread_ids"]]
         present = bool(binding["unread_ids"]) and set(found) == set(binding["unread_ids"])
-        state = "unknown" if send_state == "unknown" else ("present" if present else "unavailable" if binding["unread_ids"] else "none")
+        state = (
+            "unknown"
+            if send_state == "unknown"
+            else ("present" if present else "unavailable" if binding["unread_ids"] else "none")
+        )
         return {
             **receipt,
             "state": state,
@@ -554,7 +613,7 @@ class MailReplyReminders:
 
         def apply(conn):
             self.runtime.personal_context.require_owner_transaction(conn, principal)
-            binding = self._binding(conn, self._row(conn, followup_id))
+            binding = self._authorized_binding(conn, followup_id, principal)
             if (
                 binding["state"] != "active"
                 or payload.message_id not in binding["unread_ids"]
@@ -585,8 +644,13 @@ class MailReplyReminders:
                 (now,),
             ):
                 old_data = json.loads(old["data"])
-                if old_data.get("followup_id") == followup_id and old_data.get("message_id") == payload.message_id:
-                    conn.execute("UPDATE assistant_proposals SET state='cancelled' WHERE id=?", (old["id"],))
+                if (
+                    old_data.get("followup_id") == followup_id
+                    and old_data.get("message_id") == payload.message_id
+                ):
+                    conn.execute(
+                        "UPDATE assistant_proposals SET state='cancelled' WHERE id=?", (old["id"],)
+                    )
             active = conn.execute(
                 "SELECT COUNT(*) FROM assistant_proposals WHERE state='pending' AND expires_at>?",
                 (now,),
@@ -600,9 +664,13 @@ class MailReplyReminders:
                 (proposal_id, "followed_reply_draft", encode(data), expires, now),
             )
             self.store.record(
-                conn, "assistant_draft", details={"proposal_id": proposal_id, "kind": "followed_reply_draft"}
+                conn,
+                "assistant_draft",
+                details={"proposal_id": proposal_id, "kind": "followed_reply_draft"},
             )
-            row = conn.execute("SELECT * FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
+            row = conn.execute(
+                "SELECT * FROM assistant_proposals WHERE id=?", (proposal_id,)
+            ).fetchone()
             return {
                 "proposal": {
                     "id": row["id"],
@@ -626,6 +694,7 @@ class MailReplyReminders:
                 "body_sha256": body_hash,
             },
             apply,
+            authorize=lambda conn: self._authorized_binding(conn, followup_id, principal),
         )
 
     def confirm_draft(self, payload, key, principal):
@@ -639,7 +708,7 @@ class MailReplyReminders:
 
         def apply(conn):
             self.runtime.personal_context.require_owner_transaction(conn, principal)
-            binding = self._binding(conn, self._row(conn, payload["followup_id"]))
+            binding = self._authorized_binding(conn, payload["followup_id"], principal)
             if (
                 payload["fingerprint"] != binding["fingerprint"]
                 or payload["summary"] != binding["summary"]
@@ -673,6 +742,9 @@ class MailReplyReminders:
                 "fingerprint": payload["fingerprint"],
             },
             apply,
+            authorize=lambda conn: self._authorized_binding(
+                conn, payload["followup_id"], principal
+            ),
         )
 
     def forget(self, followup_id, key, principal):
@@ -691,7 +763,14 @@ class MailReplyReminders:
             self._redact(conn, followup_id)
             return {"forgotten": True, "followup_id": followup_id, "sent": False}
 
-        return self.store.operation(key, {"type": "mail_reply_forget", "followup_id": followup_id}, apply)
+        return self.store.operation(
+            key,
+            {"type": "mail_reply_forget", "followup_id": followup_id},
+            apply,
+            authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(
+                conn, principal
+            ),
+        )
 
     def conceal(self):
         with self.store.connection(write=True) as conn:
@@ -700,7 +779,9 @@ class MailReplyReminders:
         self.reload()
 
     def _redact(self, conn, followup_id):
-        for proposal in conn.execute("SELECT id, state, data, result FROM assistant_proposals WHERE kind='followed_reply_draft'"):
+        for proposal in conn.execute(
+            "SELECT id, state, data, result FROM assistant_proposals WHERE kind='followed_reply_draft'"
+        ):
             data = json.loads(proposal["data"] or "{}")
             if followup_id and data.get("followup_id") != followup_id:
                 continue

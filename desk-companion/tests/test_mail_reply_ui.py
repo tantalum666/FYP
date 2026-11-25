@@ -6,15 +6,16 @@ Uses the local mail sample through the real page. It is not a live mailbox.
 import os
 from pathlib import Path
 import socket
-import subprocess
-import sys
-import time
 
 import pytest
 
-CHROME = "/usr/local/bin/google-chrome"
+expect = pytest.importorskip("playwright.sync_api").expect
+
+from ui_fixture_paths import CHROME, evidence_root, compiled_fixture, stop_fixture
+
+WEB_PORT = 8853
 ROOT = Path(__file__).resolve().parents[1]
-EVIDENCE = ROOT.parents[0] / "output/qa/2026-11-25-followed-reply"
+EVIDENCE = evidence_root("2026-11-25-followed-reply")
 
 
 def free(port):
@@ -25,51 +26,22 @@ def free(port):
 
 @pytest.fixture(scope="module")
 def servers(tmp_path_factory):
-    if not Path(CHROME).exists() or not free(8832) or not free(5191):
+    if not Path(CHROME).exists() or not free(8853) or not free(5213):
         pytest.skip("local Chrome or the reminder ports are unavailable")
     runtime = tmp_path_factory.mktemp("mail-reply-ui")
     env = {**os.environ, "PYTHONPATH": str(ROOT / "backend")}
-    api = subprocess.Popen(
-        [
-            sys.executable,
-            "-c",
-            "import uvicorn; from desk.app import create_app; "
-            f"uvicorn.run(create_app({str(runtime)!r}, password='fixture', scheduler=False), "
-            "host='127.0.0.1', port=8832, log_level='warning')",
-        ],
-        cwd=ROOT,
-        env=env,
-        start_new_session=True,
-    )
-    web = subprocess.Popen(
-        ["npx", "vite", "--host", "127.0.0.1", "--port", "5191", "--strictPort"],
-        cwd=ROOT / "frontend",
-        env={**os.environ, "DESK_API_TARGET": "http://127.0.0.1:8832"},
-        start_new_session=True,
+    api = compiled_fixture(
+        "from datetime import datetime, timezone; import uvicorn; from desk.app import create_app; "
+        f"uvicorn.run(create_app({str(runtime)!r}, development_origin='http://127.0.0.1:{WEB_PORT}', password='fixture', clock=lambda: datetime(2026,11,25,5,tzinfo=timezone.utc), scheduler=False), "
+        "host='127.0.0.1', port=8853, log_level='warning')",
+        ROOT,
+        env,
+        WEB_PORT,
     )
     try:
-        wait("127.0.0.1", 8832)
-        wait("127.0.0.1", 5191)
         yield
     finally:
-        for process in (web, api):
-            try:
-                os.killpg(process.pid, 15)
-            except ProcessLookupError:
-                process.terminate()
-        for process in (web, api):
-            process.wait(timeout=10)
-
-
-def wait(host, port):
-    deadline = time.time() + 30
-    while time.time() < deadline:
-        with socket.socket() as sock:
-            sock.settimeout(0.2)
-            if sock.connect_ex((host, port)) == 0:
-                return
-        time.sleep(0.2)
-    raise RuntimeError(f"{host}:{port} did not open")
+        stop_fixture(api)
 
 
 def test_followed_reply_card_on_desktop_and_narrow_screen(servers):
@@ -83,7 +55,7 @@ def test_followed_reply_card_on_desktop_and_narrow_screen(servers):
             args=["--no-sandbox", "--disable-dev-shm-usage"],
         )
         page = browser.new_page(viewport={"width": 1440, "height": 1000})
-        page.goto("http://127.0.0.1:5191/?page=tasks", wait_until="domcontentloaded")
+        page.goto("http://127.0.0.1:8853/?page=tasks", wait_until="domcontentloaded")
         page.get_by_role("button", name="Work & tools").wait_for()
         page.get_by_role("button", name="Work & tools").click()
         page.get_by_role("button", name="Follow").first.click()
@@ -91,10 +63,10 @@ def test_followed_reply_card_on_desktop_and_narrow_screen(servers):
         page.get_by_role("button", name="Simulate a reply").click()
         card = page.get_by_role("article", name="Followed email reminder")
         card.wait_for()
-        assert card.count() == 1
+        expect(card).to_have_count(1, timeout=15000)
         assert "Local mail sample" in card.inner_text()
         assert "Draft a reply" in card.inner_text()
-        assert card.get_by_role("textbox").count() == 0
+        expect(card.get_by_role("textbox")).to_have_count(0, timeout=15000)
         # Failed read is recovery, not a confirmed reply and not a send.
         failed_reads = {"count": 0}
 
@@ -114,7 +86,7 @@ def test_followed_reply_card_on_desktop_and_narrow_screen(servers):
         card.get_by_text(
             "The message could not be read. That is not a confirmed new reply, and nothing was sent."
         ).wait_for()
-        assert card.get_by_role("textbox").count() == 0
+        expect(card.get_by_role("textbox")).to_have_count(0, timeout=15000)
         card.get_by_role("button", name="Read the message").click()
         card.get_by_text("Friday after 3 still works for me.").wait_for()
         assert "Not saved as a memory" in card.inner_text()

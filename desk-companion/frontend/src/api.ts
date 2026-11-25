@@ -11,6 +11,7 @@ export class ApiError extends Error {
 
 /** Long reads stay on the routes that wait for a provider. Everything else stays short. */
 export function requestDeadline(path: string) {
+  if (/^\/computer\/jobs\/[^/]+\/(page|return|takeover)$/.test(path)) return 30000;
   return [
     "/assistant/messages",
     "/assistant/retained-messages",

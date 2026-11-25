@@ -58,6 +58,7 @@ export interface WorkspaceSnapshot {
     research_ready: boolean;
     findings: import("./InitiativeMessages").InitiativeFinding[];
     history?: import("./InitiativeMessages").InitiativeFinding[];
+    withdrawn?: import("./InitiativeMessages").InitiativeFinding[];
   };
   check_in?: import("./AliceCheckIn").AliceCue | null;
   personal_context_visible: boolean;

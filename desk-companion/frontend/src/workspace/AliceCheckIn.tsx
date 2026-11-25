@@ -1,3 +1,4 @@
+import { cueTarget } from "./findingNavigation";
 import { useEffect, useState } from "react";
 import { Check, Clock3, Sparkles, X } from "lucide-react";
 import { errorText, write } from "../api";
@@ -26,15 +27,18 @@ export interface AliceCue {
 export function AliceCheckIn({
   t,
   visible,
-  onOpenConversation,
+  onOpenConversation, onOpenTask, onReviewSurface,
 }: {
   t: Translate;
   visible: boolean;
   /** Opens Conversation so the owner can read Sources before dismissing. */
   onOpenConversation?: () => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
+  onOpenTask?: (taskId: string) => void;
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const cue = data?.check_in;
+  const review = cue && cueTarget(cue);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [feedback, setFeedback] = useState("");
@@ -190,14 +194,8 @@ export function AliceCheckIn({
         <div className="alice-checkin-actions">
           {cue.kind === "task" ? (
             <>
-              {onOpenTask && cue.task_id && (
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => onOpenTask(cue.task_id!)}
-                >
-                  {t("Open task", "打开待办")}
-                </button>
+              {review && onOpenTask && review.itemId && (
+                <button type="button" disabled={busy} onClick={() => onOpenTask(review.itemId!)}>{t(review.en,review.zh)}</button>
               )}
               <button disabled={busy} onClick={() => void act("complete")}>
                 <Check size={14} />
@@ -213,14 +211,11 @@ export function AliceCheckIn({
             </>
           ) : (
             <>
-              {cue.kind === "initiative" && onOpenConversation && (
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => onOpenConversation()}
-                >
-                  {t("View in conversation", "在对话中查看")}
-                </button>
+              {review && review.page === "assistant" && onOpenConversation && (
+                <button type="button" disabled={busy} onClick={onOpenConversation}>{t(review.en,review.zh)}</button>
+              )}
+              {review && (review.page === "today" || review.page === "tasks") && onReviewSurface && (
+                <button type="button" disabled={busy} onClick={() => onReviewSurface(review.page === "today" ? "today" : "tasks")}>{t(review.en,review.zh)}</button>
               )}
               <button disabled={busy} onClick={() => void act("dismiss")}>
                 {cue.kind === "posture"

@@ -148,37 +148,40 @@ class Initiative:
                    ORDER BY created_at DESC LIMIT 100""",
                 (history, iso(self.store.clock() - LOOKBACK)),
             ).fetchall()
-            # Keep recently invalidated findings visible until the owner clears them.
-            obsolete = (
-                []
-                if undelivered
-                else conn.execute(
-                    "SELECT * FROM initiative_findings WHERE state='obsolete' "
-                    "ORDER BY created_at DESC LIMIT 20"
-                ).fetchall()
-            )
         result = []
-        for row in [*pending, *obsolete]:
+        for row in rows:
             if undelivered and row["notified"]:
                 continue
             data = json.loads(row["data"])
-            if self.sources.matches(data["sources"], sources):
-                item = {"id": row["id"], "created_at": row["created_at"], **data}
-                notice_id = row["notice_id"] if "notice_id" in row.keys() else None
-                if notice_id:
-                    item["notice_id"] = notice_id
-                if display:
-                    historical = row["state"] == "obsolete" or (row["notified"] and any(
-                        sources[ref["ref"]].get("historical") for ref in data["sources"]
-                    ))
-                    if historical:
-                        if not row["notified"] or not any(ref["ref"].startswith("mail:gmail:") for ref in data["sources"]):
-                            continue
-                        item["historical"] = True
-                    item["sources"] = self.sources.display_sources(data["sources"], sources)
+            refs = data["sources"]
+            if not self.sources.matches(refs, sources):
+                # Forgetting or changing a source also withdraws derived private text.
+                # A temporarily missing mailbox, or a different mailbox, reveals nothing.
+                if history and row["notified"] and refs and all(
+                    ref["kind"] in {"task", "memory", "calendar"} and not ref["ref"].startswith("calendar:google:")
+                    for ref in refs
+                ):
+                    result.append({"id": row["id"], "created_at": row["created_at"],
+                                   "kind": "withdrawn", "importance": "normal", "withdrawn": True,
+                                   "message_en": "", "message_zh": "", "sources": []})
+                continue
+            item = {"id": row["id"], "created_at": row["created_at"], **data}
+            if row["notice_id"]:
+                item["notice_id"] = row["notice_id"]
+            if row["snooze_until"]:
+                item["reminder_at"] = row["snooze_until"]
+            if display:
+                historical = row["state"] == "obsolete" or (row["notified"] and any(
+                    sources[ref["ref"]].get("historical") for ref in refs
+                ))
+                if historical:
+                    if not row["notified"] or not any(ref["ref"].startswith("mail:gmail:") for ref in refs):
+                        continue
+                    item["historical"] = True
+                item["sources"] = self.sources.display_sources(refs, sources)
                 item["followup_status"] = self._followup_status(data.get("followup"))
-                result.append(item)
-        return sorted(result, key=lambda item: item["importance"] != "high")
+            result.append(item)
+        return sorted(result, key=lambda item: (bool(item.get("withdrawn")), item["importance"] != "high"))
 
     def _followup_status(self, followup, conn=None):
         """Live task status for an owner-chosen follow-up. Bound by task id only."""
@@ -215,14 +218,19 @@ class Initiative:
         """Owner explicitly opens one follow-up task bound to this finding. Does not send."""
         from .tasks import TaskInput
 
-        def apply(conn):
+        def authorize(conn):
             self.runtime.personal_context.require_owner_transaction(conn, principal)
-            row = conn.execute(
-                "SELECT id,data,state FROM initiative_findings WHERE id=?", (ident,)
-            ).fetchone()
+            row = conn.execute("SELECT data,state FROM initiative_findings WHERE id=?", (ident,)).fetchone()
             if not row or row["state"] != "pending":
                 raise DomainError("INITIATIVE_NOT_FOUND", 404)
             data = json.loads(row["data"])
+            _, sources = self.sources.collect()
+            if not self.sources.matches(data["sources"],sources):
+                raise DomainError("INITIATIVE_STALE",409)
+            return data
+
+        def apply(conn):
+            data = authorize(conn)
             existing = data.get("followup")
             if isinstance(existing, dict) and existing.get("task_id"):
                 # Keep the original binding; never invent a second task for this finding.
@@ -236,13 +244,6 @@ class Initiative:
                     "followup": existing,
                     "followup_status": status,
                 }
-            # Withdrawn or changed evidence must not create a task from a stale finding.
-            try:
-                _, sources = self.sources.collect()
-            except DomainError as error:
-                raise DomainError("INITIATIVE_STALE", 409) from error
-            if not self.sources.matches(data.get("sources") or [], sources):
-                raise DomainError("INITIATIVE_STALE", 409)
             title = (data.get("message_en") or "Follow up on this finding").strip()
             if len(title) > 160:
                 title = title[:157].rstrip() + "..."
@@ -311,7 +312,8 @@ class Initiative:
             }
 
         return self.store.operation(
-            key, {"type": "initiative_followup", "id": ident}, apply
+            key, {"type": "initiative_followup", "id": ident}, apply,
+            authorize=authorize,
         )
 
     def snapshot(self):
@@ -322,7 +324,8 @@ class Initiative:
             "enabled": self.enabled(),
             "research_ready": self.runtime.text_ai.config.valid()
             and self.runtime.text_ai.config.background,
-            "findings": [row for row in visible if not row.get("historical")][:3],
+            "findings": [row for row in visible if not row.get("historical") and not row.get("withdrawn")][:3],
+            "withdrawn": [row for row in visible if row.get("withdrawn")][:5],
             "history": [row for row in visible if row.get("historical")][:12],
             "last_checked_at": state["last_checked_at"],
             "last_error": state["error"],
@@ -342,7 +345,7 @@ class Initiative:
         with self.store.connection(write=True) as conn:
             conn.execute(
                 """UPDATE initiative_findings
-                SET state='pending', notified=0, notice_id=NULL, snooze_until=NULL
+                SET state='pending', notified=0, notice_id=NULL
                 WHERE state='snoozed' AND snooze_until IS NOT NULL AND snooze_until<=?""",
                 (now,),
             )
@@ -353,6 +356,7 @@ class Initiative:
         token = None
         try:
             self.sources.fence()
+            self._release_snoozes()
             config = self.runtime.text_ai.config
             if not (config.valid() and config.background):
                 self._deliver()
@@ -580,7 +584,11 @@ class Initiative:
         if not batch:
             return
         ids = [row["id"] for row in batch]
-        notice_id = "insight-" + (ids[0] if len(ids) == 1 else fingerprint(sorted(ids)))
+        reminders = [(row["id"], row["reminder_at"]) for row in batch if row.get("reminder_at")]
+        if reminders:
+            notice_id = "insight-" + fingerprint([sorted(ids), sorted(reminders)])
+        else:
+            notice_id = "insight-" + (ids[0] if len(ids) == 1 else fingerprint(sorted(ids)))
 
         def current(conn):
             now = self.store.clock()
@@ -628,7 +636,7 @@ class Initiative:
 
         def mark(conn):
             conn.executemany(
-                "UPDATE initiative_findings SET notified=1,notice_id=? WHERE id=?",
+                "UPDATE initiative_findings SET notified=1,notice_id=?,snooze_until=NULL WHERE id=?",
                 [(notice_id, ident) for ident in ids],
             )
 
@@ -673,7 +681,8 @@ class Initiative:
             self._dismiss_notice(conn, ident)
             return {"saved": True, "id": ident, "sent": False, "acted": False}
 
-        return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply)
+        return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply,
+                                    authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(conn, principal))
 
     def snooze(self, ident, key, principal, minutes=60):
         payload = InitiativeSnoozeInput(minutes=minutes)
@@ -681,7 +690,7 @@ class Initiative:
         def apply(conn):
             self.runtime.personal_context.require_owner_transaction(conn, principal)
             row = conn.execute(
-                "SELECT state, snooze_until FROM initiative_findings WHERE id=?", (ident,)
+                "SELECT state, snooze_until, notice_id FROM initiative_findings WHERE id=?", (ident,)
             ).fetchone()
             if not row:
                 raise DomainError("INITIATIVE_NOT_FOUND", 404)
@@ -696,13 +705,17 @@ class Initiative:
                 WHERE id=?""",
                 (until, ident),
             )
-            self._dismiss_notice(conn, ident)
+            old_notice = row["notice_id"]
+            if old_notice and not conn.execute(
+                "SELECT 1 FROM initiative_findings WHERE state='pending' AND notice_id=?", (old_notice,)
+            ).fetchone():
+                self.runtime.notify.dismiss_pending(conn, old_notice)
             return {"saved": True, "id": ident, "snooze_until": until}
 
         return self.store.operation(
             key,
             {"type": "initiative_snooze", "id": ident, "minutes": payload.minutes},
-            apply,
+            apply, authorize=lambda conn: self.runtime.personal_context.require_owner_transaction(conn, principal),
         )
 
     def shutdown(self):

@@ -7,15 +7,16 @@ import os
 from pathlib import Path
 import re
 import socket
-import subprocess
-import sys
-import time
 
 import pytest
 
-CHROME = "/usr/local/bin/google-chrome"
+expect = pytest.importorskip("playwright.sync_api").expect
+
+from ui_fixture_paths import CHROME, evidence_root, compiled_fixture, stop_fixture
+
+WEB_PORT = 8840
 ROOT = Path(__file__).resolve().parents[1]
-EVIDENCE = ROOT.parents[0] / "output/qa/2026-11-25-initiative-followup"
+EVIDENCE = evidence_root("2026-11-25-initiative-followup")
 
 
 def free(port):
@@ -36,7 +37,7 @@ def servers(tmp_path_factory):
         "from desk.tasks import TaskInput\n"
         "from desk.workspace_data import PreferencesUpdate, WorkspacePreferences\n"
         "from desk.initiative import Findings\n"
-        f"app = create_app({str(runtime)!r}, password='fixture', scheduler=False)\n"
+        f"app = create_app({str(runtime)!r}, development_origin='http://127.0.0.1:{WEB_PORT}', password='fixture', scheduler=False)\n"
         "r = app.state.runtime\n"
         "r.text_ai.config = TextConfig(provider='fake', background=True)\n"
         "r.data.update(PreferencesUpdate(expected_version=1, preferences=WorkspacePreferences(quiet_enabled=False)), 'prefs')\n"
@@ -55,41 +56,11 @@ def servers(tmp_path_factory):
         "import uvicorn\n"
         "uvicorn.run(app, host='127.0.0.1', port=8840, log_level='warning')\n"
     )
-    api = subprocess.Popen(
-        [sys.executable, "-c", seed],
-        cwd=ROOT,
-        env=env,
-        start_new_session=True,
-    )
-    web = subprocess.Popen(
-        ["npx", "vite", "--host", "127.0.0.1", "--port", "5200", "--strictPort"],
-        cwd=ROOT / "frontend",
-        env={**os.environ, "DESK_API_TARGET": "http://127.0.0.1:8840"},
-        start_new_session=True,
-    )
+    api = compiled_fixture(seed, ROOT, env, WEB_PORT)
     try:
-        wait("127.0.0.1", 8840)
-        wait("127.0.0.1", 5200)
         yield
     finally:
-        for process in (web, api):
-            try:
-                os.killpg(process.pid, 15)
-            except ProcessLookupError:
-                process.terminate()
-        for process in (web, api):
-            process.wait(timeout=10)
-
-
-def wait(host, port):
-    deadline = time.time() + 40
-    while time.time() < deadline:
-        with socket.socket() as sock:
-            sock.settimeout(0.2)
-            if sock.connect_ex((host, port)) == 0:
-                return
-        time.sleep(0.2)
-    raise RuntimeError(f"{host}:{port} did not open")
+        stop_fixture(api)
 
 
 def test_finding_followup_on_desktop_and_narrow_screen(servers):
@@ -103,10 +74,10 @@ def test_finding_followup_on_desktop_and_narrow_screen(servers):
             args=["--no-sandbox", "--disable-dev-shm-usage"],
         )
         page = browser.new_page(viewport={"width": 1440, "height": 1000})
-        page.goto("http://127.0.0.1:5200/?page=assistant", wait_until="domcontentloaded")
+        page.goto("http://127.0.0.1:8840/?page=assistant", wait_until="domcontentloaded")
         # Cookie path is /api on this origin; login through the Vite proxy.
         login = page.request.post(
-            "http://127.0.0.1:5200/api/session",
+            "http://127.0.0.1:8840/api/session",
             data='{"username":"owner","password":"fixture"}',
             headers={"Content-Type": "application/json", "X-Desk-Request": "1"},
         )
@@ -135,13 +106,13 @@ def test_finding_followup_on_desktop_and_narrow_screen(servers):
         page.get_by_role("button", name="Retry the same request").wait_for()
         page.get_by_role("button", name="Retry the same request").click()
         card.get_by_text("Follow-up open. Nothing was sent.").wait_for()
-        assert card.get_by_role("button", name="Follow up on this").count() == 0
+        expect(card.get_by_role("button", name="Follow up on this")).to_have_count(0, timeout=15000)
         page.screenshot(path=str(EVIDENCE / "desktop-1440.png"), full_page=True)
         wide = measure(page)
-        page.goto("http://127.0.0.1:5200/?page=tasks", wait_until="domcontentloaded")
+        page.goto("http://127.0.0.1:8840/?page=tasks", wait_until="domcontentloaded")
         page.get_by_role("button", name=re.compile(r"The contract dates differ")).wait_for()
         page.set_viewport_size({"width": 320, "height": 740})
-        page.goto("http://127.0.0.1:5200/?page=assistant", wait_until="domcontentloaded")
+        page.goto("http://127.0.0.1:8840/?page=assistant", wait_until="domcontentloaded")
         page.get_by_role("button", name="Conversation", exact=True).click()
         card = page.get_by_role("article", name="Proactive suggestion")
         card.wait_for()

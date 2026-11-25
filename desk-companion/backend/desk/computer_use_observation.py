@@ -74,7 +74,9 @@ async def snapshot(page, directory, sequence, boundary):
         identity = {"url": page.url, "document_generation": boundary.document_generation}
         if not same_document(page, boundary, identity) or len(identity["url"]) > 2000:
             raise DomainError("BROWSER_TARGET_CHANGED", 409)
-        screen = await page.screenshot(type="png", full_page=False)
+        screen = await page.screenshot(type="png", full_page=False, mask=[
+            page.locator("input:not([type=button]):not([type=submit]), textarea, [contenteditable=true], iframe")
+        ])
         if not same_document(page, boundary, identity):
             continue  # Discard bytes; never persist/upload the changed document.
         if len(screen) > MAX_SCREEN_BYTES:

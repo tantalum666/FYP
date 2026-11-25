@@ -69,6 +69,7 @@ export interface ComputerJob {
     owner_input?: { nonce: string; origin: string; phase: string };
     paused?: boolean;
     takeover_available?: boolean;
+    sample_input?: boolean;
     phase?: "paused" | "held" | "returning";
     wall?: "login" | "otp" | "captcha" | "payment";
     needed?: string;

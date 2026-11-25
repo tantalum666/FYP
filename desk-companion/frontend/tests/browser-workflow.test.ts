@@ -368,7 +368,7 @@ test("public browser observation gets the bounded read timeout without changing 
   assert.equal(api.requestDeadline("/assistant/messages"), 75000);
   assert.equal(api.requestDeadline("/assistant/flight-checkouts/abc"), 75000);
   assert.equal(api.requestDeadline("/apps/letsfg/connect"), 75000);
-  assert.equal(api.requestDeadline("/computer/jobs/abc/page"), 12000);
+  assert.equal(api.requestDeadline("/computer/jobs/abc/page"), 30000);
   assert.equal(api.requestDeadline("/tasks"), 12000);
   const seen: number[] = [];
   const previous = globalThis.window;

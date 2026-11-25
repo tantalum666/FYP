@@ -308,7 +308,7 @@ class Notifier:
                     cleared = conn.execute(
                         """UPDATE initiative_findings
                         SET state='dismissed'
-                        WHERE notice_id=? AND state='pending'""",
+                        WHERE notice_id=? AND state IN ('pending','obsolete')""",
                         (notice_id,),
                     )
                     if cleared.rowcount:

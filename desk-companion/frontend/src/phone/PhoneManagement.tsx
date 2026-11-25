@@ -133,11 +133,13 @@ export function PhoneManagement({
   settingsCategory,
   onSettingsCategory,
   revision,
+  initialFactId,
   onNavigate,
   onConversation,
   onRefresh,
   onNotice,
 }: {
+  initialFactId?: string;
   panel: Exclude<PhonePanel, "plan" | "more">;
   t: Translate;
   language: Language;
@@ -154,7 +156,7 @@ export function PhoneManagement({
   const guard = useDraftState();
   return (
     <>
-      {panel === "memory" && <MemoryPanel t={t} />}
+      {panel === "memory" && <MemoryPanel t={t} initialFactId={initialFactId} />}
       {panel === "persona" && <PersonaPanel t={t} />}
       {panel === "records" && (
         <RecordsView

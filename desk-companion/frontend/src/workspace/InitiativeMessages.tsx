@@ -1,3 +1,4 @@
+import { findingMatchesNotice, findingSource, canActOnFinding } from "./findingNavigation";
 import { useEffect, useRef } from "react";
 import { useWorkspace } from "./WorkspaceContext";
 import { usePrivateMutation } from "./personal/usePrivateMutation";
@@ -18,6 +19,8 @@ export interface InitiativeFinding {
   message_en: string;
   message_zh: string;
   created_at?: string;
+  withdrawn?: boolean;
+  historical?: boolean;
   notice_id?: string | null;
   sources: { ref: string; kind: string; label: string; href?: string }[];
   followup_status?: InitiativeFollowupStatus | null;
@@ -38,48 +41,22 @@ function followupLabel(status: InitiativeFollowupStatus, t: Translate) {
   return t("Follow-up open. Nothing was sent.", "跟进仍在进行。没有发送。");
 }
 
-function taskIdFromSource(source: { ref: string; kind: string }) {
-  if (source.kind !== "task" || !source.ref.startsWith("task:")) return null;
-  const ident = source.ref.slice("task:".length).trim();
-  return ident || null;
-}
-
-function memoryIdFromSource(source: { ref: string; kind: string }) {
-  if (source.kind !== "memory" || !source.ref.startsWith("memory:")) return null;
-  const ident = source.ref.slice("memory:".length).trim();
-  return ident || null;
-}
-
-/** Local desk occurrence only; Google preview refs stay labels. */
-export function localCalendarRef(source: { ref: string; kind: string }) {
-  if (source.kind !== "calendar") return null;
-  if (!source.ref.startsWith("calendar:") || source.ref.startsWith("calendar:google:"))
-    return null;
-  const rest = source.ref.slice("calendar:".length);
-  const cut = rest.indexOf(":");
-  if (cut <= 0 || cut >= rest.length - 1) return null;
-  return source.ref;
-}
-
-export function findingMatchesNotice(
-  finding: InitiativeFinding,
-  noticeId?: string | null,
-) {
-  if (!noticeId) return false;
-  if (finding.notice_id && finding.notice_id === noticeId) return true;
-  return noticeId === "insight-" + finding.id;
-}
-
 /** Contextual messages in the conversation; no approval form or separate poll. */
 export function InitiativeMessage({
   finding,
   t,
-  onOpenTask,
+  onOpenTask, onOpenMemory, onOpenCalendar, focusNoticeId, onFocused, expandedSources, onSourcesChange,
 }: {
   finding: InitiativeFinding;
   t: Translate;
   /** Opens the existing cited task. Does not create a follow-up or dismiss. */
   onOpenTask?: (taskId: string) => void;
+  onOpenMemory?: (id: string) => void;
+  onOpenCalendar?: (ref: string) => void;
+  focusNoticeId?: string;
+  onFocused?: () => void;
+  expandedSources: boolean;
+  onSourcesChange: (id:string,open:boolean) => void;
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const mutation = usePrivateMutation();
@@ -101,6 +78,7 @@ export function InitiativeMessage({
     if (!focused || !visible || offline || stale) return;
     const details = detailsRef.current;
     const card = cardRef.current;
+    onSourcesChange(finding.id,true);
     if (details) details.open = true;
     card?.scrollIntoView({ block: "nearest" });
     card?.focus();
@@ -113,18 +91,23 @@ export function InitiativeMessage({
         <article
           ref={cardRef}
           className="assistant-turn assistant initiative-message"
-          aria-label={t("Proactive suggestion", "主动建议")}
+          data-finding-id={finding.id}
+          tabIndex={focused ? -1 : undefined}
+          aria-label={withdrawn ? t("Withdrawn suggestion", "已收回的建议") : t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
-          <p>{t(finding.message_en, finding.message_zh)}</p>
-          <details ref={detailsRef}>
+          <p>{withdrawn ? t("Sources changed. This suggestion was withdrawn.", "依据已变更，这条建议已收回。") : t(finding.message_en, finding.message_zh)}</p>
+          {!withdrawn && <details ref={detailsRef} open={expandedSources} onToggle={event=>{ const open=event.currentTarget.open; if(open!==expandedSources)onSourcesChange(finding.id,open); }}>
             <summary>
               {t("Sources", "依据")} · {finding.sources.length}
             </summary>
             <ul>
               {finding.sources.map((source) => {
-                const taskId = onOpenTask ? taskIdFromSource(source) : null;
+                const target = findingSource(source);
+                const taskId = target?.page === "tasks" && target.itemId;
+                const memoryId = target?.page === "memory" && target.itemId;
+                const calendarRef = target?.page === "calendar" && target.itemId;
                 return (
                   <li key={source.ref}>
                     {source.href?.startsWith("https://mail.google.com/mail/?") ? (
@@ -140,6 +123,14 @@ export function InitiativeMessage({
                         {t("Open task: ", "打开待办：")}
                         {source.label}
                       </button>
+                    ) : memoryId && onOpenMemory ? (
+                      <button type="button" className="text-button" onClick={() => onOpenMemory(memoryId)}>
+                        {t("Open memory: ", "打开记忆：")}{source.label}
+                      </button>
+                    ) : calendarRef && onOpenCalendar ? (
+                      <button type="button" className="text-button" onClick={() => onOpenCalendar(calendarRef)}>
+                        {t("Open calendar: ", "打开日程：")}{source.label}
+                      </button>
                     ) : (
                       source.label
                     )}
@@ -147,7 +138,8 @@ export function InitiativeMessage({
                 );
               })}
             </ul>
-          </details>
+          </details>}
+          {canActOnFinding(finding) && <>
           {followup ? (
             <p role="status">
               {followupLabel(followup, t)}
@@ -181,6 +173,7 @@ export function InitiativeMessage({
           >
             {t("Remind me later", "稍后再提醒")}
           </button>
+          </>}
           <button
             className="text-button"
             disabled={mutation.busy || mutation.pending}

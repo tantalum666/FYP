@@ -1,3 +1,4 @@
+import { noticeTarget, type ReviewAction } from "./findingNavigation";
 import { useState } from "react";
 import { Bell, Check, ChevronDown, Moon, Sunrise } from "lucide-react";
 import { errorText } from "../api";
@@ -15,15 +16,9 @@ export function NoticeInbox({
   inbox: DeskInbox;
   language: Language;
   zone: string;
-  onReview?: (
-    page: "assistant" | "memory" | "tasks",
-    noticeId?: string,
-  ) => void;
+  onReview?: ReviewAction;
   t: Translate;
 }) {
-  function followupTaskId(notice: DeskNotice) {
-    return notice.kind === "followup" && notice.task_id ? notice.task_id : null;
-  }
   const [expanded, setExpanded] = useState<string[]>([]);
   if (!inbox.enabled) return null;
   const groups = new Map<string, DeskNotice[]>();
@@ -93,61 +88,14 @@ export function NoticeInbox({
             </button>
             {open && (
               <ul>
-                {items.map((item) => (
+                {items.map((item) => {
+                  const target = onReview && noticeTarget(item);
+                  return (
                   <li key={item.id}>
                     {items.length > 1 && <time>{dateOf(item)}</time>}
-                    {onReview && item.kind === "initiative" ? (
-                      <button
-                        className="text-button"
-                        onClick={() => onReview("assistant", item.id)}
-                      >
-                        {t("View in conversation", "在对话中查看")}
-                      </button>
-                    ) : (
-                      <p>{t(item.body_en, item.body_zh)}</p>
-                    )}
-                    {onReview && item.kind === "morning_brief" && (
-                      <button
-                        className="text-button"
-                        onClick={() => onReview("today")}
-                      >
-                        {t("View today", "查看今天")}
-                      </button>
-                    )}
-                    {onReview && item.kind === "evening_check" && (
-                      <button
-                        className="text-button"
-                        onClick={() => onReview("tasks")}
-                      >
-                        {t("View tasks", "查看待办")}
-                      </button>
-                    )}
-                    {onReview && item.kind === "memory_morning" && (
-                      <button
-                        className="text-button"
-                        onClick={() => onReview("memory")}
-                      >
-                        {t("View memories", "查看记忆")}
-                      </button>
-                    )}
-                    {onReview && item.kind === "mail_followup" && (
-                      <button
-                        className="text-button"
-                        onClick={() => onReview("tasks")}
-                      >
-                        {t("Open the task", "打开事务")}
-                      </button>
-                    )}
-                    {onReview && item.kind === "followup" && (
-                      <button
-                        className="text-button"
-                        onClick={() =>
-                          onReview("tasks", followupTaskId(item) ?? undefined)
-                        }
-                      >
-                        {t("Open task", "打开待办")}
-                      </button>
-                    )}
+                    {(!target || item.kind !== "initiative") && <p>{t(item.body_en, item.body_zh)}</p>}
+                    {target && onReview && <button type="button" className="text-button"
+                        onClick={() => onReview(target.page, target.itemId)}>{t(target.en, target.zh)}</button>}
                     {t(item.reason_en, item.reason_zh) && (
                       <small>{t(item.reason_en, item.reason_zh)}</small>
                     )}
@@ -161,7 +109,7 @@ export function NoticeInbox({
                       {t("Dismiss", "知道了")}
                     </button>
                   </li>
-                ))}
+                );})}
               </ul>
             )}
           </article>

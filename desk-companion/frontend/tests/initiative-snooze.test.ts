@@ -13,5 +13,5 @@ test("conversation findings offer remind-later without claiming a send", () => {
   assert.match(source, /minutes:\s*60/);
   assert.match(source, /Got it/);
   assert.match(source, /\/dismissals/);
-  assert.equal(source.includes("Follow up on this"), false);
+  assert.match(source, /canActOnFinding\(finding\)/);
 });

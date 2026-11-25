@@ -113,6 +113,11 @@ export function AssistantPanel({
   homeHint,
   onClearTask,
   onOpenTask,
+  onOpenMemory,
+  onOpenCalendar,
+  focusNoticeId,
+  onFocusNoticeConsumed,
+  onReviewSurface,
 }: {
   t: Translate;
   taskId?: string;
@@ -126,6 +131,11 @@ export function AssistantPanel({
   homeHint?: ReactNode;
   onClearTask?: () => void;
   onOpenTask?: (taskId: string) => void;
+  onOpenMemory?: (memoryId: string) => void;
+  onOpenCalendar?: (ref: string) => void;
+  focusNoticeId?: string;
+  onFocusNoticeConsumed?: () => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
   const ownerView = data?.principal.kind === "owner";
@@ -134,6 +144,19 @@ export function AssistantPanel({
     data?.principal.id ?? "",
     !suspended && personalContextVisible(ownerView, data?.personal_context_visible, offline, stale),
   );
+  const [expandedFindings, setExpandedFindings] = useState<string[]>([]);
+  useEffect(() => {
+    const clear = () => setExpandedFindings([]);
+    window.addEventListener("desk:session", clear);
+    window.addEventListener("desk:personal-context", clear);
+    return () => { window.removeEventListener("desk:session",clear); window.removeEventListener("desk:personal-context",clear); };
+  }, []);
+  function showFindingSources(id:string, open:boolean) {
+    setExpandedFindings(old => {
+      if (old.includes(id) === open) return old;
+      return open ? [...old.slice(-15), id] : old.filter(key => key !== id);
+    });
+  }
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
   const refreshScope =
     data?.principal.kind === "owner" && data.personal_context_visible &&
@@ -495,6 +518,7 @@ export function AssistantPanel({
     voiceRevision.current = revision;
   }, [data?.voice.config_revision, wake.disable, t]);
   const openJobs = () => {
+    if (immersive) onExpandedChange?.(true);
     setJobsOpened(true);
     setView("jobs");
     setMenu(false);
@@ -1602,6 +1626,8 @@ export function AssistantPanel({
           t={t}
           visible={!expanded && !suspended && !busy && !voiceActive}
           onOpenConversation={() => onExpandedChange?.(true)}
+          onOpenTask={onOpenTask}
+          onReviewSurface={onReviewSurface}
         />
       )}
       <div className="assistant-toolbar">
@@ -1730,6 +1756,9 @@ export function AssistantPanel({
             <a className="text-button" href="/?page=assistant&settings=connections">
               {t("Reconnect Gmail to resume mail reminders", "重新连接 Gmail 以恢复邮件提醒")}
             </a>}
+          {(!immersive || expanded) && !taskId && privateOrdersVisible && !offline && !stale && (
+            <MailReplyReminders t={t} />
+          )}
           {(!immersive || expanded) && home.failed && <button type="button" className="text-button" onClick={home.retry}>
             {t("Retry loading the conversation", "重新读取对话记录")}
           </button>}
@@ -1743,8 +1772,10 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? [...(data?.initiative?.findings ?? []), ...(!taskId ? data?.initiative?.history ?? [] : [])] : []).map(item => {
-              if ("finding" in item) return <InitiativeMessage t={t} finding={item.finding} key={item.finding.id}/>;
+            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? [...(data?.initiative?.findings ?? []), ...(!taskId ? data?.initiative?.history ?? [] : []), ...(!taskId ? data?.initiative?.withdrawn ?? [] : [])] : []).map(item => {
+              if ("finding" in item) return <InitiativeMessage key={item.finding.id} t={t}
+                finding={item.finding} expandedSources={expandedFindings.includes(item.finding.id)} onSourcesChange={showFindingSources} onOpenTask={onOpenTask} onOpenMemory={onOpenMemory}
+                onOpenCalendar={onOpenCalendar} focusNoticeId={focusNoticeId} onFocused={onFocusNoticeConsumed} />;
               const turn = item.turn;
               return (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>

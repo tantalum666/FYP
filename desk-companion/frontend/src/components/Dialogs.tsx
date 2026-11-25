@@ -942,10 +942,7 @@ export function ReminderDialog({
   reminders: Reminder[];
   inbox?: DeskInbox;
   inline?: boolean;
-  onReview?: (
-    page: "assistant" | "memory" | "tasks",
-    noticeId?: string,
-  ) => void;
+  onReview?: import("../workspace/findingNavigation").ReviewAction;
   language: Language;
   zone: string;
   onClose: () => void;

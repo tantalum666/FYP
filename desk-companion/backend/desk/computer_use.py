@@ -13,6 +13,7 @@ from .browser_supervisor import BrowserSupervisor
 from .calendar import iso
 from .computer import ExecutionRejected
 from .computer_use_models import (
+    COMPUTER_DEMOS,
     ComputerUseInput,
     ComputerUseReceipt,
     MAX_SCREEN_BYTES,
@@ -195,25 +196,29 @@ class LiveOwnerPage:
             with jobs.store.connection() as conn:
                 self._authorize(conn, principal)
                 row = jobs._row(conn, self.job_id)
+                request = json.loads(row["request"])
+                if action["type"] in {"type", "keypress"} and request.get("start_url") not in COMPUTER_DEMOS:
+                    # Public-page preparation is read-only. Passwords and payment input
+                    # belong in the supported managed-provider authorization flow.
+                    raise DomainError("OWNER_PRIVATE_INPUT_UNAVAILABLE", 409)
                 if row["state"] != "owner_takeover":
                     raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
                 record = json.loads(row["result"]) if row["result"] else {}
                 if record.get("phase") != "held":
                     raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+                cached = self.receipts.get(key)
+                if cached:
+                    if cached["binding"] != binding:
+                        raise DomainError("OPERATION_ID_CONFLICT",409)
+                    if cached["state"] != "done":
+                        box.put(("error",PageLost()))
+                        return
+                    # Use the current authorized view; a retry never resends input.
+                    box.put(("ok", {"applied": True, "job": jobs._view(row,review=True), "operation_id":key}))
+                    return
                 if row["version"] != payload.expected_version:
                     raise DomainError("VERSION_CONFLICT", 409)
-            cached = self.receipts.get(key)
-            if cached:
-                with jobs.store.connection() as conn:
-                    self._authorize(conn, principal)
-                if cached["binding"] != binding:
-                    raise DomainError("OPERATION_ID_CONFLICT")
-                if cached["state"] != "done":
-                    box.put(("error", PageLost()))
-                    return
-                box.put(("ok", cached["public"]))
-                return
-            self.receipts[key] = {"binding": binding, "state": "dispatched", "public": None}
+            self.receipts[key] = {"binding": binding, "state": "dispatched"}
             message = self.channel.exchange({"owner_action": action}, {"owner_view"})
             if message.get("type") != "owner_view":
                 self.receipts[key]["state"] = "unknown"
@@ -240,7 +245,7 @@ class LiveOwnerPage:
                 jobs._state(conn, self.job_id, "owner_takeover", record.get("reason"), record)
                 view = jobs._view(jobs._row(conn, self.job_id), review=True)
             public = {"applied": True, "job": view, "operation_id": key}
-            self.receipts[key] = {"binding": binding, "state": "done", "public": public}
+            self.receipts[key] = {"binding": binding, "state": "done"}
             box.put(("ok", public))
         except DomainError as exc:
             if self.receipts.get(key, {}).get("state") == "dispatched":
@@ -655,6 +660,7 @@ class ComputerUseExecutor:
         record = {
             "paused": True,
             "takeover_available": bool(getattr(self.supervisor, "supports_owner_takeover", False)),
+            "sample_input": value.get("demo") is True,
             "verified": False,
             "wall": wall["wall"],
             "reason": wall["reason"],

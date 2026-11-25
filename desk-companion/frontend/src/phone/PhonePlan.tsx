@@ -21,12 +21,14 @@ export function PhonePlan({
   onOpen,
   onPlan,
   onDiscuss,
+  initialTaskId,
 }: {
   calendar: ReturnType<typeof usePhoneCalendar>;
   t: Translate;
   language: Language;
   offline: boolean;
   planTab: "calendar" | "tasks";
+  initialTaskId?: string;
   onNew: () => void;
   onOpen: (event: Occurrence) => void;
   onPlan: (event: EventInput) => void;
@@ -56,7 +58,7 @@ export function PhonePlan({
         </p>
       )}
       {planTab === "tasks" ? (
-        <TaskPanel t={t} zone={zone} onPlan={onPlan} onDiscuss={onDiscuss} />
+        <TaskPanel key={initialTaskId} initialTaskId={initialTaskId} t={t} zone={zone} onPlan={onPlan} onDiscuss={onDiscuss} />
       ) : (
         <>
           <div className="phone-plan-toolbar">

@@ -19,8 +19,9 @@ from desk.jobs import JobApproval
 from desk.store import encode
 from desk.text_ai import TextConfig
 
-CHROME = "/usr/local/bin/google-chrome"
-SECRET = "fixture-secret-otp-918273"
+from ui_fixture_paths import CHROME
+
+SECRET = "fixture-" + __import__("uuid").uuid4().hex
 HEADERS = {"X-Desk-Request": "1"}
 
 
@@ -119,22 +120,7 @@ def _post(client, job_id, kind, version, operation, **extra):
     )
 
 
-def _descendants(pid):
-    found = []
-    for entry in Path("/proc").iterdir():
-        if not entry.name.isdigit():
-            continue
-        try:
-            fields = (entry / "stat").read_text().split(")")[-1].split()
-            ppid = int(fields[1])
-            command = (entry / "cmdline").read_bytes().replace(b"\x00", b" ").decode(errors="replace")
-        except (OSError, IndexError, ValueError):
-            continue
-        if ppid == pid:
-            child = int(entry.name)
-            found.append((child, command))
-            found.extend(_descendants(child))
-    return found
+from ui_fixture_paths import process_children as _descendants
 
 
 def _chrome_children(pid):
@@ -289,9 +275,7 @@ def test_payment_wall_and_privacy_or_restart_close_the_page(tmp_path):
     assert paused["result"]["wall"] == "payment"
     held = _post(client, payment["id"], "takeover", paused["version"], "pay-takeover")
     assert held.status_code == 200
-    returned = _post(
-        client, payment["id"], "return", held.json()["job"]["version"], "pay-return"
-    )
+    returned = _post(client, payment["id"], "return", held.json()["job"]["version"], "pay-return")
     assert returned.status_code == 200, returned.text
     assert returned.json()["resumed"] is not True
     still = runtime.jobs.detail(payment["id"], review=True)
@@ -311,7 +295,9 @@ def test_payment_wall_and_privacy_or_restart_close_the_page(tmp_path):
         "show-pay",
     )
 
-    restart = _prepare(runtime, principal, "live-restart", "demo:verification", "Stop at the password")
+    restart = _prepare(
+        runtime, principal, "live-restart", "demo:verification", "Stop at the password"
+    )
     again = threading.Thread(target=runtime.jobs.run_one, daemon=True)
     again.start()
     waiting = _wait_state(runtime, restart["id"], "owner_takeover")
@@ -381,7 +367,9 @@ def test_dead_page_hidden_context_and_deadline_do_not_open_another_browser(tmp_p
     assert runtime.jobs.computer_use.launches == launches
     assert seen == []
 
-    second = _prepare(runtime, principal, "live-expire", "demo:verification", "Stop at the password")
+    second = _prepare(
+        runtime, principal, "live-expire", "demo:verification", "Stop at the password"
+    )
     expirer = threading.Thread(target=runtime.jobs.run_one, daemon=True)
     expirer.start()
     waiting = _wait_state(runtime, second["id"], "owner_takeover")

@@ -28,6 +28,11 @@ export function AliceHome({
   task,
   onClearTask,
   onOpenTask,
+  onOpenMemory,
+  onOpenCalendar,
+  focusNoticeId,
+  onFocusNoticeConsumed,
+  onReviewSurface,
 }: {
   visible?: boolean;
   conversationRequest?: number;
@@ -48,6 +53,11 @@ export function AliceHome({
   task?: { id: string; title: string };
   onClearTask: () => void;
   onOpenTask?: (taskId: string) => void;
+  onOpenMemory?: (memoryId: string) => void;
+  onOpenCalendar?: (ref: string) => void;
+  focusNoticeId?: string;
+  onFocusNoticeConsumed?: () => void;
+  onReviewSurface?: (page: "today" | "tasks") => void;
 }) {
   const scene = useSceneActivity();
   const { data } = useWorkspace();
@@ -116,6 +126,10 @@ export function AliceHome({
           taskTitle={task?.title}
           onClearTask={onClearTask}
           onOpenTask={onOpenTask}
+          onOpenMemory={onOpenMemory}
+          onOpenCalendar={onOpenCalendar}
+          focusNoticeId={focusNoticeId}
+          onFocusNoticeConsumed={onFocusNoticeConsumed}
           onStateChange={onConversationState}
           onReviewSurface={onReviewSurface}
         />

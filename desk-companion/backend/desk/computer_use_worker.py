@@ -158,7 +158,10 @@ def public_view(observation):
 
 
 async def persist_state(context, directory, boundary, resume_same_job):
-    state = scoped_storage(await context.storage_state(), boundary.origins)
+    # Human control keeps its browser context alive. External session cookies are
+    # not a replay artifact and must not be retained after a private wall.
+    state = ({"origins": [], "cookies": []} if getattr(boundary,"private_hold",False)
+             else scoped_storage(await context.storage_state(), boundary.origins))
     body = encode(state).encode()
     if (directory / "browser-state.json").is_file() or resume_same_job:
         refresh_file(directory, "browser-state.json", body)
@@ -182,6 +185,8 @@ async def owner_hold(
     browser_version,
 ):
     """Keep this Chromium context open until the owner hands the same page back."""
+    if not demo:
+        boundary.private_hold = True
     await persist_state(context, directory, boundary, resume_same_job)
     emit(
         "hold",
@@ -211,6 +216,10 @@ async def owner_hold(
             continue
         if command.get("owner_action"):
             try:
+                if not same_document(page, boundary, observation):
+                    raise DomainError("BROWSER_TARGET_CHANGED", 409)
+                if command["owner_action"].get("type") in {"type","keypress"} and not demo:
+                    raise DomainError("OWNER_PRIVATE_INPUT_UNAVAILABLE",409)
                 await apply_owner_action(page, command["owner_action"])
                 sequence += 1
                 if sequence > 98:
@@ -375,8 +384,8 @@ async def run(request):
                 for entry in storage.get("origins", []):
                     entry["origin"] = url  # Same fictional app, new owned listener.
             storage = scoped_storage(storage, boundary.origins)
-        try:
-            async with async_playwright() as playwright:
+        async with async_playwright() as playwright:
+            try:
                 browser = await playwright.chromium.launch(
                     executable_path=request["executable"],
                     headless=True,
@@ -663,15 +672,18 @@ async def run(request):
                 await browser.close()
                 browser = None
                 closed = True
-        finally:
-            if context:
-                await asyncio.wait_for(context.close(), 5)
-            if browser:
-                await asyncio.wait_for(browser.close(), 5)
-            if context or browser:
-                closed = True
-            if closed:
-                emit("cleanup", closed=True)
+            finally:
+                # Keep the driver alive until Chromium actually acknowledges close.
+                # Shutdown errors must not manufacture a verified result.
+                try:
+                    if context:
+                        await asyncio.wait_for(context.close(),5)
+                finally:
+                    if browser:
+                        await asyncio.wait_for(browser.close(),5)
+                        closed = True
+                    if closed:
+                        emit("cleanup",closed=True)
         emit("result", value=value)
 
 

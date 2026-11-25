@@ -81,6 +81,7 @@ def create_app(
     allow_watch_retention_migration=False,
     allow_public_capture_migration=False,
     public_capture_enabled=None,
+    development_origin=None,
 ):
     if public_capture_enabled is not None and type(public_capture_enabled) is not bool:
         raise DomainError("CAPTURE_CAPABILITY_INVALID", 422)
@@ -186,8 +187,14 @@ def create_app(
     allowed_origins = {
         f"http://{host}{port}"
         for host in ("localhost", "127.0.0.1", "testserver")
-        for port in ("", ":5190", ":8831", ":5191", ":8832", ":5192", ":8833")
+        for port in ("", ":5190", ":8831", ":5191", ":8832")
     }
+    if development_origin:
+        dev = urlsplit(development_origin)
+        if (dev.scheme != "http" or dev.hostname not in {"localhost","127.0.0.1"} or not dev.port
+                or dev.path or dev.query or dev.fragment or dev.username or dev.password):
+            raise ValueError("Specify one loopback development origin")
+        allowed_origins.add(development_origin)
     # The Mac-to-Pi SSH launcher binds this port on Mac loopback only.
     allowed_origins.update({"http://127.0.0.1:8891", "http://localhost:8891"})
     allowed_hosts = ["localhost", "127.0.0.1", "testserver"]

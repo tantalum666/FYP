@@ -4,38 +4,28 @@ Local fake initiative + fixture login. Not live mailbox or paid model.
 Owned ports 5193 (Vite) and 8834 (API), added to the loopback origin allowlist.
 """
 
+import tempfile
 import os
 from pathlib import Path
-import shutil
 import socket
-import subprocess
-import sys
 import time
 
 import pytest
 
-CHROME = "/usr/local/bin/google-chrome"
+expect = pytest.importorskip("playwright.sync_api").expect
+
+from ui_fixture_paths import CHROME, evidence_root, compiled_fixture, stop_fixture
+
 ROOT = Path(__file__).resolve().parents[1]
-EVIDENCE = ROOT.parents[0] / "output/qa/2026-11-25-inbox-initiative-dismiss"
+EVIDENCE = evidence_root("2026-11-25-inbox-initiative-dismiss")
 API_PORT = 8834
-WEB_PORT = 5193
+WEB_PORT = API_PORT
 
 
 def free(port):
     with socket.socket() as sock:
         sock.settimeout(0.2)
         return sock.connect_ex(("127.0.0.1", port)) != 0
-
-
-def wait(host, port):
-    deadline = time.time() + 40
-    while time.time() < deadline:
-        with socket.socket() as sock:
-            sock.settimeout(0.2)
-            if sock.connect_ex((host, port)) == 0:
-                return
-        time.sleep(0.2)
-    raise RuntimeError(f"{host}:{port} did not open")
 
 
 def measure(page):
@@ -48,9 +38,7 @@ def measure(page):
 
 
 def start_servers(runtime: Path):
-    if runtime.exists():
-        shutil.rmtree(runtime)
-    runtime.mkdir(parents=True)
+    runtime.mkdir(parents=True, exist_ok=True)
     env = {**os.environ, "PYTHONPATH": str(ROOT / "backend")}
     seed = (
         "from desk.app import create_app\n"
@@ -58,7 +46,7 @@ def start_servers(runtime: Path):
         "from desk.tasks import TaskInput\n"
         "from desk.workspace_data import PreferencesUpdate, WorkspacePreferences\n"
         "from desk.initiative import Findings\n"
-        f"app = create_app({str(runtime)!r}, password='fixture', scheduler=False)\n"
+        f"app = create_app({str(runtime)!r}, development_origin='http://127.0.0.1:{WEB_PORT}', password='fixture', scheduler=False)\n"
         "r = app.state.runtime\n"
         "r.text_ai.config = TextConfig(provider='fake', background=True)\n"
         "r.data.update(PreferencesUpdate(expected_version=1, preferences=WorkspacePreferences(quiet_enabled=False)), 'prefs')\n"
@@ -77,31 +65,7 @@ def start_servers(runtime: Path):
         "import uvicorn\n"
         f"uvicorn.run(app, host='127.0.0.1', port={API_PORT}, log_level='warning')\n"
     )
-    api = subprocess.Popen(
-        [sys.executable, "-c", seed], cwd=ROOT, env=env, start_new_session=True
-    )
-    web = subprocess.Popen(
-        ["npx", "vite", "--host", "127.0.0.1", "--port", str(WEB_PORT), "--strictPort"],
-        cwd=ROOT / "frontend",
-        env={**os.environ, "DESK_API_TARGET": f"http://127.0.0.1:{API_PORT}"},
-        start_new_session=True,
-    )
-    wait("127.0.0.1", API_PORT)
-    wait("127.0.0.1", WEB_PORT)
-    for port, process in ((API_PORT, api), (WEB_PORT, web)):
-        if process.poll() is not None:
-            raise RuntimeError(f"server on {port} exited early: {process.returncode}")
-    return api, web
-
-
-def stop_servers(api, web):
-    for process in (web, api):
-        try:
-            os.killpg(process.pid, 15)
-        except ProcessLookupError:
-            process.terminate()
-    for process in (web, api):
-        process.wait(timeout=10)
+    return compiled_fixture(seed, ROOT, env, API_PORT)
 
 
 def run_journey(page, origin, shot):
@@ -116,7 +80,7 @@ def run_journey(page, origin, shot):
     inbox = page.get_by_label("Alice updates")
     inbox.wait_for(timeout=30000)
     inbox.get_by_role("button").filter(has_text="Alice noticed something").click()
-    assert inbox.get_by_role("button", name="View in conversation").count() == 1
+    expect(inbox.get_by_role("button", name="View in conversation")).to_have_count(1, timeout=15000)
     inbox.get_by_role("button", name="Dismiss", exact=True).click()
     # ReminderDialog unmounts NoticeInbox at total 0 and shows the empty state.
     page.get_by_role("heading", name="All caught up.").wait_for(timeout=15000)
@@ -130,7 +94,7 @@ def run_journey(page, origin, shot):
         assert "contract dates differ" not in cue.inner_text().lower()
     page.get_by_role("button", name="Conversation", exact=True).click()
     page.wait_for_timeout(500)
-    assert page.locator(".initiative-message").count() == 0
+    expect(page.locator(".initiative-message")).to_have_count(0, timeout=15000)
     assert "contract dates differ" not in page.locator("body").inner_text().lower()
     return overflow
 
@@ -147,9 +111,9 @@ def test_inbox_dismiss_clears_finding_on_desktop_and_narrow():
         (1440, 1000, EVIDENCE / "desktop-1440.png"),
         (320, 740, EVIDENCE / "narrow-320.png"),
     ):
-        api = web = None
+        api = None
         try:
-            api, web = start_servers(Path(f"/tmp/inbox-dismiss-ui-{width}"))
+            api = start_servers(Path(tempfile.mkdtemp(prefix="fyp-ui-")))
             with sync_playwright() as playwright:
                 browser = playwright.chromium.launch(
                     executable_path=CHROME,
@@ -160,8 +124,8 @@ def test_inbox_dismiss_clears_finding_on_desktop_and_narrow():
                 overflows.append(run_journey(page, origin, shot))
                 browser.close()
         finally:
-            if api and web:
-                stop_servers(api, web)
+            if api is not None:
+                stop_fixture(api)
             # Ensure ports release before the next viewport boot.
             deadline = time.time() + 10
             while time.time() < deadline and not (free(API_PORT) and free(WEB_PORT)):

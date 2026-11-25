@@ -147,7 +147,10 @@ class DeskNativePlugin: CAPPlugin, CAPBridgedPlugin, URLSessionTaskDelegate {
             "/assistant/messages", "/assistant/messages/stream", "/assistant/retained-messages",
             "/browser/observations", "/google/preview", "/google/refresh"
         ]
-        let transport = method == "POST" && extendedPaths.contains(path) ? extendedSession : session
+        let ownerControl = path.hasPrefix("/computer/jobs/") && ["page","return","takeover"].contains(String(path.split(separator:"/").last ?? ""))
+        let extended = extendedPaths.contains(path) || path.hasPrefix("/assistant/flight-checkouts/") || path == "/apps/letsfg/connect"
+        let transport = method == "POST" && (ownerControl || extended) ? extendedSession : session
+        if method == "POST" && ownerControl { request.timeoutInterval = 30 }
         transport.dataTask(with: request) { [weak self] data, response, error in
             guard let self, let data, let response = response as? HTTPURLResponse, error == nil, data.count <= 8_000_000 else { call.reject("Desk connection failed"); return }
             if response.statusCode == 401 && method == "GET" { DeskPhoneFeatures.clear() }

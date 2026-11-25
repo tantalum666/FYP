@@ -1,3 +1,5 @@
+import { citedCalendarOccurrence } from "./workspace/calendarCitation";
+import { useWorkspace } from "./workspace/WorkspaceContext";
 import { usePendingWrite } from "./usePendingWrite";
 import {
   useCallback,
@@ -66,7 +68,7 @@ function watchDesktopRail(notify: () => void) {
 export function App() {
   const pendingOperation = usePendingWrite();
   const draftState = useDraftState();
-  const [leavePage, setLeavePage] = useState<Page | null>(null);
+  const [leavePage, setLeavePage] = useState<{page: Page; itemId?: string} | null>(null);
   const [language, setLanguageState] = useState<Language>(() =>
     localStorage.getItem("desk.language") === "zh" ? "zh" : "en",
   );
@@ -159,13 +161,13 @@ export function App() {
   const [focusNoticeId, setFocusNoticeId] = useState<string>();
   const openAssistant = () => goPage("assistant");
   function reviewNotice(
-    target: "assistant" | "memory" | "tasks",
-    noticeId?: string,
+    target: "assistant" | "memory" | "tasks" | "today" | "calendar",
+    itemId?: string,
   ) {
     setShowReminders(false);
-    if (target === "assistant") setFocusNoticeId(noticeId);
+    if (target === "assistant") setFocusNoticeId(itemId);
     else setFocusNoticeId(undefined);
-    goPage(target);
+    goPage(target, target === "tasks" || target === "memory" ? itemId : undefined);
     if (target === "assistant") requestConversation((n) => n + 1);
   }
   const discussTask = (id: string, title: string) => {
@@ -338,13 +340,13 @@ export function App() {
     });
   }
   function goPage(p: Page, itemId?: string) {
-    if (p === page) {
+    if (p === page && !itemId) {
       closeNavigation();
       return;
     }
     if (draftState.busy) return;
     if (draftState.dirty) {
-      setLeavePage(p);
+      setLeavePage({page:p, itemId});
       return;
     }
     setTaskToOpen(p === "tasks" ? itemId : undefined);
@@ -353,61 +355,25 @@ export function App() {
     if (navigationOpen) closeNavigation();
     setError(null);
   }
-  /** Open Event details for a local calendar:{id}:{occurrence_key} citation. */
+  const { data: ownerWorkspace, offline: deskOffline, stale: deskStale } = useWorkspace();
+  const calendarRead = useRef(0);
+  const calendarVisible = ownerWorkspace?.principal.kind === "owner" && ownerWorkspace.personal_context_visible && !deskOffline && !deskStale;
+  useEffect(() => {
+    calendarRead.current++;
+    const invalidate = () => { calendarRead.current++; };
+    window.addEventListener("desk:session", invalidate);
+    return () => { invalidate(); window.removeEventListener("desk:session", invalidate); };
+  }, [page, session, calendarVisible, draftState.dirty, draftState.busy, chatState.busy]);
   async function openCitedCalendar(ref: string) {
-    if (ref.startsWith("calendar:google:") || !ref.startsWith("calendar:")) return;
-    if (draftState.busy || chatState.busy) {
-      setNotice(
-        t("Wait for the current reply first.", "请先等待当前回复结束。"),
-      );
-      return;
-    }
-    if (draftState.dirty) {
-      setNotice(t("Finish your current edit first.", "请先完成当前编辑。"));
-      return;
-    }
-    const rest = ref.slice("calendar:".length);
-    const cut = rest.indexOf(":");
-    if (cut <= 0) return;
-    const eventId = rest.slice(0, cut);
-    const occurrenceKey = rest.slice(cut + 1);
-    const day = occurrenceKey.slice(0, 10);
-    const dayStart = DateTime.fromISO(day, { zone });
-    if (!dayStart.isValid) {
-      setNotice(
-        t("That calendar item is no longer available.", "该日程已不可用。"),
-      );
-      return;
-    }
+    if (!calendarVisible || draftState.busy || chatState.busy || draftState.dirty) return;
+    const read = ++calendarRead.current;
     try {
-      const start = dayStart.startOf("day").toUTC().toISO()!;
-      const end = dayStart.plus({ days: 1 }).startOf("day").toUTC().toISO()!;
-      const snap = await request<Snapshot>(
-        `/calendar?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`,
-      );
-      const match = snap.occurrences.find(
-        (item) =>
-          item.id === eventId && item.occurrence_key === occurrenceKey,
-      );
-      if (!match) {
-        setNotice(
-          t("That calendar item is no longer available.", "该日程已不可用。"),
-        );
-        return;
-      }
-      setAnchorDate(day);
-      setPickerDate(day);
-      setPage("calendar");
-      setView("day");
-      setSnapshot(snap);
-      setLoadedRange(start + "/" + end);
-      currentRevision.current = snap.revision;
-      setDetail(match);
-      if (navigationOpen) closeNavigation();
-      setError(null);
-    } catch (reason) {
-      failOwnerRequest(reason);
-    }
+      const result = await citedCalendarOccurrence(ref,zone);
+      if (read !== calendarRead.current) return;
+      if (!result) { setNotice(t("That calendar item is no longer available.", "该日程已不可用。")); return; }
+      setAnchorDate(result.day); setPickerDate(result.day); setView("day");
+      goPage("calendar"); setDetail(result.event);
+    } catch (reason) { if (read===calendarRead.current) failOwnerRequest(reason); }
   }
   function selectDay(d: DateTime) {
     setAnchorDate(dayISO(d));
@@ -687,6 +653,10 @@ export function App() {
           task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
           onOpenTask={(id) => goPage("tasks", id)}
+          onOpenMemory={(id) => goPage("memory", id)}
+          onOpenCalendar={openCitedCalendar}
+          focusNoticeId={focusNoticeId}
+          onFocusNoticeConsumed={() => setFocusNoticeId(undefined)}
           onConversationState={setChatState}
           onReviewSurface={(target) => goPage(target)}
         />
@@ -887,8 +857,9 @@ export function App() {
             <button
               className="secondary"
               onClick={() => {
-                setTaskToOpen(undefined);
-                setPage(leavePage);
+                setTaskToOpen(leavePage.page === "tasks" ? leavePage.itemId : undefined);
+                setMemoryToOpen(leavePage.page === "memory" ? leavePage.itemId : undefined);
+                setPage(leavePage.page);
                 setNavigationOpen(false);
                 setLeavePage(null);
               }}
