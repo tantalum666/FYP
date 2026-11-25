@@ -156,7 +156,9 @@ export function App() {
   }, [session]);
   const [conversationRequest, requestConversation] = useState(0);
   const openAssistant = () => goPage("assistant");
-  function reviewNotice(target: "assistant" | "memory" | "tasks") {
+  function reviewNotice(
+    target: "calendar" | "assistant" | "memory" | "tasks",
+  ) {
     setShowReminders(false);
     goPage(target);
     if (target === "assistant") requestConversation((n) => n + 1);

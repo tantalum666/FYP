@@ -32,4 +32,6 @@ The standard storefront is the WooCommerce sandbox. Stripe’s original test-mod
 
 The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
 
-**Next step** — When the original Pi comes back on its pinned owner relay, apply its saved update from `92acac8e` to `b759950c` and verify its existing store, accounts, A3 profile and kiosk build on the device.
+**Grok Bot · 25 November Inbox calendar view** — Independent PR from current `main` (`fc3b8d2`): Inbox Calendar update receipts offer View calendar without dismissing. Chrome 1440+320 on owned ports 5203/8844. Evidence: [inbox calendar view](output/qa/2026-11-25-inbox-calendar-view/verification.md). Open #158–#175 left untouched. **Stop for parent budget check** before another personal-agent slice.
+
+**Next step** — Parent rechecks weekly included usage / credits, then either merge Codex-ready personal-agent PRs in order or authorize the next one bounded independent owner-facing journey from current `main`.

@@ -422,7 +422,10 @@ export function PhoneApp() {
                   setReminders(false);
                   if (target === "assistant") showConversation();
                   else if (target === "memory") pushPanel("memory");
-                  else {
+                  else if (target === "calendar") {
+                    setPlanTab("calendar");
+                    setRootPanel("plan");
+                  } else {
                     setPlanTab("tasks");
                     setRootPanel("plan");
                   }

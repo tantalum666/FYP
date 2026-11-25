@@ -1017,3 +1017,9 @@ The owner opted into local retention of ordinary messages and the final text of 
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 2026-11-25 · Inbox calendar update opens Calendar
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts. May be the last product slice before handoff capacity.
+- **工程选择：** On current `main`, calendar update Inbox receipts had only Dismiss. Add View calendar. Do not dismiss. Do not stack open #158–#175.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5203/8844; frontend source contract. Fixture notice, not live Google. [QA](output/qa/2026-11-25-inbox-calendar-view/verification.md).

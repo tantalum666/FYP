@@ -942,7 +942,9 @@ export function ReminderDialog({
   reminders: Reminder[];
   inbox?: DeskInbox;
   inline?: boolean;
-  onReview?: (page: "assistant" | "memory" | "tasks") => void;
+  onReview?: (
+    page: "calendar" | "assistant" | "memory" | "tasks",
+  ) => void;
   language: Language;
   zone: string;
   onClose: () => void;

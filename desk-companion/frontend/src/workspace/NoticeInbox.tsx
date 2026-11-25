@@ -15,9 +15,17 @@ export function NoticeInbox({
   inbox: DeskInbox;
   language: Language;
   zone: string;
-  onReview?: (page: "assistant" | "memory" | "tasks") => void;
+  onReview?: (
+    page: "calendar" | "assistant" | "memory" | "tasks",
+  ) => void;
   t: Translate;
 }) {
+  const calendarKinds = new Set([
+    "calendar_deadline",
+    "calendar_conflict",
+    "calendar_decision",
+    "calendar_cancelled",
+  ]);
   const [expanded, setExpanded] = useState<string[]>([]);
   if (!inbox.enabled) return null;
   const groups = new Map<string, DeskNotice[]>();
@@ -106,6 +114,14 @@ export function NoticeInbox({
                         onClick={() => onReview("memory")}
                       >
                         {t("View memories", "查看记忆")}
+                      </button>
+                    )}
+                    {onReview && item.kind && calendarKinds.has(item.kind) && (
+                      <button
+                        className="text-button"
+                        onClick={() => onReview("calendar")}
+                      >
+                        {t("View calendar", "查看日历")}
                       </button>
                     )}
                     {onReview && item.kind === "followup" && (

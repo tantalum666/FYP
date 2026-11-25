@@ -35,7 +35,7 @@ Omitted `notes`, `location`, and `reminder_minutes` are left as stored. The task
 
 A conflict, prepare-for-meeting, or requested RSVP becomes a `calendar_advice` draft. The summary cites the fixture event id and `observed_at`. `send` and `accept` stay false. Confirming writes a task note that no invite was accepted and no RSVP was sent. Cancelling the draft does not write that note. Full permission does not auto-confirm this kind. A paired display cannot list, sync, or confirm it.
 
-Notices are published only for a new conflict, a deadline inside 24 hours, a cancelled meeting that already had a task, or a draft that needs a decision. An unchanged or far new event stays silent. During quiet hours the same Notifier records the notice as held. `Runtime.tick` publishes that hold when quiet hours end, using the existing notice id so a restart does not drop it or deliver it twice.
+Notices are published only for a new conflict, a deadline inside 24 hours, a cancelled meeting that already had a task, or a draft that needs a decision. An unchanged or far new event stays silent. During quiet hours the same Notifier records the notice as held. `Runtime.tick` publishes that hold when quiet hours end, using the existing notice id so a restart does not drop it or deliver it twice. Inbox offers View calendar on those receipts without dismissing them.
 
 ## Backup
 
