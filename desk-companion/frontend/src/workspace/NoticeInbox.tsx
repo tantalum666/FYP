@@ -15,7 +15,10 @@ export function NoticeInbox({
   inbox: DeskInbox;
   language: Language;
   zone: string;
-  onReview?: (page: "assistant" | "memory" | "tasks") => void;
+  onReview?: (
+    page: "assistant" | "memory" | "tasks",
+    noticeId?: string,
+  ) => void;
   t: Translate;
 }) {
   const [expanded, setExpanded] = useState<string[]>([]);
@@ -93,7 +96,7 @@ export function NoticeInbox({
                     {onReview && item.kind === "initiative" ? (
                       <button
                         className="text-button"
-                        onClick={() => onReview("assistant")}
+                        onClick={() => onReview("assistant", item.id)}
                       >
                         {t("View in conversation", "在对话中查看")}
                       </button>

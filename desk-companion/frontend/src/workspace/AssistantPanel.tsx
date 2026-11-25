@@ -111,6 +111,8 @@ export function AssistantPanel({
   suspended = false,
   homeHint,
   onClearTask,
+  focusNoticeId,
+  onFocusNoticeConsumed,
 }: {
   t: Translate;
   taskId?: string;
@@ -123,6 +125,8 @@ export function AssistantPanel({
   suspended?: boolean;
   homeHint?: ReactNode;
   onClearTask?: () => void;
+  focusNoticeId?: string;
+  onFocusNoticeConsumed?: () => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
   const ownerView = data?.principal.kind === "owner";
@@ -1734,7 +1738,16 @@ export function AssistantPanel({
               .map(jobCard)}
           {(!immersive || expanded) &&
             conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? (data?.initiative?.findings ?? []) : []).map(item => {
-              if ("finding" in item) return <InitiativeMessage t={t} finding={item.finding} key={item.finding.id}/>;
+              if ("finding" in item)
+                return (
+                  <InitiativeMessage
+                    t={t}
+                    finding={item.finding}
+                    focusNoticeId={focusNoticeId}
+                    onFocused={onFocusNoticeConsumed}
+                    key={item.finding.id}
+                  />
+                );
               const turn = item.turn;
               return (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>

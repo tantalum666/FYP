@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Inbox initiative opens its Conversation finding
+
+On an Inbox initiative receipt, View in conversation opens Assistant, expands Conversation, and focuses the bound finding with Sources open. It does not dismiss the receipt or the finding. Dismiss remains the explicit clear.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.

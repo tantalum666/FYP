@@ -27,6 +27,8 @@ export function AliceHome({
   onConversationState,
   task,
   onClearTask,
+  focusNoticeId,
+  onFocusNoticeConsumed,
 }: {
   visible?: boolean;
   conversationRequest?: number;
@@ -46,6 +48,8 @@ export function AliceHome({
   onConversationState: (value: { dirty: boolean; busy: boolean }) => void;
   task?: { id: string; title: string };
   onClearTask: () => void;
+  focusNoticeId?: string;
+  onFocusNoticeConsumed?: () => void;
 }) {
   const scene = useSceneActivity();
   const { data } = useWorkspace();
@@ -113,6 +117,8 @@ export function AliceHome({
           taskId={task?.id}
           taskTitle={task?.title}
           onClearTask={onClearTask}
+          focusNoticeId={focusNoticeId}
+          onFocusNoticeConsumed={onFocusNoticeConsumed}
           onStateChange={onConversationState}
         />
       </div>

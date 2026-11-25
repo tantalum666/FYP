@@ -155,9 +155,15 @@ export function App() {
     if (session === null) setAssistantTask(undefined);
   }, [session]);
   const [conversationRequest, requestConversation] = useState(0);
+  const [focusNoticeId, setFocusNoticeId] = useState<string>();
   const openAssistant = () => goPage("assistant");
-  function reviewNotice(target: "assistant" | "memory" | "tasks") {
+  function reviewNotice(
+    target: "assistant" | "memory" | "tasks",
+    noticeId?: string,
+  ) {
     setShowReminders(false);
+    if (target === "assistant") setFocusNoticeId(noticeId);
+    else setFocusNoticeId(undefined);
     goPage(target);
     if (target === "assistant") requestConversation((n) => n + 1);
   }
@@ -622,6 +628,8 @@ export function App() {
           onEvent={setDetail}
           task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
+          focusNoticeId={focusNoticeId}
+          onFocusNoticeConsumed={() => setFocusNoticeId(undefined)}
           onConversationState={setChatState}
         />
         {page !== "assistant" &&
