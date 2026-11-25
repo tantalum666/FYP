@@ -1198,6 +1198,12 @@ Verified task selection and drafts, reminders, calendar writes and Records, memo
 
 **Done:** Branch `cursor/suggestion-followup-status-e853` from `fc3b8d2a`. `POST /api/initiative/{id}/follow-ups` binds a private task by id; Conversation shows Follow up on this and live status; stranger/hide-private/idempotence/same-title decoy covered. Owned ports 5200/8840 allowed for local Chrome. Reused #160-class baseline expectation fixes only. Ancillary #160 EOF blank-line hygiene recorded on `a4882b89`.
 
-**Verified:** Focused initiative 24 passed; full backend 3058 passed / 1 skipped; frontend 438 passed; tsc/build/ruff/diff --check clean; Chrome 1440 and 320 with fail-then-retry. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md).
+**Verified (initial):** Focused initiative 24 passed; full backend 3058 passed / 1 skipped; frontend 438 passed; tsc/build/ruff/diff --check clean; Chrome 1440 and 320 with fail-then-retry. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md).
 
-**Remaining:** Parent budget decision; Codex review; no merge/CI/deploy/live mailbox/paid model; #158–#160 stay independent.
+### Adversarial + four-way gate
+
+**Done:** Product tip `be5cfaf3` — refuse `INITIATIVE_STALE`, same-conn status, adversarial permission/replay/delete/title tests; UI abort→retry. Local throwaway four-way `43b82c75` (main→158→159→160→161); prior `65eb854e` preserved; #158–#160 untouched on GitHub.
+
+**Verified:** Independent backend **3062 passed / 1 skipped** (clean re-run); frontend 438; focused initiative 28; combined backend 3079/1 skip with 2 UI port-contention fails that each re-passed alone; four sequential browser UIs 4 passed; combined frontend 442; tsc/build/ruff/diff clean.
+
+**Remaining:** Parent budget decision; Codex review of #158–#161; no merge/CI/deploy/live mailbox/paid model.

@@ -1022,3 +1022,8 @@ The owner requested a redesign of every destination outside Alice’s home and a
 
 - **Owner authorization:** Auto coding under the standing near-99.9% weekly-limit / no-extra-credits constraint; one bounded user-completable personal-agent slice then stop. No merge, CI, deploy, Pi/hardware, live account, external message, order, payment, paid model, or provider/A3 change. Defaults remain GPT-6.2 Sol / GPT-Live-1.1 / A3 v9. Do not treat agent go-ahead as owner permission beyond that scope.
 - **Engineering choice:** On current main after #157, the highest-value honest gap inside Alice Conversation was proactive finding → Sources → explicit Follow up on this → private task bound by id → revisitable status. Implemented on a new branch from `fc3b8d2a` without stacking #158–#160. Local fake findings and Chrome on owned ports only; not live-mailbox acceptance. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+
+## 2026-11-25 · Adversarial review and four-way local gate for #161
+
+- **Owner authorization:** Continue one bounded PR #161 adversarial + main→158→159→160→161 local throwaway integration; no new feature, merge, CI, deploy, or history rewrite. Review is not send permission.
+- **Engineering findings:** Stale/withdrawn sources could still open a follow-up; `_followup_status` nested a second DB connection inside the write transaction. Fixed on #161 with `INITIATIVE_STALE` and same-connection status reads, plus adversarial tests. Four-way combined tree `43b82c75` kept all features and stronger baseline asserts; #158–#160 GitHub tips untouched. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).

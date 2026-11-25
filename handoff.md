@@ -2,18 +2,18 @@
 
 25 November 2026, Hong Kong. Public `main` remains `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157). [Product](product.md) · [decisions](decision-log.md) · [work history](work-log.md).
 
-## This slice
+## This slice (#161)
 
-Independent branch `cursor/suggestion-followup-status-e853` (tested product `aab9308582d1f70ea8e290585c8bc15f05482390`; notes tip cites that SHA) from that main tip (not #158/#159/#160, not throwaway `65eb854e`). Conversation findings already had Sources and Got it; they lacked an explicit owner follow-up bound to a private task with revisitable status. That journey is implemented and locally verified: Follow up on this → private task by id → live status on the finding card → Tasks listing; draft/send never claimed. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
+Branch `cursor/suggestion-followup-status-e853` product tip `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6`: proactive finding → Sources → Follow up on this → private task by id → revisitable status; stale evidence refused; replay/paired/hide/revoke covered. Adversarial + four-way local gate recorded. [Verification](output/qa/2026-11-25-initiative-followup/verification.md).
 
-Open PRs #158 / #159 / #160 stay untouched. #160 EOF blank-line hygiene is on tip `a4882b89` (whitespace only; suites remain on `87a38f48` / `65eb854e`).
+Open PRs #158 / #159 / #160 stay untouched on GitHub. Prior three-way throwaway `65eb854e` preserved. New four-way throwaway combined tree `43b82c75` (local only).
 
 ## Running software (unchanged this slice)
 
-Normal Mac Web and Simulator still run application `b759950c` from the workspace redesign release. Defaults stay GPT-6.2 Sol / GPT-Live-1.1 / A3 v9. [Workspace release](output/qa/2026-11-25-workspace-redesign/verification.md) · [continuity](output/qa/2026-11-24-continuity/verification.md).
+Normal Mac Web and Simulator still run application `b759950c`. Defaults stay GPT-6.2 Sol / GPT-Live-1.1 / A3 v9.
 
 ## Not done
 
-No GitHub merge, CI, deploy, Pi/hardware, live mailbox, paid model, provider/A3 change, or import of #158–#160 features. Local fixture browser evidence is not live external acceptance.
+No GitHub merge, CI, deploy, Pi/hardware, live mailbox, paid model, or feature import across #158–#160.
 
-**Next step** — Parent rechecks remaining weekly included usage, then Codex review of this new PR (and optionally #158/#159/#160). The Pi update from `92acac8e` to `b759950c` stays a separate device step.
+**Next step** — Parent rechecks remaining weekly included usage, then Codex review of open PRs #158–#161. The Pi update from `92acac8e` to `b759950c` stays a separate device step.

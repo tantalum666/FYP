@@ -1,89 +1,100 @@
 # Group 2 · Initiative finding → follow-up → revisitable status
 
-25 November 2026. Grok Bot. Independent branch from public `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157 workspace). Full suites ran on tested product tree `aab9308582d1f70ea8e290585c8bc15f05482390`; later notes-only tip cites that SHA and is not a fake re-run of the suites. Pull requests #158, #159 and #160 were not checked out, stacked, merged, or edited. Throwaway three-way tree `65eb854e` was not used as a build base.
+25 November 2026. Grok Bot. Independent branch from public `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157 workspace). Adversarial + four-way gate product tip `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6`. Notes tip after this document cites that product SHA and is not a fake suite re-run. Pull requests #158, #159 and #160 were not checked out for editing, restacked, or feature-imported. Prior three-way throwaway `65eb854ecd99dd5e9998161b57aab4a451340eac` is preserved and was not used as a build base.
 
 ## Chosen gap (current main)
 
 On `main` after #157, Conversation already shows proactive findings with Sources and Got it. The owner could dismiss a finding, but could not explicitly open a bound private follow-up task from that finding and later reread accurate status on the same card. Mail-thread follow-up and memory follow-up are different journeys. This slice closes only that suggestion → sources → owner-chosen follow-up → revisitable status path inside existing Alice Conversation / Tasks.
 
-## Reading scope
+## Adversarial review (transaction / permission)
 
-- `AGENTS.md`, `product.md`, `handoff.md`, recent `decision-log.md` / `work-log.md`
-- [Nov 11 Grok review verification](../2026-11-11-grok-review/verification.md)
-- [Proactive research contract](../../desk-companion/docs/proactive-research.md), [personal-agent status](../../desk-companion/docs/personal-agent-status.md), [ui-copy](../../desk-companion/docs/ui-copy.md)
-- Current `initiative.py`, `InitiativeMessages.tsx`, Tasks listing, private mutation / MutationFeedback
-- #160 suite-gate notes for reusable baseline expectation fixes only (fingerprint, reprice clarify, managed-browser `session_origin`, forget `home_archived`, Google composer mocks, `requestDeadline`, Today/`MomentCard` mount). No #158/#159 feature code.
+Reviewed actual write semantics, not only the happy card.
+
+| Case | Finding | Fix / evidence |
+|---|---|---|
+| Same-key replay + second key | One task; second key returns `already_following` | Covered in `test_followup_replay_and_second_key_bind_one_task` |
+| Nested status read in write txn | `_followup_status` opened a second SQLite connection inside `apply` | Reuse the write `conn` |
+| Withdrawn / changed sources | Follow-up could still create a task for a finding no longer matched by `sources.matches` | Refuse with `INITIATIVE_STALE` (409) before insert |
+| Got it | Dismissals never create `initiative_followup` evidence | Covered |
+| Paired display Bearer | Owner cookie required; paired 403 | Covered |
+| hide_private between preview and commit | `require_owner_transaction` → `PRIVATE_CONTEXT_HIDDEN` | Covered |
+| Revoked session | Logout then POST → 403 | Covered |
+| Deleted bound task | Status `missing`; later POST keeps same task id, no second task | Covered |
+| Edited title + same-title decoy | Live title from bound id; decoy ignored | Covered |
+| Cancelled / completed | Live status; dismiss does not send or overwrite | Covered |
+| Notices | Titles stay generic (`Alice noticed something` / `Alice has N updates`) | Asserted no finding wording in notice JSON |
+| Failed write after unknown | Abort keeps exact operation id; Retry reconciles original | UI uses abort-then-continue |
+
+Broader gap (not fixed here): no hard-delete task API; missing status uses row absence. No accidental follow-up from opening Sources (details only).
 
 ## Implemented journey
 
 1. Owner expands Conversation and opens Sources on a pending finding.
-2. Owner chooses Follow up on this. Alice creates one private task bound by task id to that finding. Nothing is sent. External effects are not claimed.
-3. The finding card shows live status (open / waiting / completed / cancelled / missing). Completing the bound task updates status; a same-title decoy task does not steal the binding.
-4. Tasks lists the follow-up. Hide-private fences display of the private task; the id binding remains.
-5. A failed write keeps the exact request for Retry the same request; recovery does not invent a second task.
-6. Got it still dismisses without sending and without reopening a completed follow-up.
+2. Owner chooses Follow up on this. Alice creates one private task bound by task id to that finding. Nothing is sent.
+3. The finding card shows live status (open / waiting / completed / cancelled / missing).
+4. Tasks lists the follow-up. Hide-private fences display; id binding remains.
+5. Unknown/aborted write keeps Retry the same request; success does not invent a second task.
+6. Got it still dismisses without sending.
+7. Stale/withdrawn evidence refuses a new follow-up without creating a task.
 
 Local fake initiative + fixture login only. Not live mailbox, not paid model, not live external acceptance.
 
 ## Origin ports
 
-Owned browser ports `5200` (Vite) and `8840` (API) are added to the existing loopback allowlist beside `5190`/`8831`/`5191`/`8832`. POST from those origins no longer fails `ORIGIN_NOT_ALLOWED`. Production HTTPS / Pi tunnel rules are unchanged.
+Owned browser ports `5200` (Vite) and `8840` (API) remain on the loopback allowlist beside `5190`/`8831`/`5191`/`8832`.
 
-## Local checks
+## Independent local checks (product `be5cfaf3`)
 
-Interpreter `/tmp/desk-venv/bin/python`. Chrome at `/usr/local/bin/google-chrome`. UI ports 8840/5200 owned by the test process group.
+Interpreter `/tmp/desk-venv/bin/python`. Chrome `/usr/local/bin/google-chrome`.
 
 | Check | Result |
 |---|---|
-| Focused initiative API + UI | **24 passed** (`tests/test_initiative.py` 23 + `tests/test_initiative_followup_ui.py` 1) |
-| Full backend | **3058 passed, 1 skipped, 0 failed**, 1004.33s. Skip: existing `tests/test_shop_basket.py` local PHP CLI unavailable |
+| Focused initiative API + adversarial + UI | **28 passed** (`test_initiative.py` 27 + `test_initiative_followup_ui.py` 1) |
+| Full backend (clean re-run after one flake) | **3062 passed, 1 skipped, 0 failed**, 1044.82s. Skip: existing PHP CLI shop basket |
+| First full run on this tip | 3061 passed / 1 failed: `test_managed_browser_auth[stale_form]` `JOB_DEADLINE_EXCEEDED` (unrelated timing). Isolated re-run of that case **passed**; clean full re-run green above |
 | Frontend `npm test` | **438 passed, 0 failed** |
-| `npx tsc --noEmit` | passed |
-| `npm run build` | passed (existing chunk-size warning) |
-| Ruff on edited Python | All checks passed |
-| `git diff --check` | clean |
+| `npx tsc --noEmit` / `npm run build` | passed (existing chunk-size warning) |
+| Ruff on edited Python / `git diff --check` | clean |
+| Chrome 1440 / 320 | abort → Retry → Follow-up open. Nothing was sent. → Tasks |
 
-### Baseline suite gate (same class as #160; not feature import)
+## Four-way throwaway integration (local only)
 
-Main tip still had the nine known stale-expectation failures. “Baseline also fails” was not acceptance. Narrow expectation/fixture alignment + behavior-preserving `requestDeadline` extraction, citing #160 pointers, without #158 `momentView` / `BROWSER_PAGE_LOST` or #160 mail-reply features:
+Worktree `/tmp/fyp-integrate-158-159-160-161`, branch `local/integrate-158-159-160-161-e853` (not pushed). Order: `main` → #158 → #159 → #160 → #161.
 
-| Failure | Product-aligned fix |
+| Head | SHA |
 |---|---|
-| Office fingerprint ×3 | Assert fingerprint behavior, not rebuilt dump of absent review fields |
-| Flight reprice ×2 | Stale old-fare agreement clarifies (`acted:false`); status stays `reprice` |
-| Managed browser ×2 | Split `session_origin` (create allowlist) from challenge `origin` |
-| Forget context | Assert `cleared` and `home_archived is False` |
-| Browser timeout regex | Behavioral `requestDeadline` path checks |
-| MomentCard in App | Assert single mount under `TodayView` |
-| Google composer fixture | Add home transcript / caption mocks |
+| main | `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` |
+| #158 | `c2cac2d8f95da625a3b08ee6a8699bc27aa34692` |
+| #159 | `90275bf08272bb49b9d50216b2e7e1f9d7246588` |
+| #160 | `a4882b89697a4b8c47a6217e788161225761fdbd` |
+| #161 product | `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6` |
+| Combined resolved tree | `43b82c75f6a84d071572d4ebde932f5ae575210f` |
+| Prior three-way preserved | `65eb854ecd99dd5e9998161b57aab4a451340eac` |
 
-### Browser evidence (real controllable local Chrome)
+Conflict policy: keep all four feature sets; keep stronger baseline asserts (`requestDeadline` path checks, full `momentView` suite, fingerprint/reprice/`session_origin`/forget/composer mocks); docs sections kept together. No feature-branch restack onto GitHub.
 
-- Desktop 1440×1000: [desktop-1440.png](desktop-1440.png)
-- Narrow 320×740: [narrow-320.png](narrow-320.png)
-- Fail-once follow-up POST → alert → Retry the same request → Follow-up open. Nothing was sent. → Tasks shows the bound title. Home / composer / Work & tools still load.
+| Combined check | Result |
+|---|---|
+| Full backend | **3079 passed, 1 skipped, 2 failed** in 1208.56s. Failures: `test_owner_page_ui` (API did not start) and `test_task_recovery_ui` (click timeout) under interleaved full-suite port contention on 5190/8831 |
+| Those two alone after killing Vite/API | **2 passed** |
+| Four browser UIs sequential (initiative / mail reply / owner hold / interrupted-task) | **4 passed** at 1440 and 320 |
+| Focused non-UI interactions (initiative+mail+owner/live/takeover) | **90 passed** |
+| Frontend | **442 passed**; tsc/build/ruff/`git diff --check` clean |
+
+Independent suites do **not** substitute the four-way result. The two full-suite UI failures were port contention, not product regressions; sequential owned-port re-runs passed.
 
 ## Distinction of evidence
 
-| Kind | This slice |
+| Kind | This gate |
 |---|---|
-| API / simulation | Fake `TextConfig` findings; pytest owner/stranger/hide-private/idempotence |
-| Real controllable local browser | Installed Chrome against owned 5200/8840 |
-| Authorization | Owner session required; stranger denied; private task + hide_private |
-| External result | None claimed. No send, purchase, booking, live mailbox, or paid model |
+| API / simulation | Adversarial pytest owner/stranger/paired/hide/revoke/stale/replay |
+| Real controllable local browser | Chrome on owned ports; abort→retry and mail/owner/task repros |
+| Authorization | Owner session + in-transaction hide/session checks |
+| External result | None claimed |
 
-## Future merge conflicts
-
-#158 / #159 / #160 independently carry overlapping baseline test repairs (`requestDeadline` / Moments / fingerprint / reprice / `session_origin` / forget / composer mocks). Treat those as duplicate baseline repair when landing. Do not pull their feature stacks into this journey. This branch also adds loopback origins `:5200` and `:8840`.
-
-## Ancillary #160 EOF hygiene (parent closeout)
-
-On `cursor/followed-reply-reminder-e853` tip `a4882b89697a4b8c47a6217e788161225761fdbd`: removed the trailing blank line after the final `_blank_body(item)` in `mail_reply_reminder.py` so `git diff --check` is clean. Notes-only + whitespace; no semantic change. Full suite evidence remains on product `87a38f48` / throwaway integration `65eb854e`, not re-run as a fake new head.
-
-## Remaining gates (not this PR)
+## Remaining gates
 
 - GitHub merge / CI / deploy
-- Live Gmail / paid model / runtime provider or A3 change
-- Pi / hardware
-- Merging or importing #158–#160 features
-- Parent weekly-limit budget decision before further Auto slices
+- Live mailbox / paid model / provider / A3 / Pi
+- Parent weekly-limit budget decision
+- Codex review of open PRs #158–#161
