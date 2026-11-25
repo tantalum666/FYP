@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Inbox morning and evening check-ins
+
+On a Morning briefing receipt, offer View today so the owner can open Today without dismissing. On an Evening check-in receipt, offer View tasks so the owner can open Tasks. Dismiss remains the explicit clear.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.

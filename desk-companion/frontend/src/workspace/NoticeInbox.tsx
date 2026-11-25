@@ -15,7 +15,9 @@ export function NoticeInbox({
   inbox: DeskInbox;
   language: Language;
   zone: string;
-  onReview?: (page: "assistant" | "memory" | "tasks") => void;
+  onReview?: (
+    page: "today" | "assistant" | "memory" | "tasks",
+  ) => void;
   t: Translate;
 }) {
   const [expanded, setExpanded] = useState<string[]>([]);
@@ -99,6 +101,22 @@ export function NoticeInbox({
                       </button>
                     ) : (
                       <p>{t(item.body_en, item.body_zh)}</p>
+                    )}
+                    {onReview && item.kind === "morning_brief" && (
+                      <button
+                        className="text-button"
+                        onClick={() => onReview("today")}
+                      >
+                        {t("View today", "查看今天")}
+                      </button>
+                    )}
+                    {onReview && item.kind === "evening_check" && (
+                      <button
+                        className="text-button"
+                        onClick={() => onReview("tasks")}
+                      >
+                        {t("View tasks", "查看待办")}
+                      </button>
                     )}
                     {onReview && item.kind === "memory_morning" && (
                       <button
