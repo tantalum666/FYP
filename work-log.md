@@ -1297,3 +1297,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Verification** — `source-open-task.test.ts` 1 passed; `test_source_open_task_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-source-open-task/verification.md).
 
 **Remaining** — Parent budget check; Codex review.
+## 25 November 2026 · Open cited memory from finding Sources
+
+**Goal.** One independent owner-facing personal-agent journey: open an existing cited memory from Conversation finding Sources, without stacking #158–#166.
+
+**Done.** Finding Sources offer Open memory for `memory:` citations; Memory focuses that fact; finding stays pending. Ports 5195/8836 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-source-open-memory/verification.md) — local real Chrome + fixture fake initiative; not live mailbox or paid model.
+
+**Remaining.** Leave PR open for Codex. Parent budget check before the next slice.

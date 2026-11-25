@@ -43,6 +43,12 @@ function taskIdFromSource(source: { ref: string; kind: string }) {
   return ident || null;
 }
 
+function memoryIdFromSource(source: { ref: string; kind: string }) {
+  if (source.kind !== "memory" || !source.ref.startsWith("memory:")) return null;
+  const ident = source.ref.slice("memory:".length).trim();
+  return ident || null;
+}
+
 /** Contextual messages in the conversation; no approval form or separate poll. */
 export function InitiativeMessage({
   finding,

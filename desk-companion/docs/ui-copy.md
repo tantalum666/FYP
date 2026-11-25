@@ -15,6 +15,9 @@ When an Inbox entry is an initiative notice, Dismiss clears that notice and the 
 ## 25 November · Open a cited task from finding Sources
 
 On a Conversation finding, Sources may include a task citation. Offer Open task with the existing title so the owner can open that task in Tasks. Do not dismiss the finding, create a follow-up, or imply mail was sent.
+## 25 November · Open a cited memory from finding Sources
+
+On a Conversation finding, Sources may include a memory citation. Offer Open memory with the existing fact text so the owner can open that fact in Memory. Do not dismiss the finding, create a follow-up, or imply mail was sent.
 
 ## 25 November · Workspace navigation and notices
 

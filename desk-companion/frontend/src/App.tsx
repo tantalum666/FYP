@@ -146,6 +146,7 @@ export function App() {
     if (pinned) setNavigationOpen(false);
   }, [pinned]);
   const [taskToOpen, setTaskToOpen] = useState<string>();
+  const [memoryToOpen, setMemoryToOpen] = useState<string>();
   const [chatState, setChatState] = useState({ dirty: false, busy: false });
   const [assistantTask, setAssistantTask] = useState<{
     id: string;
@@ -330,7 +331,7 @@ export function App() {
       document.querySelector<HTMLButtonElement>(trigger)?.focus();
     });
   }
-  function goPage(p: Page, taskId?: string) {
+  function goPage(p: Page, itemId?: string) {
     if (p === page) {
       closeNavigation();
       return;
@@ -340,7 +341,8 @@ export function App() {
       setLeavePage(p);
       return;
     }
-    setTaskToOpen(p === "tasks" ? taskId : undefined);
+    setTaskToOpen(p === "tasks" ? itemId : undefined);
+    setMemoryToOpen(p === "memory" ? itemId : undefined);
     setPage(p);
     if (navigationOpen) closeNavigation();
     setError(null);
@@ -728,7 +730,7 @@ export function App() {
               )}
               {page === "memory" && (
                 <div className="standard-page management-view workspace-panel">
-                  <MemoryPanel t={t} />
+                  <MemoryPanel t={t} initialFactId={memoryToOpen} />
                 </div>
               )}
               {page === "persona" && (
