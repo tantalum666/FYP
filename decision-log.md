@@ -1105,3 +1105,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, Inbox View in conversation only switched to Assistant. Pass the notice id, focus the bound finding, open Sources. Do not dismiss. Do not stack open #158–#168 (including #164 home cue View and #165 Dismiss heal).
 - **验证边界：** Local Chrome 1440+320 on owned ports 5196/8837; frontend source contract. [QA](output/qa/2026-11-25-inbox-finding-focus/verification.md).
+## 2026-11-25 · Inbox morning/evening check-in opens cited surface
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, morning briefing and evening check-in Inbox receipts lacked View actions. Add View today / View tasks. Do not dismiss. Do not stack open #158–#169.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5197/8838 (evening → Tasks); frontend source contract. [QA](output/qa/2026-11-25-nudge-inbox-review/verification.md).

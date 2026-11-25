@@ -24,6 +24,9 @@ On a Conversation finding, Sources may include a local calendar citation. Offer 
 ## 25 November · Inbox initiative opens its Conversation finding
 
 On an Inbox initiative receipt, View in conversation opens Assistant, expands Conversation, and focuses the bound finding with Sources open. It does not dismiss the receipt or the finding. Dismiss remains the explicit clear.
+## 25 November · Inbox morning and evening check-ins
+
+On a Morning briefing receipt, offer View today so the owner can open Today without dismissing. On an Evening check-in receipt, offer View tasks so the owner can open Tasks. Dismiss remains the explicit clear.
 
 ## 25 November · Workspace navigation and notices
 

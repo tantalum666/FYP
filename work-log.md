@@ -1318,5 +1318,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** Notice id passed from Inbox; Conversation focuses matching finding; Sources open; notice and finding stay pending. Ports 5196/8837 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-inbox-finding-focus/verification.md) — local real Chrome + fixture fake initiative; not live mailbox or paid model.
+## 25 November 2026 · Inbox morning/evening check-in opens cited surface
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox morning/evening check-ins open Today/Tasks without stacking #158–#169.
+
+**Done.** View today / View tasks on those receipts; evening → Tasks Chrome 1440+320 on 5197/8838; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-nudge-inbox-review/verification.md) — local real Chrome + rule nudge fixture; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.
