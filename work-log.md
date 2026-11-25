@@ -1191,3 +1191,13 @@ The corresponding airline guest page published each selected leg’s checked wei
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
 
 Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 25 November 2026 · Finding Remind me later (Grok Bot)
+
+**Goal** — One owner-facing personal-agent journey gap not already on `main` or open #158–#162: defer a Conversation finding without discarding it or creating a task.
+
+**Done** — Premise first. `POST /api/initiative/{id}/snoozes`, `snooze_until` column, release-before-deliver, Conversation Remind me later button, proactive/ui-copy notes, focused initiative + frontend tests. Branch `cursor/finding-snooze-reminder-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `tests/test_initiative.py` 23 passed; snooze hide/restore and fence cases green; `initiative-snooze.test.ts` 1 passed; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-finding-snooze/verification.md).
+
+**Remaining** — Parent budget check; Codex review; do not stack #161 product onto this PR.

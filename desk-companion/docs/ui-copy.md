@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Finding remind-later
+
+On a Conversation finding, keep Sources and Got it. Add Remind me later for a one-hour deferral of that same cited finding. Do not imply mail was sent or a task was created. After the snooze ends, Alice may raise the finding again under the existing quiet-hours and delivery caps.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.

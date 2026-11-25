@@ -52,6 +52,19 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
             disabled={mutation.busy || mutation.pending}
             onClick={() =>
               void mutation.run(
+                "/initiative/" + finding.id + "/snoozes",
+                { minutes: 60 },
+                refresh,
+              )
+            }
+          >
+            {t("Remind me later", "稍后再提醒")}
+          </button>
+          <button
+            className="text-button"
+            disabled={mutation.busy || mutation.pending}
+            onClick={() =>
+              void mutation.run(
                 "/initiative/" + finding.id + "/dismissals",
                 {},
                 refresh,
