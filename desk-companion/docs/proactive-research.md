@@ -1,5 +1,11 @@
 # Group 2 · Contextual proactive assistance
 
+## 25 November · Mail that leaves the newest inbox results
+
+The worker checks recent mail with or without an open page. When Gmail times out, unverified mail stays out of the conversation; a transient failure alone cannot close a pending notice. The next scheduled check uses the same grant. For a pending or already delivered item absent from the recent sample, one bounded date-window query can verify the original message again. It searches up to seven days on the current grant. It uses the existing permission, private-content filters and exact account/content fingerprints. A dated suggestion may return to the conversation with its original Gmail link. Previously delivered items stay out of new-alert queues. Quiet-hour items require a positive source check before their first alert. The user’s explicit dismissal continues to apply.
+
+The normal model allowance through 24 November has ended. A successful Gmail poll and a funded model analysis have independent states. Clear action cues still work locally. A previous suggestion is identified by its original date, even when verification happens later. [Normal and isolated results](../../output/qa/2026-11-25-proactive-mail/verification.md).
+
 ## 24 November · Evidence, background delivery and mail authority
 
 The existing desk worker checks the standing read-only source while the page is closed. It uses a bounded inbox preview window, excludes promotional, outgoing and verification-code mail, and considers approved local conversation context alongside current sources. The destination and personal settings fence each paid analysis. Existing normal OpenAI daily allowances govern dispatch. A closed allowance can still surface explicit mail action cues locally. Findings remain bound to the exact evidence, are deduplicated and respect quiet hours. The signed-in Conversation orders dated findings with the owner’s actual turns and links a current Gmail citation to its original thread. Lock-screen notifications use a generic attention message.

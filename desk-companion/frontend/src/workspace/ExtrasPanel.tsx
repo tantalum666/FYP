@@ -248,10 +248,9 @@ export function ExtrasPanel({ t }: { t: Translate }) {
               ? t("Last Gmail check", "上次查看 Gmail") +
                 " · " +
                 new Date(data.initiative.mail_check.at).toLocaleString()
-              : t(
-                  "Gmail could not be checked. Review the connection in Apps.",
-                  "暂时查不到 Gmail，请到应用连接查看授权状态。",
-                )}
+              : data.initiative.mail_check.error === "APP_RECONNECT_REQUIRED"
+                ? t("Reconnect Gmail in Apps to resume mail reminders.", "到应用连接重新授权 Gmail 即可恢复邮件提醒。")
+                : t("Gmail is temporarily unavailable. Alice will retry automatically.", "Gmail 暂时未响应，Alice 会自动重试。")}
           </small>
         )}
       </section>

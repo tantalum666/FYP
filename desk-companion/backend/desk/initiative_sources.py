@@ -4,11 +4,13 @@ import hashlib
 import json
 import re
 from datetime import timedelta
+from typing import NamedTuple
 from urllib.parse import quote, urlencode
 
 from .app_connection_models import ConnectedAppQuery
 from .calendar import iso
 from .connected_app_data import query_connected_app
+from .initiative_mail_history import INBOX, GmailFindingHistory
 from .store import DomainError, encode
 
 
@@ -23,6 +25,14 @@ def compact(value, limit=1200):
 PRIVATE_CODE = re.compile(r"one[- ]time (?:code|password)|verification code|security code|password reset|reset your password|登录码|登录代码|验证码|驗證碼|一次性密[码碼]|重[置設]密[码碼]", re.I)
 
 
+class SourceAccount(NamedTuple):
+    connected: bool
+    version: str | int
+    email: str | None
+    reconnect_required: bool = False
+    connected_at: str | None = None
+
+
 class InitiativeSources:
     def __init__(self, runtime):
         self.runtime = runtime
@@ -30,6 +40,7 @@ class InitiativeSources:
         self.mail_check = None
         self.next_refresh = 0
         self.account_versions = None
+        self.history = GmailFindingHistory()
 
     def stopped_threads(self):
         # Reuse existing follow-up decisions. A later explicit start supersedes
@@ -59,40 +70,49 @@ class InitiativeSources:
             if r.store.settings(conn)["hide_private"] or prefs["proactivity"] == "off":
                 self.mail = {}
                 self.mail_check = None
+                self.history = GmailFindingHistory()
                 self.next_refresh = 0
                 raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
         accounts = {}
         for provider in ("gmail", "outlook"):
             state = r.outbound_mail.auth_for(provider).account()
-            accounts[provider] = (state["connected"], state["version"], state.get("email"))
+            accounts[provider] = SourceAccount(
+                state["connected"], state["version"], state.get("email"),
+                bool(state.get("reconnect_required")), state.get("connected_at"),
+            )
         calendar = r.google.account()
-        accounts["google_calendar"] = (
+        accounts["google_calendar"] = SourceAccount(
             calendar["connected"],
             calendar["version"],
             calendar.get("email"),
         )
         return (r.personal_context.revision(), prefs["version"], accounts)
 
-    def collect(self, *, refresh=False):
+    def collect(self, *, refresh=False, include_history=False):
         fence = self.fence()
         if self.account_versions != fence[2]:
             self.mail = {}
             self.mail_check = None
             self.next_refresh = 0
             self.account_versions = fence[2]
+            self.history = GmailFindingHistory()
+            if fence[2]["gmail"].reconnect_required:
+                self.mail_check = {"at": iso(self.runtime.store.clock()), "available": False,
+                                   "error": "APP_RECONNECT_REQUIRED"}
         now = self.runtime.store.clock().timestamp()
         if refresh and now >= self.next_refresh:
             self.next_refresh = now + 300
             current_mail = {}
+            recent_gmail_refs = set()
             for provider, account in fence[2].items():
-                if not account[0]:
+                if not account.connected or account.reconnect_required:
                     continue
                 try:
                     data = query_connected_app(
                         self.runtime,
                         ConnectedAppQuery(
                             service="outlook_mail" if provider == "outlook" else provider,
-                            query="in:inbox newer_than:7d -category:promotions -category:social" if provider == "gmail" else None,
+                            query=INBOX if provider == "gmail" else None,
                             start=self.runtime.store.clock()
                             if provider == "google_calendar"
                             else None,
@@ -105,6 +125,7 @@ class InitiativeSources:
                 except DomainError as error:
                     # No stale email is treated as a fresh successful observation.
                     if provider == "gmail":
+                        self.history = GmailFindingHistory()
                         self.mail_check = {"at": iso(self.runtime.store.clock()), "available": False, "error": error.code}
                     continue
                 if self.fence() != fence:
@@ -123,34 +144,24 @@ class InitiativeSources:
                             "calendar",
                             item.get("summary", ""),
                             body,
-                            {"account_version": account[1], "content": body},
+                            {"account_version": account.version, "content": body},
                         )
                         continue
                     if provider == "gmail":
-                        labels = set(item.get("labels") or [])
-                        if labels & {"SENT", "DRAFT", "SPAM", "TRASH", "CATEGORY_PROMOTIONS", "CATEGORY_SOCIAL"}:
-                            continue
-                        fields = {
-                            h.get("name", "").lower(): h.get("value", "")
-                            for h in item.get("headers", [])
-                        }
-                        body = {
-                            "subject": compact(fields.get("subject"), 200),
-                            "sender": compact(fields.get("from"), 254),
-                            "preview": compact(item.get("snippet")),
-                            "date": compact(fields.get("date"), 100),
-                            "thread_id": item.get("thread_id"),
-                        }
-                    else:
-                        body = {
-                            "subject": compact(item.get("subject"), 200),
-                            "sender": compact(
-                                item.get("from", {}).get("emailAddress", {}).get("address"), 254
-                            ),
-                            "preview": compact(item.get("bodyPreview")),
-                            "date": compact(item.get("receivedDateTime"), 100),
-                            "thread_id": item.get("conversationId"),
-                        }
+                        recent_gmail_refs.add(f"mail:gmail:{ident}")
+                        source = self.gmail_source(item, account.version)
+                        if source:
+                            current_mail[source["ref"]] = source
+                        continue
+                    body = {
+                        "subject": compact(item.get("subject"), 200),
+                        "sender": compact(
+                            item.get("from", {}).get("emailAddress", {}).get("address"), 254
+                        ),
+                        "preview": compact(item.get("bodyPreview")),
+                        "date": compact(item.get("receivedDateTime"), 100),
+                        "thread_id": item.get("conversationId"),
+                    }
                     if PRIVATE_CODE.search(body["subject"] + " " + body["preview"]):
                         continue
                     ref = f"mail:{provider}:{ident}"
@@ -159,17 +170,28 @@ class InitiativeSources:
                         "mail",
                         body["subject"],
                         body,
-                        {"account_version": account[1], "content": body},
+                        {"account_version": account.version, "content": body},
                     )
+            if self.mail_check and self.mail_check["available"] and fence[2]["gmail"].connected:
+                history = self.history
+                history.refresh(
+                    self.runtime.store, self.runtime.store.clock(), recent_gmail_refs,
+                    lambda query: query_connected_app(self.runtime, query),
+                    lambda item: self.gmail_source(item, fence[2]["gmail"].version),
+                    connected_at=fence[2]["gmail"].connected_at,
+                )
+            if self.fence() != fence:
+                raise DomainError("PROVIDER_CONTEXT_CHANGED", 409)
             self.mail = current_mail
         stopped = self.stopped_threads()
         sources = {}
-        for ref, source in self.mail.items():
+        mail = {**self.history.verified(now), **self.mail} if include_history else self.mail
+        for ref, source in mail.items():
             provider = "gmail" if ref.startswith("mail:gmail:") else "outlook"
             if source["kind"] == "mail":
                 account = fence[2][provider]
                 thread = source["body"].get("thread_id")
-                if (provider, (account[2] or "").casefold(), thread) in stopped:
+                if (provider, (account.email or "").casefold(), thread) in stopped:
                     continue
             sources[ref] = source
         r = self.runtime
@@ -236,6 +258,8 @@ class InitiativeSources:
             )
         if self.fence() != fence:
             raise DomainError("PROVIDER_CONTEXT_CHANGED", 409)
+        if include_history:
+            return fence, sources
         # Keep a mix of categories under one input budget, rather than letting
         # a long mailbox preview crowd out the facts it should be compared to.
         groups = [
@@ -252,6 +276,26 @@ class InitiativeSources:
                         bounded[source["ref"]] = source
                         remaining -= size
         return fence, bounded
+
+    def gmail_source(self, item, version):
+        ident = item.get("id")
+        if not isinstance(ident, str) or not 1 <= len(ident) <= 400:
+            return None
+        labels = set(item.get("labels") or [])
+        if labels & {"SENT", "DRAFT", "SPAM", "TRASH", "CATEGORY_PROMOTIONS", "CATEGORY_SOCIAL"}:
+            return None
+        fields = {h.get("name", "").lower(): h.get("value", "") for h in item.get("headers", [])}
+        body = {
+            "subject": compact(fields.get("subject"), 200),
+            "sender": compact(fields.get("from"), 254),
+            "preview": compact(item.get("snippet")),
+            "date": compact(fields.get("date"), 100),
+            "thread_id": item.get("thread_id"),
+        }
+        if PRIVATE_CODE.search(body["subject"] + " " + body["preview"]):
+            return None
+        return self.source(f"mail:gmail:{ident}", "mail", body["subject"], body,
+                           {"account_version": version, "content": body})
 
     @staticmethod
     def source(ref, kind, label, body, revision):

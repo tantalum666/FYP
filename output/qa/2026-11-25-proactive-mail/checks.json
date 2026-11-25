@@ -1,0 +1,46 @@
+{
+  "normal_web": {
+    "build": "83bcf5778ee1d9f6872bd55015dd0f5cb52c5535",
+    "ordinaryConversation": true,
+    "mailCheck": {
+      "at": "2026-11-25T12:15:25.121651Z",
+      "available": true,
+      "count": 10
+    },
+    "lastMode": "local_mail",
+    "activeCount": 0,
+    "verifiedHistory": 3,
+    "renderedDatedCards": 3,
+    "renderedDatedGmailCards": 3
+  },
+  "delivery": {
+    "active_browser_subscriptions": 1,
+    "initiative_model_usage_today": 0,
+    "initiative_notifications_today": 0,
+    "new_push_acceptances": 0,
+    "earlier_browser_queue_entries": 2,
+    "paid_allowance_active": false,
+    "paid_through": "2026-11-24",
+    "at": "2026-11-25T20:17:04.345342+08:00"
+  },
+  "accepted_simulator": {
+    "visibleCards": 1,
+    "sourceMatches": true,
+    "dated": true,
+    "viewport": [
+      402,
+      874
+    ],
+    "installedWKWebView": true
+  },
+  "simulator_resources_checked": 79,
+  "durable_native_checks": 6,
+  "fixture": {
+    "created": "2026-11-25T11:58:54.339520Z",
+    "pagesDuringTransitions": 0,
+    "retainedTime": true,
+    "verifiedOriginalLink": true,
+    "visible": 1,
+    "outgoingPushPayloads": 1
+  }
+}

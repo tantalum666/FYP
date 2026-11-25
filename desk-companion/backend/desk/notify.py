@@ -230,8 +230,14 @@ class Notifier:
                 on_inbox(conn)
             if wrote:
                 self.store.bump(conn)
-        if browser_delivered and self.push is not None:
-            self.push.dispatch(notice.payload()["push"])
+        if browser_delivered and self.push is not None and self.push.dispatch(notice.payload()["push"]):
+            # A browser outbox entry is local. Record the separate push-service
+            # acknowledgement only after at least one subscription accepted the payload.
+            with self.store.connection(write=True) as conn:
+                conn.execute(
+                    "INSERT OR IGNORE INTO notice_deliveries VALUES(?,?,?)",
+                    (notice.id, "web_push_accepted", iso(self.store.clock())),
+                )
         return results
 
     def listing(self, *, open_only=False, before=None) -> dict:

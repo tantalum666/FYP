@@ -53,10 +53,11 @@ export interface WorkspaceSnapshot {
   initiative?: {
     last_checked_at?: string | null;
     last_mode?: string | null;
-    mail_check?: {at: string; available: boolean; count?: number} | null;
+    mail_check?: {at: string; available: boolean; count?: number; error?: string} | null;
     enabled: boolean;
     research_ready: boolean;
     findings: import("./InitiativeMessages").InitiativeFinding[];
+    history?: import("./InitiativeMessages").InitiativeFinding[];
   };
   check_in?: import("./AliceCheckIn").AliceCue | null;
   personal_context_visible: boolean;

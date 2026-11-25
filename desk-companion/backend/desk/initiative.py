@@ -16,6 +16,7 @@ from fastapi import APIRouter, Depends, Request
 from pydantic import Field, ValidationError
 
 from .calendar import iso
+from .initiative_mail_history import LOOKBACK
 from .initiative_sources import InitiativeSources, fingerprint
 from .notify import Notice
 from .schemas import StrictModel
@@ -124,13 +125,17 @@ class Initiative:
         )
 
     def current(self, *, undelivered=False, display=False):
+        history = display and not undelivered
         try:
-            _, sources = self.sources.collect()
+            _, sources = self.sources.collect(include_history=history or undelivered)
         except DomainError:
             return []
         with self.store.connection() as conn:
             rows = conn.execute(
-                "SELECT * FROM initiative_findings WHERE state='pending' ORDER BY created_at DESC LIMIT 100"
+                """SELECT * FROM initiative_findings WHERE state='pending'
+                   OR (? AND state='obsolete' AND notified=1 AND created_at>=?)
+                   ORDER BY created_at DESC LIMIT 100""",
+                (history, iso(self.store.clock() - LOOKBACK)),
             ).fetchall()
         result = []
         for row in rows:
@@ -140,6 +145,13 @@ class Initiative:
             if self.sources.matches(data["sources"], sources):
                 item = {"id": row["id"], "created_at": row["created_at"], **data}
                 if display:
+                    historical = row["state"] == "obsolete" or (row["notified"] and any(
+                        sources[ref["ref"]].get("historical") for ref in data["sources"]
+                    ))
+                    if historical:
+                        if not row["notified"] or not any(ref["ref"].startswith("mail:gmail:") for ref in data["sources"]):
+                            continue
+                        item["historical"] = True
                     item["sources"] = self.sources.display_sources(data["sources"], sources)
                 result.append(item)
         return sorted(result, key=lambda item: item["importance"] != "high")
@@ -147,11 +159,13 @@ class Initiative:
     def snapshot(self):
         with self.store.connection() as db:
             state = db.execute("SELECT last_checked_at,error,last_mode FROM initiative_state WHERE id=1").fetchone()
+        visible = self.current(display=True)
         return {
             "enabled": self.enabled(),
             "research_ready": self.runtime.text_ai.config.valid()
             and self.runtime.text_ai.config.background,
-            "findings": self.current(display=True)[:3],
+            "findings": [row for row in visible if not row.get("historical")][:3],
+            "history": [row for row in visible if row.get("historical")][:12],
             "last_checked_at": state["last_checked_at"],
             "last_error": state["error"],
             "last_mode": state["last_mode"],
@@ -170,9 +184,9 @@ class Initiative:
         token = None
         try:
             self.sources.fence()
-            self._deliver()
             config = self.runtime.text_ai.config
             if not (config.valid() and config.background):
+                self._deliver()
                 return
             expected_config = (
                 config.provider,
@@ -184,6 +198,7 @@ class Initiative:
             # Reuse the established provider reader; refreshing data does not
             # itself produce a notification or require a model call.
             fence, sources = self.sources.collect(refresh=True)
+            self._deliver()
             prefs = self.runtime.data.preferences()
             now = self.store.clock()
             with self.store.connection() as db:
@@ -313,11 +328,25 @@ class Initiative:
                 accepted.append((ident, data))
             with self.store.connection(write=True) as conn:
                 current()
-                _, fresh = self.sources.collect()
+                _, fresh = self.sources.collect(include_history=True)
                 for old in conn.execute(
-                    "SELECT id,data FROM initiative_findings WHERE state='pending'"
+                    "SELECT id,data,created_at,notified FROM initiative_findings WHERE state='pending'"
                 ).fetchall():
-                    if not self.sources.matches(json.loads(old["data"])["sources"], fresh):
+                    evidence = json.loads(old["data"])["sources"]
+                    # Preserve an unsent item while its original Gmail evidence can still
+                    # be checked, and retain delivered receipts across temporary outages.
+                    # The delivery guard always requires a positive current match.
+                    check = self.sources.mail_check or {}
+                    retryable = (not old["notified"] and check.get("available") is True) or (
+                        check.get("available") is False and check.get("error") not in {
+                            "APP_RECONNECT_REQUIRED", "APP_NOT_CONNECTED", "APP_PERMISSION_REQUIRED",
+                        }
+                    )
+                    missing = [item for item in evidence if not self.sources.matches([item], fresh)]
+                    if (missing and retryable and old["created_at"] >= iso(now - LOOKBACK)
+                            and all(item["ref"].startswith("mail:gmail:") and item["ref"] not in fresh for item in missing)):
+                        continue
+                    if missing:
                         conn.execute(
                             "UPDATE initiative_findings SET state='obsolete' WHERE id=?",
                             (old["id"],),
@@ -393,7 +422,7 @@ class Initiative:
             ):
                 return False
             try:
-                _, sources = self.sources.collect()
+                _, sources = self.sources.collect(include_history=True)
             except DomainError:
                 return False
             count = conn.execute(
