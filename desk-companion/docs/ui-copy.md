@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · A followed reply
+
+On the task and in Chat, one card names the task and says a reply arrived. Say whether the source is the local mail sample or a connected mailbox. Offer Read the message, Check again, and Draft a reply. Show the draft editor only after Draft a reply. Say that saving the draft does not send it. After saving, say that nothing was sent. A failed check says it failed and is not a new confirmed reply.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.

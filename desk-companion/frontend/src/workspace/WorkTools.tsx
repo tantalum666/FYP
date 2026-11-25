@@ -19,6 +19,7 @@ import type { Proposal } from "./assistantTypes";
 import { usePrivateMutation } from "./personal/usePrivateMutation";
 import { MutationFeedback } from "./personal/MutationFeedback";
 import { RetainedChatPanel } from "./personal/RetainedChatPanel";
+import { LocalMailSample } from "./MailReplyReminder";
 
 function ProposalReview({
   id,
@@ -143,6 +144,7 @@ export default function WorkTools({
       </details>
       {privateVisible && (
         <>
+          <LocalMailSample t={t} />
           <details>
             <summary>{t("Saved checklists", "保存的清单")}</summary>
             <SavedSkillsPanel t={t} />

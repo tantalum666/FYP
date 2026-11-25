@@ -150,6 +150,9 @@ class Runtime:
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
         self.mail_followups = MailFollowups(self)
+        from .mail_reply_reminder import MailReplyReminders
+
+        self.mail_replies = MailReplyReminders(self)
         self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
         from .flight_booking.live_checkout import LiveFlightCheckouts

@@ -3,6 +3,9 @@
 ## 25 November · Quiet, continuous mail assistance
 
 Closing the ordinary Alice page leaves the existing desk worker running on the awake, connected host. Opening Conversation should restore the original date and source of a previously delivered suggestion whose Gmail evidence can still be verified. New mail arriving ahead of an existing item, or a temporarily unavailable provider, must not by itself generate a second notification or establish that the owner finished the task. Quiet hours defer first alerts. A closed model allowance leaves the existing read-only inbox checks and explicit local action cues available. [Release and normal-account check](output/qa/2026-11-25-proactive-mail/verification.md).
+## 25 November 2026 · One reminder when a followed thread receives a reply
+
+After the owner chooses to follow a thread, one new reply raises one reminder on that same task. Chat keeps the evidence. Inbox can open the task. Quiet hours hold the reminder until they end. The owner can read the original message, then choose whether to draft a reply. Saving that draft does not send it. A missed or failed read is not shown as a confirmed new reply. Dismissing one reminder leaves a different one in place. A local mail sample covers this journey when paid reasoning or a live mailbox is unavailable. The sample and synthetic provider checks are not live-mailbox acceptance. [Contract](desk-companion/docs/mail-thread-followup.md) · [verification](output/qa/2026-11-25-followed-reply/verification.md).
 
 ## 25 November 2026 · Alice’s workspace
 

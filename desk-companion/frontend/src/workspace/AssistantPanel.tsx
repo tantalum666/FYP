@@ -9,6 +9,7 @@ import { AliceCheckIn } from "./AliceCheckIn";
 import { HomeCaption } from "./HomeCaption";
 import { useHomeTranscript, withSavedTurns } from "./useHomeTranscript";
 import { InitiativeMessage } from "./InitiativeMessages";
+import { MailReplyReminders } from "./MailReplyReminder";
 import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
 import { replyDelivery, SpokenDelivery } from "../companion/delivery";
 import { ComposerMenu } from "./ComposerMenu";
@@ -1857,7 +1858,7 @@ export function AssistantPanel({
           )}
           {(!immersive || expanded) && focusedOrder && !focusTurn && <OrderCard row={focusedOrder} {...orderActions}/>}
           {(!immersive || expanded) && <OtherOrders rows={otherOrders} {...orderActions} current={!!focusedOrder}/>}
-          {proposals.map((proposal) => (
+          {proposals.filter((proposal) => proposal.kind !== "followed_reply_draft").map((proposal) => (
             <ProposalActionCard
               key={proposal.id}
               proposal={proposal}

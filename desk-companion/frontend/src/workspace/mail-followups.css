@@ -50,6 +50,31 @@
   padding: 0.65rem 0;
   border-top: 1px solid var(--line);
 }
+.mail-reply-reminder,
+.mail-reply-sample,
+.mail-reply-reminders {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.mail-reply-reminder textarea,
+.mail-reply-reminder blockquote,
+.mail-reply-sample {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.mail-reply-reminder .workspace-inline-actions,
+.mail-reply-sample .workspace-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.mail-reply-reminder textarea {
+  width: 100%;
+  min-height: 5rem;
+}
 .mail-followup-source {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

@@ -1186,6 +1186,20 @@ A real authorized re-query reused a prior supplier ID, and a completed reply sti
 
 The corresponding airline guest page published each selected leg’s checked weight and the complete fare, surcharge and taxes for the return journey. The exact price and screenshot are retained privately for the owner. No payment, ticket or reservation was created. [Redacted verification](output/qa/2026-11-24-continuity/verification.md).
 
+## 25 November 2026 · One reminder when a followed thread receives a reply
+
+Grok Bot, on `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d`. Read the current handoff, product, decisions, the always-on research journey, the mail follow-up and proactive contracts, and the current task, inbox, and permission code. The poll already recorded one notice. The owner could not open that reply and choose a draft on Chat or the task.
+
+Added that path. A local sample and a synthetic Gmail provider exercise it. Neither is a live mailbox. No model call, no provider or A3 change, no CI, no deployment, and no use of pull requests #158 or #159. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
+### Same day · PR #160 suite closeout (Auto, no extra credits)
+
+Owner t33u superseded Fable/Opus-only preference for Auto and one bounded closeout of #160’s suite gate. Reproduced each of 9 backend + 2 frontend failures against product contracts. Fixed stale baseline expectations/fixtures and extracted `requestDeadline` for behavioral timeout checks. Did not merge or edit #158/#159; recorded overlapping baseline-test conflicts for Codex. Full local suites: backend 3068 passed / 1 skipped; frontend 440 passed; typecheck/build/Ruff green; browser 1440/320 with failed-read recovery on owned ports 8832/5191. No new feature. Not merged, not deployed, not live Gmail. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
+### Same day · Local three-way integration verify (no GitHub merge)
+
+Bounded integration round only. Throwaway worktree merged `main`→#158→#159→#160 to local tree `65eb854e`. Resolved duplicated baseline test conflicts retaining behavioral asserts and all three feature sets; handoff keeps page-handoff, task-readback, and followed-reply status (Pi not overriding next step). Combined suites: backend 3074 passed / 1 skipped (PHP CLI), frontend 442 passed, tsc/build/Ruff green. Browser journeys on owned ports: owner hold/type/handback, interrupted-task readback, followed-mail failed-read→draft-save. No product code push to any of the three PRs. Notes-only update on #160 records the evidence. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
 ## 25 November 2026 · Alice’s workspace redesign
 
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.

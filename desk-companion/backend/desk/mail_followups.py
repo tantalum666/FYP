@@ -43,11 +43,17 @@ class MailFollowups:
                     observation_revision INTEGER NOT NULL DEFAULT 0,
                     unread_count INTEGER NOT NULL DEFAULT 0, error TEXT,
                     poll_token TEXT, poll_until TEXT, notice_id TEXT,
-                    notice_pending INTEGER NOT NULL DEFAULT 0);
+                    notice_pending INTEGER NOT NULL DEFAULT 0,
+                    unread_ids TEXT NOT NULL DEFAULT '[]');
                 CREATE UNIQUE INDEX IF NOT EXISTS mail_followup_scope ON mail_followups(scope_hash)
                     WHERE state IN ('active','blocked');
                 CREATE INDEX IF NOT EXISTS mail_followup_due ON mail_followups(state,next_check_at);
             """)
+            names = {row["name"] for row in conn.execute("PRAGMA table_info(mail_followups)")}
+            if "unread_ids" not in names:
+                conn.execute(
+                    "ALTER TABLE mail_followups ADD COLUMN unread_ids TEXT NOT NULL DEFAULT '[]'"
+                )
 
     def _visible(self):
         with self.store.connection() as conn:
@@ -56,6 +62,9 @@ class MailFollowups:
         return self.runtime.personal_context.revision()
 
     def _account(self, definition):
+        if definition.get("provider") == "local":
+            self.runtime.mail_replies.require_local(definition)
+            return
         state = self.reader.auth(definition["provider"]).account()
         if not state["connected"]:
             raise DomainError("APP_NOT_CONNECTED", 409)
@@ -325,7 +334,7 @@ class MailFollowups:
                 raise DomainError("MAIL_FOLLOWUP_CHANGED", 409)
             self._dismiss(conn, row["notice_id"])
             conn.execute(
-                "UPDATE mail_followups SET unread_count=0,notice_id=NULL,notice_pending=0 WHERE id=?",
+                "UPDATE mail_followups SET unread_count=0,unread_ids='[]',notice_id=NULL,notice_pending=0 WHERE id=?",
                 (followup_id,),
             )
             return {"followup_id": followup_id, "acknowledged_revision": revision}
@@ -473,12 +482,15 @@ class MailFollowups:
 
         try:
             current()
-            messages = self.reader.thread(
-                definition["provider"],
-                definition["thread_id"],
-                definition["account_email"],
-                current,
-            )
+            if definition["provider"] == "local":
+                messages = self.runtime.mail_replies.local_thread(definition, current)
+            else:
+                messages = self.reader.thread(
+                    definition["provider"],
+                    definition["thread_id"],
+                    definition["account_email"],
+                    current,
+                )
             current()
             with self.store.connection(write=True) as conn:
                 current()
@@ -489,6 +501,10 @@ class MailFollowups:
                 if len(seen) > MAX_SEEN:
                     raise DomainError("MAIL_FOLLOWUP_LIMIT", 409)
                 incoming = [m for m in added if not m["outgoing"]]
+                unread_ids = json.loads(live["unread_ids"] or "[]")
+                for message in incoming:
+                    if message["id"] not in unread_ids:
+                        unread_ids.append(message["id"])
                 revision = live["observation_revision"] + bool(incoming)
                 notice_id, pending = live["notice_id"], live["notice_pending"]
                 if incoming and live["unread_count"] == 0:
@@ -511,18 +527,26 @@ class MailFollowups:
                                 "count": len(incoming),
                             }
                         ),
-                        "connected_mail_metadata",
+                        "local_mail_sample"
+                        if definition["provider"] == "local"
+                        else "connected_mail_metadata",
                     )
                 conn.execute(
-                    "UPDATE mail_followups SET seen=?,snapshot=?,last_checked_at=?,observation_revision=?,unread_count=unread_count+?,error=NULL,poll_token=NULL,poll_until=NULL,notice_id=?,notice_pending=? WHERE id=?",
+                    "UPDATE mail_followups SET seen=?,snapshot=?,last_checked_at=?,observation_revision=?,unread_count=unread_count+?,error=NULL,poll_token=NULL,poll_until=NULL,notice_id=?,notice_pending=?,unread_ids=? WHERE id=?",
                     (
                         encode(sorted(seen)),
-                        encode(messages[-5:]),
+                        encode(
+                            [
+                                {k: message[k] for k in message if k != "body"}
+                                for message in messages[-5:]
+                            ]
+                        ),
                         iso(self.store.clock()),
                         revision,
                         len(incoming),
                         notice_id,
                         pending,
+                        encode(unread_ids),
                         row["id"],
                     ),
                 )

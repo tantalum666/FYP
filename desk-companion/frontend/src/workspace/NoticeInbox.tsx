@@ -108,6 +108,14 @@ export function NoticeInbox({
                         {t("View memories", "查看记忆")}
                       </button>
                     )}
+                    {onReview && item.kind === "mail_followup" && (
+                      <button
+                        className="text-button"
+                        onClick={() => onReview("tasks")}
+                      >
+                        {t("Open the task", "打开事务")}
+                      </button>
+                    )}
                     {onReview && item.kind === "followup" && (
                       <button
                         className="text-button"

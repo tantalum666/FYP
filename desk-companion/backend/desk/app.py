@@ -473,7 +473,10 @@ def create_app(
 
     @app.post("/api/settings", dependencies=[Depends(authenticated)])
     def settings(payload: SettingsInput, key=Depends(operation_id)):
-        return store.update_settings(payload, key)
+        saved = store.update_settings(payload, key)
+        if payload.hide_private:
+            services.mail_replies.conceal()
+        return saved
 
     @app.get("/api/records", dependencies=[Depends(authenticated)])
     def records(
