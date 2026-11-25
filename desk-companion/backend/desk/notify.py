@@ -275,17 +275,39 @@ class Notifier:
 
     def dismiss(self, notice_id: str, key: str) -> dict:
         def apply(conn):
+            import json
+
             row = conn.execute(
                 "SELECT * FROM notice_inbox WHERE id=? AND source IS NULL", (notice_id,)
             ).fetchone()
             if not row:
                 raise DomainError("NOTICE_NOT_FOUND", 404)
+            content = json.loads(row["content"])
+            changed = False
             if row["state"] != "dismissed":
-                conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
+                conn.execute(
+                    "UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,)
+                )
+                changed = True
+            # Inbox Dismiss for an initiative notice must clear the bound finding(s),
+            # matching Conversation Got it — otherwise the home cue returns.
+            if content.get("kind") == "initiative":
+                if conn.execute(
+                    "SELECT 1 FROM sqlite_master WHERE type='table' AND name='initiative_findings'"
+                ).fetchone():
+                    cleared = conn.execute(
+                        """UPDATE initiative_findings
+                        SET state='dismissed'
+                        WHERE notice_id=? AND state='pending'""",
+                        (notice_id,),
+                    )
+                    if cleared.rowcount:
+                        changed = True
+                conn.execute("DELETE FROM browser_notices WHERE id=?", (notice_id,))
+                conn.execute("DELETE FROM device_notices WHERE id=?", (notice_id,))
+            if changed:
                 self.store.bump(conn)
-            import json
-
-            return {"notice": {**json.loads(row["content"]), "state": "dismissed"}, "saved": True}
+            return {"notice": {**content, "state": "dismissed"}, "saved": True}
 
         result = self.store.operation(key, {"type": "notice_dismiss", "id": notice_id}, apply)
         return {**result, "notice": self.owner_projection(result["notice"])}

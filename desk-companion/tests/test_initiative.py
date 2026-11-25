@@ -225,6 +225,84 @@ def test_dismiss_has_no_reapproval_and_does_not_create_another_insight(world):
     assert all(n["state"] == "dismissed" for n in r.notify.listing()["notices"])
 
 
+def test_inbox_dismiss_clears_bound_initiative_findings(world):
+    """Inbox Dismiss must not leave the same finding on the home cue."""
+    r, client, *_ = world
+    r.initiative.advance()
+    finding = r.initiative.current()[0]
+    open_notices = [
+        n
+        for n in r.notify.listing()["notices"]
+        if n["kind"] == "initiative" and n["state"] == "open"
+    ]
+    assert len(open_notices) == 1
+    notice_id = open_notices[0]["id"]
+    first = client.post(
+        f"/api/notices/{notice_id}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "inbox-dismiss-once"},
+    )
+    assert first.status_code == 200, first.text
+    assert first.json()["notice"]["state"] == "dismissed"
+    assert not r.initiative.current()
+    assert r.initiative.cue() is None
+    replay = client.post(
+        f"/api/notices/{notice_id}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "inbox-dismiss-once"},
+    )
+    assert replay.status_code == 200
+    assert replay.json()["notice"]["id"] == notice_id
+    # Finding Got it path remains distinct: a fresh finding can still be dismissed alone.
+    r.initiative.advance()
+    assert all(row["id"] != finding["id"] for row in r.initiative.current())
+
+
+def test_got_it_on_one_batched_finding_keeps_the_other(world):
+    r, client, *_ = world
+
+    def generate(system, context, schema, purpose, **kwargs):
+        refs = [s["ref"] for s in context["sources"] if s["kind"] in {"memory", "task"}]
+        return Findings(
+            findings=[
+                {
+                    "kind": "conflict",
+                    "importance": "high",
+                    "message_en": "First batched finding about the contract dates.",
+                    "message_zh": "第一条关于合同日期的发现。",
+                    "source_refs": refs,
+                },
+                {
+                    "kind": "deadline",
+                    "importance": "high",
+                    "message_en": "Second batched finding about the draft deadline.",
+                    "message_zh": "第二条关于草稿截止的发现。",
+                    "source_refs": refs[:1],
+                },
+            ]
+        )
+
+    r.text_ai.generate = generate
+    r.initiative.advance()
+    rows = r.initiative.current()
+    assert len(rows) == 2
+    first_id, second_id = rows[0]["id"], rows[1]["id"]
+    assert client.post(
+        f"/api/initiative/{first_id}/dismissals",
+        json={},
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "got-one"},
+    ).status_code == 200
+    remaining = r.initiative.current()
+    assert len(remaining) == 1
+    assert remaining[0]["id"] == second_id
+    open_notices = [
+        n
+        for n in r.notify.listing()["notices"]
+        if n["kind"] == "initiative" and n["state"] == "open"
+    ]
+    assert open_notices, "batch notice stays open while a member is pending"
+
+
 def test_disabled_background_does_not_read_apps_or_call_model(world):
     r = world[0]
     r.text_ai.config.background = False

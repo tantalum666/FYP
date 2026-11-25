@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 25 November · Inbox Dismiss for proactive findings
+
+When an Inbox entry is an initiative notice, Dismiss clears that notice and the pending finding(s) bound to it, matching Conversation Got it. View in conversation still opens Alice without dismissing. Do not imply mail was sent.
+
 ## 25 November · Workspace navigation and notices
 
 On wide screens, give the current item a detail pane alongside the list. On narrow screens, show one level at a time and return to the same list, search or settings category. The sidebar or mobile navigation holds the Inbox count. Put a repeated check-in’s explanation, date and dismissal in its Inbox entry. Opening the Inbox preserves all receipts. Where an update cites another part of Alice, offer the relevant action inside the entry.
