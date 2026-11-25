@@ -1281,5 +1281,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done** — Premise first. AliceCheckIn View in conversation → onExpandedChange; finding aria-label; ui-copy / proactive notes; frontend contract + Playwright 1440/320. Branch `cursor/cue-review-conversation-e853` from `fc3b8d2`. PR left open; no merge.
 
 **Verification** — `cue-review-conversation.test.ts` 1 passed; `test_cue_review_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-cue-review/verification.md).
+## 25 November 2026 · Inbox initiative dismiss (Grok Bot)
+
+**Goal** — Fix owner-facing Inbox Dismiss so an initiative notice does not leave the same finding on the home cue / Conversation.
+
+**Done** — Premise and failing reproduction on main. `Notifier.dismiss` clears bound pending findings; batch Got it regression; Chrome 1440/320 on ports 5193/8834; docs. Branch `cursor/inbox-initiative-dismiss-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — initiative+notify 24 passed; UI 1 passed with screenshots; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-inbox-initiative-dismiss/verification.md).
 
 **Remaining** — Parent budget check; Codex review.

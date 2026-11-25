@@ -9,6 +9,9 @@ On a Conversation finding, keep Sources and Got it. Add Remind me later for a on
 ## 25 November · Home cue opens Conversation for Sources
 
 When the Alice home cue is a proactive finding, offer View in conversation beside Got it. That control only expands Conversation so Sources stay available; it does not dismiss, send mail, or create a task. Got it on the cue still dismisses. Match the Inbox label View in conversation / 在对话中查看.
+## 25 November · Inbox Dismiss for proactive findings
+
+When an Inbox entry is an initiative notice, Dismiss clears that notice and the pending finding(s) bound to it, matching Conversation Got it. View in conversation still opens Alice without dismissing. Do not imply mail was sent.
 
 ## 25 November · Workspace navigation and notices
 
