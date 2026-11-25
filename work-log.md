@@ -1304,5 +1304,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** Finding Sources offer Open memory for `memory:` citations; Memory focuses that fact; finding stays pending. Ports 5195/8836 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-source-open-memory/verification.md) — local real Chrome + fixture fake initiative; not live mailbox or paid model.
+## 25 November 2026 · Open cited local calendar from finding Sources
+
+**Goal.** One independent owner-facing personal-agent journey: open an existing cited local calendar occurrence from Conversation finding Sources, without stacking #158–#167.
+
+**Done.** Finding Sources offer Open calendar for local `calendar:{id}:{occurrence_key}` citations; Event details opens on that day; finding stays pending. Ports 5193/8834 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-source-open-calendar/verification.md) — local real Chrome + fixture fake initiative; not live mailbox, live Google Calendar, or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.

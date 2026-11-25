@@ -18,6 +18,9 @@ On a Conversation finding, Sources may include a task citation. Offer Open task 
 ## 25 November · Open a cited memory from finding Sources
 
 On a Conversation finding, Sources may include a memory citation. Offer Open memory with the existing fact text so the owner can open that fact in Memory. Do not dismiss the finding, create a follow-up, or imply mail was sent.
+## 25 November · Open a cited calendar event from finding Sources
+
+On a Conversation finding, Sources may include a local calendar citation. Offer Open calendar with the existing title so the owner can open that occurrence’s Event details. Do not dismiss the finding, create a follow-up, or imply mail was sent. Google preview citations stay labels until a separate import story maps them.
 
 ## 25 November · Workspace navigation and notices
 

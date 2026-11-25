@@ -1095,3 +1095,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, memory citations in finding Sources were plain text. Add Open memory to open that existing fact in Memory. Do not dismiss, create a follow-up (#161), or send. Do not stack open #158–#166 (including Open task).
 - **验证边界：** Local Chrome 1440+320 on owned ports 5195/8836; frontend source contract. [QA](output/qa/2026-11-25-source-open-memory/verification.md).
+## 2026-11-25 · Open cited local calendar from finding Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, local calendar citations in finding Sources were plain text. Add Open calendar to open that existing occurrence’s Event details. Do not dismiss, create a follow-up (#161), or send. Do not stack open #158–#167 (including Open task / Open memory). Google preview refs stay labels.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5193/8834; frontend source contract. [QA](output/qa/2026-11-25-source-open-calendar/verification.md).

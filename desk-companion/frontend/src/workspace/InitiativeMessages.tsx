@@ -49,6 +49,17 @@ function memoryIdFromSource(source: { ref: string; kind: string }) {
   return ident || null;
 }
 
+/** Local desk occurrence only; Google preview refs stay labels. */
+export function localCalendarRef(source: { ref: string; kind: string }) {
+  if (source.kind !== "calendar") return null;
+  if (!source.ref.startsWith("calendar:") || source.ref.startsWith("calendar:google:"))
+    return null;
+  const rest = source.ref.slice("calendar:".length);
+  const cut = rest.indexOf(":");
+  if (cut <= 0 || cut >= rest.length - 1) return null;
+  return source.ref;
+}
+
 /** Contextual messages in the conversation; no approval form or separate poll. */
 export function InitiativeMessage({
   finding,
