@@ -939,4 +939,5 @@ def proposal_kind(runtime, proposal_id: str) -> str | None:
 def visible_proposals(proposals: list[dict], principal: dict) -> list[dict]:
     if principal.get("kind") == "owner":
         return proposals
-    return [item for item in proposals if item.get("kind") != "mailbox_reply"]
+    hidden = {"mailbox_reply", "followed_reply_draft"}
+    return [item for item in proposals if item.get("kind") not in hidden]

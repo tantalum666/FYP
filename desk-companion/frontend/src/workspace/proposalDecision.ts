@@ -39,6 +39,8 @@ export function proposalDecisionNotice(
     return t("That routine occurrence was skipped.", "已跳过这一次提醒。");
   if (kind === "email_send")
     return t("Email accepted for sending.", "邮件已提交发送。");
+  if (kind === "followed_reply_draft")
+    return t("Draft saved. Nothing was sent.", "草稿已保存。没有发送。");
   if (isJourneyAdvice(kind))
     return t("Review saved to the task.", "核对记录已保存到事务。");
   if (kind?.startsWith("task_"))

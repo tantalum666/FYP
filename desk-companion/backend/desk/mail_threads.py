@@ -113,6 +113,27 @@ class MailThreadReader:
         )
         return self.normalize(provider, data, account_email, for_reply=for_reply)
 
+    def original_text(self, provider, message_id, account_email, checkpoint):
+        """Owner-requested reread. The caller must not store the returned text."""
+        if provider == "gmail":
+            data = self.get(
+                provider,
+                "/messages/" + quote(identifier(message_id), safe=""),
+                {
+                    "format": "full",
+                    "fields": "id,threadId,snippet,labelIds,internalDate,payload/headers",
+                },
+                checkpoint,
+            )
+            message = self.normalize(provider, data, account_email)
+            snippet = data.get("snippet")
+            body = text(snippet, 1000) if isinstance(snippet, str) else ""
+            message.pop("excluded", None)
+            return {**message, "body": body, "body_status": "snippet" if body else "metadata_only"}
+        message = self.message(provider, message_id, account_email, checkpoint)
+        message.pop("excluded", None)
+        return {**message, "body": "", "body_status": "metadata_only"}
+
     def thread(self, provider, thread_id, account_email, checkpoint):
         ident = identifier(thread_id)
         if provider == "gmail":

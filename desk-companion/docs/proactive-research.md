@@ -14,7 +14,7 @@ An unassigned change can matter: a connected email preview says a fictional repo
 
 The home surface shows one concise Alice cue; Conversation contains the natural finding and current source labels. Web, phone and the device layout use shared components. The existing Proactivity preference controls the behavior: Normal, Less often, or Off. Off halts research and selected-mail checks; private-context hiding also fences reads and publication. Quiet hours defer notification. Dismissal uses the original operation ID after an interrupted response. A changed or forgotten source invalidates its old finding.
 
-Selected mail follow-up is a related explicit request: “find this email and follow replies” can start a read-only subscription under the current proactivity preference, even in Ask mode, without a second approval card. General writes and outgoing mail retain their own controls. [Mail contract](mail-thread-followup.md), [permission contract](assistant-permissions.md).
+Selected mail follow-up is a related explicit request: “find this email and follow replies” can start a read-only subscription under the current proactivity preference, even in Ask mode, without a second approval card. A new reply on that thread raises one reminder on the same task. The owner can read it and then choose a draft. The draft does not send. Local sample messages continue when paid reasoning is unavailable. General writes and outgoing mail retain their own controls. [Mail contract](mail-thread-followup.md), [permission contract](assistant-permissions.md).
 
 ## Current source scope
 

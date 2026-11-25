@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 25 November 2026 · One reminder when a followed thread receives a reply
+
+After the owner chooses to follow a thread, one new reply raises one reminder on that same task. Chat keeps the evidence. Inbox can open the task. Quiet hours hold the reminder until they end. The owner can read the original message, then choose whether to draft a reply. Saving that draft does not send it. A missed or failed read is not shown as a confirmed new reply. Dismissing one reminder leaves a different one in place. A local mail sample covers this journey when paid reasoning or a live mailbox is unavailable. The sample and synthetic provider checks are not live-mailbox acceptance. [Contract](desk-companion/docs/mail-thread-followup.md) · [verification](output/qa/2026-11-25-followed-reply/verification.md).
+
 ## 25 November 2026 · Alice’s workspace
 
 Home opens on Alice and the conversation. Today leads to a specific task or event. Desktop shows a task list beside the selected task. On a phone the same task has a full-width detail view, and Back restores the list and filters. Routine notices belong in Inbox. Group repeated morning and evening receipts there, keep each date and dismissal available, and link personal updates back to their conversation. Settings should lead directly to the effective permissions of a chosen app. [Workspace design and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).

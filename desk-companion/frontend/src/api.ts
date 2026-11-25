@@ -250,6 +250,10 @@ export function errorText(
     MAIL_FOLLOWUP_NOT_FOUND: ["This email follow-up is no longer available.", "这项邮件跟进已不可用。"],
     MAIL_FOLLOWUP_CONSENT_REQUIRED: ["Allow background follow-up before starting this thread.", "请先允许后台跟进这段邮件对话。"],
     MAIL_FOLLOWUP_CHANGED: ["A newer email update is available. Refresh before marking it reviewed.", "有更新的邮件进展，请刷新后再标记已查看。"],
+    MAIL_REPLY_CHANGED: ["This reply changed. Review the current message before saving a draft.", "这封回复已变化。保存草稿前请先核对当前邮件。"],
+    MAIL_REPLY_UNRELATED: ["That message belongs to a different thread.", "这封邮件属于另一段对话。"],
+    MAIL_REPLY_SEND_FORBIDDEN: ["This draft cannot send email.", "这份草稿不能发送邮件。"],
+    MAIL_REPLY_DRAFT_INVALID: ["The reply draft is incomplete. Review it again.", "回复草稿不完整，请重新核对。"],
     MAIL_THREAD_ALREADY_FOLLOWED: ["This thread is already linked to another task.", "这段邮件对话已经关联到另一件事务。"],
     MAIL_FOLLOWUP_LIMIT: ["The email follow-up limit has been reached.", "已达到当前邮件跟进上限。"],
     APP_SCOPE_REQUIRED: [

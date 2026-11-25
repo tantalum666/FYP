@@ -9,6 +9,7 @@ import { AliceCheckIn } from "./AliceCheckIn";
 import { HomeCaption } from "./HomeCaption";
 import { useHomeTranscript, withSavedTurns } from "./useHomeTranscript";
 import { InitiativeMessage } from "./InitiativeMessages";
+import { MailReplyReminders } from "./MailReplyReminder";
 import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
 import { replyDelivery, SpokenDelivery } from "../companion/delivery";
 import { ComposerMenu } from "./ComposerMenu";
@@ -1716,6 +1717,9 @@ export function AssistantPanel({
         aria-label={t("Conversation", "对话")}
       >
         <ConversationScroll followLatest={followLatest}>
+          {(!immersive || expanded) && privateOrdersVisible && !offline && !stale && (
+            <MailReplyReminders t={t} />
+          )}
           {(!immersive || expanded) && privateOrdersVisible && data?.initiative?.mail_check?.available === false &&
             <a className="text-button" href="/?page=assistant&settings=connections">
               {t("Gmail reminders need attention · View connection", "邮件提醒需要重新核对 · 查看 Gmail 连接")}
@@ -1851,7 +1855,7 @@ export function AssistantPanel({
           )}
           {(!immersive || expanded) && focusedOrder && !focusTurn && <OrderCard row={focusedOrder} {...orderActions}/>}
           {(!immersive || expanded) && <OtherOrders rows={otherOrders} {...orderActions} current={!!focusedOrder}/>}
-          {proposals.map((proposal) => (
+          {proposals.filter((proposal) => proposal.kind !== "followed_reply_draft").map((proposal) => (
             <ProposalActionCard
               key={proposal.id}
               proposal={proposal}

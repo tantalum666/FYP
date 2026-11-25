@@ -32,4 +32,8 @@ The standard storefront is the WooCommerce sandbox. Stripe’s original test-mod
 
 The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
 
-**Next step** — When the original Pi comes back on its pinned owner relay, apply its saved update from `92acac8e` to `b759950c` and verify its existing store, accounts, A3 profile and kiosk build on the device.
+## Followed reply
+
+A thread the owner chose to follow now raises one reminder on that same task after a new reply. Chat shows the evidence. The owner can read the original message and then choose a draft. Saving the draft does not send it. Quiet hours hold the reminder. The local sample and synthetic provider are not a live mailbox. [Verification](output/qa/2026-11-25-followed-reply/verification.md). Pull requests #158 and #159 stay open and were not used.
+
+**Next step** — Review the unmerged followed-reply pull request. The Pi update from `92acac8e` to `b759950c` stays a separate device step when the original Pi is back on its pinned relay.

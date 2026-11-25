@@ -1186,6 +1186,12 @@ A real authorized re-query reused a prior supplier ID, and a completed reply sti
 
 The corresponding airline guest page published each selected leg’s checked weight and the complete fare, surcharge and taxes for the return journey. The exact price and screenshot are retained privately for the owner. No payment, ticket or reservation was created. [Redacted verification](output/qa/2026-11-24-continuity/verification.md).
 
+## 25 November 2026 · One reminder when a followed thread receives a reply
+
+Grok Bot, on `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d`. Read the current handoff, product, decisions, the always-on research journey, the mail follow-up and proactive contracts, and the current task, inbox, and permission code. The poll already recorded one notice. The owner could not open that reply and choose a draft on Chat or the task.
+
+Added that path. A local sample and a synthetic Gmail provider exercise it. Neither is a live mailbox. No model call, no provider or A3 change, no CI, no deployment, and no use of pull requests #158 or #159. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
 ## 25 November 2026 · Alice’s workspace redesign
 
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
