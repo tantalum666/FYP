@@ -96,6 +96,29 @@ def test_changed_evidence_produces_cited_insight_without_request_or_action(world
     assert pack_conversation(r, include_memory=False)["initiative"] == []
 
 
+def test_changed_cited_memory_keeps_finding_visible_as_withdrawn(world):
+    r, client, actor, fact, task, now, calls = world
+    r.initiative.advance()
+    assert len(r.initiative.current()) == 1
+    assert not r.initiative.current()[0].get("withdrawn")
+    r.memory.delete(fact["id"], fact["version"], "forget-cited")
+    rows = r.initiative.current(display=True)
+    assert len(rows) == 1 and rows[0]["withdrawn"] is True
+    assert rows[0]["message_en"].startswith("The contract dates")
+    snap = r.snapshot(actor)
+    assert snap["initiative"]["findings"][0]["withdrawn"] is True
+    cue = snap.get("check_in")
+    assert cue is None or cue.get("id") != rows[0]["id"]
+    assert (
+        client.post(
+            f"/api/initiative/{rows[0]['id']}/dismissals",
+            headers={"X-Desk-Request": "1", "X-Operation-Id": "clear-withdrawn"},
+        ).status_code
+        == 200
+    )
+    assert r.initiative.current() == []
+
+
 def test_no_finding_means_no_alert_and_no_repeated_inference(world):
     r = world[0]
     count = []

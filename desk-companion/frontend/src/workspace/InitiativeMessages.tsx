@@ -88,6 +88,7 @@ export function InitiativeMessage({
   const focused = findingMatchesNotice(finding, focusNoticeId);
   const visible =
     data?.principal.kind === "owner" && data.personal_context_visible;
+  const withdrawn = !!finding.withdrawn;
   useEffect(() => {
     if (!visible) mutation.clear();
   }, [visible]);

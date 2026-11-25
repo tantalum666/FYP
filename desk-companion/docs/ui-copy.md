@@ -27,6 +27,9 @@ On an Inbox initiative receipt, View in conversation opens Assistant, expands Co
 ## 25 November · Inbox morning and evening check-ins
 
 On a Morning briefing receipt, offer View today so the owner can open Today without dismissing. On an Evening check-in receipt, offer View tasks so the owner can open Tasks. Dismiss remains the explicit clear.
+## 25 November · Withdrawn proactive suggestion
+
+When a Conversation finding’s Sources no longer match, keep the card as a withdrawn suggestion: say Sources changed and that nothing was sent. Got it clears it. Do not promote a withdrawn item as the home cue.
 
 ## 25 November · Workspace navigation and notices
 

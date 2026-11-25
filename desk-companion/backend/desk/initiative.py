@@ -148,8 +148,17 @@ class Initiative:
                    ORDER BY created_at DESC LIMIT 100""",
                 (history, iso(self.store.clock() - LOOKBACK)),
             ).fetchall()
+            # Keep recently invalidated findings visible until the owner clears them.
+            obsolete = (
+                []
+                if undelivered
+                else conn.execute(
+                    "SELECT * FROM initiative_findings WHERE state='obsolete' "
+                    "ORDER BY created_at DESC LIMIT 20"
+                ).fetchall()
+            )
         result = []
-        for row in rows:
+        for row in [*pending, *obsolete]:
             if undelivered and row["notified"]:
                 continue
             data = json.loads(row["data"])
