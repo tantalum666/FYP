@@ -114,6 +114,8 @@ class Runtime:
             if push_enabled()
             else None,
         )
+        from .locked_reminders import LockedReminders
+        self.notify.locked = LockedReminders.configured(self)
         self.memory_followups = MemoryFollowUpService(self)
         self.notify.owner_projection = self.memory_followups.project_notice
         self.voice = VoiceService(self)

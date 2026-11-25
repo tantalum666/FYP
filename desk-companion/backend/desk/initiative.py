@@ -293,7 +293,7 @@ class Initiative:
                          "already_reported": [{"kind": x["kind"], "sources": [s["ref"] for s in x["sources"]]} for x in known]},
                         Findings, "initiative", checkpoint=current)
                 except DomainError as error:
-                    if error.code not in {"OPENAI_DAILY_BUDGET_REACHED", "OPENAI_BUDGET_DAY_END", "OPENAI_BUDGET_PERIOD_CLOSED"} and not (
+                    if error.code not in {"OPENAI_DAILY_BUDGET_REACHED", "OPENAI_MONTHLY_BUDGET_REACHED", "OPENAI_BUDGET_DAY_END", "OPENAI_BUDGET_PERIOD_CLOSED"} and not (
                         metered and error.code == "TEXT_AI_UNAVAILABLE" and any(s["kind"] == "mail" for s in sources.values())
                     ):
                         raise

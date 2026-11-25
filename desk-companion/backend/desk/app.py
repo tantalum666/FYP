@@ -152,9 +152,13 @@ def create_app(
             if scheduler
             else []
         )
+        if scheduler and services.notify.locked:
+            workers.append(asyncio.create_task(worker("locked_reminders", services.notify.locked.tick, 10)))
         try:
             yield
         finally:
+            if services.notify.locked:
+                services.notify.locked.stop()
             failure = None
             for stop in (
                 services.public_captures.stop,
@@ -431,8 +435,10 @@ def create_app(
         return {"revision": store.revision()}
 
     @app.get("/api/phone/snapshot", dependencies=[Depends(authenticated)])
-    def phone():
-        return phone_snapshot(services)
+    def phone(principal=Depends(authenticated)):
+        return {**phone_snapshot(services), "owner_reminders": principal.get("kind") == "owner"
+                and services.notify.locked is not None and services.notify.locked.active()
+                and services.personal_context.visible(principal)}
 
     @app.get("/api/calendar", dependencies=[Depends(authenticated)])
     def calendar(start: datetime, end: datetime, display: bool = False):

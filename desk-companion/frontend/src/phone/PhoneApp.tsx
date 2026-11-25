@@ -62,7 +62,7 @@ export function PhoneApp() {
   const [planTab, setPlanTab] = useState<"calendar" | "tasks">("calendar");
   const [reminders, setReminders] = useState(false);
   const [inboxCanNavigate, setInboxCanNavigate] = useState(false);
-  const [conversation, setConversation] = useState(false);
+  const [conversation, setConversation] = useState(() => new URLSearchParams(location.search).get("conversation") === "open");
   const [task, setTask] = useState<{ id: string; title: string }>();
   const [notice, setNotice] = useState("");
   const [recovering, setRecovering] = useState(false);
@@ -115,7 +115,8 @@ export function PhoneApp() {
         setNotice(t("Finish your current edit first.", "请先完成当前编辑。"));
         return;
       }
-      if ((event as CustomEvent).detail === "new") newEventOnDate(todayKey);
+      if ((event as CustomEvent).detail === "assistant") setConversation(true);
+      else if ((event as CustomEvent).detail === "new") newEventOnDate(todayKey);
       else {
         setPlanTab("calendar");
         calendar.setDate(todayKey);

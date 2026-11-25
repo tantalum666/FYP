@@ -7,6 +7,7 @@ let deskAppGroup = "group.dev.group2.deskcompanion"
 
 enum DeskPhoneFeatures {
     static func clear() {
+        UserDefaults.standard.removeObject(forKey: "desk.locked-reminders.origin.v1")
         UserDefaults(suiteName: deskAppGroup)?.removeObject(forKey: "calendar.snapshot")
         WidgetCenter.shared.reloadAllTimelines()
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -28,6 +29,12 @@ enum DeskPhoneFeatures {
     }
     static func sync(_ supplied: [String: Any], completion: @escaping ([String: Any]) -> Void) {
         var snapshot = supplied
+        let prefs = UserDefaults.standard
+        if supplied["owner_reminders"] as? Bool == true && prefs.bool(forKey: "desk.notifications.enabled") {
+            prefs.set(prefs.string(forKey: "desk.server.origin.v1"), forKey: "desk.locked-reminders.origin.v1")
+        } else {
+            prefs.removeObject(forKey: "desk.locked-reminders.origin.v1")
+        }
         let chinese = snapshot["language"] as? String == "zh"
         let items = (snapshot["items"] as? [[String: Any]] ?? []).prefix(3).map { row -> [String: Any] in
             var result = row
@@ -70,6 +77,7 @@ extension DeskNativePlugin {
     @objc func enableNotifications(_ call: CAPPluginCall) {
         if call.getBool("enabled") == false {
             UserDefaults.standard.set(false, forKey: "desk.notifications.enabled")
+            UserDefaults.standard.removeObject(forKey: "desk.locked-reminders.origin.v1")
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             DeskPhoneFeatures.status { call.resolve($0) }; return
         }
