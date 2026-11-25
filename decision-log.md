@@ -1024,6 +1024,12 @@ The owner opted into local retention of ordinary messages and the final text of 
 
 **Engineering follow-through:** Close #160’s outstanding full-suite failures by matching tests/fixtures to current product contracts (fingerprint empty review fields, reprice clarify, managed-browser session allowlist, forget `home_archived`, Google composer mocks, requestDeadline behavior, Today MomentCard mount). Overlapping baseline repairs on #158/#159 are recorded as Codex merge conflicts, not as authorization to take their features. No new product journey in this round.
 
+### Same day · Three-way local integration evidence (not a merge)
+
+**User decision:** One bounded integration verification of #158+#159+#160 on a throwaway local tree; report and stop for the next budget decision. No GitHub merge, no new feature, no permission to land.
+
+**Engineering follow-through:** Local merge `main`→#158→#159→#160 to `65eb854e` retained all feature product and stronger baseline asserts. Combined suites green; three browser journeys green on owned ports. No product fix pushed. Independent closeout and 158+159 rehearsal do not substitute this three-way evidence. [Verification](output/qa/2026-11-25-followed-reply/verification.md).
+
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).

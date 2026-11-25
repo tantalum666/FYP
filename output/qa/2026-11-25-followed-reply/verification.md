@@ -53,6 +53,85 @@ Frontend: `npm test` → **440 passed, 0 failed**. `npx tsc --noEmit` passed. `n
 
 Tested product-and-test commit: `87a38f489606d6a672fa88faf6dd389bfd05c1f7`. Suites above were run on the closeout working tree that became that commit. A later notes-only tip must cite this SHA and must not claim the suites ran on untested later code.
 
+## Local three-way integration (throwaway only)
+
+25 November 2026 closeout follow-up. Owner Auto authorization; no extra credits. **No feature-branch rewrite, no GitHub merge, no new PR.** Throwaway worktree branch `local/integrate-158-159-160-e853` only.
+
+### Per-PR heads used (unchanged on remotes)
+
+| Ref | SHA |
+|---|---|
+| `main` | `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` |
+| #158 `cursor/owner-page-handoff-f7ae` | `c2cac2d8f95da625a3b08ee6a8699bc27aa34692` (product `32066b8b`, hold-card test `59547453`) |
+| #159 `cursor/task-recovery-readback-f7ae` | `90275bf08272bb49b9d50216b2e7e1f9d7246588` |
+| #160 tip before this notes update | `28f39f826a191d10c1fff8444d7ce4d0fa33f407` (tested product `87a38f489606d6a672fa88faf6dd389bfd05c1f7`) |
+| Prior 158+159 rehearsal (not this tree) | `cefe84e0` — independent of three-way evidence below |
+
+### Merge order and local resolved tree
+
+`main` → #158 → #159 → #160. Final local tree: **`65eb854ecd99dd5e9998161b57aab4a451340eac`**.
+
+### Per-file conflict resolutions
+
+**#158 ↔ #159**
+
+| File | Resolution |
+|---|---|
+| `frontend/tests/browser-workflow.test.ts` | Kept #158 `requestDeadline` path asserts **and** shared setTimeout behavioral check |
+| `frontend/tests/moments.test.ts` | Kept #158 `momentView` behavioral suite + Today mount + card endpoint/copy asserts |
+| `tests/test_chat_attachments.py` | Kept named-repeat fingerprint behavioral asserts (equivalent to #159) |
+| `handoff.md`, `decision-log.md`, `work-log.md` | Kept **both** Local page handoff and Interrupted task readback; next step = parent review of open PRs, Pi separate |
+
+**(#158+#159) ↔ #160**
+
+| File | Resolution |
+|---|---|
+| `frontend/tests/moments.test.ts` | Kept #158 `momentView` feature tests (160 only had mount/copy); retained `Not now` / reset copy |
+| `tests/test_chat_attachments.py` | Kept behavioral asserts; retained 160 comment |
+| `tests/test_conversation_flight_booking.py` | Kept clarify/`reprice` asserts; retained 160 comment |
+| `tests/test_managed_browser.py` | Kept `session_origin` fixture; retained 160 comment |
+| `handoff.md` | Kept all three personal-agent sections (page handoff, task readback, followed reply); next step = parent budget after integration evidence, Pi separate |
+| `frontend/src/api.ts` | Auto-merge kept #158 `requestDeadline` + `BROWSER_PAGE_LOST` and #160 mail-reply error copy |
+
+Feature product from all three PRs retained. No tests dropped.
+
+### Combined suite on `65eb854e`
+
+Worktree `/tmp/fyp-integrate-158-159-160`. Interpreter `/tmp/desk-venv/bin/python`.
+
+- Backend: `PYTHONPATH=backend … pytest -q --tb=line -p no:cacheprovider` → **3074 passed, 1 skipped, 0 failed**, 1110.57s  
+  - Single skip: `tests/test_shop_basket.py:407` — `local PHP CLI unavailable`
+- Frontend: `npm test` → **442 passed, 0 failed**
+- `npx tsc --noEmit` passed; `npm run build` passed (existing chunk-size warning)
+- Ruff on merged product Python paths: passed
+- `git diff --check origin/main...HEAD`: only pre-existing trailing blank line at EOF in `mail_reply_reminder.py` (from #160); not treated as an integration defect
+- Focused interaction set (`test_mail_reply_reminder`, `test_task_job_journey`, `test_task_recovery_ui`, `test_owner_takeover`, `test_live_owner_page`): **36 passed**
+
+### Browser journeys (owned ports, sequential teardown)
+
+Ports cleared between runs. Leftover Vite on 5190 from a prior attempt was killed before retries. Each UI test owns its process group / listening pids.
+
+| Journey | Ports | Result |
+|---|---|---|
+| Owner same-page hold / type / handback (`test_owner_page_ui.py`) | API 8831, Vite 5190 `--strictPort` | **1 passed** (1440 + 320) |
+| Interrupted task readback (`test_task_recovery_ui.py`) | API 8831, Vite 5190 `--strictPort` | **1 passed** (1440 + 320) |
+| Followed mail failed-read → original → draft save never send (`test_mail_reply_ui.py`) | API 8832, Vite 5191 `--strictPort` | **1 passed** (1440 + 320) |
+
+### Interaction guarantees checked on the combined tree
+
+- Same-title task/file association stays on the selected task (task journey / recovery).
+- Paired / revoked / `hide_private` continue to fence private task and mail reminder surfaces.
+- Check / reread report `sent: false` and do not dispatch again; unknown send stays distinct.
+- Draft appears only after explicit owner choice; save does not send (`MAIL_REPLY_SEND_FORBIDDEN` path retained).
+
+### Defects
+
+None requiring a product push to #158/#159/#160. No localized integration bug found.
+
+### Not claimed by this integration
+
+The throwaway tree is **not** a GitHub merge. Independent #160 closeout green and prior 158+159 rehearsal `cefe84e0` do **not** substitute this three-way evidence; this section is the three-way evidence. Still not deployed, not live Gmail accepted.
+
 ## Not claimed
 
 Not merged. Not deployed. Not a live Gmail or Outlook acceptance. Not a sent message. Not shopping, booking, or automatic execution. Paid reasoning was not used. Extra paid credits were not used. The Pi update is a separate device step. #158 and #159 remain independent open work.
