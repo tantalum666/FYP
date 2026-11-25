@@ -380,6 +380,27 @@ class MailReplyReminders:
                 saved.add(key)
         return pending, saved
 
+    def project_notice(self, notice):
+        """Resolve the exact current task for new and older owner inbox receipts."""
+        if notice.get("kind") != "mail_followup":
+            return self.runtime.memory_followups.project_notice(notice)
+        safe = dict(notice)
+        safe.pop("task_id", None)
+        with self.store.connection() as conn:
+            if self.store.settings(conn)["hide_private"]:
+                return safe
+            row = conn.execute(
+                "SELECT task_id,definition FROM mail_followups WHERE notice_id=? AND state='active' AND expires_at>?",
+                (notice["id"], iso(self.store.clock())),
+            ).fetchone()
+            if row:
+                try:
+                    self.runtime.mail_followups._account(json.loads(row["definition"]))
+                except DomainError:
+                    return safe
+                safe["task_id"] = row["task_id"]
+        return safe
+
     def reminders(self, principal, task_id=None):
         self._principal(principal)
         now = iso(self.store.clock())

@@ -279,6 +279,13 @@ def test_snooze_hides_finding_then_returns_same_sources_after_clock(world):
     assert restored[0]["id"] == ident
     assert restored[0]["sources"] == sources
     assert len(calls) == 1  # no second model call to restore a snooze
+    notices = r.notify.listing()["notices"]
+    assert len(notices) == 2
+    assert {notice["state"] for notice in notices} == {"open", "dismissed"}
+    assert len({notice["id"] for notice in notices}) == 2
+    r.initiative.advance()
+    assert len(r.notify.listing()["notices"]) == 2
+
 
 
 def test_snooze_fences_hide_private_revocation_and_dismissed(world):

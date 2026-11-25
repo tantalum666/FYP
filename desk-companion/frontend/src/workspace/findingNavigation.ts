@@ -10,7 +10,7 @@ export function noticeTarget(item: { id: string; kind?: string; task_id?: string
     case "followup": return {page:"tasks",itemId:item.task_id || undefined,en:item.task_id ? "Open task" : "View tasks",zh:item.task_id ? "打开待办" : "查看待办"};
     case "memory_morning":
     case "memory_followup": return {page:"memory",en:"View memories",zh:"查看记忆"};
-    case "mail_followup": return {page:"tasks",en:"Open the task",zh:"打开事务"};
+    case "mail_followup": return {page:"tasks",itemId:item.task_id || undefined,en:item.task_id ? "Open the task" : "View tasks",zh:item.task_id ? "打开事务" : "查看待办"};
     case "calendar_deadline":
     case "calendar_conflict":
     case "calendar_decision":

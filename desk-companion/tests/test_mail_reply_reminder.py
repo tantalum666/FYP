@@ -79,6 +79,9 @@ def test_one_reminder_for_a_followed_reply_and_none_for_an_unfollowed_thread(des
     rows = reminders(desk)
     assert len(rows) == 1
     assert rows[0]["task_id"] == before["task_id"]
+    note = next(n for n in runtime.notify.listing(open_only=True)["notices"] if n["kind"] == "mail_followup")
+    assert note["task_id"] == before["task_id"]
+    assert "task_id" not in note["push"]
     assert rows[0]["live_mailbox"] is False
     assert rows[0]["source_label"].startswith("Local mail sample")
     assert rows[0]["count"] == 1

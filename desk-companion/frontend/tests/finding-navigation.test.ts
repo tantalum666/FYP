@@ -9,6 +9,7 @@ test("an Inbox receipt opens its bound item; reading it has no dismissal or writ
   }
   assert.equal(noticeTarget({id:"notice",kind:"initiative"})?.itemId,"notice");
   assert.equal(noticeTarget({id:"receipt",kind:"followup",task_id:"original"})?.itemId,"original");
+  assert.equal(noticeTarget({id:"reply",kind:"mail_followup",task_id:"original"})?.itemId,"original");
   assert.equal(noticeTarget({id:"receipt",kind:"followup"})?.page,"tasks");
   assert.equal(noticeTarget({id:"receipt",kind:"other"}),undefined);
 });

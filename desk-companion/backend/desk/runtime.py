@@ -117,7 +117,6 @@ class Runtime:
         from .locked_reminders import LockedReminders
         self.notify.locked = LockedReminders.configured(self)
         self.memory_followups = MemoryFollowUpService(self)
-        self.notify.owner_projection = self.memory_followups.project_notice
         self.voice = VoiceService(self)
         self.wake = WakeListening(self)
         self.exchange = ExchangeService(self)
@@ -155,6 +154,7 @@ class Runtime:
         from .mail_reply_reminder import MailReplyReminders
 
         self.mail_replies = MailReplyReminders(self)
+        self.notify.owner_projection = self.mail_replies.project_notice
         self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
         from .flight_booking.live_checkout import LiveFlightCheckouts
