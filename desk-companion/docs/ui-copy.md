@@ -36,6 +36,9 @@ When the Alice home cue is a Morning briefing, offer View today beside Got it. W
 ## 25 November · Home task cue opens the cited task
 
 When the Alice home cue is a task follow-up, offer Open task beside Done, Still working and In an hour. That control opens the cited task in Tasks. It does not complete, snooze, or dismiss the follow-up. Match Open task / 打开待办.
+## 25 November · Inbox task follow-up opens the cited task
+
+On a task follow-up receipt, offer Open task so the owner can open that cited task in Tasks. Do not dismiss the receipt. Match Open task / 打开待办.
 
 ## 25 November · Workspace navigation and notices
 

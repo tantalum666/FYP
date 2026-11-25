@@ -1125,3 +1125,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, the home Alice task follow-up cue only offered Done / Still working / In an hour. Add Open task to open that task in Tasks. Do not complete/snooze/dismiss. Do not stack open #158–#172.
 - **验证边界：** Local Chrome 1440+320 on owned ports 5200/8841; frontend source contract. [QA](output/qa/2026-11-25-home-task-open/verification.md).
+## 2026-11-25 · Inbox task follow-up opens the cited task
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one tightly bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, Inbox follow-up receipts only offered View tasks (list). Open the cited task via Open task. Do not dismiss. Do not stack open #158–#173.
+- **验证边界：** Local Chrome 1440+320 on owned ports 5201/8842; frontend source contract. [QA](output/qa/2026-11-25-inbox-followup-open/verification.md).

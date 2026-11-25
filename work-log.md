@@ -1346,5 +1346,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** Open task on the home Alice task cue; Chrome 1440+320 on 5200/8841; contract, docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-home-task-open/verification.md) — local real Chrome + rule task follow-up fixture; not live mailbox or paid model.
+## 25 November 2026 · Inbox task follow-up opens the cited task
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox follow-up opens the cited task without stacking #158–#173.
+
+**Done.** Open task on Inbox follow-up receipts; Chrome 1440+320 on 5201/8842; contract, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-followup-open/verification.md) — local real Chrome + rule follow-up fixture; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.

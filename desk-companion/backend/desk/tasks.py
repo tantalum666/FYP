@@ -517,6 +517,7 @@ class TaskService:
                             body_zh,
                             body_en,
                             body_zh,
+                            task_id=data["id"],
                         )
                     )
             if changed:
