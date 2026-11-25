@@ -5,7 +5,6 @@ from datetime import date, timedelta
 import json
 import os
 from pathlib import Path
-import plistlib
 import stat
 import subprocess
 import sys
@@ -64,17 +63,10 @@ class SimulatorReceiver:
             directory = Path(os.fsdecode(container.stdout.strip()))
             if not directory.is_absolute():
                 return "retry"
-            prefs = directory / "Library/Preferences" / (APP_ID + ".plist")
-            if not prefs.is_file():
+            binding = directory / "Library/Application Support/alice-lock-reminder-receiver.json"
+            if not binding.is_file() or binding.is_symlink() or binding.stat().st_size > 1024:
                 return "off"
-            if prefs.is_symlink() or prefs.stat().st_size > 1000000:
-                return "off"
-            values = plistlib.loads(prefs.read_bytes())
-            if (
-                not values.get("desk.notifications.enabled")
-                or values.get("desk.server.origin.v1") != self.origin
-                or values.get("desk.locked-reminders.origin.v1") != self.origin
-            ):
+            if json.loads(binding.read_bytes()).get("origin") != self.origin:
                 return "off"
             alert = {
                 "aps": {
@@ -94,7 +86,7 @@ class SimulatorReceiver:
             except subprocess.TimeoutExpired:
                 return "unknown"
             return "accepted" if result.returncode == 0 else "retry"
-        except (OSError, subprocess.TimeoutExpired, ValueError, plistlib.InvalidFileException):
+        except (OSError, subprocess.TimeoutExpired, ValueError):
             return "retry"
 
 

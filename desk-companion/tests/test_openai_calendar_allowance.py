@@ -23,6 +23,10 @@ def test_successor_limits_share_one_ledger_and_keep_old_receipts(tmp_path):
         statement="e" * 64,
     )
     renew(ledger, **terms)
+    with ledger._db() as db:
+        assert (
+            db.execute("SELECT through FROM allowance").fetchone()[0] == "2026-11-24"
+        )  # rollback fails closed
     at[0] = datetime(2026, 11, 25, 15, tzinfo=HONG_KONG)
     assert ledger.summary()["available_usd"] == 3
 

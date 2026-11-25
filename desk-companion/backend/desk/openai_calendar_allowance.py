@@ -24,7 +24,7 @@ def renew(ledger, *, start, through, daily, monthly, day_opening, month_opening,
             starts TEXT PRIMARY KEY, through TEXT NOT NULL, daily_limit INTEGER NOT NULL,
             monthly_limit INTEGER NOT NULL, day_opening INTEGER NOT NULL, month_opening INTEGER NOT NULL,
             statement TEXT NOT NULL, cutoff INTEGER NOT NULL, previous_rule TEXT NOT NULL)""")
-        prior = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+        prior = effective_rule(db)
         existing = db.execute(
             "SELECT * FROM calendar_allowances WHERE starts=?", (start,)
         ).fetchone()
@@ -41,10 +41,32 @@ def renew(ledger, *, start, through, daily, monthly, day_opening, month_opening,
             "INSERT INTO calendar_allowances VALUES(?,?,?,?,?,?,?,?,?)",
             (*terms, cutoff, json.dumps(dict(prior), sort_keys=True)),
         )
-        db.execute(
-            "UPDATE allowance SET starts=?,through=?,share=?,opening=0 WHERE id=1",
-            (start, through, daily),
-        )
+
+        # Legacy versions keep seeing their expired term on rollback.
+
+
+def effective_rule(db):
+    prior = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+    if (
+        not prior
+        or not db.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='calendar_allowances'"
+        ).fetchone()
+    ):
+        return prior
+    term = db.execute(
+        "SELECT starts,through,daily_limit FROM calendar_allowances ORDER BY starts DESC LIMIT 1"
+    ).fetchone()
+    if not term:
+        return prior
+    return {
+        **dict(prior),
+        "starts": term["starts"],
+        "through": term["through"],
+        "opening": 0,
+        "share": term["daily_limit"],
+        "calendar": True,
+    }
 
 
 def calendar_room(db, day, rule):

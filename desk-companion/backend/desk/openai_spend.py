@@ -16,7 +16,7 @@ from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 from .bounded_json import bounded_json_post
-from .openai_calendar_allowance import calendar_room
+from .openai_calendar_allowance import calendar_room, effective_rule
 from .provider_policy import OPENAI_BROWSER_MODELS, OPENAI_TEXT_ENDPOINT
 from .store import DomainError
 
@@ -157,7 +157,7 @@ class DailySpend:
     def _period(self, db, *, record=False):
         now = self.clock().astimezone(HONG_KONG)
         day = now.date().isoformat()
-        rule = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+        rule = effective_rule(db)
         if not rule:
             raise DomainError("OPENAI_BUDGET_UNAVAILABLE", 503)
         if record and day > rule["through"] and day > rule["latest_day"]:
@@ -176,10 +176,18 @@ class DailySpend:
     def allocate_today(self, *, local, other_devices, margin, reason):
         """Record an operator's HK-day split of the existing US$20 fleet authorization."""
         if (any(type(v) is not int or v < 0 for v in (local, other_devices, margin))
-                or local <= 0 or local + other_devices + margin != 20 * USD or not reason.strip()):
+                or local <= 0 or not reason.strip()):
             raise ValueError("The allocations and headroom must account for the authorized fleet total")
+        with self._db() as db:
+            approved = effective_rule(db)
+        if (local + other_devices + margin !=
+                (approved["share"] if "calendar" in approved.keys() else 20 * USD)):
+            raise ValueError("The split must match this term's fleet authorization")
         with self._db(True) as db:
-            _, day, _ = self._period(db, record=True)
+            _, day, rule = self._period(db, record=True)
+            total = rule["share"] if "calendar" in rule.keys() else 20 * USD
+            if local + other_devices + margin != total:
+                raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
             db.execute("CREATE TABLE IF NOT EXISTS daily_allocations("
                        "day TEXT PRIMARY KEY, local INTEGER, other_devices INTEGER, margin INTEGER, reason TEXT)")
             db.execute("INSERT OR IGNORE INTO daily_allocations VALUES(?,?,?,?,?)",
@@ -299,7 +307,7 @@ class DailySpend:
             return {"configured": False}
         day = self.clock().astimezone(HONG_KONG).date().isoformat()
         with self._db() as db:
-            rule = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+            rule = effective_rule(db)
             share = self._daily_share(db, day, rule["share"])
             used = db.execute(
                 "SELECT COALESCE(SUM(accounted),0) FROM charges WHERE day=?", (day,)

@@ -1,6 +1,5 @@
 from datetime import UTC, date, datetime, timedelta
 import json
-import plistlib
 from types import SimpleNamespace
 
 from desk.app import create_app
@@ -62,7 +61,7 @@ def test_durable_delivery_per_destination_quiet_revoke_and_dismiss(tmp_path, mon
 
 
 def test_simulator_transport_requires_same_origin_explicit_opt_in_and_fixed_target(tmp_path):
-    prefs = tmp_path / "Library/Preferences/dev.group2.deskcompanion.plist"
+    prefs = tmp_path / "Library/Application Support/alice-lock-reminder-receiver.json"
     prefs.parent.mkdir(parents=True)
     target = "CB0FC414-498F-4E63-839B-33632AB5DA71"
     origin = "http://127.0.0.1:8832"
@@ -81,15 +80,10 @@ def test_simulator_transport_requires_same_origin_explicit_opt_in_and_fixed_targ
         (True, "https://different.example", "off"),
         (True, origin, "accepted"),
     ):
-        prefs.write_bytes(
-            plistlib.dumps(
-                {
-                    "desk.notifications.enabled": enabled,
-                    "desk.server.origin.v1": origin,
-                    "desk.locked-reminders.origin.v1": bind,
-                }
-            )
-        )
+        if enabled:
+            prefs.write_text(json.dumps({"origin": bind}))
+        else:
+            prefs.unlink(missing_ok=True)
         assert receiver.send("private agenda") == expected
     assert (
         len(sent) == 1
