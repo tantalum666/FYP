@@ -104,8 +104,12 @@ Worktree `/tmp/fyp-integrate-158-159-160`. Interpreter `/tmp/desk-venv/bin/pytho
 - Frontend: `npm test` → **442 passed, 0 failed**
 - `npx tsc --noEmit` passed; `npm run build` passed (existing chunk-size warning)
 - Ruff on merged product Python paths: passed
-- `git diff --check origin/main...HEAD`: only pre-existing trailing blank line at EOF in `mail_reply_reminder.py` (from #160); not treated as an integration defect
+- `git diff --check origin/main...HEAD` (at integration tree `65eb854e`): flagged a trailing blank line at EOF in `mail_reply_reminder.py` (whitespace only from #160)
 - Focused interaction set (`test_mail_reply_reminder`, `test_task_job_journey`, `test_task_recovery_ui`, `test_owner_takeover`, `test_live_owner_page`): **36 passed**
+
+### Ancillary #160 hygiene (whitespace only)
+
+Removed the single trailing blank line at EOF in `desk-companion/backend/desk/mail_reply_reminder.py` (`1` deletion). No semantic change. `git diff --check` on that file is clean after the fix. Full suite results above still belong to tested product tree `87a38f489606d6a672fa88faf6dd389bfd05c1f7` and combined throwaway `65eb854e`; this whitespace tip does **not** claim a new full-suite run.
 
 ### Browser journeys (owned ports, sequential teardown)
 

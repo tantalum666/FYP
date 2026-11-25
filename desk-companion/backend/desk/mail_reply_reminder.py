@@ -745,4 +745,3 @@ def _blank_body(value):
     elif isinstance(value, list):
         for item in value:
             _blank_body(item)
-
