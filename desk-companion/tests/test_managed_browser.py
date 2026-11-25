@@ -195,7 +195,10 @@ class Provider:
 
 
 class FastClient(ManagedBrowserClient):
-    active_seconds = 0.25
+    # Active budget must clear origin approval before auth_wait credits start.
+    # 0.25s raced suite scheduling (~375ms JOB_DEADLINE_EXCEEDED before owner_input).
+    # Keep this far below production 90s; auth abandonment still uses auth_seconds.
+    active_seconds = 2.0
     auth_seconds = 1
     poll_seconds = 0.001
     snapshot_seconds = 0.005

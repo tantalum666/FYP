@@ -1017,3 +1017,8 @@ The owner opted into local retention of ordinary messages and the final text of 
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 2026-11-25 · Managed-browser FastClient active budget
+
+- **Owner authorization:** One bounded reliability workstream on the reported managed-browser `JOB_DEADLINE_EXCEEDED` race; no merge, CI, deploy, Pi, live account, paid model, provider/A3, or history rewrite. Do not equate test timeout with product defect without proof.
+- **Engineering findings:** Premise that ~375ms expiry meant a false 180s job-deadline/clock bug is false. Offline `FastClient.active_seconds=0.25` burned during pre-auth origin work before `auth_wait` credits; suite scheduling delay >250ms matches the stale_form failure. Fixed fixture to 2.0s on a new main branch; production 90s unchanged. #160 trailing whitespace at verification.md:102 fixed separately (`d8aad9fb`). [Verification](output/qa/2026-11-25-managed-deadline/verification.md).

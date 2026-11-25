@@ -1191,3 +1191,13 @@ The corresponding airline guest page published each selected leg’s checked wei
 Reproduced the crowded Tasks/Calendar header with 17 real receipts. Reviewed the official Codex demo, installed Grok Bot settings and app directory, and Meta’s public Muse design and mobile screens after the owner rejected the first visual direction. Reworked the nine secondary destinations and their management views. Routine updates now open in Inbox and individual handling keeps the date and history. Desktop uses list and detail together. Phone opens one detail and returns to the same context.
 
 Verified task selection and drafts, reminders, calendar writes and Records, memory persistence, Settings return paths, keyboard navigation, light/dark rendering, the shared calendar, kiosk and an installed iOS WKWebView. Mac Web and the everyday Simulator now run `b759950c`. The Pi is pending its pinned relay with a versioned package retained. [Observed results, measurements and synthetic screenshots](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 25 November 2026 · Managed-browser FastClient active budget
+
+**Goal:** Root-cause intermittent `test_auth_input_is_fenced_before_credentials_reach_provider[stale_form]` `JOB_DEADLINE_EXCEEDED` (~375ms vs 180s nominal).
+
+**Done:** Attack-the-premise; causal pre-auth delay proves FastClient `active_seconds=0.25` (not 180s job deadline). Raised to 2.0; regression `test_pre_auth_delay_still_reaches_stale_form_fence`. Ancillary #160 tip whitespace fix `d8aad9fb`. New branch from `main` only.
+
+**Verified:** Focused 25 passed; preceding 5 passed; managed modules 32 passed / 2 deselected (pristine-main `unadmitted`→`unknown` out of scope); ruff/diff clean. Evidence: [verification](output/qa/2026-11-25-managed-deadline/verification.md).
+
+**Remaining:** Parent budget; Codex; no merge/deploy. Optional separate `unadmitted` unknown investigation.
