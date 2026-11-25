@@ -118,24 +118,21 @@ def test_finding_followup_on_desktop_and_narrow_screen(servers):
         assert "Sources" in card.inner_text()
         card.get_by_text("Sources").click()
         assert "contract" in card.inner_text().lower() or "草稿" in card.inner_text()
-        # Failed follow-up path: force one error, then recover.
+        # Failed follow-up path: first attempt is unknown (aborted), then exact retry.
         failed = {"count": 0}
 
         def fail_then_pass(route):
             if failed["count"] == 0:
                 failed["count"] += 1
-                route.fulfill(
-                    status=500,
-                    content_type="application/json",
-                    body='{"error":{"code":"REQUEST_FAILED"}}',
-                )
+                # Abort leaves status 0 so the private write queue keeps the same id.
+                route.abort("connectionfailed")
                 return
             route.continue_()
 
         page.route("**/api/initiative/*/follow-ups", fail_then_pass)
         card.get_by_role("button", name="Follow up on this").click()
         page.get_by_role("alert").wait_for()
-        # Unknown/failed write keeps the exact request for owner retry.
+        page.get_by_role("button", name="Retry the same request").wait_for()
         page.get_by_role("button", name="Retry the same request").click()
         card.get_by_text("Follow-up open. Nothing was sent.").wait_for()
         assert card.get_by_role("button", name="Follow up on this").count() == 0

@@ -145,14 +145,15 @@ class Initiative:
                 result.append(item)
         return sorted(result, key=lambda item: item["importance"] != "high")
 
-    def _followup_status(self, followup):
+    def _followup_status(self, followup, conn=None):
         """Live task status for an owner-chosen follow-up. Bound by task id only."""
         if not isinstance(followup, dict) or not followup.get("task_id"):
             return None
         task_id = followup["task_id"]
-        with self.store.connection() as conn:
+
+        def read(active):
             try:
-                task = self.runtime.tasks.get(conn, task_id)
+                task = self.runtime.tasks.get(active, task_id)
             except DomainError:
                 return {
                     "task_id": task_id,
@@ -161,13 +162,19 @@ class Initiative:
                     "open": False,
                     "bound_at": followup.get("bound_at"),
                 }
-        return {
-            "task_id": task_id,
-            "title": task.get("title") or followup.get("title") or "",
-            "status": task["status"],
-            "open": task["status"] in {"todo", "in_progress", "waiting"},
-            "bound_at": followup.get("bound_at"),
-        }
+            return {
+                "task_id": task_id,
+                "title": task.get("title") or followup.get("title") or "",
+                "status": task["status"],
+                "open": task["status"] in {"todo", "in_progress", "waiting"},
+                "bound_at": followup.get("bound_at"),
+            }
+
+        # Reuse the write connection when called inside a follow-up transaction.
+        if conn is not None:
+            return read(conn)
+        with self.store.connection() as active:
+            return read(active)
 
     def follow_up(self, ident, key, principal):
         """Owner explicitly opens one follow-up task bound to this finding. Does not send."""
@@ -183,7 +190,8 @@ class Initiative:
             data = json.loads(row["data"])
             existing = data.get("followup")
             if isinstance(existing, dict) and existing.get("task_id"):
-                status = self._followup_status(existing)
+                # Keep the original binding; never invent a second task for this finding.
+                status = self._followup_status(existing, conn)
                 return {
                     "saved": False,
                     "already_following": True,
@@ -193,6 +201,13 @@ class Initiative:
                     "followup": existing,
                     "followup_status": status,
                 }
+            # Withdrawn or changed evidence must not create a task from a stale finding.
+            try:
+                _, sources = self.sources.collect()
+            except DomainError as error:
+                raise DomainError("INITIATIVE_STALE", 409) from error
+            if not self.sources.matches(data.get("sources") or [], sources):
+                raise DomainError("INITIATIVE_STALE", 409)
             title = (data.get("message_en") or "Follow up on this finding").strip()
             if len(title) > 160:
                 title = title[:157].rstrip() + "..."

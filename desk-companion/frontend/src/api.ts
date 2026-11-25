@@ -259,6 +259,14 @@ export function errorText(
     MAIL_FOLLOWUP_CHANGED: ["A newer email update is available. Refresh before marking it reviewed.", "有更新的邮件进展，请刷新后再标记已查看。"],
     MAIL_THREAD_ALREADY_FOLLOWED: ["This thread is already linked to another task.", "这段邮件对话已经关联到另一件事务。"],
     MAIL_FOLLOWUP_LIMIT: ["The email follow-up limit has been reached.", "已达到当前邮件跟进上限。"],
+    INITIATIVE_STALE: [
+      "This suggestion is no longer current. Refresh before opening a follow-up. Nothing was sent.",
+      "这项建议已不再有效。请刷新后再跟进。没有发送。",
+    ],
+    INITIATIVE_NOT_FOUND: [
+      "That suggestion is no longer available. Nothing was sent.",
+      "该项建议已不可用。没有发送。",
+    ],
     APP_SCOPE_REQUIRED: [
       "The app did not receive the required permissions. Reconnect and review the access requested.",
       "此应用未获得必要权限，请重新连接并核对访问范围。",
