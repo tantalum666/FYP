@@ -1212,4 +1212,10 @@ Verified task selection and drafts, reminders, calendar writes and Records, memo
 
 **Verified on `23d9f44a`:** frontend 442; tsc/build/ruff/diff clean; four UIs 4 passed no port leaks; full backend **3080 passed / 1 skipped / 1 failed** (`test_live_owner_page` cleanup race; focused alone passed). Full combined backend **not** accepted green.
 
-**Remaining:** Parent budget; live-owner race if authorized; Codex review; no merge/CI/deploy/live mailbox/paid model.
+### Live-owner cleanup premise attack + final four-way
+
+**Done:** Attack-the-premise wrote and falsified “Vite contention / isolated pass = correct.” Causal A/B/C proved kill-all-descendants leaves blocker → `COMPUTER_CLEANUP_REQUIRED` on second prepare while screen stays `BROWSER_PAGE_LOST`; chrome-only does not. #158 `0e9ea44a` chrome-only `_kill_chrome` + regression; no cleanup-safety weakening. Focused 3/3, preceding-order 7/7, 5× repeat. Fresh throwaway four-way `0234fc1ebb` (main `fc3b8d2` → 158 `0e9ea44a` → 159 `1f760a41` → 160 `a4882b89` → 161 `a09c4993`).
+
+**Verified on `0234fc1ebb`:** backend **3082 passed / 1 skipped / 0 failed** (1099.92s); frontend **442**; tsc/build/ruff passed; four Chrome UIs **4 passed** @1440+320; ports free after. `git diff --check` only pre-existing #160 trailing whitespace. #161 product still `be5cfaf3`. Evidence: [verification](output/qa/2026-11-25-initiative-followup/verification.md); causal `/tmp/fourway-failure-preserve/live-owner-closeout/`.
+
+**Remaining:** Parent budget decision; Codex review of #158–#161; no merge/CI/deploy/live mailbox/paid model. Optional independent managed-browser deadline flake not in scope.

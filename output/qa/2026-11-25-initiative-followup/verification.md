@@ -1,6 +1,6 @@
 # Group 2 · Initiative finding → follow-up → revisitable status
 
-25 November 2026. Grok Bot. Independent branch from public `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157 workspace). Product tip still `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6` (unchanged this closeout). Notes tip after this document cites that product SHA and is not a fake suite re-run. Harness-only fixes landed on source PRs #158 and #159; #160 untouched; no feature stack onto #161. Prior trees `65eb854e` and `43b82c75` preserved.
+25 November 2026. Grok Bot. Independent branch from public `main` `fc3b8d2af57b4b581a9caefc18ccc3d5fe3be87d` (PR #157 workspace). Product tip still `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6` (unchanged this closeout). Notes tip after this document cites that product SHA and exact tested parents; not a fake suite re-run of #161 alone. Harness-only fixes on source PRs #158 and #159; #160 untouched; no feature stack onto #161. Prior trees `65eb854e`, `43b82c75`, and `23d9f44a` preserved.
 
 ## Chosen gap (current main)
 
@@ -81,40 +81,62 @@ Independent `JOB_DEADLINE_EXCEEDED` on `test_managed_browser_auth[stale_form]`: 
 
 | PR | Tip | Change |
 |---|---|---|
-| #158 | `70accc16231d0323b9c92af25b2e4fba81659fd1` | Fail fast if `5190`/`8831` taken; require Vite ownership; `killpg` + wait until owned ports free |
+| #158 | `0e9ea44a78…` (prior port ownership `70accc16`) | Fail fast if `5190`/`8831` taken; process-group Vite; **chrome-only** `_kill_chrome` (refuse kill-all) + regression `test_killing_the_worker_instead_of_chrome_keeps_cleanup_required` |
 | #159 | `1f760a41eac90734e496943937adcb42355f7eb0` | Dedicated `5192`/`8833`; process-group Vite; ownership readiness; fresh `?page=tasks&recovery=list` after discuss; allowlist those origins |
-| #161 product | `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6` | **Unchanged** (`git diff be5cfaf3..notes -- desk-companion/backend desk-companion/frontend/src` empty of product edits) |
+| #161 product | `be5cfaf3d11f24c3d566ac17d8c9689002bcdfe6` | **Unchanged** |
 | #160 | `a4882b89697a4b8c47a6217e788161225761fdbd` | Untouched |
 
-## Fresh four-way closeout tree (local only)
+## Prior four-way `23d9f44a` (preserved; honest 1-fail gate)
 
-Worktree `/tmp/fyp-integrate-4way-final`, branch `local/integrate-4way-final-e853` (not pushed). Order: `main` → final #158 → final #159 → #160 → #161. Conflicts kept all features and stronger baseline asserts. Combined tip **`23d9f44a1aa33239db5b6d087a3e349e64fe6452`**.
+Worktree `/tmp/fyp-integrate-4way-final` tip **`23d9f44a`**: frontend 442; four UIs 4 passed; backend **3080 passed / 1 skipped / 1 failed** — `test_live_owner_page::test_dead_page_hidden_context_and_deadline_do_not_open_another_browser` → `COMPUTER_CLEANUP_REQUIRED` at `computer_use.py:430`. Focused alone passed. Logs retained under `/tmp/fourway-failure-preserve/`.
 
-Commands (sequential, ports confirmed free first): `git diff --check`; `ruff check backend tests`; `npx tsc --noEmit`; `npm run build`; `npm test`; `/tmp/desk-venv/bin/python -m pytest -q --tb=line`; then the four UI nodeids.
+## Attack the Premise — live-owner cleanup (this closeout)
 
-| Combined check on `23d9f44a` | Result |
+**Premise P (falsified):** Remaining intermittent full-suite failure is still Vite/API contention; isolated re-pass establishes correctness.
+
+**Observation if P false:** Controlled kill without foreign ports can still leave `COMPUTER_CLEANUP_REQUIRED` on the next `_prepare` while screen reports `BROWSER_PAGE_LOST`.
+
+Causal A/B/C (same `_world`, ports free; artifacts `/tmp/fourway-failure-preserve/live-owner-closeout/`):
+
+| Probe | Screen | Blocker after join | Second `_prepare` |
+|---|---|---|---|
+| A chrome-only SIGKILL | `BROWSER_PAGE_LOST` | absent | OK |
+| B all-descendants SIGKILL (old fallback) | `BROWSER_PAGE_LOST` | present | `COMPUTER_CLEANUP_REQUIRED` |
+| C `channel.kill()` | `BROWSER_PAGE_LOST` | present | `COMPUTER_CLEANUP_REQUIRED` |
+
+**First bad transition:** under suite load `/proc` often has no Chromium children yet → old `_kill_chrome` killed **every** descendant → SIGKILL of the **worker** before cleanup confirmation → product correctly keeps `cleanup-required` → later `_prepare` fails. Screen path was already correct (`BROWSER_PAGE_LOST`). Not a product cleanup-safety bug; not weakened. ~375ms `JOB_DEADLINE_EXCEEDED` remains an independent managed-browser race (no shared-clock connection proven).
+
+Focused after #158 fix: regression + dead_page + uncertain_cleanup **3 passed**; preceding computer_use + full `test_live_owner_page` **7 passed**; dead_page+regression **5×2 passed**.
+
+## Fresh four-way closeout tree (local only; after chrome-kill fix)
+
+Worktree `/tmp/fyp-integrate-4way-final2`, branch `local/integrate-4way-final2-e853` (not pushed). Order: `main` `fc3b8d2` → #158 `0e9ea44a` → #159 `1f760a41` → #160 `a4882b89` → #161 `a09c4993`. Conflicts kept all features, stronger asserts, union CORS ports (`5190`/`8831`/`5191`/`8832`/`5192`/`8833`/`5200`/`8840`). Combined tip **`0234fc1ebb`**.
+
+Commands: `ruff check desk-companion/backend`; `npm test`; `npm run build` (includes tsc); `PYTHONPATH=backend /tmp/desk-venv/bin/python -m pytest -q --tb=line`; four UI nodeids. `git diff --check origin/main...HEAD` reports pre-existing trailing whitespace in #160 `output/qa/2026-11-25-followed-reply/verification.md` (untouched this closeout).
+
+| Combined check on `0234fc1ebb` | Result |
 |---|---|
-| `git diff --check` / Ruff / tsc / build | clean / passed |
+| Ruff | All checks passed |
 | Frontend `npm test` | **442 passed** |
-| Full backend **one** run | **3080 passed, 1 skipped, 1 failed** in 1108.81s. Skip: existing PHP CLI shop basket |
-| Failed nodeid | `tests/test_live_owner_page.py::test_dead_page_hidden_context_and_deadline_do_not_open_another_browser` — uncaught `DomainError('COMPUTER_CLEANUP_REQUIRED', 409)` at `computer_use.py:430` where the test expected screen `BROWSER_PAGE_LOST` after `_kill_chrome` (race: blocker present with `active_job is None`). Focused alone: **passed** in 3.65s. **Not** the prior UI port defect; not fixed by inventing coverage; not re-hunted with another full suite |
-| Four browser UIs (initiative / mail / owner / task-recovery) | **4 passed** in 59.71s @1440+320; all eight owned ports free afterward; no orphan Vite |
+| `npm run build` / tsc | passed (existing chunk-size warning) |
+| Full backend **one** run | **3082 passed, 1 skipped, 0 failed**, 1099.92s. Skip: existing PHP CLI shop basket |
+| Four browser UIs @1440+320 | **4 passed** in 60.61s; ports free after; no orphan Vite |
 
-**Gate verdict:** original two four-way UI failures are root-caused and harness-fixed on #158/#159; their nodeids are green in the fresh full suite and in the four-UI run. Full combined backend is **not** accepted green because of the remaining `test_live_owner_page` cleanup race under suite load. No GitHub merge.
+**Gate verdict:** Premise P falsified; chrome-kill harness fix on #158; full combined backend green on this throwaway tree; four Chrome journeys green. No GitHub merge. #161 product unchanged.
 
 ## Distinction of evidence
 
 | Kind | This gate |
 |---|---|
 | API / simulation | Adversarial pytest owner/stranger/paired/hide/revoke/stale/replay |
-| Real controllable local browser | Chrome on owned isolated ports; abort→retry and mail/owner/task repros |
+| Real controllable local browser | Chrome on owned isolated ports; abort→retry and mail/owner/task/initiative repros |
 | Authorization | Owner session + in-transaction hide/session checks |
 | External result | None claimed |
 
 ## Remaining gates
 
-- Full combined backend green (open: live-owner cleanup race under load)
 - GitHub merge / CI / deploy
 - Live mailbox / paid model / provider / A3 / Pi
 - Parent weekly-limit budget decision
 - Codex review of open PRs #158–#161
+- Optional: independent managed-browser `JOB_DEADLINE_EXCEEDED` under load (not this root)
