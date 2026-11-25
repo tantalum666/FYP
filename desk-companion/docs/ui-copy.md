@@ -6,6 +6,9 @@ On the task and in Chat, one card names the task and says a reply arrived. Say w
 ## 25 November · Finding remind-later
 
 On a Conversation finding, keep Sources and Got it. Add Remind me later for a one-hour deferral of that same cited finding. Do not imply mail was sent or a task was created. After the snooze ends, Alice may raise the finding again under the existing quiet-hours and delivery caps.
+## 25 November · Home cue opens Conversation for Sources
+
+When the Alice home cue is a proactive finding, offer View in conversation beside Got it. That control only expands Conversation so Sources stay available; it does not dismiss, send mail, or create a task. Got it on the cue still dismisses. Match the Inbox label View in conversation / 在对话中查看.
 
 ## 25 November · Workspace navigation and notices
 

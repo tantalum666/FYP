@@ -1599,6 +1599,7 @@ export function AssistantPanel({
         <AliceCheckIn
           t={t}
           visible={!expanded && !suspended && !busy && !voiceActive}
+          onOpenConversation={() => onExpandedChange?.(true)}
         />
       )}
       <div className="assistant-toolbar">

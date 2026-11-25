@@ -1274,3 +1274,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Verification** — `tests/test_initiative.py` 23 passed; snooze hide/restore and fence cases green; `initiative-snooze.test.ts` 1 passed; ruff/tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-finding-snooze/verification.md).
 
 **Remaining** — Parent budget check; Codex review; do not stack #161 product onto this PR.
+## 25 November 2026 · Home cue View in conversation (Grok Bot)
+
+**Goal** — One visible owner-facing personal-agent journey gap not on `main` or open #158–#163: from the home initiative cue, open Conversation and read Sources before Got it.
+
+**Done** — Premise first. AliceCheckIn View in conversation → onExpandedChange; finding aria-label; ui-copy / proactive notes; frontend contract + Playwright 1440/320. Branch `cursor/cue-review-conversation-e853` from `fc3b8d2`. PR left open; no merge.
+
+**Verification** — `cue-review-conversation.test.ts` 1 passed; `test_cue_review_ui.py` 1 passed with screenshots; tsc/vite/`git diff --check` clean. [verification](output/qa/2026-11-25-cue-review/verification.md).
+
+**Remaining** — Parent budget check; Codex review.

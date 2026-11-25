@@ -1075,3 +1075,8 @@ A person opening a task can tell an unknown file result from one that was never 
 - **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent slice; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
 - **工程选择：** On current `main`, Conversation initiative findings only had Sources and Got it. Add Remind me later that snoozes the same finding id/sources for a bounded interval, then returns it to pending without a second model call, send, or follow-up task. Do not stack open #161 Follow up. Ownership, hide_private, revocation, dismiss, and operation idempotence stay as-is.
 - **验证边界：** API fake-clock + fixture session; frontend source contract; no live mailbox or paid Responses. [QA](output/qa/2026-11-25-finding-snooze/verification.md).
+## 2026-11-25 · Home initiative cue opens Conversation for Sources
+
+- **用户决定（Auto / owner budget frame）：** continue personal-agent work toward included weekly usage; one bounded independent visible journey; leave PR open for Codex; no CI/merge/deploy/paid calls/live accounts.
+- **工程选择：** On current `main`, the home Alice initiative cue only offered Got it. Add View in conversation that expands Conversation so Sources stay available before dismiss. Do not stack open #158–#163 product. Ownership / hide-private / offline-stale fences unchanged; opening Conversation does not dismiss or send.
+- **验证边界：** Local Chrome 1440+320 on owned ports with fake initiative; frontend source contract. [QA](output/qa/2026-11-25-cue-review/verification.md).
