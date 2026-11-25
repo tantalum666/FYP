@@ -34,7 +34,14 @@ interface ReviewDraft {
   };
 }
 
-export function MemoryPanel({ t }: { t: Translate }) {
+export function MemoryPanel({
+  t,
+  initialFactId,
+}: {
+  t: Translate;
+  /** Focus an existing fact after open-from-Sources navigation. */
+  initialFactId?: string;
+}) {
   const { data, offline, refresh } = useWorkspace();
   const owner = data?.principal.kind === "owner";
   const [facts, setFacts] = useState<MemoryFact[]>([]);
@@ -51,7 +58,23 @@ export function MemoryPanel({ t }: { t: Translate }) {
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<MemoryFact | null>(null);
+  const [focusFactId, setFocusFactId] = useState<string | undefined>(
+    initialFactId,
+  );
   useDraftGuard(!!(body.trim() || editing), busy);
+  useEffect(() => {
+    if (initialFactId) setFocusFactId(initialFactId);
+  }, [initialFactId]);
+  useEffect(() => {
+    if (!focusFactId || loading) return;
+    const node = document.querySelector<HTMLElement>(
+      `.memory-list [data-memory-id="${CSS.escape(focusFactId)}"]`,
+    );
+    if (!node) return;
+    node.scrollIntoView({ block: "nearest" });
+    node.focus();
+    setFocusFactId(undefined);
+  }, [focusFactId, loading, facts]);
   const reload = useCallback(async () => {
     if (!owner) return;
     try {
@@ -359,6 +382,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
             loading={loading}
             busy={busy}
             editing={editing}
+            focusFactId={initialFactId}
             onEdit={setEditing}
             onSave={saveEdit}
             onDelete={setDeleting}

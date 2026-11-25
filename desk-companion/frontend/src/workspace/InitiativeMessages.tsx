@@ -13,8 +13,23 @@ export interface InitiativeFinding {
   sources: { ref: string; kind: string; label: string; href?: string }[];
 }
 
+function memoryIdFromSource(source: { ref: string; kind: string }) {
+  if (source.kind !== "memory" || !source.ref.startsWith("memory:")) return null;
+  const ident = source.ref.slice("memory:".length).trim();
+  return ident || null;
+}
+
 /** Contextual messages in the conversation; no approval form or separate poll. */
-export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; t: Translate }) {
+export function InitiativeMessage({
+  finding,
+  t,
+  onOpenMemory,
+}: {
+  finding: InitiativeFinding;
+  t: Translate;
+  /** Opens the existing cited memory. Does not create a follow-up or dismiss. */
+  onOpenMemory?: (memoryId: string) => void;
+}) {
   const { data, offline, stale, refresh } = useWorkspace();
   const mutation = usePrivateMutation();
   const visible =
@@ -32,6 +47,7 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
     <>
         <article
           className="assistant-turn assistant initiative-message"
+          aria-label={t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
@@ -41,10 +57,31 @@ export function InitiativeMessage({ finding, t }: { finding: InitiativeFinding; 
               {t("Sources", "依据")} · {finding.sources.length}
             </summary>
             <ul>
-              {finding.sources.map((source) => (
-                <li key={source.ref}>{source.href?.startsWith("https://mail.google.com/mail/?") ?
-                  <a href={source.href} target="_blank" rel="noreferrer">{source.label}</a> : source.label}</li>
-              ))}
+              {finding.sources.map((source) => {
+                const memoryId = onOpenMemory
+                  ? memoryIdFromSource(source)
+                  : null;
+                return (
+                  <li key={source.ref}>
+                    {source.href?.startsWith("https://mail.google.com/mail/?") ? (
+                      <a href={source.href} target="_blank" rel="noreferrer">
+                        {source.label}
+                      </a>
+                    ) : memoryId && onOpenMemory ? (
+                      <button
+                        type="button"
+                        className="text-button"
+                        onClick={() => onOpenMemory(memoryId)}
+                      >
+                        {t("Open memory: ", "打开记忆：")}
+                        {source.label}
+                      </button>
+                    ) : (
+                      source.label
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </details>
           <button
