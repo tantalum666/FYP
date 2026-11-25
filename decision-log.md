@@ -1017,3 +1017,7 @@ The owner opted into local retention of ordinary messages and the final text of 
 ## 2026-11-25 · Secondary screens and the owner inbox
 
 The owner requested a redesign of every destination outside Alice’s home and asked for direct study of Codex, Grok Bot and Muse after the first visual direction. Use a restrained navigation rail, a selection with its own detail view, and a single-purpose screen on the phone. Today, Tasks, Calendar, Inbox, Memory, Assistant style, Records, Settings and Diagnostics share this navigation. Keep actionable personal updates within reach of their conversation, group recurring notices by kind, and preserve individual receipts and explicit dismissal. Reuse the existing notice store, account scopes, task and calendar operations, and native navigation. [Comparison and acceptance](output/qa/2026-11-25-workspace-redesign/verification.md).
+
+## 2026-11-25 · Evidence for standing mail reminders
+
+The owner asked whether Alice’s proactive behavior was actually working. Keep the existing scheduler, Google grant, read-only provider adapter and current spending authorization. Recheck the historical inbox window under the active grant and bind each displayed suggestion to the verified evidence and original time. The inbox browser queue and a push-service acknowledgement are different observations. The closed ordinary OpenAI allowance is not renewed by this work. [Failure and recovery](output/qa/2026-11-25-proactive-mail/verification.md).

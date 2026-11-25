@@ -1,5 +1,9 @@
 # Web Push
 
+## 25 November · Delivery evidence
+
+The local browser queue records preparation for delivery. A separate `web_push_accepted` row records when the sender has received a successful response for at least one enrolled subscription. The receipt contains the notice ID, channel and time. The desk cannot establish whether the device displayed the banner or the owner read it from that response. Previous browser queue records remain available. [Verification](../../output/qa/2026-11-25-proactive-mail/verification.md).
+
 ## 2026-11-24 · 浏览器订阅与通知回到对话
 
 在已启用 Web Push 的桌面，拥有者可在日历与助理偏好里启用「关闭 Alice 页面后也提醒我」。浏览器自身的通知权限仍由本人选择。页面从 PushManager 取得订阅，FYP 的原有 VAPID 发送器负责加密和投递。点击通知会打开同一来源的 Alice 对话。可以从同一处取消订阅。付费模型额度和 Web Push 订阅分别管理。后台主机需要在线，独立的设备必须在能够访问该桌面的受支持浏览器上订阅。
