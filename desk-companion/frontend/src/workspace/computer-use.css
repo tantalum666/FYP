@@ -78,12 +78,33 @@
   max-width: none;
   height: auto;
 }
-.computer-use-screen img {
+.computer-use-screen img,
+.computer-use-shot img {
   display: block;
   width: 100%;
   height: auto;
   border: 1px solid #dce0e9;
   border-radius: 10px;
+}
+.computer-use-shot {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: crosshair;
+}
+.owner-page-controls {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 100%;
+  margin-top: 0.75rem;
+}
+.owner-page-controls input {
+  width: 100%;
+  min-width: 0;
 }
 .computer-use-screen figcaption {
   margin-top: 0.5rem;

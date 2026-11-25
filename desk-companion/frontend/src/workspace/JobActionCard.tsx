@@ -18,6 +18,7 @@ import type { JobAction } from "./jobRequests";
 import { ApplicationPreview } from "./ApplicationPreview";
 import { ExportLink } from "./ExportLink";
 import { ComputerScreen } from "./ComputerScreen";
+import { OwnerPageControls } from "./OwnerPageControls";
 import { ManagedBrowserSignIn } from "./ManagedBrowserSignIn";
 import { CommerceQuote } from "./CommerceQuote";
 
@@ -165,6 +166,12 @@ export function JobActionCard({
               )}
         </p>
       )}
+      {computer &&
+        job.state === "owner_takeover" &&
+        job.result?.phase === "held" &&
+        job.result?.takeover_available && (
+          <OwnerPageControls job={job} refreshToken={refreshToken} t={t} />
+        )}
       {computer && job.result?.outcome === "needs_owner" && (
         <p>
           {job.result.readback?.reason === "provider_step_unavailable"
@@ -316,6 +323,11 @@ export function JobActionCard({
       </div>
       {computer &&
         job.request.engine !== "managed" &&
+        !(
+          job.state === "owner_takeover" &&
+          job.result?.phase === "held" &&
+          job.result?.takeover_available
+        ) &&
         (job.result?.verified ||
           [
             "running",

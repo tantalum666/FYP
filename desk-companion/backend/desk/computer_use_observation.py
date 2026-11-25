@@ -83,6 +83,7 @@ async def snapshot(page, directory, sequence, boundary):
           title: document.title.slice(0,300), text:(document.body?.innerText||'').slice(0,6000),
           controls:Array.from(document.querySelectorAll('button,input,select,a')).slice(0,80).map(el=>{
             const r=el.getBoundingClientRect();return {tag:el.tagName.toLowerCase(),
+              type:(el.getAttribute('type')||'').slice(0,40),
               label:(el.getAttribute('aria-label')||el.labels?.[0]?.innerText||el.innerText||el.getAttribute('placeholder')||'').slice(0,120),
               x:r.x+r.width/2,y:r.y+r.height/2,visible:r.width>0&&r.height>0&&r.y>=0&&r.bottom<=innerHeight};
           }).filter(x=>x.visible).slice(0,40)

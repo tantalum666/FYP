@@ -19,6 +19,27 @@ export function jobApprovalPayload(job: ComputerJob) {
   return { expected_version: job.version, intent_hash: job.intent_hash };
 }
 
+/** Keystrokes stay out of the pending-write store and the job record. */
+export async function sendOwnerPageAction(
+  job: ComputerJob,
+  action: {
+    type: "click" | "type" | "keypress";
+    x?: number;
+    y?: number;
+    text?: string;
+    key?: string;
+  },
+) {
+  return request<{ applied: boolean; job: ComputerJob }>(
+    `/computer/jobs/${job.id}/page`,
+    {
+      method: "POST",
+      body: JSON.stringify({ expected_version: job.version, action }),
+      headers: { "X-Operation-Id": crypto.randomUUID() },
+    },
+  );
+}
+
 /** One request contract for conversation cards and the secondary activity view. */
 export async function requestJobAction(job: ComputerJob, action: JobAction) {
   if (action === "approve") {

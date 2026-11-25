@@ -375,6 +375,12 @@ export function AssistantPanel({
     window.addEventListener("desk:jobs", loadActivity);
     return () => window.removeEventListener("desk:jobs", loadActivity);
   }, [loadActivity]);
+  const jobsView = useRef(view);
+  useEffect(() => {
+    // The jobs view owns the live card. Refresh the conversation once it is visible again.
+    if (jobsView.current === "jobs" && view !== "jobs") void loadActivity();
+    jobsView.current = view;
+  }, [view, loadActivity]);
   async function actOnJob(job: ComputerJob, action: JobAction) {
     if (action === "cancel" ? jobCancelling : jobBusy) return;
     if (action === "cancel") setJobCancelling(job.id);

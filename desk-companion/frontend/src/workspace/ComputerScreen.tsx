@@ -10,10 +10,12 @@ export function ComputerScreen({
   jobId,
   refresh,
   t,
+  onPoint,
 }: {
   jobId: string;
   refresh: number;
   t: Translate;
+  onPoint?: (point: { x: number; y: number }) => void;
 }) {
   const { data, offline, stale } = useWorkspace();
   const fence = useRef(new ResponseFence()).current;
@@ -77,10 +79,32 @@ export function ComputerScreen({
   }, [jobId, refresh, visible, epoch]);
   return image && image.epoch === epoch && visible ? (
     <figure className="computer-use-screen">
-      <img
-        src={image.url}
-        alt={t("Last observed browser screen", "最近观察到的浏览器画面")}
-      />
+      {onPoint ? (
+        <button
+          type="button"
+          className="computer-use-shot"
+          onClick={(event) => {
+            const bounds = event.currentTarget.getBoundingClientRect();
+            if (bounds.width < 1 || bounds.height < 1) return;
+            const x = Math.round(((event.clientX - bounds.left) / bounds.width) * 1280);
+            const y = Math.round(((event.clientY - bounds.top) / bounds.height) * 800);
+            onPoint({
+              x: Math.min(1279, Math.max(0, x)),
+              y: Math.min(799, Math.max(0, y)),
+            });
+          }}
+        >
+          <img
+            src={image.url}
+            alt={t("Page you can use", "你可以操作的页面")}
+          />
+        </button>
+      ) : (
+        <img
+          src={image.url}
+          alt={t("Last observed browser screen", "最近观察到的浏览器画面")}
+        />
+      )}
       <figcaption>
         {t(
           "Last observed screen · review before continuing",

@@ -50,15 +50,34 @@ A login, SMS/OTP, captcha, or payment-confirmation wall pauses the same job in
 `owner_takeover`. The owner receives a reason; it is not a verified result.
 A normal public navigation link labelled Sign in does not itself establish a wall.
 
-**11 November reviewed capability:** the shipped headless worker closes the browser
-and has no owner-input transport. Its takeover/return APIs reject
-`COMPUTER_TAKEOVER_UNAVAILABLE`, and the UI shows the limitation instead of offering
-an unusable button. Only a driver explicitly implementing `supports_owner_takeover`
-can expose those actions. The current positive tests use a synthetic driver; they
-are not real login/OTP/payment acceptance. A future interactive driver must preserve
-admitting-session ownership, versioned operations, no model observation/input during
-owner control, explicit return and independent cleared-wall evidence. Paired clients
-and other sessions cannot take over. Cancellation and deadlines remain effective.
+**24 November local page handoff:** when the local worker sees a password, OTP,
+captcha, or payment control, it leaves that Chromium context running.
+`supports_owner_takeover` is true only while that page is alive. The admitting owner
+takes over, then clicks and types on that same page from the job card. This is
+app-mediated control of the Playwright page Alice already opened. It is not a headed
+operating-system window, not the hosted OpenAI desktop, and not a merchant or
+account sign-in. Hand back reads that document once. The original goal continues
+only when `classify_owner_wall` is clear on that snapshot, and `wall-evidence.json`
+is written from it, including the page URL and screenshot hash. Those two values
+must match the final observation. A different URL is not treated as a cleared wall.
+A payment page stays paused: handing it back is not approval to pay or submit.
+A wall that is still present stays paused. If the page is gone or the read fails,
+the job is `unknown` and no second browser or model call starts. A screen read for
+a missing live page returns that lost-page result and does not send the previous
+image. A repeated Hand back with the same operation id returns the stored result.
+An owner input id is bound to the job, the expected version, the action, and a
+hash of any typed text. The text itself is not stored. If that input was sent and
+the outcome is unknown, the same id does not send it again. A stale version
+conflicts. A paired session, a revoked session, and hidden private context get no
+screen and no handoff; those checks run again at the read, write, replay, and
+commit. Hiding private context, expiry of the admitting session, the 180-second
+deadline, or replacement of the live page closes the held page without continuing.
+A navigation link labelled Sign in is not a wall. Typed values are not stored on
+the job, in logs, or in the model request, and no model request runs during the
+hold. Leaving Computer actions refreshes the conversation card, so a closed page
+is not still offered as Take over. The synthetic driver remains for API fences.
+Real local Chromium fixtures cover the live page. The 25 November workspace
+navigation stays in force. This slice is local-fixture verification only.
 
 
 An explicit continuation copies only a verified same-task/site browser state

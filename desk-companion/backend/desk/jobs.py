@@ -41,7 +41,7 @@ from .application_executor import (
     validate_application_request,
 )
 from .application_runtime import read_regular, rooted
-from .computer_use import OwnerWallPause
+from .computer_use import OwnerHoldEnded, OwnerWallPause, PageLost
 from .computer_use_models import (
     BrowserTaskInput,
     COMPUTER_USE_ACTIONS,
@@ -168,6 +168,29 @@ class JobHandoff(StrictModel):
     """Owner takeover or return. No password, code or card field exists here."""
 
     expected_version: int = Field(ge=1, strict=True)
+
+
+class OwnerPageAction(StrictModel):
+    """A click or keystroke for the page the owner is already holding."""
+
+    type: Literal["click", "type", "keypress"]
+    x: int = Field(default=0, ge=0, le=1279)
+    y: int = Field(default=0, ge=0, le=799)
+    text: str | None = Field(default=None, max_length=80)
+    key: str | None = Field(default=None, max_length=20)
+
+    @model_validator(mode="after")
+    def shape(self):
+        if self.type == "type" and not self.text:
+            raise ValueError("Type what should be entered on the page")
+        if self.type == "keypress" and self.key not in {"Enter", "Tab", "Backspace", "Escape"}:
+            raise ValueError("Use Enter, Tab, Backspace, or Escape")
+        return self
+
+
+class OwnerPageInput(StrictModel):
+    expected_version: int = Field(ge=1, strict=True)
+    action: OwnerPageAction
 
 
 class JobQuery(StrictModel):
@@ -366,6 +389,25 @@ class JobService:
                 request=request, intent_hash=row["intent_hash"], authorization=authorization
             )
         return view
+
+    def project_hold(self, job_id, record):
+        """Publish the live pause while the same browser process is still inside execute."""
+        with self.store.connection(write=True) as conn:
+            row = self._row(conn, job_id)
+            if row["state"] != "running":
+                raise ExecutionRejected("JOB_NOT_IN_TAKEOVER", 409)
+            if row["cancel_requested"]:
+                raise ExecutionRejected("JOB_CANCELLED_BEFORE_DISPATCH", 409)
+            if row["deadline"] and row["deadline"] <= iso(self.store.clock()):
+                raise ExecutionRejected("JOB_DEADLINE_EXCEEDED", 409)
+            self._state(conn, job_id, "owner_takeover", record.get("reason"), record)
+
+    def note_page_lost(self, job_id):
+        """The open page is gone. Leave the job unknown and do not queue another launch."""
+        with self.store.connection(write=True) as conn:
+            row = self._row(conn, job_id)
+            if row["state"] in {"owner_takeover", "running"}:
+                self._state(conn, job_id, "unknown", "BROWSER_PAGE_LOST")
 
     def detail(self, job_id, review=False):
         with self.store.connection() as conn:
@@ -694,8 +736,49 @@ class JobService:
         )
         return self._handoff_reply(job_id, stored, held=True)
 
+    def owner_page(self, job_id, payload: OwnerPageInput, key, *, principal):
+        """Send one owner action to the parked page. The action value is not stored."""
+        self.runtime.personal_context.require_visible(principal)
+        with self.store.connection() as conn:
+            self._handoff_authorize(conn, job_id, principal)
+        live = getattr(self.computer_use.supervisor, "live_page", None)
+        if live is None or live.job_id != job_id or not live.alive():
+            if live is not None and live.job_id == job_id:
+                self.note_page_lost(job_id)
+            raise DomainError("BROWSER_PAGE_LOST", 409)
+        try:
+            return live.owner_input(payload, key, principal)
+        except PageLost:
+            self.note_page_lost(job_id)
+            raise DomainError("BROWSER_PAGE_LOST", 409) from None
+
+    def _handoff_authorize(self, conn, job_id, principal):
+        self.runtime.personal_context.require_owner_transaction(conn, principal)
+        self._computer_owner(conn, self._row(conn, job_id), principal, local_takeover=False)
+
     def hand_back(self, job_id, payload: JobHandoff, key, *, principal):
         self.runtime.personal_context.require_visible(principal)
+        body = {
+            "type": "computer_return",
+            "id": job_id,
+            "expected_version": payload.expected_version,
+        }
+        with self.store.connection() as conn:
+            self._handoff_authorize(conn, job_id, principal)
+            _, old = self.store.operation_receipt(conn, key, body)
+            if old is not None and "job" in old:
+                self._handoff_authorize(conn, job_id, principal)
+                return old
+        live = getattr(self.computer_use.supervisor, "live_page", None)
+        if live is not None and live.job_id == job_id:
+            if not live.alive():
+                self.note_page_lost(job_id)
+                raise DomainError("BROWSER_PAGE_LOST", 409)
+            try:
+                return live.hand_back(payload, key, principal)
+            except PageLost:
+                self.note_page_lost(job_id)
+                raise DomainError("BROWSER_PAGE_LOST", 409) from None
         with self.store.connection() as conn:
             self._computer_owner(conn, self._row(conn, job_id), principal)
 
@@ -868,6 +951,8 @@ class JobService:
 
             try:
                 executor.execute(request, checkpoint)
+            except OwnerHoldEnded as ended:
+                state, code, receipt = ended.state, ended.code, None
             except OwnerWallPause as pause:
                 state, code, receipt = "owner_takeover", pause.record.get("reason"), pause.record
             except ExecutionRejected as error:
@@ -1353,6 +1438,29 @@ def job_routes(runtime, owner, operation_id):
 
     @router.get("/computer-use/jobs/{job_id}/screen", dependencies=[Depends(visible)])
     def computer_use_screen(request: Request, job_id: str = ApiPath(pattern=r"^[a-f0-9]{32}$")):
+        principal = {
+            "kind": "owner",
+            "id": "owner",
+            "name": "Owner",
+            "session": request.cookies.get("desk_companion_session"),
+        }
+        runtime.personal_context.require_visible(principal)
+        with runtime.store.connection() as conn:
+            runtime.jobs._handoff_authorize(conn, job_id, principal)
+            row = runtime.jobs._row(conn, job_id)
+            held = row["state"] == "owner_takeover"
+            intent = json.loads(row["request"])
+        supervisor = runtime.jobs.browser_executor(intent).supervisor
+        if held and hasattr(supervisor, "live_page"):
+            live = supervisor.live_page
+            if live is None or live.job_id != job_id or not live.alive():
+                runtime.jobs.note_page_lost(job_id)
+                raise DomainError("BROWSER_PAGE_LOST", 409)
+            try:
+                live.peek()
+            except PageLost:
+                runtime.jobs.note_page_lost(job_id)
+                raise DomainError("BROWSER_PAGE_LOST", 409) from None
         job = runtime.jobs.detail(job_id, review=True)
         if job["action"] != "computer_use":
             raise DomainError("FILE_NOT_FOUND", 404)
@@ -1407,6 +1515,15 @@ def job_routes(runtime, owner, operation_id):
         # Deliberately bypass store.operation: values must never be persisted.
         # The form nonce and in-memory keyed digest give retry acknowledgement.
         return runtime.jobs.managed_auth(job_id, principal, payload)
+
+    @router.post("/jobs/{job_id}/page", dependencies=[Depends(visible)])
+    def owner_page(
+        job_id: str,
+        payload: OwnerPageInput,
+        key=Depends(operation_id),
+        principal=Depends(owner_actor),
+    ):
+        return runtime.jobs.owner_page(job_id, payload, key, principal=principal)
 
     @router.post("/jobs/{job_id}/takeover", dependencies=[Depends(visible)])
     def takeover(
