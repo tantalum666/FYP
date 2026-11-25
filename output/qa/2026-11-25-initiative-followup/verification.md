@@ -138,5 +138,5 @@ Commands: `ruff check desk-companion/backend`; `npm test`; `npm run build` (incl
 - GitHub merge / CI / deploy
 - Live mailbox / paid model / provider / A3 / Pi
 - Parent weekly-limit budget decision
-- Codex review of open PRs #158–#161
-- Optional: independent managed-browser `JOB_DEADLINE_EXCEEDED` under load (not this root)
+- Codex review of open PRs #158–#161 and #162
+- Managed-browser stale_form ~375ms race: root-caused as FastClient `active_seconds=0.25` pre-auth burn (not 180s job deadline); fixed on independent PR #162 `3079cddf` from main. Not stacked onto #161.
