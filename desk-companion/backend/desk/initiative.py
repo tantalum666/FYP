@@ -155,6 +155,9 @@ class Initiative:
             data = json.loads(row["data"])
             if self.sources.matches(data["sources"], sources):
                 item = {"id": row["id"], "created_at": row["created_at"], **data}
+                notice_id = row["notice_id"] if "notice_id" in row.keys() else None
+                if notice_id:
+                    item["notice_id"] = notice_id
                 if display:
                     historical = row["state"] == "obsolete" or (row["notified"] and any(
                         sources[ref["ref"]].get("historical") for ref in data["sources"]

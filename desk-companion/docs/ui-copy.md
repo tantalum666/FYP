@@ -21,6 +21,9 @@ On a Conversation finding, Sources may include a memory citation. Offer Open mem
 ## 25 November · Open a cited calendar event from finding Sources
 
 On a Conversation finding, Sources may include a local calendar citation. Offer Open calendar with the existing title so the owner can open that occurrence’s Event details. Do not dismiss the finding, create a follow-up, or imply mail was sent. Google preview citations stay labels until a separate import story maps them.
+## 25 November · Inbox initiative opens its Conversation finding
+
+On an Inbox initiative receipt, View in conversation opens Assistant, expands Conversation, and focuses the bound finding with Sources open. It does not dismiss the receipt or the finding. Dismiss remains the explicit clear.
 
 ## 25 November · Workspace navigation and notices
 

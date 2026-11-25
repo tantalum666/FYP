@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useWorkspace } from "./WorkspaceContext";
 import { usePrivateMutation } from "./personal/usePrivateMutation";
 import { MutationFeedback } from "./personal/MutationFeedback";
@@ -18,6 +18,7 @@ export interface InitiativeFinding {
   message_en: string;
   message_zh: string;
   created_at?: string;
+  notice_id?: string | null;
   sources: { ref: string; kind: string; label: string; href?: string }[];
   followup_status?: InitiativeFollowupStatus | null;
 }
@@ -60,6 +61,15 @@ export function localCalendarRef(source: { ref: string; kind: string }) {
   return source.ref;
 }
 
+export function findingMatchesNotice(
+  finding: InitiativeFinding,
+  noticeId?: string | null,
+) {
+  if (!noticeId) return false;
+  if (finding.notice_id && finding.notice_id === noticeId) return true;
+  return noticeId === "insight-" + finding.id;
+}
+
 /** Contextual messages in the conversation; no approval form or separate poll. */
 export function InitiativeMessage({
   finding,
@@ -73,6 +83,9 @@ export function InitiativeMessage({
 }) {
   const { data, offline, stale, refresh } = useWorkspace();
   const mutation = usePrivateMutation();
+  const cardRef = useRef<HTMLElement | null>(null);
+  const detailsRef = useRef<HTMLDetailsElement | null>(null);
+  const focused = findingMatchesNotice(finding, focusNoticeId);
   const visible =
     data?.principal.kind === "owner" && data.personal_context_visible;
   useEffect(() => {
@@ -83,18 +96,28 @@ export function InitiativeMessage({
     window.addEventListener("desk:session", reset);
     return () => window.removeEventListener("desk:session", reset);
   }, []);
+  useEffect(() => {
+    if (!focused || !visible || offline || stale) return;
+    const details = detailsRef.current;
+    const card = cardRef.current;
+    if (details) details.open = true;
+    card?.scrollIntoView({ block: "nearest" });
+    card?.focus();
+    onFocused?.();
+  }, [focused, visible, offline, stale, finding.id]);
   if (!visible || offline || stale) return null;
   const followup = finding.followup_status;
   return (
     <>
         <article
+          ref={cardRef}
           className="assistant-turn assistant initiative-message"
           aria-label={t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
           <p>{t(finding.message_en, finding.message_zh)}</p>
-          <details>
+          <details ref={detailsRef}>
             <summary>
               {t("Sources", "依据")} · {finding.sources.length}
             </summary>

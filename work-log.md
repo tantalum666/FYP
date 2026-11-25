@@ -1311,5 +1311,12 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 **Done.** Finding Sources offer Open calendar for local `calendar:{id}:{occurrence_key}` citations; Event details opens on that day; finding stays pending. Ports 5193/8834 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
 
 **Evidence.** [verification](output/qa/2026-11-25-source-open-calendar/verification.md) — local real Chrome + fixture fake initiative; not live mailbox, live Google Calendar, or paid model.
+## 25 November 2026 · Inbox initiative opens bound finding Sources
+
+**Goal.** One independent owner-facing personal-agent journey: Inbox View in conversation focuses the bound finding with Sources open, without stacking #158–#168.
+
+**Done.** Notice id passed from Inbox; Conversation focuses matching finding; Sources open; notice and finding stay pending. Ports 5196/8837 allowlisted. Premise, frontend contract, Chrome 1440+320 UI test, docs/handoff/decision/work-log.
+
+**Evidence.** [verification](output/qa/2026-11-25-inbox-finding-focus/verification.md) — local real Chrome + fixture fake initiative; not live mailbox or paid model.
 
 **Remaining.** Leave PR open for Codex. Parent budget check before the next slice.
