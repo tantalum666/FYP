@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+**11 月 27 日机票代扣**　Booked AI 与 Mastercard 有真实扣款出票案例。Atlas 的第三方接口支持余额支付和出票回查，两个离线样例已验证。支付宝委托支付和 Etraveli 的生产代付各有签约条件。[供应商资格、扣款与验收范围](../output/qa/2026-11-27-delegated-travel-payments/verification.md)。
+
 **11 月 26 日旅行连接与付款授权**　携程问道、美团酒旅、飞猪和 Kiwi 提供旅行查询。Etraveli 的开发者 MCP 分级开放行李选择和当笔付款链接。LetsFG 个人助手的逐单官网确认、保存的付款方式和无真卡沙盒分别有据可查。[官方来源及接口实测](../output/qa/2026-11-26-travel-connectors/verification.md)。
 
 **11 月 22 日跨任务选航班**　Alice 可按桌面日历筛选同路线、同预算的班次，分别按两地时区核对。确认前新添的日程能拦住提交，原条件还能用于查其他航班。[模拟器与供应方证据](../output/qa/2026-11-22-calendar-aware-fares/verification.md)。
