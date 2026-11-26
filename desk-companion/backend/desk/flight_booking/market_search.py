@@ -160,6 +160,8 @@ TOOL = {
 
 def combine(left, right):
     """Two read calls may describe the same search, one airport per call."""
+    left = MarketFlightRequest.model_validate(left).model_dump()
+    right = MarketFlightRequest.model_validate(right).model_dump()
     sides = {"origin", "destination"}
     if any(left[k] != right[k] for k in left.keys() - sides):
         raise DomainError("FLIGHT_DIFFERENT_SEARCH_TERMS", 422)

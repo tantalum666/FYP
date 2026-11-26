@@ -285,7 +285,10 @@ def context_instructions(runtime, principal, chat, context, *, test_selection=Fa
                 "Ask the desk to show the options if the choice is unclear."
             )
         if "revisit_flight_shortlist" in tools or (
-            "sandbox_flight_quote" in tools and shortlist.flight_request(message)
+            tools & {"live_flight_search", "sandbox_flight_quote"} and (
+                shortlist.flight_request(message) or
+                any(shortlist.flight_request(turn.get("text", "")) for turn in chat.items[-2:])
+            )
         ):
             # The fare service reads the calendar locally. Its Session needs neither
             # the automatic agenda snapshot nor previews of local calendar drafts.

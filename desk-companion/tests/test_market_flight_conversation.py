@@ -180,7 +180,9 @@ def test_one_route_fails_other_completes_without_restarting_search(desk):
 def test_an_explicit_airport_choice_is_not_broadened():
     from types import SimpleNamespace
 
-    chat = SimpleNamespace(items=[{"role": "assistant", "text": "希思罗（LHR）还是盖特威克（LGW）？"}])
+    chat = SimpleNamespace(
+        items=[{"role": "assistant", "text": "希思罗（LHR）还是盖特威克（LGW）？"}]
+    )
     q = MarketFlightRequest.model_validate(REQUEST | {"destination": "LHR"}).model_dump()
     assert accepted_airports(q, "都行", chat)["destination"] == ["LHR", "LGW"]
     assert accepted_airports(q, "只要希思罗", chat)["destination"] == ["LHR"]
@@ -237,3 +239,17 @@ def test_selected_airport_is_repriced_and_a_changed_total_never_submits(desk):
             ).fetchone()[0]
             == 0
         )
+
+
+def test_parallel_searches_cannot_drop_different_bag_or_budget_constraints():
+    from desk.flight_booking.market_search import combine
+    from desk.store import DomainError
+
+    left = {"origin": ["TPE"], "destination": ["HND"], "departure": DAY}
+    right = left | {"destination": ["NRT"]}
+    assert combine(left, right | {"adults": 1})["destination"] == ["HND", "NRT"]
+    for extra in ({"max_hkd": 500}, {"checked_bag_kg": 18}, {"return_date": "2030-04-22"}):
+        with pytest.raises(DomainError, match="FLIGHT_DIFFERENT_SEARCH_TERMS"):
+            combine(left, right | extra)
+        with pytest.raises(DomainError, match="FLIGHT_DIFFERENT_SEARCH_TERMS"):
+            combine(left | extra, right)
