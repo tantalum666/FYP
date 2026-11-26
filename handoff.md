@@ -4,13 +4,13 @@
 
 ## Running software and ordinary conversation
 
-The normal Mac Web and iPhone Simulator use application `14e50899`. Reminder actions have separate touch targets and wrap on narrow screens. Workspace dialogs use the active theme for headings and search hints. [Web and Simulator acceptance](output/qa/2026-11-26-interface-readability/verification.md).
+The normal Mac Web and iPhone Simulator use application `8496db2f`. Acknowledged follow-ups remain accessible with their verified sources. Both normal clients show 53 labeled weekly sample tasks. The main calendar toolbar handles navigation, and Alice uses a more balanced smile. [Release and visual checks](output/qa/2026-11-26-followup-history-and-year/verification.md) · [Reminder spacing and theme contrast](output/qa/2026-11-26-interface-readability/verification.md).
 
 The preceding release integrated 19 Grok contributions with existing workspace and Gmail history. Source links open the cited task, memory or local calendar occurrence. Follow-up, snooze and dismissal retain separate receipts. Dated history and withdrawn suggestions retain their existing disclosure rules. [Reviewed heads and lock-screen checks](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
 
 The Mac checks the connected Gmail inbox during quiet hours with no Alice page open. Its native Simulator receiver is enrolled and Chrome has a Web Push subscription. The operator’s six-month authorization has Hong Kong daily and monthly ceilings and one paid host. Actual figures and credentials remain private. The ordinary worker used GPT-6.2 Sol; the voice profile remains GPT-Live-1.1 / A3 v9. The owner deferred live iPhone APNs keys and requested a background-only check on the real Mac during quiet hours. [Original continuity and source evidence](output/qa/2026-11-24-continuity/verification.md).
 
-The original Pi last ran `92acac8e`. Private operator storage holds the verified update from that exact base to `14e50899`. The prior global weather release includes HKO rain forecasts and general city, airport and coordinate lookups. Six further public place and coordinate queries were checked on the shared resolver. [Pi baseline](output/qa/2026-11-23-api-astra-team/pi-owner-hotfix/verification.md) · [World weather sample](output/qa/2026-11-24-continuity/weather-checks.json).
+The original Pi last ran `92acac8e`. Private operator storage holds the verified update from that exact base to `8496db2f`. The prior global weather release includes HKO rain forecasts and general city, airport and coordinate lookups. Six further public place and coordinate queries were checked on the shared resolver. [Pi baseline](output/qa/2026-11-23-api-astra-team/pi-owner-hotfix/verification.md) · [World weather sample](output/qa/2026-11-24-continuity/weather-checks.json).
 
 The Pi's separate RTC helper was updated and its firmware alarm was independently compared with Linux and the persisted deadline. The owner confirmed a manual 15:16 return. The reason for the earlier sudden shutdown remains unresolved. [Firmware, automatic renewals and clock reset](output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).
 
@@ -36,4 +36,4 @@ The standard storefront is the WooCommerce sandbox. Stripe’s original test-mod
 
 The standalone ArUco demo tracks ID 4 in pixels or uses the measured L-shaped markers 0, 1 and 2 for table-plane coordinates. The browser shows centimetres in L mode. The API and 37-column browser CSV store physical coordinates in millimetres. Camera calibration, obstacle accuracy and robot operation still require a physical trial. The hardware team’s next measurement is the two marker-centre distances with the camera fixed, followed by a comparison against ruler positions. [Hardware module and printable markers](research/2026-11-24-aruco-localisation/README.md) · [Synthetic tracking and packaging checks](output/qa/2026-11-24-aruco-progress/verification.md).
 
-**Next step** — When the original Pi returns on its pinned owner relay, apply the saved update from `92acac8e` to `14e50899` and verify its existing store, accounts, A3 profile and kiosk build on the device.
+**Next step** — When the original Pi returns on its pinned owner relay, apply the saved update from `92acac8e` to `8496db2f` and verify its existing store, accounts, A3 profile and kiosk build on the device.

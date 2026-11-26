@@ -125,6 +125,16 @@ def test_finding_followup_on_desktop_and_narrow_screen(servers):
         assert_separate_targets(card, actions[1:])
         page.screenshot(path=str(EVIDENCE / "narrow-320.png"), full_page=True)
         narrow = measure(page)
+        card.get_by_role("button", name="Got it", exact=True).click()
+        acknowledged = page.get_by_role("article", name="Acknowledged suggestion", exact=True)
+        expect(acknowledged).to_contain_text("The contract dates differ")
+        page.goto("http://127.0.0.1:8840/?page=assistant&conversation=open")
+        page.get_by_role("button", name="More assistant options").click()
+        page.get_by_role("button", name="Follow-up history", exact=True).click()
+        history = page.get_by_role("region", name="Follow-up history")
+        receipt = history.get_by_role("article", name="Acknowledged suggestion")
+        expect(receipt).to_contain_text("The contract dates differ")
+        expect(receipt.get_by_role("button", name="Got it", exact=True)).to_have_count(0)
         browser.close()
     assert wide["page"] <= 1 and narrow["page"] <= 1
 

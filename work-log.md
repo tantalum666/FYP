@@ -1379,3 +1379,7 @@ Verified the ancestry of 81 previously integrated Grok heads and reviewed the 19
 ## 26 November 2026 · Reminder actions and settings contrast
 
 Fixed adjoining Conversation buttons and the foreground inherited by management panels. Checked English and Chinese, both themes, desktop and narrow Web layouts, the three distinct action receipts and the actual native Simulator. Application `14e50899` is installed on the normal Mac Web and iPhone Simulator. The Pi update from its known base is packaged for a later device readback. [Measurements and screenshots](output/qa/2026-11-26-interface-readability/verification.md).
+
+## 26 November 2026 · Follow-up history, weekly examples, calendar and facial expressions
+
+Recovered the reported suggestion in both regular clients. The archive, cold reopen, privacy checks and separate reminder receipts passed. The ordinary task API saved 53 dated examples; simulator and Web readback agreed. Removed the calendar shortcut block and checked the main toolbar. Reviewed all conversational faces, speaking and angled samples and rebalanced three lip mixes. Application `8496db2f` is running on the Mac and installed in the normal iPhone Simulator. The updated Pi delta is staged. [Checks and illustrations](output/qa/2026-11-26-followup-history-and-year/verification.md).
