@@ -1399,3 +1399,7 @@ Activated the Pi’s independent supplier grant and operating share, then submit
 ## 26 November 2026 · Manual return, pre-interruption logs and fare recheck
 
 Matched the two original Pi boots to the owner’s reconnection of the original power path. The previous journal contained nine undervoltage events and a successful RTC deadline before it stopped. The new boot reported a 900 mA input capability and later renewed the hardware alarm normally. The physical kiosk retried only the previously unavailable airport. Eight offers returned, and the exact supplier page still left the requested checked-bag weight and total unverified. No booking was submitted. [Device and supplier evidence](output/qa/2026-11-26-pi-return/verification.md).
+
+## 26 November 2026 · Travel connectors and billing consent
+
+Compared Ctrip, Meituan, Fliggy, Kiwi and Etraveli from their own published materials. Anonymous Kiwi discovery returned the travel search and developer-feedback tools. Etraveli required authentication. Corrected the live-flight guide to distinguish Alice’s local review, per-trip supplier approval, persistent payment-method enrolment and sandbox evidence. [Sources and read-only checks](output/qa/2026-11-26-travel-connectors/verification.md).
