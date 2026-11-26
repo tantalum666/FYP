@@ -232,8 +232,14 @@ def create_app(
         )
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts)
 
+    from .flight_booking import card_frame
+
     @app.middleware("http")
     async def local_request_boundary(request, call_next):
+        if request.url.hostname == card_frame.HOST:
+            # This host reaches two static resources only, even with a desk cookie.
+            return card_frame.static_response(request, static_root, services.live_flight_checkouts.nuitee.account()["connected"])
+
         def access_log(status):
             log_event(
                 "http",
@@ -605,7 +611,7 @@ def create_app(
     static_root = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
     @app.get("/{path:path}", include_in_schema=False)
-    def static(path: str):
+    def static(path: str, request: Request):
         if (
             path == "api"
             or path.startswith("api/")
@@ -623,10 +629,12 @@ def create_app(
             raise HTTPException(
                 503, "Frontend not built. Run npm ci and npm run build in frontend/."
             )
+        payment_origin = card_frame.frame_origin(request) if services.live_flight_checkouts.nuitee.account()["connected"] else None
+        frame_policy = f"; frame-src 'self' {payment_origin}" if payment_origin else ""
         return FileResponse(
             candidate,
             headers={
-                "Content-Security-Policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+                "Content-Security-Policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" + frame_policy
             },
         )
 

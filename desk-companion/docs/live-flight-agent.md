@@ -22,6 +22,12 @@ On an eligible first booking, LetsFG can return `payment_method_required` with t
 
 An agent price and a website price can differ for the same flight. A checked-bag counter with no weight or fee does not establish a payable total. [Original-device and seller readback](../../output/qa/2026-11-26-pi-return/verification.md).
 
+## Nuitée traveller-card sandbox
+
+On an enrolled desk, an explicit Nuitée sandbox flight request uses the existing text Session, read-only flight Function and private conversation review. The route selects the supplier’s synthetic Nuitée Air inventory for one documented adult fixture. It shows the verified fare and included checked weight, then asks for one test Visa confirmation. A material change before authorization requires a fresh review.
+
+The protected payment view uses Stripe’s published test Visa with the sandbox prebook’s own payment intent. The server checks the original intent, books against the same prebook after authorization and reads the original booking detail. An issued ticket, the airline’s locator, a processor hold and a verified capture appear separately. The flight sandbox never charges the developer’s stored account card. A new real-money integration still needs supplier entitlement and its own acceptance. [Nuitée flight booking API](https://docs.nuitee.com/reference/post_flights-bookings) · [Booking detail and ticket data](https://docs.nuitee.com/reference/get_flights-bookings).
+
 ## Operator configuration
 
 Loopback callbacks work on the same desk. A user opening consent from another device needs a browser-reachable HTTPS return path. Set `DESK_LETSFG_REDIRECT_URI` to the exact hosted `/api/apps/letsfg/callback` URL, or supply the deployment’s `DESK_PUBLIC_ORIGIN`. The public client registers automatically from an authenticated FYP connection request. A refresh credential is reserved before rotation so an uncertain network result cannot replay a refresh token and revoke the whole grant. Owner reconnection is available if the rotated token cannot be recovered. The access and refresh tokens, PKCE verifier, and supplier booking reference stay out of model tools and public receipts. [OAuth discovery](https://letsfg.co/developers/api/.well-known/oauth-authorization-server) · [Feature acceptance](../../output/qa/2026-11-23-live-flight-supplier/verification.md).

@@ -1,6 +1,7 @@
 import freshQuote from "../../../backend/desk/data/fresh-flight-quote.json" with { type: "json" };
 import { useEffect, useRef, useState } from "react";
 import "./live-flight-checkout.css";
+import { NuiteeSandboxCard } from "./NuiteeSandboxCard";
 import { LiveFlightPassengerForm } from "./LiveFlightPassengerForm";
 import { ApiError, request } from "../api";
 import type { Translate } from "../types";
@@ -61,6 +62,7 @@ export type LiveCheckout = {
   id?: string;
   version?: number;
   state: string;
+  provider?: "letsfg" | "nuitee_sandbox";
   connected?: boolean;
   source?: Source;
   market?: Omit<Trip, "origin" | "destination"> & { origin: string[]; destination: string[] };
@@ -81,6 +83,8 @@ export type LiveCheckout = {
   checked_sellers?: string[];
   receipt?: {
     pnr?: string;
+    ticket_numbers?: string[];
+    processor_status?: string;
     held_minor?: number;
     charged_minor?: number;
     currency?: string;
@@ -217,7 +221,7 @@ export function LiveFlightCheckout({
       pending = true;
       const prior = current.current;
       try {
-        const next = ["searching", "held", "processing"].includes(prior.state)
+        const next = ["searching", "held", "processing", "card_pending", "paid_pending_ticket", "ticketed_payment_pending", "uncertain"].includes(prior.state)
           ? await action(prior, chat, "status")
           : await getFlightCheckout(chat, prior.id!);
         if (valid && current.current === prior) onUpdate(chat, next);
@@ -248,6 +252,7 @@ export function LiveFlightCheckout({
   const src = view.source,
     selected = view.choices?.find((o) => o.number === view.selected),
     receipt = view.receipt;
+  const isNuitee = view.provider === "nuitee_sandbox";
   const choices = view.choices ?? [];
   const visibleChoices = view.market ? Math.max(3, view.routes?.filter(r => r.state === "offers").length ?? 0) : choices.length;
   const optionButton = (o: Option) => (
@@ -262,7 +267,7 @@ export function LiveFlightCheckout({
     selected?.booking_url && !inspected.includes("LetsFG")
       ? "LetsFG"
       : "Kiwi.com";
-  const canInspect = !inspected.includes(verificationSeller) && (!view.market || verificationSeller === "LetsFG");
+  const canInspect = !isNuitee && !inspected.includes(verificationSeller) && (!view.market || verificationSeller === "LetsFG");
   const passport = !!view.required_fields?.some((k) =>
     k.startsWith("passport_"),
   );
@@ -297,13 +302,14 @@ export function LiveFlightCheckout({
   return (
     <section
       className="commerce-order live-flight-checkout"
-      aria-label={t("Real flight purchase", "真实机票购买")}
+      aria-label={isNuitee ? t("Nuitée test flight", "Nuitée 测试机票") : t("Real flight purchase", "真实机票购买")}
     >
       {["no_source", "source_unavailable", "source_changed"].includes(view.state) && (
         <p>{t(freshQuote.en, freshQuote.zh)}</p>
       )}
       {view.market && (
         <header>
+          {isNuitee && <span>Nuitée · {t("Sandbox", "沙盒")}</span>}
           <strong>{view.market.origin.join(" / ")} → {view.market.destination.join(" / ")}</strong>
           <p>{[view.market.departure, view.market.return_date].filter(Boolean).join(" / ")} · {t(`${view.market.adults} adult(s)`, `${view.market.adults} 名成人`)}
             {view.market.checked_bag_kg > 0 && t(` · requested: ${view.market.checked_bag_kg} kg checked per adult`, ` · 要求每人托运 ${view.market.checked_bag_kg} 公斤`)}</p>
@@ -379,14 +385,14 @@ export function LiveFlightCheckout({
               "LetsFG 是另一家卖方，会按原行程重新核价。",
             )}
           </p>}
-          {view.connected ? (
+          {isNuitee && !view.connected ? <p>{t("Nuitée sandbox is not connected on this desk.", "这台设备尚未连接 Nuitée 沙盒。")}</p> : view.connected ? (
             <button
               type="button"
               className="primary"
               disabled={busy}
               onClick={() => void act("search")}
             >
-              {t("Check LetsFG fare", "核对 LetsFG 总价")}
+              {isNuitee ? t("Recheck sandbox fare", "重查沙盒总价") : t("Check LetsFG fare", "核对 LetsFG 总价")}
             </button>
           ) : (
             <button
@@ -442,6 +448,7 @@ export function LiveFlightCheckout({
       {view.market && view.routes?.filter(r => !["queued", "searching", "offers"].includes(r.state)).map(r =>
         <small key={r.origin + r.destination}>{r.origin} → {r.destination} · {
           r.state === "no_verified_offer" ? t("No matching fare", "暂无符合条件的报价") :
+          r.reason === "FLIGHT_NUITEE_TEST_PARTY" ? t("The card sandbox uses one test adult", "此沙盒使用一位虚构成人") :
           r.reason === "LETSFG_CONNECT_REQUIRED" ? t("Reconnect LetsFG", "需要重新连接 LetsFG") :
           t("Fare unavailable", "未能核实票价")}</small>)}
       {view.state === "market_empty" && (
@@ -456,10 +463,10 @@ export function LiveFlightCheckout({
           {choices.slice(visibleChoices).map(optionButton)}
         </details>}
       </>}
-      {selected && ["review", "seller_only"].includes(view.state) && (
+      {selected && (["review", "seller_only", "card_pending"].includes(view.state) || (isNuitee && receipt?.pnr)) && (
         <div>
           <p>
-            <b>LetsFG</b> · {quoteLabel(selected, t)}
+            <b>{isNuitee ? "Nuitée" : "LetsFG"}</b> · {quoteLabel(selected, t)}
           </p>
           {[...selected.outbound, ...selected.inbound].map((seg, i) => (
             <p key={i}>
@@ -487,7 +494,13 @@ export function LiveFlightCheckout({
           {selected.fare_conditions.changeable}
         </p>
       )}
-      {view.state === "review" &&
+      {isNuitee && ["review", "card_pending"].includes(view.state) && selected?.payable && selected.total_minor != null && (
+        <>
+          {view.reason === "terms_changed" && <p role="status">{t("Review the changed fare before confirming.", "票价或条款有变，请核对后重新确认。")}</p>}
+          <NuiteeSandboxCard view={view} chat={chat} amount={selected.total_minor} currency={selected.currency} t={t} onUpdate={onUpdate} />
+        </>
+      )}
+      {!isNuitee && view.state === "review" &&
         selected?.payable &&
         selected.total_minor != null &&
         src && (
@@ -668,6 +681,9 @@ export function LiveFlightCheckout({
           )}
         </p>
       )}
+      {view.state === "ticketed_payment_pending" && <p role="status">{t("Test ticket issued. Card capture pending.", "测试票已出票，实扣待核实。")}</p>}
+      {view.state === "paid_pending_ticket" && <p role="status">{t("Test card charged. Ticket issuance pending.", "测试卡已扣款，等待票号。")}</p>}
+      {receipt?.ticket_numbers?.map(number => <p key={number}>{t("Test e-ticket", "测试电子客票号")} <b>{number}</b></p>)}
       {receipt?.pnr && (
         <p>
           <b>
@@ -708,6 +724,9 @@ export function LiveFlightCheckout({
       )}
       {[
         "bank_approval",
+        "card_pending",
+        "ticketed_payment_pending",
+        "paid_pending_ticket",
         "held",
         "processing",
         "submitting",

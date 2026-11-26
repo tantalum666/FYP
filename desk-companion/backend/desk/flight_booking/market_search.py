@@ -22,7 +22,7 @@ _TEST = re.compile(
     re.I,
 )
 _REAL = re.compile(
-    r"真实|真實|实单|實單|不要.{0,3}(?:测试|測試|沙盒)|\b(?:real|live) (?:flight|fare|booking)|\bnot (?:a )?(?:test|sandbox)",
+    r"真实|真實|实单|實單|(?:不要|不用|别用|別用)(?:\s*(?:Nuit[ée]e|LetsFG)\s*|.{0,3})(?:测试|測試|沙盒|sandbox)|\b(?:real|live) (?:flight|fare|booking)|\bnot (?:a )?(?:test|sandbox)",
     re.I,
 )
 _FLIGHT = re.compile(r"机票|機票|航班|机场|機場|\b(?:flights?|airports?|airfare|tickets?)\b", re.I)
@@ -43,6 +43,18 @@ def explicit_test(message, chat):
         text = item.get("text", "")
         if item.get("role") == "user" and _FLIGHT.search(text):
             return bool(_TEST.search(text))
+    return False
+
+
+def nuitee_test_requested(message, chat):
+    """A test account must never substitute for a real travel request."""
+    for text in [message, *(item.get("text", "") for item in reversed(getattr(chat, "items", ())) if item.get("role") == "user")]:
+        if _REAL.search(text):
+            return False
+        if re.search(r"(?<![A-Za-z])nuit[ée]e(?![A-Za-z])", text, re.I) and _TEST.search(text):
+            return True
+        if _FLIGHT.search(text) or _TEST.search(text):
+            return False
     return False
 
 
@@ -153,7 +165,7 @@ class MarketFlightRequest(StrictModel):
 
 TOOL = {
     "name": "live_flight_search",
-    "description": "Search real LetsFG passenger fares in this chat. Adult travelers only. Carry dates, party, baggage and every airport the owner accepts from the preceding turns. Either airport means search both. Read-only: never books, holds or pays.",
+    "description": "Search passenger fares at the desk-selected supplier in this chat. The desk selects sandbox inventory only for an explicit test. Adult travelers only. Carry dates, party, baggage and every airport the owner accepts from the preceding turns. Either airport means search both. Read-only: never books, holds or pays.",
     "parameters": MarketFlightRequest.model_json_schema(),
 }
 
@@ -209,8 +221,8 @@ def source_for(row, offer):
         "budget_minor": minor(request.max_hkd) if request.max_hkd is not None else None,
     }
     return {
-        "provider": "letsfg",
-        "label": "LetsFG",
+        "provider": row.get("provider", "letsfg"),
+        "label": "Nuitée Sandbox" if row.get("provider") == "nuitee_sandbox" else "LetsFG",
         "request": spec,
         "currency": "HKD",
         "listed_minor": offer["fare_minor"],
@@ -242,7 +254,7 @@ def poll(service, principal, row):
             continue
         query = request.query(route)
         try:
-            result = service.runtime.live_flight_provider.search(
+            result = service.provider_for(row).search(
                 query, principal=principal, search_id=route.get("search_id")
             )
         except DomainError as error:

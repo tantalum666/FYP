@@ -3,6 +3,8 @@
 import ipaddress
 from typing import Annotated, Literal
 from fastapi import APIRouter, Depends, Request
+from fastapi.responses import JSONResponse
+from . import nuitee_checkout
 from pydantic import Field
 
 from ..conversation import memory_context
@@ -27,16 +29,29 @@ class Action(StrictModel):
     number: int | None = Field(default=None, strict=True, ge=1, le=8)
 
 
-class Confirm(StrictModel):
+class CardApproval(StrictModel):
     conversation_id: str = Field(min_length=1, max_length=128)
     version: int = Field(strict=True, ge=1)
     amount_minor: int = Field(strict=True, gt=0)
     currency: Literal["HKD"]
     confirm_purchase: Literal[True]
+
+
+class Confirm(CardApproval):
     passengers: list[dict[str, Annotated[str, Field(max_length=200)]]] = Field(
         min_length=1, max_length=9
     )
     contact_email: str = Field(min_length=3, max_length=254, pattern=r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
+
+
+def require_secure_form(request):
+    if request.url.scheme != "https":
+        try:
+            local = ipaddress.ip_address(request.client.host).is_loopback
+        except (ValueError, AttributeError):
+            local = False
+        if not local or request.url.hostname not in {"localhost", "127.0.0.1", "::1"}:
+            raise DomainError("FLIGHT_SECURE_FORM_REQUIRED", 403)
 
 
 def routes(runtime, authenticated):
@@ -106,15 +121,16 @@ def routes(runtime, authenticated):
             req.share_seller_page,
         )
 
+    @router.post("/{ident}/test-card")
+    def confirm_test_card(ident: str, req: CardApproval, request: Request, principal=Depends(who)):
+        require_secure_form(request)
+        result = nuitee_checkout.start(service, principal, req.conversation_id, ident, req.version,
+                                       req.amount_minor, req.currency)
+        return JSONResponse(result, headers={"Cache-Control": "no-store", "Referrer-Policy": "no-referrer"})
+
     @router.post("/{ident}/confirm")
     def pay(ident: str, req: Confirm, request: Request, principal=Depends(who)):
-        if request.url.scheme != "https":
-            try:
-                local = ipaddress.ip_address(request.client.host).is_loopback
-            except (ValueError, AttributeError):
-                local = False
-            if not local or request.url.hostname not in {"localhost", "127.0.0.1", "::1"}:
-                raise DomainError("FLIGHT_SECURE_FORM_REQUIRED", 403)
+        require_secure_form(request)
         return service.confirm(
             principal,
             req.conversation_id,
