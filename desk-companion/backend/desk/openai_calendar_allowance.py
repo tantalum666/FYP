@@ -69,6 +69,83 @@ def effective_rule(db):
     }
 
 
+def reserve_device_share(ledger, *, device, fleet_daily, fleet_monthly, daily, monthly, through):
+    """Debit a second desk's fixed share before issuing its terms. Amounts are micro-USD."""
+    if (
+        not isinstance(device, str)
+        or not re.fullmatch(r"[a-z0-9][a-z0-9_-]{0,63}", device)
+        or any(type(x) is not int for x in (daily, monthly, fleet_daily, fleet_monthly))
+        or not 0 < daily <= monthly < fleet_monthly
+        or not 0 < fleet_daily - daily <= fleet_monthly - monthly
+    ):
+        raise ValueError("Invalid device allocation")
+    retained = (fleet_daily - daily, fleet_monthly - monthly)
+    with ledger._db(True) as db:
+        _, day, rule = ledger._period(db)
+        if "calendar" not in rule.keys():
+            raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
+        term = db.execute(
+            "SELECT * FROM calendar_allowances WHERE starts=?", (rule["starts"],)
+        ).fetchone()
+        if term["through"] != through:
+            raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
+        db.execute("""CREATE TABLE IF NOT EXISTS calendar_device_shares(
+            term_start TEXT PRIMARY KEY, device TEXT NOT NULL, issued_on TEXT NOT NULL,
+            fleet_daily INTEGER NOT NULL, fleet_monthly INTEGER NOT NULL,
+            daily INTEGER NOT NULL, monthly INTEGER NOT NULL)""")
+        prior = db.execute(
+            "SELECT * FROM calendar_device_shares WHERE term_start=?", (term["starts"],)
+        ).fetchone()
+        expected = (device, fleet_daily, fleet_monthly, daily, monthly)
+        current = (term["daily_limit"], term["monthly_limit"])
+        if prior:
+            if (
+                tuple(
+                    prior[k] for k in ("device", "fleet_daily", "fleet_monthly", "daily", "monthly")
+                )
+                != expected
+                or current != retained
+            ):
+                raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
+            start = prior["issued_on"]
+        else:
+            if current != (fleet_daily, fleet_monthly):
+                raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
+            if (
+                db.execute("SELECT 1 FROM sqlite_master WHERE name='daily_allocations'").fetchone()
+                and db.execute(
+                    "SELECT 1 FROM daily_allocations WHERE day BETWEEN ? AND ? AND other_devices>0 LIMIT 1",
+                    (day, through),
+                ).fetchone()
+            ):
+                raise DomainError("OPENAI_BUDGET_TERM_CONFLICT", 409)
+            room = calendar_room(db, day, rule)
+            committed = db.execute(
+                "SELECT COALESCE(SUM(accounted),0) FROM charges WHERE day=?", (day,)
+            ).fetchone()[0]
+            if committed + room["day_opening"] > retained[0] or room["remaining"] < monthly:
+                raise DomainError("OPENAI_BUDGET_INSUFFICIENT_HEADROOM", 409)
+            # Existing runtime versions enforce these same columns on every reservation.
+            db.execute(
+                "UPDATE calendar_allowances SET daily_limit=?,monthly_limit=? WHERE starts=?",
+                (*retained, term["starts"]),
+            )
+            db.execute(
+                "INSERT INTO calendar_device_shares VALUES(?,?,?,?,?,?,?)",
+                (term["starts"], device, day, fleet_daily, fleet_monthly, daily, monthly),
+            )
+            start = day
+        return dict(
+            start=start,
+            through=through,
+            daily=daily,
+            monthly=monthly,
+            day_opening=0,
+            month_opening=0,
+            statement=term["statement"],
+        )
+
+
 def calendar_room(db, day, rule):
     if not db.execute(
         "SELECT 1 FROM sqlite_master WHERE type='table' AND name='calendar_allowances'"
