@@ -82,7 +82,7 @@ class MomentService:
             return [(item[1], item[2]) for item in goals]
         tasks = [
             (task["id"], task["title"])
-            for task in self.runtime.tasks.listing()["tasks"]
+            for task in self.runtime.tasks.listing(include_samples=False)["tasks"]
             if task["status"] in {"todo", "in_progress", "waiting"} and task["title"]
         ]
         return tasks
@@ -211,7 +211,7 @@ class MomentService:
         return None
 
     def _open_loops(self, now) -> list[tuple[str, str, str]]:
-        tasks = self.runtime.tasks.listing()["tasks"]
+        tasks = self.runtime.tasks.listing(include_samples=False)["tasks"]
         found = []
         for task in tasks:
             if task.get("followup") and task["status"] in _OPEN and task["title"]:

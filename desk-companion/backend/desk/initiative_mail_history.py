@@ -25,9 +25,9 @@ class GmailFindingHistory:
         with store.connection() as db:
             rows = db.execute(
                 """SELECT created_at,data FROM initiative_findings
-                   WHERE (state='pending' OR (state='obsolete' AND notified=1))
+                   WHERE (state IN ('pending','dismissed') OR (state='obsolete' AND notified=1))
                    AND created_at BETWEEN ? AND ?
-                   ORDER BY notified,created_at DESC LIMIT 100""",
+                   ORDER BY (state='dismissed'),notified,created_at DESC LIMIT 100""",
                 (max(iso(now - LOOKBACK), connected_at or ""), iso(now)),
             ).fetchall()
         windows = {}

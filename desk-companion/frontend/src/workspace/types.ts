@@ -51,6 +51,7 @@ export interface PostureSnapshot {
 export interface WorkspaceSnapshot {
   home_history?: { enabled: boolean; generation: number };
   initiative?: {
+    revision?: number;
     last_checked_at?: string | null;
     last_mode?: string | null;
     mail_check?: {at: string; available: boolean; count?: number; error?: string} | null;
@@ -58,6 +59,7 @@ export interface WorkspaceSnapshot {
     research_ready: boolean;
     findings: import("./InitiativeMessages").InitiativeFinding[];
     history?: import("./InitiativeMessages").InitiativeFinding[];
+    acknowledged?: import("./InitiativeMessages").InitiativeFinding[];
     withdrawn?: import("./InitiativeMessages").InitiativeFinding[];
   };
   check_in?: import("./AliceCheckIn").AliceCue | null;

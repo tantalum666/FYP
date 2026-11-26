@@ -32,7 +32,7 @@ export function AliceCheckIn({
   t: Translate;
   visible: boolean;
   /** Opens Conversation so the owner can read Sources before dismissing. */
-  onOpenConversation?: () => void;
+  onOpenConversation?: (findingId: string) => void;
   onReviewSurface?: (page: "today" | "tasks") => void;
   onOpenTask?: (taskId: string) => void;
 }) {
@@ -212,7 +212,7 @@ export function AliceCheckIn({
           ) : (
             <>
               {review && review.page === "assistant" && onOpenConversation && (
-                <button type="button" disabled={busy} onClick={onOpenConversation}>{t(review.en,review.zh)}</button>
+                <button type="button" disabled={busy} onClick={() => onOpenConversation(cue.id)}>{t(review.en,review.zh)}</button>
               )}
               {review && (review.page === "today" || review.page === "tasks") && onReviewSurface && (
                 <button type="button" disabled={busy} onClick={() => onReviewSurface(review.page === "today" ? "today" : "tasks")}>{t(review.en,review.zh)}</button>

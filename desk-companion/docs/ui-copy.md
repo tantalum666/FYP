@@ -8,6 +8,8 @@ On the task and in Chat, one card names the task and says a reply arrived. Say w
 On a Conversation finding, keep Sources and Got it. Add Remind me later for a one-hour deferral of that same cited finding. Do not imply mail was sent or a task was created. After the snooze ends, Alice may raise the finding again under the existing quiet-hours and delivery caps.
 
 Follow up on this, Remind me later and Got it have separate click targets at least 44 px tall. Leave space between adjacent actions and wrap complete buttons on narrow screens. Keep follow-up status above the actions.
+
+Got it stops the alert and marks the dated conversation card Acknowledged / 已知晓. The conversation menu offers Follow-up history / 主动跟进记录. Opening a card or its Sources is read-only. The Home cue opens the specific finding even when later chat turns are already visible.
 ## 25 November · Home cue opens Conversation for Sources
 
 When the Alice home cue is a proactive finding, offer View in conversation beside Got it. That control only expands Conversation so Sources stay available; it does not dismiss, send mail, or create a task. Got it on the cue still dismisses. Match the Inbox label View in conversation / 在对话中查看.
@@ -49,6 +51,8 @@ On an individual memory follow-up receipt (Alice remembered), offer View memorie
 On a Calendar update receipt (deadline, conflict, decision, or cancelled), offer View calendar so the owner can open Calendar without dismissing. Match View calendar / 查看日历. This is not the Sources Open calendar control for a cited occurrence.
 
 ## 25 November · Workspace navigation and notices
+
+Calendar navigation and event creation live in the calendar toolbar. Sample tasks have an explicit visible label in the ordinary task list.
 
 Use the workspace text palette for settings headings, hints and search placeholders. A settings panel opened from Home uses the same foreground and background as the same panel opened from Settings. Verify the visible text against its actual background in both themes. [Rendered examples](../../output/qa/2026-11-26-interface-readability/verification.md).
 

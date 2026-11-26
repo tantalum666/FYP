@@ -1148,3 +1148,7 @@ The owner approved six calendar months of FYP use with explicit Hong Kong daily 
 ## 26 November 2026 · Reminder actions and settings contrast
 
 The owner reported adjoining reminder buttons and unreadable text in dark Settings. Use the shared wrapping action row for the existing follow, defer and acknowledge operations. Use the same theme colors for settings panels opened from Home and Settings, including input hints. [Web and Simulator evidence](output/qa/2026-11-26-interface-readability/verification.md).
+
+## 26 November 2026 · Reviewing acknowledged suggestions and illustrative tasks
+
+The owner requested recoverable follow-ups, a full year of fictional tasks, removal of the sidebar calendar shortcuts and a subtler smile. Keep evidence verification on reread and preserve acknowledgement as a distinct state. Weekly spacing and disabled example timers are implementation choices. [Acceptance](output/qa/2026-11-26-followup-history-and-year/verification.md).

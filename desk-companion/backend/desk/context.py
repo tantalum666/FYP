@@ -72,7 +72,7 @@ def pack_conversation(
     budget=None,
 ):
     now = runtime.store.clock()
-    tasks = runtime.tasks.listing(include_closed=bool(task_id))
+    tasks = runtime.tasks.listing(include_closed=bool(task_id), include_samples=False)
     selected = runtime.tasks.detail(task_id) if task_id else None
     window = runtime.store.snapshot(now, now + timedelta(days=7))
     packed = {

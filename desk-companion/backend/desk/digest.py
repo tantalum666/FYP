@@ -57,7 +57,7 @@ class DigestService:
             else now - timedelta(days=7)
         )
         start_utc, end_utc = start.astimezone(ZoneInfo("UTC")), now.astimezone(ZoneInfo("UTC"))
-        tasks = self.runtime.tasks.listing(include_closed=True)["tasks"]
+        tasks = self.runtime.tasks.listing(include_closed=True, include_samples=False)["tasks"]
         done = [
             task["title"]
             for task in tasks

@@ -83,7 +83,7 @@ class RetainedChat:
                 }
             }
         now = self.store.clock()
-        tasks = self.runtime.tasks.listing(include_closed=bool(task_id))
+        tasks = self.runtime.tasks.listing(include_closed=bool(task_id), include_samples=False)
         selected = self.runtime.tasks.detail(task_id) if task_id else None
         return {
             "now": iso(now),

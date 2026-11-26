@@ -29,6 +29,7 @@ export interface Task extends Omit<TaskInput, "status"> {
   updated_at: string;
   overdue: boolean;
   redacted: boolean;
+  is_sample?: boolean;
   followup: null | {
     id: string;
     created_at: string;

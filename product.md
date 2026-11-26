@@ -2,6 +2,8 @@
 
 ## 26 November · Continuing personal assistance
 
+Opening a suggestion focuses its cited conversation card. Acknowledged suggestions remain available by date in Conversation and its Follow-up history while their sources can be verified. Explicitly seeded example tasks appear in the task list and stay separate from the owner's personal recommendations. Calendar navigation uses the main calendar toolbar. [Checks and examples](output/qa/2026-11-26-followup-history-and-year/verification.md).
+
 In conversation, Follow up, Remind me later and Got it need distinct touch targets at phone widths. Settings titles and search hints must remain legible in both themes, including when opened directly from Home. [Rendered results](output/qa/2026-11-26-interface-readability/verification.md).
 
 The owner authorized a six-month operating period with both calendar-day and calendar-month ceilings. Keep numerical limits and actual account figures in the operator’s private ledger. The Mac worker should keep checking during screen lock and respect quiet hours. The enrolled native Simulator can show a generic notification while the application is closed. Real-device push credentials are deferred. Opening a notification or source is a read action. Follow, snooze, acknowledgement, saving a reply draft and sending a message are explicit, separate actions. [Combined review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).

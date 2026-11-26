@@ -8,7 +8,8 @@ import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { HomeCaption } from "./HomeCaption";
 import { useHomeTranscript, withSavedTurns } from "./useHomeTranscript";
-import { InitiativeMessage } from "./InitiativeMessages";
+import { InitiativeMessage, type InitiativeFinding } from "./InitiativeMessages";
+import { InitiativeHistory } from "./InitiativeHistory";
 import { MailReplyReminders } from "./MailReplyReminder";
 import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
 import { replyDelivery, SpokenDelivery } from "../companion/delivery";
@@ -145,8 +146,9 @@ export function AssistantPanel({
     !suspended && personalContextVisible(ownerView, data?.personal_context_visible, offline, stale),
   );
   const [expandedFindings, setExpandedFindings] = useState<string[]>([]);
+  const [cueFindingId, setCueFindingId] = useState<string>();
   useEffect(() => {
-    const clear = () => setExpandedFindings([]);
+    const clear = () => { setExpandedFindings([]); setCueFindingId(undefined); };
     window.addEventListener("desk:session", clear);
     window.addEventListener("desk:personal-context", clear);
     return () => { window.removeEventListener("desk:session",clear); window.removeEventListener("desk:personal-context",clear); };
@@ -178,7 +180,7 @@ export function AssistantPanel({
     };
   }, [refreshFence]);
   const [view, setView] = useState<
-    "chat" | "jobs" | "help" | "timing" | "activity"
+    "chat" | "jobs" | "help" | "timing" | "activity" | "followups"
   >("chat");
   const [jobsOpened, setJobsOpened] = useState(false);
   const [computerGoal, setComputerGoal] = useState<{
@@ -1470,6 +1472,14 @@ export function AssistantPanel({
     }
   }
   const privateOrdersVisible = ownerView && !!data?.personal_context_visible;
+  const canReviewFindings = privateOrdersVisible && !taskId && !offline && !stale && !!data?.initiative?.enabled;
+  const renderFinding = (finding: InitiativeFinding, readOnly = false) => (
+    <InitiativeMessage key={finding.id} finding={finding} readOnly={readOnly} t={t}
+      expandedSources={expandedFindings.includes(finding.id)} onSourcesChange={showFindingSources}
+      onOpenTask={onOpenTask} onOpenMemory={onOpenMemory} onOpenCalendar={onOpenCalendar}
+      focusNoticeId={readOnly ? undefined : cueFindingId ?? focusNoticeId}
+      onFocused={() => { setCueFindingId(undefined); onFocusNoticeConsumed?.(); }} />
+  );
   const activeChat = conversationId.current;
   const orderRows =
     privateOrdersVisible &&
@@ -1625,7 +1635,11 @@ export function AssistantPanel({
         <AliceCheckIn
           t={t}
           visible={!expanded && !suspended && !busy && !voiceActive}
-          onOpenConversation={() => onExpandedChange?.(true)}
+          onOpenConversation={(id) => {
+            followLatest.current = false;
+            setCueFindingId(id);
+            onExpandedChange?.(true);
+          }}
           onOpenTask={onOpenTask}
           onReviewSurface={onReviewSurface}
         />
@@ -1695,6 +1709,11 @@ export function AssistantPanel({
                 {t("New conversation", "新对话")}
               </button>
             )}
+            {canReviewFindings && <button onClick={() => {
+              onExpandedChange?.(true);
+              setView("followups");
+              setMenu(false);
+            }}>{t("Follow-up history", "主动跟进记录")}</button>}
             {audio.current && (
               <button onClick={endVoice}>{t("Disconnect", "断开连接")}</button>
             )}
@@ -1746,6 +1765,11 @@ export function AssistantPanel({
         )}
       </div>
       {view === "activity" && <ToolActivity t={t} calls={calls} />}
+      {view === "followups" && canReviewFindings && (
+        <InitiativeHistory t={t} renderFinding={row => renderFinding(row, true)}
+          scope={JSON.stringify([data.principal.id, data.home_history?.generation,
+            data.initiative?.revision, data.initiative?.last_checked_at, data.initiative?.mail_check?.at])} />
+      )}
       <section
         className="assistant-chat"
         hidden={view !== "chat"}
@@ -1772,10 +1796,13 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? [...(data?.initiative?.findings ?? []), ...(!taskId ? data?.initiative?.history ?? [] : []), ...(!taskId ? data?.initiative?.withdrawn ?? [] : [])] : []).map(item => {
-              if ("finding" in item) return <InitiativeMessage key={item.finding.id} t={t}
-                finding={item.finding} expandedSources={expandedFindings.includes(item.finding.id)} onSourcesChange={showFindingSources} onOpenTask={onOpenTask} onOpenMemory={onOpenMemory}
-                onOpenCalendar={onOpenCalendar} focusNoticeId={focusNoticeId} onFocused={onFocusNoticeConsumed} />;
+            conversationWithFindings(visibleTurns, privateOrdersVisible && !offline && !stale ? [
+              ...(data?.initiative?.findings ?? []),
+              ...(!taskId ? data?.initiative?.history ?? [] : []),
+              ...(!taskId ? data?.initiative?.withdrawn ?? [] : []),
+              ...(!taskId ? data?.initiative?.acknowledged ?? [] : []),
+            ] : []).map(item => {
+              if ("finding" in item) return renderFinding(item.finding);
               const turn = item.turn;
               return (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>

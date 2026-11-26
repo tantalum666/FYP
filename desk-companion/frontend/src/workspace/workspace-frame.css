@@ -195,25 +195,6 @@
   padding: 4px 0;
   font-size: 12px;
 }
-.workspace-sidebar .sidebar-calendar-tools {
-  margin: 8px 4px;
-  border-top: 1px solid var(--line);
-  padding: 11px 5px 0;
-  color: var(--muted);
-}
-.workspace-sidebar .sidebar-calendar-tools summary {
-  color: var(--muted);
-  font-size: 12px;
-}
-.workspace-sidebar .mini-month,
-.workspace-sidebar .mini-month button,
-.workspace-sidebar .calendar-filters {
-  color: var(--ink);
-}
-.workspace-sidebar .mini-month button.selected {
-  background: var(--selection);
-  color: var(--accent);
-}
 .desk-workspace .workspace-topbar {
   display: flex;
   align-items: center;
@@ -314,7 +295,7 @@
   }
   .rail-compact
     .workspace-sidebar
-    :is(.nav-label, .nav-language, .nav-count, .sidebar-calendar-tools) {
+    :is(.nav-label, .nav-language, .nav-count) {
     display: none;
   }
   .rail-compact.app-shell .workspace-sidebar nav button {

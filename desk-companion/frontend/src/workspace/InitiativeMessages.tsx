@@ -21,6 +21,7 @@ export interface InitiativeFinding {
   created_at?: string;
   withdrawn?: boolean;
   historical?: boolean;
+  acknowledged?: boolean;
   notice_id?: string | null;
   sources: { ref: string; kind: string; label: string; href?: string }[];
   followup_status?: InitiativeFollowupStatus | null;
@@ -43,11 +44,12 @@ function followupLabel(status: InitiativeFollowupStatus, t: Translate) {
 
 /** Contextual messages in the conversation; no approval form or separate poll. */
 export function InitiativeMessage({
-  finding,
+  finding, readOnly = false,
   t,
   onOpenTask, onOpenMemory, onOpenCalendar, focusNoticeId, onFocused, expandedSources, onSourcesChange,
 }: {
   finding: InitiativeFinding;
+  readOnly?: boolean;
   t: Translate;
   /** Opens the existing cited task. Does not create a follow-up or dismiss. */
   onOpenTask?: (taskId: string) => void;
@@ -94,10 +96,11 @@ export function InitiativeMessage({
           className="assistant-turn assistant initiative-message"
           data-finding-id={finding.id}
           tabIndex={focused ? -1 : undefined}
-          aria-label={withdrawn ? t("Withdrawn suggestion", "已收回的建议") : t("Proactive suggestion", "主动建议")}
+          aria-label={finding.acknowledged ? t("Acknowledged suggestion", "已知晓的跟进") : withdrawn ? t("Withdrawn suggestion", "已收回的建议") : t("Proactive suggestion", "主动建议")}
           key={finding.id}
         >
           {finding.created_at && <time dateTime={finding.created_at}>{new Date(finding.created_at).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</time>}
+          {finding.acknowledged && <small className="finding-acknowledged">{t("Acknowledged", "已知晓")}</small>}
           <p>{withdrawn ? t("Sources changed. This suggestion was withdrawn.", "依据已变更，这条建议已收回。") : t(finding.message_en, finding.message_zh)}</p>
           {!withdrawn && <details ref={detailsRef} open={expandedSources} onToggle={event=>{ const open=event.currentTarget.open; if(open!==expandedSources)onSourcesChange(finding.id,open); }}>
             <summary>
@@ -146,7 +149,7 @@ export function InitiativeMessage({
               {followup.title ? ` · ${followup.title}` : ""}
             </p>
           )}
-          <div className="workspace-inline-actions">
+          {!readOnly && !finding.acknowledged && <div className="workspace-inline-actions">
             {actionable && !followup && (
               <button
                 className="primary"
@@ -182,7 +185,7 @@ export function InitiativeMessage({
             >
               {t("Got it", "知道了")}
             </button>
-          </div>
+          </div>}
         </article>
       <MutationFeedback mutation={mutation} t={t} />
     </>

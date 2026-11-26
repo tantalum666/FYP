@@ -35,9 +35,9 @@ export function findingSource(source: {kind:string;ref:string}): {page:"tasks" |
 }
 
 export function findingMatchesNotice(finding:{id:string;notice_id?:string|null},noticeId?:string|null) {
-  return !!noticeId && (finding.notice_id === noticeId || (!finding.notice_id && noticeId === "insight-"+finding.id));
+  return !!noticeId && (finding.id === noticeId || finding.notice_id === noticeId || (!finding.notice_id && noticeId === "insight-"+finding.id));
 }
 
-export function canActOnFinding(finding:{historical?:boolean;withdrawn?:boolean}) {
-  return !finding.historical && !finding.withdrawn;
+export function canActOnFinding(finding:{historical?:boolean;withdrawn?:boolean;acknowledged?:boolean}) {
+  return !finding.historical && !finding.withdrawn && !finding.acknowledged;
 }
