@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 27 November · Paying for a flight in Alice
+
+The traveller reviews one specific itinerary, the requested baggage and the all-in amount in the conversation. The preferred flow uses that approval to charge the traveller’s bank card and complete ticketing. A changed amount or material term requires a new decision. An issuer may require cardholder authentication. If delegated card charging is unavailable, let the traveller complete payment inside the conversation, then retrieve the payment result and the carrier’s ticket-issuance evidence. [Provider assessment](output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card).
+
 ## 26 November · Continuing personal assistance
 
 When the owner accepts either airport, Alice searches every accepted route under the original dates, passenger and baggage requirements. The chat keeps live fares and baggage-verified totals distinct. An active request does not generate an immediate reminder to do what the owner just asked. [Ordinary-client acceptance](output/qa/2026-11-26-airport-choice-and-reminder/verification.md).

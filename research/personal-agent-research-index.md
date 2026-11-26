@@ -1,6 +1,6 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
-**11 月 27 日机票代扣**　Booked AI 与 Mastercard 有真实扣款出票案例。Atlas 的第三方接口支持余额支付和出票回查，两个离线样例已验证。支付宝委托支付和 Etraveli 的生产代付各有签约条件。[供应商资格、扣款与验收范围](../output/qa/2026-11-27-delegated-travel-payments/verification.md)。
+**11 月 27 日机票代扣**　Booked AI 与 Mastercard 有真实扣款出票案例。Atlas 的第三方接口支持余额支付和出票回查，两个离线样例已验证。支付宝委托支付和 Etraveli 的生产代付各有签约条件。用户要求扣旅客本人银行卡，首选评估 Nuitée 的旅客卡接口及对话内支付；Atlas 的证据只覆盖余额支付。[供应商资格、扣款与验收范围](../output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card)。
 
 **11 月 26 日旅行连接与付款授权**　携程问道、美团酒旅、飞猪和 Kiwi 提供旅行查询。Etraveli 的开发者 MCP 分级开放行李选择和当笔付款链接。LetsFG 个人助手的逐单官网确认、保存的付款方式和无真卡沙盒分别有据可查。[官方来源及接口实测](../output/qa/2026-11-26-travel-connectors/verification.md)。
 
