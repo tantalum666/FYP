@@ -1160,3 +1160,7 @@ The owner expects an either-airport answer to continue a flight search and an on
 ## 26 November 2026 · Independent Pi flight account
 
 The owner authorized the original Pi to connect the existing LetsFG account for flight search and booking. Each device keeps its own rotating credential. The operator assigned fixed shares from the already approved combined daily and monthly ceilings, debiting the primary before activating the Pi. Real payment still requires current complete terms, passenger approval and supplier readback. [Device evidence](output/qa/2026-11-26-pi-account-and-power/verification.md).
+
+## 27 November 2026 · Traveller-card payment priority
+
+The owner specified one approval in Alice followed by charging the traveller’s bank card and issuing the ticket. Consumer checkout in the conversation is the fallback. Evaluating Nuitée for both paths is an engineering recommendation. [Evidence and open entitlements](output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card).

@@ -1407,3 +1407,7 @@ Compared Ctrip, Meituan, Fliggy, Kiwi and Etraveli from their own published mate
 ## 27 November 2026 · Delegated travel payments
 
 Checked Etraveli’s testing terms, its longstanding Booking.com relationship and the EU consumer authority’s intermediary refund commitments. Compared an actual agent-paid airline ticket, in-chat consumer checkouts, Alipay’s capped mandates and the Atlas balance-payment path. Two newly inspected offline tests on the Atlas release passed. Procurement, provider enrolment and live charges were outside this research. [Documents and replay](output/qa/2026-11-27-delegated-travel-payments/verification.md).
+
+## 27 November 2026 · One supplier for traveller-card checkout
+
+Recorded the clarified purchasing preference. Checked the Nuitée flight-specific payment contract, test access and the ordinary-user fallback. The product contract and handoff distinguish traveller funds, issuer authentication and ticket evidence. [Supplier assessment](output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card).
