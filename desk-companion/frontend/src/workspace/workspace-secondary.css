@@ -423,7 +423,8 @@
 .record-kind summary {
   cursor: pointer;
 }
-:is(.desk-workspace, .workspace-surface, .workspace-dialog) :where(.dialog) {
+:is(.desk-workspace, .workspace-surface) :where(.dialog),
+.dialog.workspace-dialog {
   background: var(--sheet);
   border-color: var(--line);
   color: var(--ink);
@@ -438,15 +439,15 @@
   font: 620 21px/1.25 var(--ui-font);
   letter-spacing: -0.035em;
 }
-.desk-workspace .dialog .workspace-panel {
+.workspace-dialog .workspace-panel {
   padding: 0;
 }
-:is(.desk-workspace, .workspace-surface) .workspace-details > summary {
+:is(.desk-workspace, .workspace-surface, .workspace-dialog) .workspace-details > summary {
   color: var(--ink);
   cursor: pointer;
   padding: 5px 0;
 }
-:is(.desk-workspace, .workspace-surface) .app-connection-row {
+:is(.desk-workspace, .workspace-surface, .workspace-dialog) .app-connection-row {
   display: block;
   border: 0;
   border-bottom: 1px solid var(--line);

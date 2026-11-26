@@ -181,6 +181,19 @@
 .workspace-inline-actions button {
   min-height: 44px;
 }
+.initiative-message .workspace-inline-actions {
+  align-items: center;
+  gap: 6px 14px;
+  margin: 8px 0 0;
+}
+.initiative-message .workspace-inline-actions > button {
+  min-height: 44px;
+  min-width: 44px;
+}
+.initiative-message .workspace-inline-actions > .text-button {
+  justify-content: center;
+  padding-inline: 8px;
+}
 .workspace-section {
   border-top: 1px solid var(--device-line, #e8eaf0);
   margin-top: 28px;

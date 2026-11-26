@@ -1144,3 +1144,7 @@ A person opening a task can tell an unknown file result from one that was never 
 ## 26 November 2026 · Standing authorization and reviewed Grok integration
 
 The owner approved six calendar months of FYP use with explicit Hong Kong daily and monthly maximums. Keep financial details local, retain historical holds separately, and avoid assigning the same allowance to two hosts. The owner selected individual review by the current engineer, native Simulator delivery without creating Apple developer keys, and a background-only check of the real Mac during its existing quiet period. The 19 new Grok heads were reviewed in combination with current main. [Review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
+## 26 November 2026 · Reminder actions and settings contrast
+
+The owner reported adjoining reminder buttons and unreadable text in dark Settings. Use the shared wrapping action row for the existing follow, defer and acknowledge operations. Use the same theme colors for settings panels opened from Home and Settings, including input hints. [Web and Simulator evidence](output/qa/2026-11-26-interface-readability/verification.md).

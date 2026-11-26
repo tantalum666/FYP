@@ -23,6 +23,7 @@
   --warn: #945c29;
   --danger: #ab4545;
   --today-foreground: var(--sheet);
+  --device-fg: var(--ink);
   --device-text: var(--ink);
   --device-muted: var(--muted);
   --device-line: var(--line);

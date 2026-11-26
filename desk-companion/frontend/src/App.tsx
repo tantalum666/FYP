@@ -932,6 +932,7 @@ export function App() {
           }
           closeLabel={t("Close", "关闭")}
           onClose={() => setWorkspacePanel(null)}
+          className="workspace-dialog"
           wide
         >
           {workspacePanel === "posture" ? (

@@ -86,6 +86,10 @@ def test_finding_followup_on_desktop_and_narrow_screen(servers):
         page.get_by_role("button", name="Conversation", exact=True).click()
         page.get_by_role("article", name="Proactive suggestion").wait_for(timeout=30000)
         card = page.get_by_role("article", name="Proactive suggestion")
+        actions = ["Follow up on this", "Remind me later", "Got it"]
+        for width in (320, 1440):
+            page.set_viewport_size({"width": width, "height": 1000})
+            assert_separate_targets(card, actions)
         assert "Sources" in card.inner_text()
         card.get_by_text("Sources").click()
         assert "contract" in card.inner_text().lower() or "草稿" in card.inner_text()
@@ -118,10 +122,26 @@ def test_finding_followup_on_desktop_and_narrow_screen(servers):
         card.wait_for()
         card.get_by_text("Follow-up open. Nothing was sent.").wait_for()
         card.evaluate("node => node.scrollIntoView({block: 'center'})")
+        assert_separate_targets(card, actions[1:])
         page.screenshot(path=str(EVIDENCE / "narrow-320.png"), full_page=True)
         narrow = measure(page)
         browser.close()
     assert wide["page"] <= 1 and narrow["page"] <= 1
+
+
+def assert_separate_targets(card, names):
+    frame = card.bounding_box()
+    previous = None
+    for name in names:
+        button = card.get_by_role("button", name=name, exact=True).bounding_box()
+        assert button["width"] >= 44 and button["height"] >= 44, name
+        assert frame["x"] <= button["x"]
+        assert button["x"] + button["width"] <= frame["x"] + frame["width"] + 1
+        if previous:
+            horizontal = button["x"] - (previous["x"] + previous["width"])
+            vertical = button["y"] - (previous["y"] + previous["height"])
+            assert horizontal >= 6 or vertical >= 6, name
+        previous = button
 
 
 def measure(page):
