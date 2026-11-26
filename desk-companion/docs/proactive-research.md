@@ -2,6 +2,8 @@
 
 ## 26 November · Operating policy and finding actions
 
+Allow a user statement to settle for 30 minutes before using it in new background research. A lone conversational request cannot generate a reminder by restating the request or noting that completion is unknown. Independent evidence may still trigger a finding. Keep an already-delivered echo in Follow-up history and out of the ordinary conversation. [Behavior checks](../../output/qa/2026-11-26-airport-choice-and-reminder/verification.md).
+
 Normal read-only assistance has a renewed, operator-managed allowance. The same spending ledger enforces the daily and monthly allocation. Quiet hours hold interruptions while the source checks continue. A current finding can open its source, become one explicitly chosen private task, or be snoozed. Previously delivered Gmail history remains dated. A withdrawn local finding contains no forgotten text or source labels. A followed-mail receipt opens only its currently bound task. [UI, account-scope and notification checks](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
 
 ## 25 November · Mail that leaves the newest inbox results

@@ -1152,3 +1152,7 @@ The owner reported adjoining reminder buttons and unreadable text in dark Settin
 ## 26 November 2026 · Reviewing acknowledged suggestions and illustrative tasks
 
 The owner requested recoverable follow-ups, a full year of fictional tasks, removal of the sidebar calendar shortcuts and a subtler smile. Keep evidence verification on reread and preserve acknowledgement as a distinct state. Weekly spacing and disabled example timers are implementation choices. [Acceptance](output/qa/2026-11-26-followup-history-and-year/verification.md).
+
+## 26 November 2026 · Airport flexibility and active requests
+
+The owner expects an either-airport answer to continue a flight search and an ongoing request to be free of immediate reminder echoes. The new ordinary search uses the existing live supplier and checkout, keeping selection, repricing and financial confirmation distinct. The 30-minute conversational grace interval is an implementation choice. Independent evidence and explicit reminder times remain eligible. [Checks](output/qa/2026-11-26-airport-choice-and-reminder/verification.md).

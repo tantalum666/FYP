@@ -1,0 +1,50 @@
+{
+  "application": "949d76df513311aa18b9cde38d8aba99d0cbceb1",
+  "normal_mac": {
+    "actual_openai_function_succeeded": true,
+    "distinct_airport_searches": 2,
+    "original_party_date_and_baggage_retained": true,
+    "capturable_offers_without_baggage_proof": 0,
+    "real_booking_submissions": 0,
+    "sandbox_bookings_created": 0,
+    "legacy_echo_visible_in_ordinary_chat": false,
+    "previous_delivery_visible_in_history": true,
+    "both_routes_returned_verified_offers": true
+  },
+  "isolated_chromium": {
+    "two_turns": true,
+    "viewport_css_px": [
+      1300,
+      360
+    ],
+    "unverified_total_blocks_payment": true,
+    "horizontal_overflow_px": 0,
+    "page_errors": 0
+  },
+  "isolated_ios_simulator": {
+    "wkwebview": true,
+    "two_airport_prices_visible": true,
+    "width": 402,
+    "horizontal_overflow": false,
+    "repeated_reminder_visible": false
+  },
+  "ordinary_simulator": {
+    "source": "949d76df513311aa18b9cde38d8aba99d0cbceb1",
+    "verified_bundle_assets": 79,
+    "preserved_app_data_checks": 7
+  },
+  "original_pi": {
+    "source": "949d76df513311aa18b9cde38d8aba99d0cbceb1",
+    "kiosk": "1280x720",
+    "resources": 11,
+    "same_boot": true,
+    "db": 142,
+    "preserved_tables": 58,
+    "A3": 9,
+    "no_restarts": true,
+    "sample_tasks": 53,
+    "pi_supplier_connected": false,
+    "pi_model_allowance_active": false,
+    "source_copy_tables_preserved": 142
+  }
+}

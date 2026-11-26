@@ -2,6 +2,8 @@
 
 ## 26 November · Continuing personal assistance
 
+When the owner accepts either airport, Alice searches every accepted route under the original dates, passenger and baggage requirements. The chat keeps live fares and baggage-verified totals distinct. An active request does not generate an immediate reminder to do what the owner just asked. [Ordinary-client acceptance](output/qa/2026-11-26-airport-choice-and-reminder/verification.md).
+
 Opening a suggestion focuses its cited conversation card. Acknowledged suggestions remain available by date in Conversation and its Follow-up history while their sources can be verified. Explicitly seeded example tasks appear in the task list and stay separate from the owner's personal recommendations. Calendar navigation uses the main calendar toolbar. [Checks and examples](output/qa/2026-11-26-followup-history-and-year/verification.md).
 
 In conversation, Follow up, Remind me later and Got it need distinct touch targets at phone widths. Settings titles and search hints must remain legible in both themes, including when opened directly from Home. [Rendered results](output/qa/2026-11-26-interface-readability/verification.md).

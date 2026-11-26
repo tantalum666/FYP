@@ -208,13 +208,14 @@ class HomeHistory:
         thread = self._permitted_thread(db, kind)
         return self.runtime.conversations.context(db, thread) if thread else []
 
-    def user_statements(self, db, kind, limit):
+    def user_statements(self, db, kind, limit, *, before=None):
         thread = self._permitted_thread(db, kind)
         return db.execute(
             """SELECT id,created_at,content FROM conversation_messages
                WHERE conversation_id=? AND role='user' AND context_allowed=1
+               AND (? IS NULL OR created_at<=?)
                ORDER BY rowid DESC LIMIT ?""",
-            (thread, limit),
+            (thread, before, before, limit),
         )
 
     def matching(self, db, kind, topic):

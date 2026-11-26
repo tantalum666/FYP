@@ -63,6 +63,8 @@ export type LiveCheckout = {
   state: string;
   connected?: boolean;
   source?: Source;
+  market?: Omit<Trip, "origin" | "destination"> & { origin: string[]; destination: string[] };
+  routes?: { origin: string; destination: string; state: string; reason?: string }[];
   sources?: (Published & { proposal_id: string })[];
   choices?: Option[];
   selected?: number;
@@ -246,12 +248,21 @@ export function LiveFlightCheckout({
   const src = view.source,
     selected = view.choices?.find((o) => o.number === view.selected),
     receipt = view.receipt;
+  const choices = view.choices ?? [];
+  const visibleChoices = view.market ? Math.max(3, view.routes?.filter(r => r.state === "offers").length ?? 0) : choices.length;
+  const optionButton = (o: Option) => (
+    <button className="secondary" type="button" key={o.number} disabled={busy}
+      onClick={() => void act("select", o.number)}>
+      {view.market && `${o.number}. ${o.outbound[0]?.origin} → ${o.outbound.at(-1)?.destination} · ${o.outbound[0]?.departs?.slice(11, 16) ?? ""} · `}
+      {flights(o.outbound)}{o.inbound.length ? ` / ${flights(o.inbound)}` : ""} · {quoteLabel(o, t)}
+    </button>
+  );
   const inspected = view.checked_sellers ?? [];
   const verificationSeller =
     selected?.booking_url && !inspected.includes("LetsFG")
       ? "LetsFG"
       : "Kiwi.com";
-  const canInspect = !inspected.includes(verificationSeller);
+  const canInspect = !inspected.includes(verificationSeller) && (!view.market || verificationSeller === "LetsFG");
   const passport = !!view.required_fields?.some((k) =>
     k.startsWith("passport_"),
   );
@@ -278,9 +289,9 @@ export function LiveFlightCheckout({
       }
     });
   }
-  const sourceLink = src && (
+  const sourceLink = src?.url && (
     <a href={src.url} target="_blank" rel="noopener noreferrer">
-      {t("Open original Kiwi offer", "打开 Kiwi 原报价")}
+      {view.market ? t("Open LetsFG offer", "打开 LetsFG 报价") : t("Open original Kiwi offer", "打开 Kiwi 原报价")}
     </a>
   );
   return (
@@ -291,7 +302,14 @@ export function LiveFlightCheckout({
       {["no_source", "source_unavailable", "source_changed"].includes(view.state) && (
         <p>{t(freshQuote.en, freshQuote.zh)}</p>
       )}
-      {src && (
+      {view.market && (
+        <header>
+          <strong>{view.market.origin.join(" / ")} → {view.market.destination.join(" / ")}</strong>
+          <p>{[view.market.departure, view.market.return_date].filter(Boolean).join(" / ")} · {t(`${view.market.adults} adult(s)`, `${view.market.adults} 名成人`)}
+            {view.market.checked_bag_kg > 0 && t(` · requested: ${view.market.checked_bag_kg} kg checked per adult`, ` · 要求每人托运 ${view.market.checked_bag_kg} 公斤`)}</p>
+        </header>
+      )}
+      {src && !view.market && (
         <>
           <strong>
             {src.request.origin} → {src.request.destination}
@@ -316,7 +334,7 @@ export function LiveFlightCheckout({
           </p>
         </>
       )}
-      {src &&
+      {src && !view.market &&
         view.state === "source" &&
         src.request.checked_bag_kg > 0 &&
         src.bag_kg == null && (
@@ -350,17 +368,17 @@ export function LiveFlightCheckout({
         ))}
       {["waiting_source", "searching"].includes(view.state) && (
         <p role="status">
-          {t("Checking the original itinerary…", "正在核对原行程…")}
+          {view.market ? t("Checking live fares…", "正在查实时票价…") : t("Checking the original itinerary…", "正在核对原行程…")}
         </p>
       )}
       {view.state === "source" && (
         <>
-          <p>
+          {!view.market && <p>
             {t(
               "LetsFG will recheck this exact itinerary as a different seller.",
               "LetsFG 是另一家卖方，会按原行程重新核价。",
             )}
-          </p>
+          </p>}
           {view.connected ? (
             <button
               type="button"
@@ -384,7 +402,7 @@ export function LiveFlightCheckout({
       )}
       {view.state === "source" &&
         !view.connected &&
-        src &&
+        src && !view.market &&
         !inspected.includes("Kiwi.com") && (
           <>
             <p>
@@ -421,20 +439,23 @@ export function LiveFlightCheckout({
           {t("Continue secure connection", "继续安全连接")}
         </a>
       )}
-      {view.state === "offers" &&
-        view.choices?.map((o) => (
-          <button
-            className="secondary"
-            type="button"
-            key={o.number}
-            disabled={busy}
-            onClick={() => void act("select", o.number)}
-          >
-            {flights(o.outbound)}
-            {o.inbound.length ? ` / ${flights(o.inbound)}` : ""} ·{" "}
-            {quoteLabel(o, t)}
-          </button>
-        ))}
+      {view.market && view.routes?.filter(r => !["queued", "searching", "offers"].includes(r.state)).map(r =>
+        <small key={r.origin + r.destination}>{r.origin} → {r.destination} · {
+          r.state === "no_verified_offer" ? t("No matching fare", "暂无符合条件的报价") :
+          r.reason === "LETSFG_CONNECT_REQUIRED" ? t("Reconnect LetsFG", "需要重新连接 LetsFG") :
+          t("Fare unavailable", "未能核实票价")}</small>)}
+      {view.state === "market_empty" && (
+        <button type="button" className="secondary" disabled={busy} onClick={
+          view.routes?.some(r => r.reason === "LETSFG_CONNECT_REQUIRED") ? connect : () => void act("search")
+        }>{view.routes?.some(r => r.reason === "LETSFG_CONNECT_REQUIRED") ? t("Reconnect LetsFG", "重新连接 LetsFG") : t("Search again", "重新查价")}</button>
+      )}
+      {(view.state === "offers" || (view.market && view.state === "searching")) && <>
+        {choices.slice(0, visibleChoices).map(optionButton)}
+        {choices.length > visibleChoices && <details className="other-flight-fares">
+          <summary>{t(`More flights (${choices.length - visibleChoices})`, `其他航班（${choices.length - visibleChoices}）`)}</summary>
+          {choices.slice(visibleChoices).map(optionButton)}
+        </details>}
+      </>}
       {selected && ["review", "seller_only"].includes(view.state) && (
         <div>
           <p>
@@ -572,8 +593,8 @@ export function LiveFlightCheckout({
           {!canInspect && (
             <p>
               {t(
-                "The available original listings were checked. Another payable offer must meet the same dates, flights and baggage.",
-                "已核对可用的原报价。其他可付选项仍须符合相同日期、班次和行李要求。",
+                "The current evidence does not establish an all-in fare for the requested baggage.",
+                "当前报价仍未核实所需行李的含费总价。",
               )}
             </p>
           )}
@@ -584,7 +605,7 @@ export function LiveFlightCheckout({
               disabled={busy}
               onClick={() => void act("other_offers")}
             >
-              {t("Check other matching offers", "核对其他符合原条件的报价")}
+              {view.market ? t("See other flights", "查看其他航班") : t("Check other matching offers", "核对其他符合原条件的报价")}
             </button>
           )}
         </div>
