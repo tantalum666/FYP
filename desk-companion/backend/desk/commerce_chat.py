@@ -7,6 +7,7 @@ from .flight_booking import calendar_handoff
 from .flight_booking import conversation as flights
 from .flight_booking import shortlist
 from .flight_booking import live_chat
+from .flight_booking import market_search
 from .shop_checkout import conversation as shopping
 
 
@@ -83,6 +84,14 @@ def turn(runtime, payload, principal, chat):
 
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
+    if request := reply.get("market_flight_request"):
+        try:
+            request = market_search.accepted_airports(request, payload.message, chat)
+        except DomainError as error:
+            return {"mode":"local", "kind":"clarify", "saved":False, "error":error.code,
+                    "message":flights.failure(error.code,language_for(payload.message,payload.language))}
+        view = runtime.live_flight_checkouts.start_market(principal, chat, request, key)
+        return live_chat.reply(view, chat, payload.message, payload.language)
     if proposal := reply.get('proposal'):
         if not cached:
             runtime.live_flight_checkouts.bind(principal, chat, proposal)
@@ -204,6 +213,8 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
 
 
 def tool_available(runtime, name, *, scoped, principal=None, chat=None):
+    if name == "live_flight_search":
+        return scoped and bool(principal and principal.get("kind") == "owner")
     if name == "flight_purchase_review":
         return scoped
     if name == "sandbox_shop_quote":
@@ -222,9 +233,17 @@ def revisiting_shortlist(context):
             and any(tool["name"] == "revisit_flight_shortlist" for tool in context["tools"]))
 
 
-def context_instructions(runtime, principal, chat, context):
+def context_instructions(runtime, principal, chat, context, *, test_selection=False):
     message = context.get("user_message", "")
     tools = {tool["name"] for tool in context["tools"]}
+    if "live_flight_search" in tools:
+        sandbox = test_selection or market_search.explicit_test(message, chat)
+        # The owner can still work with legacy test bookings or a pinned test shortlist.
+        if sandbox or revisiting_shortlist(context):
+            tools.discard("live_flight_search")
+        else:
+            tools.discard("sandbox_flight_quote")
+        context["tools"] = [tool for tool in context["tools"] if tool["name"] in tools]
     if revisiting_shortlist(context):
         # The desk has the original search and checks the calendar locally. Earlier
         # chat turns and calendar draft previews may contain private appointments.
@@ -233,6 +252,16 @@ def context_instructions(runtime, principal, chat, context):
         for field in context.keys() - {"user_message", "language", "tools", "now", "timezone"}:
             del context[field]
     instructions = []
+    if "live_flight_search" in tools:
+        instructions.append(
+            "For a fresh real flight request call live_flight_search with HKD fares using the itinerary "
+            "from this conversation in ONE Function call. For a multi-airport city use physical airport codes, "
+            "ask once if a preference matters. If the owner accepts either airport (都行/都可以/either), use ALL "
+            "physical IATA codes from the preceding question in the appropriate array. Carry forward the date, "
+            "passenger count, checked baggage and constraints. Resolve relative dates in the owner's time zone. "
+            "Never turn airport flexibility into selection or payment. Ask only for a missing requirement. "
+            "Never substitute fictional fares. The supplier and secure checkout verify total, baggage and consent."
+        )
     if "flight_purchase_review" in tools:
         instructions.append(
             "For a purchase of a previously shown real Kiwi fare use flight_purchase_review. "

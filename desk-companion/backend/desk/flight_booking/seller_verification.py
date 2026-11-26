@@ -10,6 +10,8 @@ from . import checkout_source
 
 def target(row, number, original=False):
     source = row["source"]
+    if row.get("market") and (original or not source or number != row.get("selected")):
+        raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
     offers = row.get("offers") or []
     if number is not None and not 1 <= number <= len(offers):
         raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
@@ -27,6 +29,8 @@ def target(row, number, original=False):
             )
             if search_matches and offer_matches:
                 return "LetsFG", url, offer
+    if row.get("market"):
+        raise DomainError("LETSFG_OFFER_UNVERIFIED", 409)
     return "Kiwi.com", source["url"], offer
 
 

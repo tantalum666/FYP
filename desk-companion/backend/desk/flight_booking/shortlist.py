@@ -194,6 +194,13 @@ def _pick(text, number, pin, conversational):
     return None
 
 
+def plain_offer_selection(payload):
+    command = _command(payload, conversational=True)
+    if command and command.action == "pick" and command.list_number is None and not command.check_calendar and command.max_hkd is None:
+        return command.choice
+    return None
+
+
 def turn(service, payload, principal, chat):
     if not chat or payload.selected_commerce_card or payload.attachment_ids or chat.attachment_ids:
         return None

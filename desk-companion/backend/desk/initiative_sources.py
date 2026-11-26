@@ -3,7 +3,7 @@
 import hashlib
 import json
 import re
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import NamedTuple
 from urllib.parse import quote, urlencode
 
@@ -20,6 +20,23 @@ def fingerprint(value):
 
 def compact(value, limit=1200):
     return " ".join(str(value or "").split())[:limit]
+
+
+CONVERSATION_GRACE = timedelta(minutes=30)
+
+
+def may_raise_finding(kind, references, sources, at):
+    """A new chat request supplies context. It is never its own reminder."""
+    chat_refs = {r["ref"] for r in references if r["kind"] == "conversation"}
+    if not chat_refs:
+        return True
+    for ref in chat_refs:
+        observed = sources.get(ref, {}).get("observed_at")
+        if not observed or at < datetime.fromisoformat(observed) + CONVERSATION_GRACE:
+            return False
+    return any(r["kind"] != "conversation" for r in references) or (
+        kind == "conflict" and len(chat_refs) > 1
+    )
 
 
 PRIVATE_CODE = re.compile(r"one[- ]time (?:code|password)|verification code|security code|password reset|reset your password|登录码|登录代码|验证码|驗證碼|一次性密[码碼]|重[置設]密[码碼]", re.I)
@@ -88,7 +105,7 @@ class InitiativeSources:
         )
         return (r.personal_context.revision(), prefs["version"], accounts)
 
-    def collect(self, *, refresh=False, include_history=False):
+    def collect(self, *, refresh=False, include_history=False, for_research=False):
         fence = self.fence()
         if self.account_versions != fence[2]:
             self.mail = {}
@@ -209,10 +226,16 @@ class InitiativeSources:
             # Fingerprint content so an edit or removal invalidates the citation.
             # Never pass previous action receipts back as authority.
             topic = " ".join(s["label"] + " " + s["body"].get("preview", "")[:100] for s in sources.values() if s["kind"] == "mail")[:1800]
-            recent = r.home_history.permitted(conn, "text")[-6:]
-            for message in [*r.home_history.matching(conn, "text", topic), *recent]:
-                if message["role"] == "user":
-                    item = self.conversation_source(message["content"])
+            cutoff = iso(r.store.clock() - CONVERSATION_GRACE)
+            recent = list(r.home_history.user_statements(conn, "text", 3))
+            settled = r.home_history.user_statements(conn, "text", 3, before=cutoff) if for_research else ()
+            messages = [*r.home_history.matching(conn, "text", topic),
+                        *({"content": row["content"], "at": row["created_at"]} for row in [*settled, *reversed(recent)])]
+            for message in messages:
+                item = self.conversation_source(message["content"], message["at"])
+                if for_research and message["at"] > cutoff:
+                    sources.pop(item["ref"], None)
+                else:
                     sources[item["ref"]] = item
             for row in r.tasks.rows(conn, include_samples=False, limit=20):
                 task = r.tasks.view(row)
@@ -275,9 +298,10 @@ class InitiativeSources:
                         remaining -= size
         return fence, bounded
 
-    def conversation_source(self, content):
+    def conversation_source(self, content, at=None):
         body = {"text": compact(content, 350)}
-        return self.source("conversation:" + fingerprint(body), "conversation", "Conversation", body, body)
+        return {**self.source("conversation:" + fingerprint(body), "conversation", "Conversation", body, body),
+                "observed_at": at}
 
     def retained_conversation_sources(self, references):
         """Revalidate cited text locally. A receipt never expands the model's input."""
@@ -285,9 +309,9 @@ class InitiativeSources:
         if references:
             with self.runtime.store.connection() as db:
                 for row in self.runtime.home_history.user_statements(db, "text", 200):
-                    item = self.conversation_source(row["content"])
+                    item = self.conversation_source(row["content"], row["created_at"])
                     if item["ref"] in references:
-                        found[item["ref"]] = item
+                        found.setdefault(item["ref"], item)
         return found
 
     def gmail_source(self, item, version):

@@ -270,11 +270,16 @@ def test_topic_recall_reaches_older_owner_text_and_deletion_removes_the_source(t
 
 
 def test_acknowledged_followup_reopens_from_eligible_older_conversation(tmp_path):
+    from datetime import timedelta
     from types import SimpleNamespace
     from desk.initiative_sources import compact, fingerprint
+    from desk.calendar import iso
 
     r, _, client = normal_desk(tmp_path)
     preferences(client).raise_for_status()
+    fact = r.memory.create("The studio key must be collected on Friday.", "key-collection")["memory"]
+    now = [r.store.clock()]
+    r.store.clock = lambda: now[0]
     principal = {"kind": "owner", "session": client.cookies.get(COOKIE)}
     chat = SimpleNamespace(home_generation=None, owner=r.voice.conversations.owner(principal))
     stamp = r.home_history.stamp(principal)
@@ -283,12 +288,14 @@ def test_acknowledged_followup_reopens_from_eligible_older_conversation(tmp_path
     assert ids
     body = {"text": compact(question, 350)}
     source = r.initiative.sources.conversation_source(question)
-    refs = [{k: source[k] for k in ("kind", "ref", "label", "fingerprint")}]
+    memory = r.initiative.sources.collect()[1]["memory:" + fact["id"]]
+    refs = [{k: s[k] for k in ("kind", "ref", "label", "fingerprint")} for s in (source, memory)]
     finding = {"kind": "deadline", "importance": "high", "message_en": "Review the studio plan.",
                "message_zh": "看看工作室的安排。", "sources": refs}
+    now[0] += timedelta(hours=1)
     with r.store.connection(write=True) as db:
         db.execute("""INSERT INTO initiative_findings(id,data,state,created_at)
-                      VALUES(?,?,'pending',?)""", ("studio", json.dumps(finding), "2026-11-26T01:42:00Z"))
+                      VALUES(?,?,'pending',?)""", ("studio", json.dumps(finding), iso(now[0])))
     assert client.get("/api/initiative").json()["findings"][0]["id"] == "studio"
     assert client.get("/api/initiative?full=true").json()["findings"][0]["id"] == "studio"
     for i in range(10):
@@ -312,3 +319,48 @@ def test_acknowledged_followup_reopens_from_eligible_older_conversation(tmp_path
     with r.store.connection(write=True) as db:
         db.execute("UPDATE conversation_messages SET context_allowed=0 WHERE id=?", (ids[0],))
     assert client.get("/api/initiative?full=true").json()["acknowledged"] == []
+
+
+def test_current_conversation_cannot_remind_the_owner_of_its_own_request(tmp_path):
+    from datetime import timedelta
+    from types import SimpleNamespace
+    from desk.calendar import iso
+    from desk.initiative_sources import may_raise_finding
+
+    r, _, client = normal_desk(tmp_path)
+    preferences(client).raise_for_status()
+    fact = r.memory.create("The studio key is ready for pickup.", "independent")["memory"]
+    principal = {"kind": "owner", "session": client.cookies.get(COOKIE)}
+    chat = SimpleNamespace(home_generation=None, owner=r.voice.conversations.owner(principal))
+    question = "Help me find a flight tomorrow."
+    now = [r.store.clock()]
+    r.store.clock = lambda: now[0]
+    stamp = r.home_history.stamp(principal)
+    assert r.home_history.write_pair(stamp, principal, chat, "search", question, "Which airport?", "en")
+    ref = r.initiative.sources.conversation_source(question)["ref"]
+    memory = "memory:" + fact["id"]
+    assert ref not in r.initiative.sources.collect(for_research=True)[1]
+    assert memory in r.initiative.sources.collect(for_research=True)[1]
+    sources = r.initiative.sources.collect(include_history=True)[1]
+    refs = [{k:sources[ref][k] for k in ("kind","ref","fingerprint","label")}]
+    now[0] += timedelta(seconds=15)
+    assert not may_raise_finding("deadline", refs+[sources[memory]], sources, now[0])
+    assert may_raise_finding("deadline", [sources[memory]], sources, now[0])
+    legacy = {"kind":"deadline","importance":"high","sources":refs,"message_en":"You just asked for a flight.","message_zh":"你刚说想买机票。"}
+    with r.store.connection(write=True) as db:
+        db.execute("INSERT INTO initiative_findings(id,data,state,created_at) VALUES(?,?,'pending',?)",
+                   ("old-echo",json.dumps(legacy),iso(now[0])))
+    assert not client.get("/api/initiative").json()["findings"]
+    assert not r.initiative.cue()
+    r.initiative._deliver()
+    assert not r.notify.listing()["notices"]
+    now[0] += timedelta(minutes=31)
+    matured = r.initiative.sources.collect(for_research=True)[1]
+    assert ref in matured and not may_raise_finding("deadline",refs,matured,now[0])
+    assert may_raise_finding("conflict",refs+[matured[memory]],matured,now[0])
+    assert not client.get("/api/initiative").json()["findings"]
+    with r.store.connection(write=True) as db:
+        db.execute("UPDATE initiative_findings SET notified=1 WHERE id='old-echo'")
+    assert not client.get("/api/initiative").json()["history"]
+    archive = client.get("/api/initiative?full=true").json()["history"]
+    assert len(archive)==1 and archive[0]["id"]=="old-echo" and archive[0]["historical"]

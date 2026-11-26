@@ -18,6 +18,18 @@ def describe(view, zh):
     route = f"{request.get('origin', '')} → {request.get('destination', '')}"
     dates = " / ".join(v for v in (request.get("departure"), request.get("return_date")) if v)
     state = view["state"]
+    if market := view.get("market"):
+        airports = " / ".join(market["destination"])
+        if state == "source":
+            if not view.get("connected"):
+                return "行程已保留，连接 LetsFG 后即可查实时票价。" if zh else "Your itinerary is ready. Connect LetsFG to check live fares."
+            return "可以按原行程重新查实时票价。" if zh else "I can search again with the same itinerary."
+        if state == "searching":
+            return f"正在查飞往 {airports} 的航班。" if zh else f"I’m checking flights to {airports}."
+        if state == "market_empty":
+            return "这次没有查到可核实的航班。可以原条件重试，或换个日期。" if zh else "I couldn’t verify a fare for this search. Retry it or change the dates."
+        if state == "offers":
+            return "这是查到的航班。选一班后我会重新核价。" if zh else "Here are the flights I found. Select one and I’ll recheck its fare."
     if state == "choose_source":
         return (
             "选一下你刚才看到的 Kiwi 报价，我会按原行程核价。"
@@ -169,14 +181,28 @@ def replay_scope(runtime, cached, principal, payload):
 
 
 def turn(runtime, payload, principal, chat):
-    if (
-        not purchase_intent(payload.message)
-        or not chat
-        or not principal
-        or principal.get("kind") != "owner"
-    ):
+    from .shortlist import plain_offer_selection
+
+    if not chat or not principal or principal.get("kind") != "owner":
         return None
-    if payload.selected_commerce_card or payload.attachment_ids:
+    if payload.selected_commerce_card or payload.attachment_ids or payload.flight_review or payload.shopping_review:
+        return None
+    selector = plain_offer_selection(payload)
+    if selector is not None and chat.items and chat.items[-1]["role"] == "assistant":
+        with runtime.store.connection() as db:
+            saved = db.execute("SELECT result FROM assistant_replies WHERE id=?",
+                               (chat.items[-1].get("operation_id"),)).fetchone()
+        ref = json.loads(saved[0]) if saved else {}
+        if ref.get("live_id") and (ref.get("live_scope") or {}).get("chat") == chat.id:
+            service = runtime.live_flight_checkouts
+            view = service.view(principal, chat.id, ref["live_id"])
+            if view.get("market") and view["state"] in {"offers", "searching"}:
+                options = [o for o in view["choices"] if o["number"] == selector or
+                           any(leg["flight"] == selector for leg in o["outbound"])]
+                if len(options) == 1:
+                    view = service.action(principal,chat.id,ref["live_id"],"select",view["version"],options[0]["number"])
+                return reply(view,chat,payload.message,payload.language)
+    if not purchase_intent(payload.message):
         return None
     return reply(
         runtime.live_flight_checkouts.start(principal, chat),

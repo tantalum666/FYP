@@ -176,6 +176,10 @@ def describe(row, language):
             else "The test booking ended. The hold was released, with no charge or booking reference."
         )
     messages = {
+        "FLIGHT_DIFFERENT_SEARCH_TERMS": (
+            "这几段行程的条件不一致。请告诉我要查哪天、从哪里飞到哪里；同一行程可以同时查多个机场。",
+            "Those searches have different trip details. Which date and route should I use? I can compare several airports for the same trip.",
+        ),
         "cancelled": (
             "已取消这份报价，没有提交测试订单。",
             "Quote cancelled. No test order was submitted.",

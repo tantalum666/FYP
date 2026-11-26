@@ -95,6 +95,7 @@ def kind_for(code: str) -> str:
 
 
 SCOPED_COMMERCE_TOOLS = frozenset({
+    "live_flight_search",
     "sandbox_flight_quote", "sandbox_shop_quote", "booked_flight_calendar_draft", "revisit_flight_shortlist",
 })
 
@@ -411,6 +412,8 @@ def ends_text_turn(name: str, result: dict) -> bool:
     if name == "connected_app_query" and result.get("view") == "last_refresh":
         return True
     if name == "flight_purchase_review" and result.get("live_flight_review"):
+        return True
+    if name == "live_flight_search" and (result.get("market_flight_request") or result.get("error") == "FLIGHT_DIFFERENT_SEARCH_TERMS"):
         return True
     if name == "propose_plan" and result.get("error"):
         return True

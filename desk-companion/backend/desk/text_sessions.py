@@ -7,7 +7,7 @@ import httpx
 
 from .calendar import iso
 from . import alice_delivery, commerce_chat
-from .flight_booking import shortlist
+from .flight_booking import market_search, shortlist
 from .capabilities import CAPABILITIES
 from .context_budget import fit_context
 from . import hkd
@@ -109,7 +109,7 @@ class TextSessions:
             (a["connected"], a["version"])
             for a in (
                 auth.account()
-                for auth in [r.outbound_mail.auth, r.google, *r.microsoft.auth.values()]
+                for auth in [r.outbound_mail.auth, r.google, *r.microsoft.auth.values(), r.letsfg_auth]
             )
         ]
         return digest(
@@ -545,7 +545,8 @@ class TextFunctions:
             signature = digest(encode([a["name"], a["arguments"]]))
             receipt = self.calls.get(ident)
             if receipt is None:
-                if self.local_reply or len(self.calls) >= 3:
+                another_airport = a["name"] == "live_flight_search" and (self.local_reply or {}).get("market_flight_request")
+                if (self.local_reply and not another_airport) or len(self.calls) >= 3:
                     raise DomainError("SESSION_TOOL_LIMIT", 409)
                 check()
                 receipt = FunctionReceipt(signature, self.call(sid, turn_id, a))
@@ -586,6 +587,8 @@ class TextFunctions:
         if name == "sandbox_flight_quote" and choice is not None:
             # A tapped, read-only fare is fully specified by the owner's UI action.
             arguments = {**choice.model_dump(exclude_none=True), "avoid_calendar_conflicts": True}
+        elif name == "live_flight_search" and self.payload.flight_calendar_requested:
+            arguments = {**arguments, "avoid_calendar_conflicts": True}
         result = execute_tool(
             self.sessions.runtime,
             name,
@@ -609,6 +612,13 @@ class TextFunctions:
             )
         if isinstance(result.get("plan"), dict):
             self.plan = result["plan"].get("summary")
+        if name == "live_flight_search" and (prior := (self.local_reply or {}).get("market_flight_request")):
+            if request := result.get("market_flight_request"):
+                try:
+                    result["market_flight_request"] = market_search.combine(prior, request)
+                except DomainError as mismatch:
+                    result = {"error": mismatch.code, "saved": False}
+            self.local_reply = None
         error = result.get("error")
         fare_reply = None
         if name == "browser_research_status" and result.get("record_verified") and hkd.asks_fare_amount(self.payload.message):

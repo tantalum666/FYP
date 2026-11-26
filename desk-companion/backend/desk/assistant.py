@@ -32,6 +32,7 @@ from .flight_booking.conversation import TOOL as FLIGHT_QUOTE_TOOL
 from .flight_booking.shortlist import TOOL as FLIGHT_SHORTLIST_TOOL
 from .flight_booking.calendar_handoff import DRAFT_TOOL as BOOKED_FLIGHT_CALENDAR_TOOL
 from .flight_booking.provider import BookedFlightCalendarQuery, FlightQuery
+from .flight_booking.market_search import TOOL as LIVE_FLIGHT_SEARCH_TOOL
 from .commerce_review import ReviewRef
 from .shop_checkout.conversation import TOOL as SHOP_QUOTE_TOOL
 from .shop_checkout.provider import ShopQuery
@@ -99,11 +100,12 @@ class ChangeProposal(StrictModel):
 
 
 TOOLS = [
+    LIVE_FLIGHT_SEARCH_TOOL,
     FLIGHT_QUOTE_TOOL,
     FLIGHT_SHORTLIST_TOOL,
     BOOKED_FLIGHT_CALENDAR_TOOL,
     {"name": "flight_purchase_review", "description": (
-        "Open the owner's original real Kiwi flight purchase review from this conversation. "
+        "Reopen a real Kiwi or LetsFG flight review already shown in this conversation. "
         "Use when the owner wants to buy the previously shown ticket. The desk reopens the trusted "
         "itinerary; no model argument can supply a price, passenger, payment, approval or booking."
     ), "parameters": {"type": "object", "properties": {}, "additionalProperties": False}},
@@ -135,7 +137,7 @@ TOOLS = [
             "Prepare public browser research for owner review. For shopping or flight prices on a real "
             "site include quote_request: selling-unit quantity and delivery/pickup, or actual airports, "
             "dates, adults and checked kg per adult. Ask for missing particulars; never invent them. "
-            "For a flight search with no merchant restriction, propose the Kiwi.com read-only connector "
+            "For a fresh bookable fare use live_flight_search when available. For Kiwi or other public-price research propose the Kiwi.com read-only connector "
             "with quote_request.provider=kiwi and start_url=https://www.kiwi.com/. The owner reviews "
             "the destination and itinerary before search. Keep an explicitly requested airline-only website "
             "on the website route. Set nonstop only when requested. "
@@ -629,6 +631,8 @@ class AssistantService:
                 return {"booked_flight_calendar": source.model_dump(exclude_none=True), "saved": False}
             if name == "flight_purchase_review":
                 return {"live_flight_review": True, "saved": False}
+            if name == "live_flight_search":
+                return {"market_flight_request": arguments, "saved": False}
             if name == "sandbox_flight_quote":
                 return self.runtime.flight_bookings.prepare(FlightQuery.model_validate(arguments))
             if name in {"browser_research_draft", "browser_research_status"}:

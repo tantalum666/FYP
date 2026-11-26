@@ -1,5 +1,6 @@
 .live-flight-checkout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.4rem;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -7,9 +8,23 @@
 .live-flight-checkout p {
   margin: 0;
 }
+.other-flight-fares[open] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.4rem;
+}
+.other-flight-fares summary {
+  cursor: pointer;
+}
 .live-flight-checkout a,
 .live-flight-checkout button {
   justify-self: start;
+}
+.live-flight-checkout .secondary {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  text-align: start;
 }
 .live-flight-checkout form,
 .live-flight-checkout fieldset {

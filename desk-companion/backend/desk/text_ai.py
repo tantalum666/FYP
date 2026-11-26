@@ -908,7 +908,10 @@ class TextAssistant:
                     context["history_matches"] = matches
                 context = fit_context(context)
             if official and not hidden and conversation:
-                system += commerce_chat.context_instructions(self.runtime, principal, conversation, context)
+                system += commerce_chat.context_instructions(
+                    self.runtime, principal, conversation, context,
+                    test_selection=bool(payload.calendar_flight_choice),
+                )
             if files:
                 context["attachments"] = files
                 system += "\n" + FILE_POLICY
