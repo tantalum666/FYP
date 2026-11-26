@@ -1395,3 +1395,7 @@ Traced a rejected destination argument and a separately generated conversational
 ## 26 November 2026 · Original Pi flight account and power investigation
 
 Activated the Pi’s independent supplier grant and operating share, then submitted one read-only query through its original Chromium composer. One airport returned published fares, and the second airport’s supplier-status read failed. The returns did not verify a bag-inclusive total. Recorded the separate power interruption, last on-device reading, relay observation and outstanding physical evidence. [Receipt and incident timeline](output/qa/2026-11-26-pi-account-and-power/verification.md).
+
+## 26 November 2026 · Manual return, pre-interruption logs and fare recheck
+
+Matched the two original Pi boots to the owner’s reconnection of the original power path. The previous journal contained nine undervoltage events and a successful RTC deadline before it stopped. The new boot reported a 900 mA input capability and later renewed the hardware alarm normally. The physical kiosk retried only the previously unavailable airport. Eight offers returned, and the exact supplier page still left the requested checked-bag weight and total unverified. No booking was submitted. [Device and supplier evidence](output/qa/2026-11-26-pi-return/verification.md).
