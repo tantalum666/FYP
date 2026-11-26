@@ -208,9 +208,17 @@ class HomeHistory:
         thread = self._permitted_thread(db, kind)
         return self.runtime.conversations.context(db, thread) if thread else []
 
+    def user_statements(self, db, kind, limit):
+        thread = self._permitted_thread(db, kind)
+        return db.execute(
+            """SELECT id,created_at,content FROM conversation_messages
+               WHERE conversation_id=? AND role='user' AND context_allowed=1
+               ORDER BY rowid DESC LIMIT ?""",
+            (thread, limit),
+        )
+
     def matching(self, db, kind, topic):
         """Search only this saved conversation's eligible owner statements."""
-        thread = self._permitted_thread(db, kind)
         common = {
             "the",
             "and",
@@ -230,15 +238,10 @@ class HomeHistory:
             "什么",
         }
         anchors = {t for t in tokens(topic) if len(t) >= (3 if t.isascii() else 2)} - common
-        if not anchors or not thread:
+        if not anchors:
             return []
         candidates = []
-        for row in db.execute(
-            """SELECT id,created_at,content FROM conversation_messages
-            WHERE conversation_id=? AND role='user' AND context_allowed=1
-            ORDER BY rowid DESC LIMIT 100""",
-            (thread,),
-        ):
+        for row in self.user_statements(db, kind, 100):
             if anchors.intersection(tokens(row["content"])):
                 candidates.append(
                     {

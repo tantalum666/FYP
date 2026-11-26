@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import {
   Activity,
   BookOpen,
@@ -49,7 +48,6 @@ export function WorkspaceNav({
   onLanguage,
   onPage,
   onClose,
-  children,
   t,
 }: {
   page: Page;
@@ -64,7 +62,6 @@ export function WorkspaceNav({
   onLanguage: (language: Language) => void;
   onPage: (page: Page) => void;
   onClose: () => void;
-  children: ReactNode;
   t: Translate;
 }) {
   function link(item: (typeof destinations)[number]) {
@@ -161,7 +158,6 @@ export function WorkspaceNav({
             {destinations.slice(5, 8).map(link)}
           </div>
         </nav>
-        {children}
       </div>
       <footer className="sidebar-footer">
         <div

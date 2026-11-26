@@ -194,6 +194,22 @@
   justify-content: center;
   padding-inline: 8px;
 }
+.finding-acknowledged {
+  margin-inline-start: 0.65em;
+  font-size: 0.85em;
+}
+.initiative-history {
+  min-height: 0;
+  max-height: 65dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 8px;
+}
+.initiative-history > article + article {
+  border-top: 1px solid var(--device-line, currentColor);
+  margin-top: 12px;
+  padding-top: 12px;
+}
 .workspace-section {
   border-top: 1px solid var(--device-line, #e8eaf0);
   margin-top: 28px;

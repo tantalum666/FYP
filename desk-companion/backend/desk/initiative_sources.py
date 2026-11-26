@@ -212,12 +212,10 @@ class InitiativeSources:
             recent = r.home_history.permitted(conn, "text")[-6:]
             for message in [*r.home_history.matching(conn, "text", topic), *recent]:
                 if message["role"] == "user":
-                    body = {"text": compact(message["content"], 350)}
-                    ref = "conversation:" + fingerprint(body)
-                    sources[ref] = self.source(ref, "conversation", "Conversation", body, body)
-            rows = conn.execute("SELECT id FROM tasks ORDER BY updated_at DESC LIMIT 20").fetchall()
-            for row in rows:
-                task = r.tasks.get(conn, row["id"])
+                    item = self.conversation_source(message["content"])
+                    sources[item["ref"]] = item
+            for row in r.tasks.rows(conn, include_samples=False, limit=20):
+                task = r.tasks.view(row)
                 if task["paused"]:
                     continue
                 body = {
@@ -276,6 +274,21 @@ class InitiativeSources:
                         bounded[source["ref"]] = source
                         remaining -= size
         return fence, bounded
+
+    def conversation_source(self, content):
+        body = {"text": compact(content, 350)}
+        return self.source("conversation:" + fingerprint(body), "conversation", "Conversation", body, body)
+
+    def retained_conversation_sources(self, references):
+        """Revalidate cited text locally. A receipt never expands the model's input."""
+        found = {}
+        if references:
+            with self.runtime.store.connection() as db:
+                for row in self.runtime.home_history.user_statements(db, "text", 200):
+                    item = self.conversation_source(row["content"])
+                    if item["ref"] in references:
+                        found[item["ref"]] = item
+        return found
 
     def gmail_source(self, item, version):
         ident = item.get("id")

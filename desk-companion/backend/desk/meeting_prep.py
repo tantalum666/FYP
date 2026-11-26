@@ -163,7 +163,7 @@ def _meeting(runtime, now, zone, scope, owner):
 
 def _related_task(runtime, title, owner):
     matches = []
-    for task in runtime.tasks.listing()["tasks"]:
+    for task in runtime.tasks.listing(include_samples=False)["tasks"]:
         if _task_hidden(task, owner):
             continue
         task_title = _plain(task.get("title"), 160)

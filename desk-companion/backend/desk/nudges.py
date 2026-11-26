@@ -125,7 +125,7 @@ class NudgeService:
         kinds = due_kinds(prefs, now_local)
         if not kinds:
             return
-        tasks = self.runtime.tasks.listing()["tasks"]
+        tasks = self.runtime.tasks.listing(include_samples=False)["tasks"]
         open_tasks = [
             task
             for task in tasks

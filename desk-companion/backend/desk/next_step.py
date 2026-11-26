@@ -150,12 +150,12 @@ def _event(runtime, now: datetime, zone: ZoneInfo, *, owner: bool):
 
 
 def _open_task(runtime, *, owner: bool):
-    for task in runtime.tasks.listing()["tasks"]:
+    for task in runtime.tasks.listing(include_samples=False)["tasks"]:
         if _task_hidden(task, owner):
             continue
         if (task.get("next_step") or "").strip():
             return _task_step(task)
-    for task in runtime.tasks.listing()["tasks"]:
+    for task in runtime.tasks.listing(include_samples=False)["tasks"]:
         if _task_hidden(task, owner):
             continue
         if (task.get("waiting_for") or "").strip():

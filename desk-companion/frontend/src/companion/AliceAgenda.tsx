@@ -40,11 +40,12 @@ export function AliceAgenda({
         ?.filter((e) => !e.completed && DateTime.fromISO(e.end) > now)
         .slice(0, 2) ?? [])
     : [];
-  const tasks = privateVisible
+  const tasks = data?.personal_context_visible && !offline && !stale
     ? (data.tasks.preview ?? data.tasks.attention)
         .filter(
           (task) =>
-            !task.redacted && !["completed", "cancelled"].includes(task.status),
+            !task.redacted && !["completed", "cancelled"].includes(task.status) &&
+            (privateVisible || (task.is_sample && task.visibility === "displayable")),
         )
         .slice(0, 2)
     : [];

@@ -267,3 +267,48 @@ def test_topic_recall_reaches_older_owner_text_and_deletion_removes_the_source(t
     ).raise_for_status()
     assert not c.get("/api/assistant/continuity").json()["turns"]
     assert not r.home_history.recall_for_question(principal, "加德满都的徒步安排")
+
+
+def test_acknowledged_followup_reopens_from_eligible_older_conversation(tmp_path):
+    from types import SimpleNamespace
+    from desk.initiative_sources import compact, fingerprint
+
+    r, _, client = normal_desk(tmp_path)
+    preferences(client).raise_for_status()
+    principal = {"kind": "owner", "session": client.cookies.get(COOKIE)}
+    chat = SimpleNamespace(home_generation=None, owner=r.voice.conversations.owner(principal))
+    stamp = r.home_history.stamp(principal)
+    question = "Use the studio on Friday."
+    ids = r.home_history.write_pair(stamp, principal, chat, "cited", question, "Noted.", "en")
+    assert ids
+    body = {"text": compact(question, 350)}
+    source = r.initiative.sources.conversation_source(question)
+    refs = [{k: source[k] for k in ("kind", "ref", "label", "fingerprint")}]
+    finding = {"kind": "deadline", "importance": "high", "message_en": "Review the studio plan.",
+               "message_zh": "看看工作室的安排。", "sources": refs}
+    with r.store.connection(write=True) as db:
+        db.execute("""INSERT INTO initiative_findings(id,data,state,created_at)
+                      VALUES(?,?,'pending',?)""", ("studio", json.dumps(finding), "2026-11-26T01:42:00Z"))
+    assert client.get("/api/initiative").json()["findings"][0]["id"] == "studio"
+    assert client.get("/api/initiative?full=true").json()["findings"][0]["id"] == "studio"
+    for i in range(10):
+        r.home_history.write_pair(stamp, principal, chat, f"later-{i}", f"Other topic {i}", "Understood.", "en")
+    assert "conversation:" + fingerprint(body) not in r.initiative.sources.collect()[1]
+    past = client.get("/api/initiative?full=true").json()
+    assert not past["findings"] and [item["id"] for item in past["history"]] == ["studio"]
+    with r.store.connection(write=True) as db:
+        db.execute("UPDATE initiative_findings SET state='obsolete' WHERE id='studio'")
+    assert client.get("/api/initiative").json()["history"][0]["message_en"] == finding["message_en"]
+    assert client.post("/api/initiative/studio/dismissals", json={},
+                       headers={"X-Operation-Id": "ack-studio"}).json()["saved"]
+    r.initiative = Initiative(r)
+    for url in ("/api/initiative", "/api/initiative?full=true"):
+        data = client.get(url).json()
+        assert not data["findings"] and len(data["acknowledged"]) == 1
+        restored = data["acknowledged"][0]
+        assert restored["id"] == "studio" and restored["acknowledged"]
+        assert restored["message_en"] == finding["message_en"]
+    assert not r.initiative.cue() and not r.notify.listing()["notices"]
+    with r.store.connection(write=True) as db:
+        db.execute("UPDATE conversation_messages SET context_allowed=0 WHERE id=?", (ids[0],))
+    assert client.get("/api/initiative?full=true").json()["acknowledged"] == []

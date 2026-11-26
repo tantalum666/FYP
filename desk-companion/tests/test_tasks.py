@@ -596,3 +596,17 @@ def test_private_task_detail_uses_away_projection(desk, monkeypatch):
     with pytest.raises(DomainError, match="PRIVATE_TASK_HIDDEN"):
         r.tasks.detail(task["id"], display=True)
     assert r.tasks.detail(task["id"])["task"]["next_step"] == "Private next step"
+
+
+def test_sample_tasks_remain_visible_without_crowding_out_real_research(desk):
+    r, _ = desk
+    personal = create(r, next_step="Read the notes.")
+    for i in range(21):
+        payload = TaskInput(title=f"Example {i}", visibility="displayable", follow_up_enabled=False)
+        item = r.tasks.create(payload, f"example/{i}", origin="sample")["task"]
+        assert r.tasks.create(payload, f"example/{i}", origin="sample")["task"]["id"] == item["id"]
+    assert len(r.tasks.listing()["tasks"]) == 22
+    assert all(row["next_check_at"] is None for row in r.tasks.listing()["tasks"] if row.get("is_sample"))
+    assert [row["id"] for row in r.tasks.listing(include_samples=False)["tasks"]] == [personal["id"]]
+    with r.store.connection() as db:
+        assert [row["id"] for row in r.tasks.rows(db, include_samples=False, limit=20)] == [personal["id"]]

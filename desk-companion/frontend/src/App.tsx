@@ -31,7 +31,6 @@ import { dayISO, savedEventPosition, viewRange } from "./dates";
 import type { Language, Page, Snapshot, Translate, View } from "./types";
 import {
   CalendarToolbar,
-  MiniMonth,
   MonthGrid,
   TimeGrid,
 } from "./components/Calendar";
@@ -106,12 +105,10 @@ export function App() {
       ? query.get("date")!
       : DateTime.now().setZone("Asia/Hong_Kong").toISODate()!,
   );
-  const [pickerDate, setPickerDate] = useState(anchorDate);
   const [now, setNow] = useState(DateTime.now()),
     [nonce, setNonce] = useState(0),
     [notice, setNotice] = useState("");
   const [showReminders, setShowReminders] = useState(false);
-  const [filters, setFilters] = useState({ personal: true, study: true });
   const [error, setError] = useState<unknown>(null),
     [recovering, setRecovering] = useState(false);
   const { session, recoverSession } = useWorkspaceSession(setError);
@@ -371,13 +368,12 @@ export function App() {
       const result = await citedCalendarOccurrence(ref,zone);
       if (read !== calendarRead.current) return;
       if (!result) { setNotice(t("That calendar item is no longer available.", "该日程已不可用。")); return; }
-      setAnchorDate(result.day); setPickerDate(result.day); setView("day");
+      setAnchorDate(result.day); setView("day");
       goPage("calendar"); setDetail(result.event);
     } catch (reason) { if (read===calendarRead.current) failOwnerRequest(reason); }
   }
   function selectDay(d: DateTime) {
     setAnchorDate(dayISO(d));
-    setPickerDate(dayISO(d));
     setPage("calendar");
     setView("day");
   }
@@ -390,7 +386,6 @@ export function App() {
           : { days: amount },
     );
     setAnchorDate(dayISO(next));
-    setPickerDate(dayISO(next));
   }
   async function recover() {
     setRecovering(true);
@@ -435,13 +430,7 @@ export function App() {
         }}
       />
     );
-  const visible =
-    snapshot && loadedRange === startISO + "/" + endISO
-      ? {
-          ...snapshot,
-          occurrences: snapshot.occurrences.filter((e) => filters[e.calendar]),
-        }
-      : null;
+  const visible = loadedRange === startISO + "/" + endISO ? snapshot : null;
   const dueCount =
     snapshot?.reminders.filter((r) => r.status === "due").length ?? 0;
   return (
@@ -472,53 +461,7 @@ export function App() {
         onPage={goPage}
         onClose={closeNavigation}
         t={t}
-      >
-        {(page === "today" || page === "calendar") && (
-          <details className="sidebar-calendar-tools">
-            <summary>{t("Calendar shortcuts", "日历快捷操作")}</summary>
-            <MiniMonth
-              anchor={DateTime.fromISO(pickerDate, { zone })}
-              selected={anchor}
-              language={language}
-              onSelect={selectDay}
-              onMonth={(n) =>
-                setPickerDate(
-                  dayISO(
-                    DateTime.fromISO(pickerDate, { zone }).plus({
-                      months: n,
-                    }),
-                  ),
-                )
-              }
-            />
-            <div className="calendar-filters">
-              <h3>{t("Calendars", "日历分类")}</h3>
-              {(["personal", "study"] as const).map((c) => (
-                <label key={c}>
-                  <span className={`filter-dot ${c}`} />
-                  <span>
-                    {c === "personal"
-                      ? t("Personal", "个人")
-                      : t("Study", "学习")}
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={filters[c]}
-                    onChange={(e) =>
-                      setFilters({ ...filters, [c]: e.target.checked })
-                    }
-                  />
-                </label>
-              ))}
-              {snapshot?.has_samples && (
-                <p className="sample-note">
-                  {t("Example calendar", "含示例日程")}
-                </p>
-              )}
-            </div>
-          </details>
-        )}
-      </WorkspaceNav>
+      />
       <main className={`main-content page-${page}`} inert={drawer}>
         <div className="workspace-topbar">
           <div className="workspace-topbar-title">
@@ -682,7 +625,6 @@ export function App() {
                     onNavigate={navigate}
                     onToday={() => {
                       setAnchorDate(dayISO(today));
-                      setPickerDate(dayISO(today));
                     }}
                     onNew={newEvent}
                     language={language}
@@ -879,7 +821,6 @@ export function App() {
             const { date, hour } = savedEventPosition(event, zone);
             setEditor(null);
             setAnchorDate(date);
-            setPickerDate(date);
             setPage("calendar");
             setView("day");
             setScrollHour(Math.max(0, hour - 1));

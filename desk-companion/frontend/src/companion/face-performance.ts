@@ -25,12 +25,12 @@ const faces: Record<
   },
   wry: {
     upper: { BRW_Question_L: 0.88, EYE_Joy_L: 0.3, BRW_Fun: 0.18 },
-    mouth: { MTH_Smile_R: 0.95, MTH_Fun: 0.28 },
+    mouth: { MTH_Up: 0.27, MTH_Fun: 0.28, MTH_Smile_R: 0.14 },
     fallback: "happy",
   },
   proud: {
     upper: { BRW_Joy: 0.6, BRW_Angry: 0.22, EYE_Fun: 0.62 },
-    mouth: { MTH_Up: 0.95, MTH_Smile_R: 0.2, MTH_Fun: 0.19 },
+    mouth: { MTH_Up: 0.56, MTH_Fun: 0.19, MTH_Smile_R: 0.08 },
     fallback: "happy",
   },
   relieved: {
@@ -40,7 +40,7 @@ const faces: Record<
   },
   bashful: {
     upper: { BRW_Sorrow: 0.4, EYE_Fun: 0.55, EYE_Joy_R: 0.23 },
-    mouth: { MTH_Smile_R: 0.67, MTH_Up: 0.36 },
+    mouth: { MTH_Up: 0.23, MTH_Fun: 0.14, MTH_Smile_R: 0.075 },
     fallback: "relaxed",
   },
   apologetic: {

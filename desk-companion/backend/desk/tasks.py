@@ -195,17 +195,12 @@ class TaskService:
         data = payload.model_dump(mode="json")
 
         def apply(conn):
-            if conn.execute("SELECT COUNT(*) FROM tasks").fetchone()[0] >= 500:
-                raise DomainError("TASK_LIMIT", 422)
-            task_id, now = uuid4().hex, iso(self.store.clock())
-            conn.execute(
-                "INSERT INTO tasks VALUES(?,?,1,?,0,?,?,?)",
-                (task_id, encode(data), data["status"], self.schedule(data), now, now),
-            )
-            self.evidence(conn, task_id, 1, "created", "", origin)
-            return {"task": self.get(conn, task_id), "saved": True}
+            return {"task": self.insert_task(conn, payload, origin), "saved": True}
 
-        return self.store.operation(key, {"type": "task_create", "data": data}, apply)
+        request = {"type": "task_create", "data": data}
+        if origin == "sample":
+            request["origin"] = origin
+        return self.store.operation(key, request, apply)
 
     def insert_task(self, conn, payload, origin="manual"):
         """Insert one task inside the caller's transaction. Does not open its own."""
@@ -306,7 +301,18 @@ class TaskService:
         )
         return {"task": self.get(conn, task_id), "saved": True}
 
-    def listing(self, query="", include_closed=False, display=False, conceal_private=False):
+    @staticmethod
+    def rows(conn, *, include_samples=True, limit=-1):
+        # The creation receipt survives edits and translations of the sample title.
+        return conn.execute(
+            """SELECT t.*, s.task_id IS NOT NULL AS is_sample FROM tasks t
+               LEFT JOIN (SELECT DISTINCT task_id FROM task_evidence
+                          WHERE kind='created' AND source='sample') s ON s.task_id=t.id
+               WHERE ? OR s.task_id IS NULL ORDER BY t.updated_at DESC LIMIT ?""",
+            (include_samples, limit),
+        )
+
+    def listing(self, query="", include_closed=False, display=False, conceal_private=False, *, include_samples=True):
         with self.store.connection() as conn:
             hide = self.store.settings(conn)["hide_private"]
             if display:
@@ -319,7 +325,7 @@ class TaskService:
                         or posture["status"] in {"absent", "unknown", "paused"}
                     )
                 )
-            rows = conn.execute("SELECT * FROM tasks ORDER BY updated_at DESC").fetchall()
+            rows = self.rows(conn, include_samples=include_samples)
             followups = {
                 r["task_id"]: dict(r)
                 for r in conn.execute("SELECT * FROM task_followups WHERE state='pending'")
@@ -327,6 +333,8 @@ class TaskService:
             items = []
             for row in rows:
                 task = self.view(row)
+                if row["is_sample"]:
+                    task["is_sample"] = True
                 if not include_closed and task["status"] not in OPEN:
                     continue
                 redacted = bool(
@@ -648,9 +656,9 @@ def task_routes(runtime, authenticated, operation_id):
         )
 
     @router.post("")
-    def create(payload: TaskInput, key=Depends(operation_id), principal=Depends(authenticated)):
+    def create(payload: TaskInput, sample: bool = False, key=Depends(operation_id), principal=Depends(authenticated)):
         owner_only(principal)
-        return runtime.tasks.create(payload, key)
+        return runtime.tasks.create(payload, key, origin="sample" if sample else "manual")
 
     @router.get("/{task_id}")
     def detail(task_id: str, display: bool = False, principal=Depends(authenticated)):

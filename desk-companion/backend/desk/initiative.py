@@ -135,29 +135,38 @@ class Initiative:
             self.runtime.data.preferences(), self.store.clock().astimezone(ZoneInfo(zone))
         )
 
-    def current(self, *, undelivered=False, display=False):
+    def current(self, *, undelivered=False, display=False, include_archive=False):
         history = display and not undelivered
+        archive = history and include_archive
         try:
-            _, sources = self.sources.collect(include_history=history or undelivered)
+            fence, sources = self.sources.collect(include_history=history or undelivered)
         except DomainError:
             return []
         with self.store.connection() as conn:
             rows = conn.execute(
                 """SELECT * FROM initiative_findings WHERE state='pending'
                    OR (? AND state='obsolete' AND notified=1 AND created_at>=?)
+                   OR (? AND state IN ('obsolete','dismissed'))
                    ORDER BY created_at DESC LIMIT 100""",
-                (history, iso(self.store.clock() - LOOKBACK)),
+                (history, iso(self.store.clock() - LOOKBACK), archive),
             ).fetchall()
+        entries = [(row, json.loads(row["data"])) for row in rows]
+        missing_citations = {
+            ref["ref"] for _, data in entries if archive
+            for ref in data["sources"] if ref["kind"] == "conversation" and ref["ref"] not in sources
+        }
+        retained = self.sources.retained_conversation_sources(missing_citations)
+        evidence = {**sources, **retained} if retained else sources
         result = []
-        for row in rows:
+        for row, data in entries:
             if undelivered and row["notified"]:
                 continue
-            data = json.loads(row["data"])
             refs = data["sources"]
-            if not self.sources.matches(refs, sources):
+            acknowledged = row["state"] == "dismissed"
+            if not self.sources.matches(refs, evidence):
                 # Forgetting or changing a source also withdraws derived private text.
                 # A temporarily missing mailbox, or a different mailbox, reveals nothing.
-                if history and row["notified"] and refs and all(
+                if history and not acknowledged and row["notified"] and refs and all(
                     ref["kind"] in {"task", "memory", "calendar"} and not ref["ref"].startswith("calendar:google:")
                     for ref in refs
                 ):
@@ -171,16 +180,27 @@ class Initiative:
             if row["snooze_until"]:
                 item["reminder_at"] = row["snooze_until"]
             if display:
-                historical = row["state"] == "obsolete" or (row["notified"] and any(
-                    sources[ref["ref"]].get("historical") for ref in refs
+                older_turn = any(ref["ref"] in retained for ref in refs)
+                historical = older_turn or row["state"] == "obsolete" or (row["notified"] and any(
+                    evidence[ref["ref"]].get("historical") for ref in refs
                 ))
-                if historical:
-                    if not row["notified"] or not any(ref["ref"].startswith("mail:gmail:") for ref in refs):
+                if acknowledged:
+                    item["acknowledged"] = True
+                elif historical:
+                    verified_chat = archive and any(ref["kind"] == "conversation" for ref in refs)
+                    delivered = row["notified"] and (archive or any(ref["ref"].startswith("mail:gmail:") for ref in refs))
+                    if not (verified_chat or delivered):
                         continue
                     item["historical"] = True
-                item["sources"] = self.sources.display_sources(refs, sources)
+                item["sources"] = self.sources.display_sources(refs, evidence)
                 item["followup_status"] = self._followup_status(data.get("followup"))
             result.append(item)
+        if missing_citations:
+            try:
+                if self.sources.fence() != fence:
+                    return []
+            except DomainError:
+                return []
         return sorted(result, key=lambda item: (bool(item.get("withdrawn")), item["importance"] != "high"))
 
     def _followup_status(self, followup, conn=None):
@@ -316,17 +336,22 @@ class Initiative:
             authorize=authorize,
         )
 
-    def snapshot(self):
+    def snapshot(self, *, full=False):
         with self.store.connection() as db:
             state = db.execute("SELECT last_checked_at,error,last_mode FROM initiative_state WHERE id=1").fetchone()
-        visible = self.current(display=True)
+            revision = self.store.revision(db)
+        visible = self.current(display=True, include_archive=True)
+        acknowledged = sorted((row for row in visible if row.get("acknowledged")),
+                              key=lambda row: row["created_at"], reverse=True)
         return {
+            "revision": revision,
             "enabled": self.enabled(),
             "research_ready": self.runtime.text_ai.config.valid()
             and self.runtime.text_ai.config.background,
-            "findings": [row for row in visible if not row.get("historical") and not row.get("withdrawn")][:3],
-            "withdrawn": [row for row in visible if row.get("withdrawn")][:5],
-            "history": [row for row in visible if row.get("historical")][:12],
+            "findings": [row for row in visible if not (row.get("historical") or row.get("withdrawn") or row.get("acknowledged"))][:None if full else 3],
+            "withdrawn": [row for row in visible if row.get("withdrawn")][:None if full else 5],
+            "history": [row for row in visible if row.get("historical")][:None if full else 12],
+            "acknowledged": acknowledged[:None if full else 12],
             "last_checked_at": state["last_checked_at"],
             "last_error": state["error"],
             "last_mode": state["last_mode"],
@@ -726,8 +751,8 @@ def initiative_routes(runtime, owner, operation_id):
     router = APIRouter(prefix="/api/initiative", dependencies=[Depends(owner)])
 
     @router.get("")
-    def current():
-        return runtime.initiative.snapshot()
+    def current(full: bool = False):
+        return runtime.initiative.snapshot(full=full)
 
     @router.post("/{ident}/follow-ups")
     def follow_up(ident: str, request: Request, principal=Depends(owner), key=Depends(operation_id)):

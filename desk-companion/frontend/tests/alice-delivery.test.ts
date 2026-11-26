@@ -207,6 +207,19 @@ test("one-sided corrections preserve the existing visemes and leave a silent mou
   face.apply(manager, null, 0.3, 1 / 30);
   manager.update();
   assert.equal(mesh.morphTargetInfluences![ids.Fcl_MTH_Close], 0);
+  for (const expression of ["wry", "bashful", "proud"] as const) {
+    const cue = { face: expression, weight: 1, wink: 0 };
+    const cornerLift = (playback: number) => {
+      face.reset();
+      manager.resetValues();
+      face.apply(manager, cue, playback, 2);
+      manager.update();
+      return mesh.morphTargetInfluences![ids.Fcl_MTH_Smile_R];
+    };
+    const quiet = cornerLift(0);
+    assert.ok(quiet > 0 && quiet < 0.16, expression);
+    assert.ok(cornerLift(0.6) < quiet / 2, expression);
+  }
 });
 
 test("the localized fit uses the licensed mesh and keeps normalized color on facial skin", () => {
