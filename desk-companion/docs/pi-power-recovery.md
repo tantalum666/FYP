@@ -2,6 +2,12 @@
 
 17 November 2026. Owner explicitly rejects continued reduced performance and asks for powered-off automatic wake. Normal CPU maximum and app settings have been restored; the temporary hold below is historical. [Wake evidence](../../output/qa/2026-11-17-pi-auto-wake/verification.md) supersedes the prior reduced-load plan. [Earlier power evidence](../../output/qa/2026-11-16-pi-power-recovery/verification.md) remains valid within its recorded interval.
 
+## 26 November 2026 · Dark status light
+
+The original device still had its automatic wake timer active at 20:59 Hong Kong time. SoC temperature was 84.8 °C; an earlier boot had reached 85.35 °C with firmware throttling. The kiosk returned application data at 21:39:57. Later the owner reported that the red light had gone out and automatic return was absent. [Incident timeline and verification](../../output/qa/2026-11-26-pi-account-and-power/verification.md).
+
+On Pi 5 the same indicator shows green in normal operation and red in ordinary powered standby. Record the screen and both LED colours before interpreting their absence. If the board has gone dark and has cooled, a single short press with the USB-C supply still connected distinguishes a responsive standby board from one requiring more investigation. On the next boot, correlate the previous journal’s last shutdown or alarm event with the PMIC reset information, voltage warnings, and whether someone used the button or restored power. Record a genuine unattended recovery only when the operator confirms there was no intervention. [Pi 5 LEDs](https://www.raspberrypi.com/documentation/computers/configuration.html#raspberry-pi-5-and-500-leds) · [Power button and RTC](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#real-time-clock-rtc).
+
 ## 23 November 2026 readback failure
 
 The installed helper cleared its previous deadline, wrote a replacement, then exited on the first differing read at 14:52:20 Hong Kong time. The previous boot’s last journal entry followed about 12 seconds later. The owner brought the Pi back at 15:16. The installed units then renewed the hardware deadline again. At 16:07 the approved helper update passed two normal timer firings on the original Pi, with matching Linux, PMIC and stored owner deadlines. A new boot at the 21:12 independent read retained the installed helper and original rollback backup and again confirmed an enabled alarm 162 seconds ahead. See the [incident timeline, repair and deployment status](../../output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).

@@ -2,7 +2,7 @@
 
 ## 26 November · Locked devices and monthly admission
 
-The normal Mac is the single paid host for the enrolled simulator and Web client. Keep the spending ledger private. Renew through `desk.openai_calendar_allowance.renew` only after reconciling the organization’s cost opening; identical terms are idempotent and overlapping terms are rejected. Store separate day and month ceilings in micro-USD. Keep the former daily-only term closed for older executables. In Diagnostics the statement opening, observed estimates and unresolved holds have different meanings.
+The normal Mac serves the enrolled simulator and Web client. An independently running Pi needs its own share of the same operator-approved daily and monthly ceilings. On the primary ledger, use `reserve_device_share` to debit a named peer’s fixed share, then pass the returned terms to `renew` on that peer. Retrying the issuance for the same device and terms returns the original receipt. Keep the opening statement, historical holds and each ledger private. [Original-device acceptance](../../output/qa/2026-11-26-pi-account-and-power/verification.md). Renew through `desk.openai_calendar_allowance.renew` only after reconciling the organization’s cost opening; identical terms are idempotent and overlapping terms are rejected. Store separate day and month ceilings in micro-USD. Keep the former daily-only term closed for older executables. In Diagnostics the statement opening, observed estimates and unresolved holds have different meanings.
 
 [Mac and Simulator setup](web-push.md) · [Current release and hardware scope](../../output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
 

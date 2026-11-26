@@ -1156,3 +1156,7 @@ The owner requested recoverable follow-ups, a full year of fictional tasks, remo
 ## 26 November 2026 · Airport flexibility and active requests
 
 The owner expects an either-airport answer to continue a flight search and an ongoing request to be free of immediate reminder echoes. The new ordinary search uses the existing live supplier and checkout, keeping selection, repricing and financial confirmation distinct. The 30-minute conversational grace interval is an implementation choice. Independent evidence and explicit reminder times remain eligible. [Checks](output/qa/2026-11-26-airport-choice-and-reminder/verification.md).
+
+## 26 November 2026 · Independent Pi flight account
+
+The owner authorized the original Pi to connect the existing LetsFG account for flight search and booking. Each device keeps its own rotating credential. The operator assigned fixed shares from the already approved combined daily and monthly ceilings, debiting the primary before activating the Pi. Real payment still requires current complete terms, passenger approval and supplier readback. [Device evidence](output/qa/2026-11-26-pi-account-and-power/verification.md).

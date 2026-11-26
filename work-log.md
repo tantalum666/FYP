@@ -1391,3 +1391,7 @@ Authenticated the original Pi, verified its base, rehearsed the additive upgrade
 ## 26 November 2026 · Flexible airport search and duplicate reminder repair
 
 Traced a rejected destination argument and a separately generated conversational echo. Fixed the official text Function routing, exact supplier query grouping, scoped fare selection, and the background evidence checks. Verified two real supplier routes in the normal Mac conversation, both published prices and the outstanding bag-total check, with no booking submission. The original echoed receipt remains inspectable in history and has left the regular transcript. Web, the ordinary iPhone Simulator and the original Pi now use application `949d76df`. [Acceptance](output/qa/2026-11-26-airport-choice-and-reminder/verification.md).
+
+## 26 November 2026 · Original Pi flight account and power investigation
+
+Activated the Pi’s independent supplier grant and operating share, then submitted one read-only query through its original Chromium composer. One airport returned published fares, and the second airport’s supplier-status read failed. The returns did not verify a bag-inclusive total. Recorded the separate power interruption, last on-device reading, relay observation and outstanding physical evidence. [Receipt and incident timeline](output/qa/2026-11-26-pi-account-and-power/verification.md).
