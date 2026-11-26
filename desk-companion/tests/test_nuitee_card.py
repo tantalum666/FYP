@@ -2,6 +2,8 @@
 
 from datetime import datetime, timezone
 import json
+from pathlib import Path
+import plistlib
 
 from fastapi.testclient import TestClient
 import httpx
@@ -19,6 +21,18 @@ QUERY = {
     "checked_bag_kg": 15,
 }
 NOW = datetime(2030, 4, 18, 3, tzinfo=timezone.utc)
+
+
+def test_ios_allows_only_the_named_local_test_frame_over_http():
+    from desk.flight_booking.card_frame import HOST
+
+    info = Path(__file__).resolve().parents[1] / "frontend/ios/App/App/Info.plist"
+    with info.open("rb") as plist:
+        ats = plistlib.load(plist)["NSAppTransportSecurity"]
+    domain = ats["NSExceptionDomains"][HOST]
+    assert domain["NSExceptionAllowsInsecureHTTPLoads"] is True
+    assert not domain.get("NSIncludesSubdomains")
+    assert not ats.get("NSAllowsArbitraryLoads") and not ats.get("NSAllowsArbitraryLoadsInWebContent")
 
 
 class Supplier:
