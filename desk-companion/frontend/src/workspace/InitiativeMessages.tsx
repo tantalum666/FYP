@@ -86,6 +86,7 @@ export function InitiativeMessage({
   }, [focused, visible, offline, stale, finding.id]);
   if (!visible || offline || stale) return null;
   const followup = finding.followup_status;
+  const actionable = canActOnFinding(finding);
   return (
     <>
         <article
@@ -139,54 +140,49 @@ export function InitiativeMessage({
               })}
             </ul>
           </details>}
-          {canActOnFinding(finding) && <>
-          {followup ? (
+          {actionable && followup && (
             <p role="status">
               {followupLabel(followup, t)}
               {followup.title ? ` · ${followup.title}` : ""}
             </p>
-          ) : (
+          )}
+          <div className="workspace-inline-actions">
+            {actionable && !followup && (
+              <button
+                className="primary"
+                disabled={mutation.busy || mutation.pending}
+                onClick={() =>
+                  void mutation.run("/initiative/" + finding.id + "/follow-ups", {}, refresh)
+                }
+              >
+                {t("Follow up on this", "据此跟进")}
+              </button>
+            )}
+            {actionable && (
+              <button
+                className="text-button"
+                disabled={mutation.busy || mutation.pending}
+                onClick={() =>
+                  void mutation.run(
+                    "/initiative/" + finding.id + "/snoozes",
+                    { minutes: 60 },
+                    refresh,
+                  )
+                }
+              >
+                {t("Remind me later", "稍后再提醒")}
+              </button>
+            )}
             <button
-              className="primary"
+              className="text-button"
               disabled={mutation.busy || mutation.pending}
               onClick={() =>
-                void mutation.run(
-                  "/initiative/" + finding.id + "/follow-ups",
-                  {},
-                  refresh,
-                )
+                void mutation.run("/initiative/" + finding.id + "/dismissals", {}, refresh)
               }
             >
-              {t("Follow up on this", "据此跟进")}
+              {t("Got it", "知道了")}
             </button>
-          )}
-          <button
-            className="text-button"
-            disabled={mutation.busy || mutation.pending}
-            onClick={() =>
-              void mutation.run(
-                "/initiative/" + finding.id + "/snoozes",
-                { minutes: 60 },
-                refresh,
-              )
-            }
-          >
-            {t("Remind me later", "稍后再提醒")}
-          </button>
-          </>}
-          <button
-            className="text-button"
-            disabled={mutation.busy || mutation.pending}
-            onClick={() =>
-              void mutation.run(
-                "/initiative/" + finding.id + "/dismissals",
-                {},
-                refresh,
-              )
-            }
-          >
-            {t("Got it", "知道了")}
-          </button>
+          </div>
         </article>
       <MutationFeedback mutation={mutation} t={t} />
     </>
