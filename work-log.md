@@ -1403,3 +1403,7 @@ Matched the two original Pi boots to the owner’s reconnection of the original 
 ## 26 November 2026 · Travel connectors and billing consent
 
 Compared Ctrip, Meituan, Fliggy, Kiwi and Etraveli from their own published materials. Anonymous Kiwi discovery returned the travel search and developer-feedback tools. Etraveli required authentication. Corrected the live-flight guide to distinguish Alice’s local review, per-trip supplier approval, persistent payment-method enrolment and sandbox evidence. [Sources and read-only checks](output/qa/2026-11-26-travel-connectors/verification.md).
+
+## 27 November 2026 · Delegated travel payments
+
+Checked Etraveli’s testing terms, its longstanding Booking.com relationship and the EU consumer authority’s intermediary refund commitments. Compared an actual agent-paid airline ticket, in-chat consumer checkouts, Alipay’s capped mandates and the Atlas balance-payment path. Two newly inspected offline tests on the Atlas release passed. Procurement, provider enrolment and live charges were outside this research. [Documents and replay](output/qa/2026-11-27-delegated-travel-payments/verification.md).
