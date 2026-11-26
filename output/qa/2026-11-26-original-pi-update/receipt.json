@@ -1,0 +1,98 @@
+{
+  "previous_revision": "92acac8e59343cab8151c6ee51276f1ff27f2429",
+  "deployed_revision": "8496db2f86afdacd35cb6df05ace7f45f8ca58f1",
+  "activated_hong_kong": "2026-11-26T19:25:56+08:00",
+  "independent_read_hong_kong": "2026-11-26T19:28:48+08:00",
+  "mac_simulator_and_pi_web_index_sha256": "b8801f70a7ff5ea89617f5e1e6d52ccc840b0ec1ddc296f2e6f13e6f3c4b6efc",
+  "device": "Original Raspberry Pi 5, ARM64",
+  "release": {
+    "base_files": 641,
+    "target_files": 761,
+    "delta_files": 192,
+    "archive_sha256": "8a925fd129d03dab03e15555d4c932a58d46bbe3eb36d6660950e8c7170a3814",
+    "existing_arm_environment_reused": true
+  },
+  "migration": {
+    "original_tables": 134,
+    "after_tables": 142,
+    "original_tables_row_values_unchanged_on_copy": 134,
+    "previous_binary_reopened_upgraded_copy": true,
+    "live_prior_business_and_session_tables_verified": 57,
+    "protected_live_table_fingerprints": 28,
+    "private_backup_verified": true,
+    "original_owner_session_survived": true
+  },
+  "kiosk": {
+    "size": "1280x720",
+    "current_script_and_style_in_original_profile": true,
+    "showing_controls": [
+      "alice_home",
+      "avatar",
+      "composer",
+      "connected",
+      "header",
+      "more",
+      "plan"
+    ],
+    "verified_served_assets": 11,
+    "api_and_kiosk_restarts_during_acceptance": [
+      0,
+      0
+    ],
+    "one_visible_chromium": true
+  },
+  "settings": {
+    "cached_a3_profile_version": 9,
+    "a3_profile_and_cached_audio_match": true,
+    "stored_grant_capabilities": {
+      "calendar": [
+        "calendar_read"
+      ],
+      "gmail": [
+        "email_read",
+        "email_send"
+      ]
+    },
+    "original_grant_identities_scopes_versions_preserved": true,
+    "runtime_models": {
+      "managed_browser": "gpt-6.2-sol",
+      "text": "gpt-6.2-sol",
+      "voice": "gpt-live-1.1",
+      "voice_delegate": "gpt-6.2-sol"
+    },
+    "pi_independent_paid_term_active": false,
+    "paid_ledger_changed": false
+  },
+  "example_tasks": {
+    "count": 53,
+    "first_due": "2026-11-26",
+    "last_due": "2027-11-25",
+    "interval_days": 7,
+    "active_followup_timers": 0,
+    "sample_titles_visible_on_hardware_home": 2
+  },
+  "hardware": {
+    "same_boot_across_update": true,
+    "cpu_ceiling_khz": 2400000,
+    "rtc_timer": "active",
+    "rtc_helper_unchanged": true,
+    "future_rtc_alarm": true,
+    "samples": [
+      {
+        "time_hong_kong": "2026-11-26T19:29:29+08:00",
+        "temperature_c": 82.6,
+        "firmware_status": "0xf0008"
+      },
+      {
+        "time_hong_kong": "2026-11-26T19:30:11+08:00",
+        "temperature_c": 85.35,
+        "firmware_status": "0xf0008"
+      },
+      {
+        "time_hong_kong": "2026-11-26T19:32:39+08:00",
+        "temperature_c": 85.35,
+        "firmware_status": "0xf0006"
+      }
+    ]
+  }
+}

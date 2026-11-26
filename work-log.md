@@ -1383,3 +1383,7 @@ Fixed adjoining Conversation buttons and the foreground inherited by management 
 ## 26 November 2026 · Follow-up history, weekly examples, calendar and facial expressions
 
 Recovered the reported suggestion in both regular clients. The archive, cold reopen, privacy checks and separate reminder receipts passed. The ordinary task API saved 53 dated examples; simulator and Web readback agreed. Removed the calendar shortcut block and checked the main toolbar. Reviewed all conversational faces, speaking and angled samples and rebalanced three lip mixes. Application `8496db2f` is running on the Mac and installed in the normal iPhone Simulator. The updated Pi delta is staged. [Checks and illustrations](output/qa/2026-11-26-followup-history-and-year/verification.md).
+
+## 26 November 2026 · Original Pi updated after power returned
+
+Authenticated the original Pi, verified its base, rehearsed the additive upgrade on a private copy and switched its normal API and kiosk to `8496db2f`. Both clients on the Pi read the current assets, and the physical Home showed two of the 53 local weekly samples. Retained existing data, A3, account grants, the inactive Pi budget and RTC configuration. Post-switch samples showed soft thermal limiting and later active frequency capping and throttling at 85.35°C. [Hardware evidence](output/qa/2026-11-26-original-pi-update/verification.md).
