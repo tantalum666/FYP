@@ -18,13 +18,14 @@ def test_connections_contrast_from_settings_and_home(tmp_path):
     with socket.socket() as sock:
         sock.bind(("127.0.0.1", 0))
         port = sock.getsockname()[1]
+    origin = f"http://127.0.0.1:{port}"
     seed = (
         "import uvicorn\nfrom desk.app import create_app\n"
-        f"app = create_app({str(tmp_path)!r}, password='fixture', scheduler=False)\n"
+        f"app = create_app({str(tmp_path)!r}, development_origin={origin!r}, "
+        "password='fixture', scheduler=False)\n"
         f"uvicorn.run(app, host='127.0.0.1', port={port}, log_level='warning')"
     )
     process = compiled_fixture(seed, ROOT, {**os.environ, "PYTHONPATH": str(ROOT / "backend")}, port)
-    origin = f"http://127.0.0.1:{port}"
     try:
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(executable_path=CHROME)

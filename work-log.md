@@ -1375,3 +1375,7 @@ The combined hold-card failure was a leftover Vite on port 5190 serving the othe
 ## 26 November 2026 · All Grok contributions and lock-screen operation
 
 Verified the ancestry of 81 previously integrated Grok heads and reviewed the 19 new heads (#158–176) individually. Reconciled source navigation, provider authority, snooze identity, withdrawn messages, the browser worker and linked reply tasks. The existing budget service now enforces both calendar windows. The Mac continued its authorized work during quiet hours, and a terminated native Simulator app received one generic, visible lock-screen alert. Application `e64d6285` reached normal Mac Web and the iPhone Simulator. Private finances and source content stay outside the repository. The Pi package is prepared. [Exact heads and checks](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
+
+## 26 November 2026 · Reminder actions and settings contrast
+
+Fixed adjoining Conversation buttons and the foreground inherited by management panels. Checked English and Chinese, both themes, desktop and narrow Web layouts, the three distinct action receipts and the actual native Simulator. Application `14e50899` is installed on the normal Mac Web and iPhone Simulator. The Pi update from its known base is packaged for a later device readback. [Measurements and screenshots](output/qa/2026-11-26-interface-readability/verification.md).

@@ -2,6 +2,8 @@
 
 ## 26 November · Continuing personal assistance
 
+In conversation, Follow up, Remind me later and Got it need distinct touch targets at phone widths. Settings titles and search hints must remain legible in both themes, including when opened directly from Home. [Rendered results](output/qa/2026-11-26-interface-readability/verification.md).
+
 The owner authorized a six-month operating period with both calendar-day and calendar-month ceilings. Keep numerical limits and actual account figures in the operator’s private ledger. The Mac worker should keep checking during screen lock and respect quiet hours. The enrolled native Simulator can show a generic notification while the application is closed. Real-device push credentials are deferred. Opening a notification or source is a read action. Follow, snooze, acknowledgement, saving a reply draft and sending a message are explicit, separate actions. [Combined review and release](output/qa/2026-11-26-grok-and-locked-reminders/verification.md).
 
 ## 25 November · Quiet, continuous mail assistance
