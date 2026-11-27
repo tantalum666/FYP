@@ -1411,3 +1411,7 @@ Checked Etraveli’s testing terms, its longstanding Booking.com relationship an
 ## 27 November 2026 · One supplier for traveller-card checkout
 
 Recorded the clarified purchasing preference. Checked the Nuitée flight-specific payment contract, test access and the ordinary-user fallback. The product contract and handoff distinguish traveller funds, issuer authentication and ticket evidence. [Supplier assessment](output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card).
+
+## 27 November 2026 · Traveller-card booking in ordinary conversation
+
+Connected the existing Nuitée sandbox, verified the supplier protocol and issued a separate original test ticket through Alice in Chrome. One reviewed test Visa authorization covered the exact fare and verified checked weight. After a restart the conversation returned the same ticket and the processor’s pending hold. The normal Mac and original iPhone Simulator now run application `2f20e049` with retained owner data and existing permissions. Eight focused regression cases passed, including the local iOS payment-frame configuration. The supplier’s confirmed ticket and Stripe’s final collection still have separate evidence. [Implementation, verification and open settlement](output/qa/2026-11-27-nuitee-traveller-card/verification.md).

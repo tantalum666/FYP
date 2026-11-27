@@ -1,6 +1,7 @@
 """Language-facing entry to the original Kiwi result. No conversational payment tool."""
 
 import json
+import re
 from pathlib import Path
 
 from ..commerce_review import language_for
@@ -18,6 +19,32 @@ def describe(view, zh):
     route = f"{request.get('origin', '')} → {request.get('destination', '')}"
     dates = " / ".join(v for v in (request.get("departure"), request.get("return_date")) if v)
     state = view["state"]
+    if view.get("provider") == "nuitee_sandbox":
+        receipt = view.get("receipt") or {}
+        if tickets := receipt.get("ticket_numbers"):
+            from .conversation import price
+            number = ", ".join(tickets)
+            pnr = receipt["pnr"]
+            if type(receipt.get("charged_minor")) is int:
+                amount = price(receipt["charged_minor"])
+                return (f"测试电子客票号 {number}，订座编号 {pnr}。已核实测试卡扣款 {amount}。" if zh
+                        else f"Test e-ticket {number}, booking reference {pnr}. Verified test charge {amount}.")
+            if type(receipt.get("held_minor")) is int:
+                amount = price(receipt["held_minor"])
+                return (f"测试电子客票号 {number}，订座编号 {pnr}。测试卡已预授权 {amount}，实扣待核实。" if zh
+                        else f"Test e-ticket {number}, booking reference {pnr}. The test card has a {amount} hold; capture is pending.")
+            return (f"测试电子客票号 {number}，订座编号 {pnr}。实扣金额待核实。" if zh
+                    else f"Test e-ticket {number}, booking reference {pnr}. The capture amount is pending.")
+        if state == "source" and not view.get("connected"):
+            return "Nuitée 机票沙盒还未连接。" if zh else "The Nuitée flight sandbox is not connected."
+        labels = {
+            "offers": ("这是 Nuitée 沙盒的测试航班，选一班后我会核对含行李总价。", "Select a Nuitée test flight and I’ll verify its fare and bags."),
+            "card_pending": ("等待这笔旅客测试卡的确认结果。", "I’m checking the traveller test card."),
+            "ticketed_payment_pending": ("测试电子客票已签发，扣款仍待支付方核实。", "The test ticket was issued. The card capture still needs verification."),
+            "paid_pending_ticket": ("测试卡已扣款，航空公司尚未给出票号。", "The test card was charged. The airline ticket is still pending."),
+        }
+        if state in labels:
+            return labels[state][0 if zh else 1]
     if market := view.get("market"):
         airports = " / ".join(market["destination"])
         if state == "source":
@@ -180,6 +207,16 @@ def replay_scope(runtime, cached, principal, payload):
     return scope["chat"]
 
 
+def _asks_for_flight_receipt(message):
+    topic = re.search(
+        r"电子[客机]?票号|电子客票|電子[客機]?票號|是否出票|出票了[吗嗎]|订座编号|訂座編號"
+        r"|(?<![a-z])e-?ticket(?: number)?|flight (?:receipt|payment status)", message, re.I,
+    )
+    query = re.search(r"查|看看|请给|告诉|告訴|多少|什么|甚麼|吗|嗎|是否|[?？]|check|show|what|read|get", message, re.I)
+    new_request = re.search(r"再买|再买一|新订|新訂|另订|another flight|new booking", message, re.I)
+    return bool(topic and query and not new_request)
+
+
 def turn(runtime, payload, principal, chat):
     from .shortlist import plain_offer_selection
 
@@ -187,6 +224,15 @@ def turn(runtime, payload, principal, chat):
         return None
     if payload.selected_commerce_card or payload.attachment_ids or payload.flight_review or payload.shopping_review:
         return None
+    # Read only the current conversation's original order. Generic payment or shop
+    # questions and a fresh flight search keep their existing routing.
+    if _asks_for_flight_receipt(payload.message):
+        service = runtime.live_flight_checkouts
+        rows = service._rows(principal, chat.id)
+        if rows and rows[0].get("provider") == "nuitee_sandbox" and rows[0].get("active") and rows[0].get("card_session"):
+            original = rows[0]
+            view = service.action(principal, chat.id, original["id"], "status", original["version"])
+            return reply(view, chat, payload.message, payload.language)
     selector = plain_offer_selection(payload)
     if selector is not None and chat.items and chat.items[-1]["role"] == "assistant":
         with runtime.store.connection() as db:

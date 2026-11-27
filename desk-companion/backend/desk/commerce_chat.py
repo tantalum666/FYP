@@ -90,7 +90,8 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
         except DomainError as error:
             return {"mode":"local", "kind":"clarify", "saved":False, "error":error.code,
                     "message":flights.failure(error.code,language_for(payload.message,payload.language))}
-        view = runtime.live_flight_checkouts.start_market(principal, chat, request, key)
+        provider = "nuitee_sandbox" if market_search.nuitee_test_requested(payload.message, chat) else "letsfg"
+        view = runtime.live_flight_checkouts.start_market(principal, chat, request, key, provider=provider)
         return live_chat.reply(view, chat, payload.message, payload.language)
     if proposal := reply.get('proposal'):
         if not cached:
@@ -237,7 +238,8 @@ def context_instructions(runtime, principal, chat, context, *, test_selection=Fa
     message = context.get("user_message", "")
     tools = {tool["name"] for tool in context["tools"]}
     if "live_flight_search" in tools:
-        sandbox = test_selection or market_search.explicit_test(message, chat)
+        nuitee = market_search.nuitee_test_requested(message, chat)
+        sandbox = test_selection or (market_search.explicit_test(message, chat) and not nuitee)
         # The owner can still work with legacy test bookings or a pinned test shortlist.
         if sandbox or revisiting_shortlist(context):
             tools.discard("live_flight_search")
@@ -262,6 +264,8 @@ def context_instructions(runtime, principal, chat, context, *, test_selection=Fa
             "Never turn airport flexibility into selection or payment. Ask only for a missing requirement. "
             "Never substitute fictional fares. The supplier and secure checkout verify total, baggage and consent."
         )
+    if "live_flight_search" in tools and market_search.nuitee_test_requested(message, chat):
+        instructions.append("The owner explicitly selected the Nuitée test environment. Use live_flight_search once to open that private sandbox review. Only the owner's in-chat test Visa confirmation can start payment.")
     if "flight_purchase_review" in tools:
         instructions.append(
             "For a purchase of a previously shown real Kiwi fare use flight_purchase_review. "

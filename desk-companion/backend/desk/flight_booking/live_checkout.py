@@ -11,7 +11,8 @@ from ..commerce_review import ChatReviews
 from ..store import DomainError
 from . import checkout_source as sources
 from . import seller_verification
-from . import market_search
+from . import market_search, nuitee_checkout
+from .nuitee_sandbox import NAME as NUITEE, NuiteeSandbox
 from .timetable import departure_day
 
 
@@ -24,7 +25,7 @@ PAYMENT_STATES = {
     "uncertain",
     "completed",
     "failed",
-}
+} | nuitee_checkout.CARD_STATES
 PUBLIC_OFFER = (
     "currency",
     "total_minor",
@@ -49,6 +50,8 @@ PUBLIC_RECEIPT = (
     "action_url",
     "reason",
     "missing_fields",
+    "ticket_numbers",
+    "processor_status",
 )
 
 
@@ -57,6 +60,7 @@ class LiveFlightCheckouts(ChatReviews):
 
     def __init__(self, runtime):
         super().__init__(runtime, "LIVE_FLIGHT")
+        self.nuitee = NuiteeSandbox(runtime)
 
     def forget_chat(self, principal, chat, db=None):
         from ..conversation import Conversations
@@ -80,6 +84,7 @@ class LiveFlightCheckouts(ChatReviews):
         rows = db.execute(
             """SELECT c.id, json_extract(c.data,'$.source.label') AS title,
                       json_extract(c.data,'$.reason') AS reason,
+                      json_extract(c.data,'$.provider') AS provider,
                       json_extract(offer.value,'$.currency') AS currency,
                       json_extract(offer.value,'$.total_minor') AS amount,
                       json_extract(offer.value,'$.account_version') AS account_version
@@ -93,12 +98,11 @@ class LiveFlightCheckouts(ChatReviews):
         ).fetchall()
         if not rows:
             return [], False
-        account = self._account()
-        visible = [
-            row for row in rows
-            if account.get("connected") and row["account_version"] == account.get("version")
-            and row["account_version"] and type(row["amount"]) is int and row["amount"] >= 0
-        ]
+        visible = []
+        for row in rows:
+            account = self._account(dict(row))
+            if account.get("connected") and account.get("version") == row["account_version"] and row["account_version"] and type(row["amount"]) is int and row["amount"] >= 0:
+                visible.append(row)
         return visible[:limit], len(rows) > limit or len(visible) != len(rows)
 
     def _write(self, principal, row, **fields):
@@ -162,15 +166,21 @@ class LiveFlightCheckouts(ChatReviews):
                 return None
             return {"id": r["id"], "kind": "browser_research", "data": json.loads(r["data"])}
 
-    def _account(self):
+    def provider_for(self, row):
+        return self.nuitee if row.get("provider") == NUITEE else self.runtime.live_flight_provider
+
+    def _account(self, row=None):
+        if row and row.get("provider") == NUITEE:
+            return self.nuitee.account()
         auth = getattr(self.runtime, "letsfg_auth", None)
         return auth.account() if auth else {"connected": False}
 
-    def start_market(self, principal, chat, arguments, key):
+    def start_market(self, principal, chat, arguments, key, *, provider="letsfg"):
         request = market_search.MarketFlightRequest.model_validate(arguments)
         with self.lock:
-            account = self._account()
             data = market_search.initial(request, self.store.clock())
+            data["provider"] = provider
+            account = self._account(data)
             data["account_version"] = account.get("version") if account.get("connected") else None
             state = "searching" if data["account_version"] else "source"
             row = self.insert(data, f"market/{self.owner(principal)}/{chat.id}/{key}", principal, chat, state=state)
@@ -216,7 +226,8 @@ class LiveFlightCheckouts(ChatReviews):
                 {k: route[k] for k in ("origin", "destination", "state", "reason") if k in route}
                 for route in row.get("route_searches", [])
             ]} if row.get("market") else {}),
-            "connected": bool(self._account().get("connected")),
+            "provider": row.get("provider", "letsfg"),
+            "connected": bool(self._account(row).get("connected")),
             "source": (
                 {k: v for k, v in source.items() if k not in {"job_id", "evidence"}}
                 if source
@@ -252,7 +263,7 @@ class LiveFlightCheckouts(ChatReviews):
     def _sync_source(self, principal, row):
         owner = self.owner(principal)
         if row.get("market"):
-            account = self._account()
+            account = self._account(row)
             version = account.get("version") if account.get("connected") else None
             if version != row.get("account_version"):
                 self._write(principal, row, account_version=version, state="source", source=None,
@@ -467,7 +478,7 @@ class LiveFlightCheckouts(ChatReviews):
             raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
         old = row["offers"][number - 1]
         source = self._offer_source(row, old)
-        result = self.runtime.live_flight_provider.reprice(
+        result = self.provider_for(row).reprice(
             self._offer_query(row, old), old["search_id"], old["offer_id"], principal=principal
         )
         offer = next(
@@ -604,14 +615,14 @@ class LiveFlightCheckouts(ChatReviews):
             if row["version"] != version or row["state"] in PAYMENT_STATES or not row.get("active"):
                 raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
             if not self._sync_source(principal, row) and not (
-                row.get("market") and action == "search" and self._account().get("connected")
+                row.get("market") and action == "search" and self._account(row).get("connected")
             ):
                 return self._view(row)
             if row.get("market") and action in {"search", "status"} and (
                 action == "status" and row["state"] == "searching" or
                 action == "search" and row["state"] in {"source", "market_empty", "offers", "seller_only", "review", "reprice", "card_required", "missing_details"}
             ):
-                if not self._account().get("connected"):
+                if not self._account(row).get("connected"):
                     return self._view(row)
                 if action == "search":
                     request = market_search.MarketFlightRequest.model_validate(row["market"])
@@ -619,6 +630,8 @@ class LiveFlightCheckouts(ChatReviews):
                                 source=None, seller_check=None, seller_history=[], reason=None)
                 market_search.poll(self, principal, row)
                 return self._view(row)
+            if row.get("provider") == NUITEE and action in {"verify_seller", "verify_original"}:
+                raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
             if action in {"verify_seller", "verify_original"} and row["state"] in {
                 "source",
                 "offers",
@@ -697,6 +710,8 @@ class LiveFlightCheckouts(ChatReviews):
         return self._write(principal, row, **fields)
 
     def _read_payment(self, principal, row):
+        if row.get("provider") == NUITEE:
+            return nuitee_checkout.reconcile(self, principal, row)
         if row["state"] in {"completed", "failed"}:
             return self._view(row)
         offer = row["offers"][row["selected"] - 1]
@@ -720,6 +735,8 @@ class LiveFlightCheckouts(ChatReviews):
 
         with self.lock:
             row = self._get(ident, self.owner(principal), chat)
+            if row.get("provider") == NUITEE:
+                raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
             if row["state"] in PAYMENT_STATES:
                 return self._read_payment(principal, row)
             if (
