@@ -52,7 +52,9 @@ type Option = {
   conditions_source?: string;
 };
 
-function quoteLabel(option: Option, t: Translate) {
+type FareDisplay = Pick<Option, "outbound" | "inbound" | "fare_minor" | "total_minor" | "currency" | "checked_bags" | "checked_bag_kg" | "fare_conditions">;
+
+function quoteLabel(option: FareDisplay, t: Translate) {
   if (option.total_minor != null) return currency(option.total_minor, option.currency);
   if (option.fare_minor == null) return t("Total unverified", "总价待核实");
   const fare = currency(option.fare_minor, option.currency);
@@ -70,6 +72,7 @@ export type LiveCheckout = {
   sources?: (Published & { proposal_id: string })[];
   choices?: Option[];
   selected?: number;
+  revised_terms?: FareDisplay;
   reason?: string;
   required_fields?: string[];
   seller_check?: {
@@ -253,6 +256,7 @@ export function LiveFlightCheckout({
     selected = view.choices?.find((o) => o.number === view.selected),
     receipt = view.receipt;
   const isNuitee = view.provider === "nuitee_sandbox";
+  const displayFare = view.revised_terms ?? selected;
   const choices = view.choices ?? [];
   const visibleChoices = view.market ? Math.max(3, view.routes?.filter(r => r.state === "offers").length ?? 0) : choices.length;
   const optionButton = (o: Option) => (
@@ -309,7 +313,7 @@ export function LiveFlightCheckout({
       )}
       {view.market && (
         <header>
-          {isNuitee && <span>Nuitée · {t("Sandbox", "沙盒")}</span>}
+          {isNuitee && <span>Nuitée · {t("Sandbox", "沙盒")} · </span>}
           <strong>{view.market.origin.join(" / ")} → {view.market.destination.join(" / ")}</strong>
           <p>{[view.market.departure, view.market.return_date].filter(Boolean).join(" / ")} · {t(`${view.market.adults} adult(s)`, `${view.market.adults} 名成人`)}
             {view.market.checked_bag_kg > 0 && t(` · requested: ${view.market.checked_bag_kg} kg checked per adult`, ` · 要求每人托运 ${view.market.checked_bag_kg} 公斤`)}</p>
@@ -463,40 +467,41 @@ export function LiveFlightCheckout({
           {choices.slice(visibleChoices).map(optionButton)}
         </details>}
       </>}
-      {selected && (["review", "seller_only", "card_pending"].includes(view.state) || (isNuitee && receipt?.pnr)) && (
+      {displayFare && (["review", "seller_only", "card_pending", "reconfirm_original"].includes(view.state) || view.revised_terms || (isNuitee && receipt?.pnr)) && (
         <div>
           <p>
-            <b>{isNuitee ? "Nuitée" : "LetsFG"}</b> · {quoteLabel(selected, t)}
+            <b>{isNuitee ? "Nuitée" : "LetsFG"}</b> · {quoteLabel(displayFare, t)}
           </p>
-          {[...selected.outbound, ...selected.inbound].map((seg, i) => (
+          {[...displayFare.outbound, ...displayFare.inbound].map((seg, i) => (
             <p key={i}>
               {seg.flight} · {seg.origin} {seg.departs?.replace("T", " ")} →{" "}
               {seg.destination} {seg.arrives?.replace("T", " ")}
             </p>
           ))}
-          {selected.checked_bags != null && selected.checked_bag_kg != null && (
+          {displayFare.checked_bags != null && displayFare.checked_bag_kg != null && (
             <p>
               {t("Checked baggage included", "已核实包含的托运行李")} ·{" "}
-              {selected.checked_bags} × {selected.checked_bag_kg} kg
+              {displayFare.checked_bags} × {displayFare.checked_bag_kg} kg
             </p>
           )}
         </div>
       )}
-      {selected?.fare_conditions?.refundable && (
+      {displayFare?.fare_conditions?.refundable && (
         <p>
           {t("Refund terms", "退票条款")} ·{" "}
-          {selected.fare_conditions.refundable}
+          {displayFare.fare_conditions.refundable}
         </p>
       )}
-      {selected?.fare_conditions?.changeable && (
+      {displayFare?.fare_conditions?.changeable && (
         <p>
           {t("Change terms", "改签条款")} ·{" "}
-          {selected.fare_conditions.changeable}
+          {displayFare.fare_conditions.changeable}
         </p>
       )}
-      {isNuitee && ["review", "card_pending"].includes(view.state) && selected?.payable && selected.total_minor != null && (
+      {isNuitee && ["review", "card_pending", "reconfirm_original"].includes(view.state) && selected?.payable && selected.total_minor != null && (
         <>
           {view.reason === "terms_changed" && <p role="status">{t("Review the changed fare before confirming.", "票价或条款有变，请核对后重新确认。")}</p>}
+          {view.state === "reconfirm_original" && <p role="status">{t("The original terms are available again. Reconfirm to book with the original test payment.", "原票价和行李条件已恢复。再次确认后将使用原测试付款出票。")}</p>}
           <NuiteeSandboxCard view={view} chat={chat} amount={selected.total_minor} currency={selected.currency} t={t} onUpdate={onUpdate} />
         </>
       )}
@@ -673,7 +678,9 @@ export function LiveFlightCheckout({
           )}
         </p>
       )}
-      {["uncertain", "needs_attention"].includes(view.state) && (
+      {view.revised_terms && <p role="status">{t("Terms changed. Ticketing is paused.", "卖方已更改条件，出票已暂停。")}</p>}
+      {view.reason === "FLIGHT_NUITEE_CARD_AMOUNT_CHANGED" && <p role="status">{t("The original payment amount changed. Ticketing is paused.", "原付款金额与确认价不符，出票已暂停。")}</p>}
+      {!view.revised_terms && view.reason !== "FLIGHT_NUITEE_CARD_AMOUNT_CHANGED" && ["uncertain", "needs_attention"].includes(view.state) && (
         <p role="status">
           {t(
             "The original order needs verification. Check it before initiating another purchase.",

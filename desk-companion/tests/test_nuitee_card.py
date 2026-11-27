@@ -42,6 +42,7 @@ class Supplier:
         self.intent = "requires_payment_method"
         self.amount_received = None
         self.intent_amount = 120000
+        self.intent_currency = "hkd"
         self.ticketed = False
         self.prebooks = 0
         self.price_at_prebook = None
@@ -93,7 +94,7 @@ class Supplier:
                     "id": "pi_fixture",
                     "livemode": False,
                     "amount": self.intent_amount,
-                    "currency": "hkd",
+                    "currency": self.intent_currency,
                     "status": self.intent,
                     "amount_received": self.amount_received,
                 },
@@ -262,14 +263,112 @@ def test_sandbox_requires_explicit_selection():
 
 
 def test_baggage_change_after_card_hold_does_not_commit_a_booking(lane):
-    _, _, _, review, pay, act, supplier = lane
+    client, _, _, review, pay, act, supplier = lane
     approved = pay(review)["view"]
     supplier.intent = "requires_capture"
     supplier.kg = 10
     stopped = act(approved, "status")
     assert stopped["state"] == "needs_attention"
+    assert stopped["revised_terms"]["checked_bag_kg"] == 10
+    assert stopped["revised_terms"]["total_minor"] is None
     assert stopped["receipt"]["held_minor"] == 120000 and "charged_minor" not in stopped["receipt"]
     assert not supplier.orders
+    supplier.kg = 23
+    restored = act(stopped, "status")
+    assert not supplier.orders, "Reading a restored fare must wait for a fresh buyer decision"
+    assert restored["state"] == "reconfirm_original"
+    assert act(restored, "status")["version"] == restored["version"]
+    assert "card" not in pay(approved) and not supplier.orders
+
+    # A second change while the restored quote is on screen invalidates that version too.
+    supplier.price = 1350
+    changed = pay(restored)
+    assert "card" not in changed and not supplier.orders
+    assert changed["view"]["revised_terms"]["total_minor"] == 135000
+    assert changed["view"]["receipt"]["held_minor"] == 120000
+    # Read a receipt created by the preceding release, where only the reason was stored.
+    with client.app.state.runtime.store.connection(write=True) as db:
+        db.execute(
+            "UPDATE live_flight_checkouts SET data=json_remove(data,'$.revised_terms','$.approval_invalidated') WHERE id=?",
+            (stopped["id"],),
+        )
+    supplier.price = 1200
+    final_review = act(changed["view"], "status")
+    assert final_review["state"] == "reconfirm_original" and not supplier.orders
+    supplier.ticketed = True
+    issued = pay(final_review)
+    assert "card" not in issued and issued["view"]["state"] == "ticketed_payment_pending"
+    assert issued["view"]["receipt"]["ticket_numbers"] == ["9990000000001"]
+    assert "card" not in pay(final_review)
+    assert len(supplier.orders) == supplier.prebooks == 1
+
+
+def test_reconfirming_an_unfunded_prebook_keeps_the_original_card_intent(lane):
+    _, _, _, review, pay, act, supplier = lane
+    original = pay(review)
+    supplier.price = 1350
+    stopped = pay(original["view"])
+    assert "card" not in stopped and stopped["view"]["revised_terms"]["fare_minor"] == 135000
+    supplier.price = 1200
+    restored = act(stopped["view"], "status")
+    assert restored["state"] == "reconfirm_original" and not supplier.orders
+    assert pay(restored)["card"] == original["card"]
+    assert supplier.prebooks == 1 and not supplier.orders
+
+
+def test_restored_fare_remains_a_question_after_restart(lane):
+    client, _, chat, review, pay, act, supplier = lane
+    pending = pay(review)["view"]
+    supplier.intent = "requires_capture"
+    supplier.kg = 10
+    assert act(pending, "status")["state"] == "needs_attention"
+    before = client.app.state.runtime
+    restarted = create_app(before.store.directory, scheduler=False, clock=lambda: NOW)
+    adapter = restarted.state.runtime.live_flight_checkouts.nuitee
+    adapter.keys = before.live_flight_checkouts.nuitee.keys
+    adapter.transport = httpx.MockTransport(supplier.handle)
+    with TestClient(
+        restarted, base_url="https://testserver", headers={"X-Desk-Request": "1"}
+    ) as reopened:
+        reopened.cookies.update(client.cookies)
+        supplier.kg = 23
+        result = reopened.post(
+            "/api/assistant/messages",
+            headers={"X-Operation-Id": "read-restored-original"},
+            json={
+                "conversation_id": chat,
+                "message": "请查回这张机票的电子客票号。",
+                "language": "zh",
+            },
+        )
+    result.raise_for_status()
+    assert result.json()["live_flight_checkout"]["state"] == "reconfirm_original"
+    assert "再确认" in result.json()["message"] and not supplier.orders
+
+
+@pytest.mark.parametrize(
+    "field,changed,original",
+    [
+        ("intent_amount", 130000, 120000),
+        ("intent_currency", "usd", "hkd"),
+        ("amount_received", 60000, 120000),
+    ],
+)
+def test_changed_card_amount_waits_for_the_buyer(lane, field, changed, original):
+    _, _, _, review, pay, act, supplier = lane
+    start = pay(review)["view"]
+    supplier.intent = "succeeded" if field == "amount_received" else "requires_capture"
+    setattr(supplier, field, changed)
+    stopped = act(start, "status")
+    assert stopped["reason"] == "FLIGHT_NUITEE_CARD_AMOUNT_CHANGED" and not supplier.orders
+    if field == "amount_received":
+        assert stopped["receipt"]["charged_minor"] == changed
+    setattr(supplier, field, original)
+    restored = act(stopped, "status")
+    assert restored["state"] == "reconfirm_original" and not supplier.orders
+    supplier.ticketed = True
+    result = pay(restored)
+    assert "card" not in result and len(supplier.orders) == supplier.prebooks == 1
 
 
 def test_payment_frame_cannot_use_minimal_or_authenticated_desk_api(lane, tmp_path):

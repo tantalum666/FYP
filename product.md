@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 28 November · Reconfirming changed flight terms
+
+After a seller changes a reviewed fare or its material terms, ordinary status inquiries must preserve the traveller’s right to decide again. If the original fare and baggage return, show them with the original payment and require a fresh confirmation before ticketing. A confirmed processor amount or currency mismatch also pauses booking. [Native journey and changed-term checks](output/qa/2026-11-28-native-flight-reconfirmation/verification.md).
+
 ## 27 November · Paying for a flight in Alice
 
 The traveller reviews one specific itinerary, the requested baggage and the all-in amount in the conversation. The preferred flow uses that approval to charge the traveller’s bank card and complete ticketing. A changed amount or material term requires a new decision. An issuer may require cardholder authentication. If delegated card charging is unavailable, let the traveller complete payment inside the conversation, then retrieve the payment result and the carrier’s ticket-issuance evidence. [Provider assessment](output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card).

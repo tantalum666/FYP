@@ -254,6 +254,7 @@ class LiveFlightCheckouts(ChatReviews):
             "alternatives_checked": row.get("alternatives_checked"),
             "selected": row.get("selected"),
             "reason": row.get("reason"),
+            **({"revised_terms": row["revised_terms"]} if row.get("revised_terms") and row["state"] == "needs_attention" else {}),
             "required_fields": row.get("required_fields", []),
             "receipt": {
                 k: row["receipt"][k] for k in PUBLIC_RECEIPT if k in row.get("receipt", {})

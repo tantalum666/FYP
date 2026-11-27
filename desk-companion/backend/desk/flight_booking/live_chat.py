@@ -6,6 +6,8 @@ from pathlib import Path
 
 from ..commerce_review import language_for
 from .checkout_source import purchase_intent
+from .conversation import price
+from .nuitee_sandbox import CHANGED_CARD_AMOUNT
 
 
 _FRESH_QUOTE = json.loads(
@@ -22,7 +24,6 @@ def describe(view, zh):
     if view.get("provider") == "nuitee_sandbox":
         receipt = view.get("receipt") or {}
         if tickets := receipt.get("ticket_numbers"):
-            from .conversation import price
             number = ", ".join(tickets)
             pnr = receipt["pnr"]
             if type(receipt.get("charged_minor")) is int:
@@ -37,9 +38,17 @@ def describe(view, zh):
                     else f"Test e-ticket {number}, booking reference {pnr}. The capture amount is pending.")
         if state == "source" and not view.get("connected"):
             return "Nuitée 机票沙盒还未连接。" if zh else "The Nuitée flight sandbox is not connected."
+        if changed := view.get("revised_terms"):
+            current = price(changed["fare_minor"])
+            return (f"卖方更改了条件，当前测试票价是 {current}。出票已暂停，请核对最新报价和行李。" if zh
+                    else f"The seller changed the terms. The current test fare is {current}. Booking is paused for review.")
+        if view.get("reason") == CHANGED_CARD_AMOUNT:
+            return ("原测试付款的金额与确认价不符，已暂停出票。" if zh
+                    else "The original test payment no longer matches the confirmed fare. Ticketing is paused.")
         labels = {
             "offers": ("这是 Nuitée 沙盒的测试航班，选一班后我会核对含行李总价。", "Select a Nuitée test flight and I’ll verify its fare and bags."),
             "card_pending": ("等待这笔旅客测试卡的确认结果。", "I’m checking the traveller test card."),
+            "reconfirm_original": ("原报价和行李条件已恢复。请再确认一次，我会使用原测试付款出票。", "The original terms are available again. Reconfirm the fare to book with the original test payment."),
             "ticketed_payment_pending": ("测试电子客票已签发，扣款仍待支付方核实。", "The test ticket was issued. The card capture still needs verification."),
             "paid_pending_ticket": ("测试卡已扣款，航空公司尚未给出票号。", "The test card was charged. The airline ticket is still pending."),
         }

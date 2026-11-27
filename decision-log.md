@@ -1168,3 +1168,7 @@ The owner specified one approval in Alice followed by charging the traveller’s
 ## 27 November 2026 · Nuitée traveller-card sandbox
 
 The owner registered with Nuitée and asked to continue using the signed-in Chrome session. This sandbox prebook allowed a Stripe traveller transaction and the card saved on the developer account. FYP selected the traveller transaction. Alice keeps the supplier-issued ticket and bank-side collection as independently verified states. Production activation and direct use of a traveller’s bank card remain separate decisions. [Original-order checks](output/qa/2026-11-27-nuitee-traveller-card/verification.md).
+
+## 28 November 2026 · Restored fare consent
+
+The existing requirement calls for another buyer decision after a material change. Persist the observed loss of consent across status reads and restarts. Use the existing protected confirmation, original test payment and original prebook when those exact terms become available again. [Observed failure, correction and handset acceptance](output/qa/2026-11-28-native-flight-reconfirmation/verification.md).

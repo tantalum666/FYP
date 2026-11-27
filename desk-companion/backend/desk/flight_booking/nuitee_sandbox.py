@@ -21,6 +21,7 @@ from .live_provider import terms
 from .nuitee_fares import normalize
 
 NAME = "nuitee_sandbox"
+CHANGED_CARD_AMOUNT = "FLIGHT_NUITEE_CARD_AMOUNT_CHANGED"
 API = "https://api.liteapi.travel/v3.0"
 STRIPE = "https://api.stripe.com/v1"
 ID = re.compile(r"[A-Za-z0-9_-]{1,160}")
@@ -92,8 +93,10 @@ def _id(value):
 
 
 class RevisedSandboxFare(DomainError):
+    reason = "FLIGHT_NUITEE_TERMS_CHANGED"
+
     def __init__(self, offer):
-        super().__init__("FLIGHT_NUITEE_TERMS_CHANGED", 409)
+        super().__init__(self.reason, 409)
         self.offer = offer
 
 
@@ -304,10 +307,13 @@ class NuiteeSandbox:
             data.get("livemode") is not False
             or data.get("id") != ref
             or type(data.get("amount")) is not int
-            or data["amount"] != offer["total_minor"]
-            or data.get("currency") != offer["currency"].lower()
+            or data["amount"] < 0
+            or not isinstance(data.get("currency"), str)
+            or not re.fullmatch(r"[a-z]{3}", data["currency"])
         ):
             raise DomainError("FLIGHT_SUPPLIER_RECEIPT_UNVERIFIED", 502)
+        if data["amount"] != offer["total_minor"] or data["currency"] != offer["currency"].lower():
+            raise DomainError(CHANGED_CARD_AMOUNT, 409)
         return data
 
     def book(self, session):
