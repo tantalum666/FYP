@@ -1,0 +1,15 @@
+# Named eBay sandbox price check
+
+28 November 2026, Hong Kong. The buyer specified the eBay sandbox, two retail units of facial tissue and the synthetic US delivery ZIP 10001. This was a price inquiry on Alice application `ff7abaef`.
+
+| How the page was checked | Result |
+| --- | --- |
+| Ordinary Alice chat, seller specified | GPT-6.2 Sol said it could not verify an eBay seller quote and asked for an exact sandbox listing. The WooCommerce test store was configured. This turn created zero Woo reviews and zero shopping orders. |
+| Public eBay sandbox, operator inspection | The search returned one open-box Kleenex cylinder. The seller described one opened canister with a tissue already drawn through the top. The listed unit price was US$4.00. Updating the shipping panel to 10001 displayed US$10.00 via USPS Priority Mail. One canister was US$14.00 before tax. The page deferred tax to checkout and provided no verified two-unit offer. [Public sandbox listing](https://sandbox.ebay.com/itm/Kleenex-Facial-Tissue-Cylinder-Canister-Pomegranate-Print-Design-Opened-Never-Us/110591662187). |
+| Alice with the exact listing | The ordinary conversation prepared a managed read-only browser proposal for two units, USD, delivery, and the sole approved eBay sandbox origin. Its original hosted job reported that the page could not be opened. The stored report was verified, while the offer, subtotal and total remained unknown. Session deletion was confirmed. Zero orders were created. |
+
+The operator’s page observation and Alice’s hosted report came from separate browser environments. A reliable two-unit total needs matching availability, postage and tax evidence. The listing also stated that the seller does not accept returns. eBay handles a buyer’s request to cancel before dispatch separately and allows the seller to accept or decline it. This listing did not establish an unconditional cancellation and refund. [eBay cancellation policy](https://www.ebay.com/help/policies/member-behavior-policies/order-cancellation-policy?id=5298) · [Sandbox and production Buy API access](https://developer.ebay.com/api-docs/buy/static/buy-requirements.html).
+
+The test reused ordinary Sessions/Functions, the existing Woo connection, the original approved scope, the managed-browser worker and its existing spending ledger. After an operator readback script used an obsolete proposal field, the pending proposal was recovered through the application's authenticated proposal list and submitted once. The observation used public page data and a synthetic ZIP. No personal shipping address or bank card was supplied. No new developer application or seller contact was sent.
+
+The reviewed baseline is `a8d5e9b4`. Read the current product and handoff entries, overseas shopping checks, the conversation shopping and browser contracts, the hosted executor and public quote schema. Updated the handoff and work log. The public sandbox listing and the hosted report complete this read-only check. The existing eBay developer review and checkout permissions still have separate outcomes.

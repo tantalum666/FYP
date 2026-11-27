@@ -1419,3 +1419,7 @@ Connected the existing Nuitée sandbox, verified the supplier protocol and issue
 ## 28 November 2026 · Ordinary native flight checkout and fare recovery
 
 The original iPhone Simulator selected the direct test flight, showed included baggage and price, submitted one traveller test-card authorization and displayed the issued ticket. A separate regression showed that a restored baggage allowance could submit an order on a status read. The fix preserves the changed approval and requires an explicit, current decision. An isolated browser replay recorded zero bookings after the fare recovered, then one booking on its original payment. Mac and Simulator run application `ff7abaef`. [Release evidence](output/qa/2026-11-28-native-flight-reconfirmation/verification.md).
+
+## 28 November 2026 · Named overseas shop
+
+A scoped shopping request kept the eBay sandbox distinct from the configured WooCommerce store. The operator verified public postage for a synthetic US ZIP. Alice’s managed browser saved an unavailable result and confirmed session deletion. Quantity and tax were insufficient for a payable total. [Shop checks](output/qa/2026-11-28-ebay-sandbox-price/verification.md).
