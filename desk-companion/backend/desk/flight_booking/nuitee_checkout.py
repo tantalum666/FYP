@@ -7,9 +7,80 @@ from ..calendar import iso
 from ..store import DomainError
 from . import nuitee_fares
 from .live_fares import minor_amount
-from .nuitee_sandbox import NAME, RevisedSandboxFare, order_reference
+from .nuitee_sandbox import CHANGED_CARD_AMOUNT, NAME, RevisedSandboxFare, order_reference
 
-CARD_STATES = {"card_pending", "ticketed_payment_pending", "paid_pending_ticket"}
+CARD_STATES = {
+    "card_pending",
+    "ticketed_payment_pending",
+    "paid_pending_ticket",
+    "reconfirm_original",
+}
+CONSENT_CHANGES = {RevisedSandboxFare.reason, CHANGED_CARD_AMOUNT}
+
+
+def _needs_new_decision(row):
+    # Older pending receipts stored only the supplier's reason.
+    return (
+        row.get("approval_invalidated", False)
+        or row.get("reason") in CONSENT_CHANGES
+        or row["state"] == "reconfirm_original"
+    )
+
+
+def _write_changes(service, principal, row, **fields):
+    if any(row.get(key) != value for key, value in fields.items()):
+        service._write(principal, row, **fields)
+
+
+def _pause_payment(service, principal, row, reason, receipt, *, revised_terms=None):
+    _write_changes(
+        service,
+        principal,
+        row,
+        state="needs_attention",
+        reason=reason,
+        receipt=receipt,
+        approval_invalidated=reason in CONSENT_CHANGES or _needs_new_decision(row),
+        revised_terms=revised_terms,
+    )
+
+
+def _read_original_intent(service, principal, row, provider, session, offer):
+    try:
+        return provider.intent(session, offer)
+    except DomainError as error:
+        if error.code != CHANGED_CARD_AMOUNT or session.get("booking_id"):
+            raise
+        _pause_payment(service, principal, row, error.code, {})
+        return None
+
+
+def _check_original_terms(
+    service, principal, row, provider, session, offer, receipt, *, releasing_card=False
+):
+    try:
+        if releasing_card and datetime.fromisoformat(session["expires"]) <= service.store.clock():
+            raise DomainError("FLIGHT_NUITEE_RECORD_EXPIRED", 409)
+        provider.check_session(session, service._offer_query(row, offer), offer)
+        return True
+    except DomainError as error:
+        revised = None
+        if isinstance(error, RevisedSandboxFare):
+            revised = {
+                key: error.offer.get(key)
+                for key in (
+                    "currency",
+                    "fare_minor",
+                    "total_minor",
+                    "checked_bags",
+                    "checked_bag_kg",
+                    "outbound",
+                    "inbound",
+                    "fare_conditions",
+                )
+            }
+        _pause_payment(service, principal, row, error.code, receipt, revised_terms=revised)
+        return False
 
 
 def start(service, principal, chat, ident, version, amount, currency):
@@ -18,27 +89,52 @@ def start(service, principal, chat, ident, version, amount, currency):
         if row.get("provider") != NAME or not row.get("active"):
             raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
         provider = service.provider_for(row)
-        if row["version"] != version or row["state"] not in {"review", "card_pending"}:
+        if row["version"] != version or row["state"] not in {
+            "review",
+            "card_pending",
+            "reconfirm_original",
+        }:
             return {"view": service._view(row)}
         offer = row["offers"][row["selected"] - 1]
         if (currency, amount) != (offer["currency"], offer["total_minor"]) or not service._payable(
             row, offer
         ):
             raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
-        if row["state"] == "card_pending":
+        if row["state"] in {"card_pending", "reconfirm_original"}:
             session = provider.unseal(row["card_session"])
-            intent = provider.intent(session, offer)
-            if intent["status"] != "requires_payment_method":
-                return {"view": reconcile(service, principal, row)}
-            try:
-                if datetime.fromisoformat(session["expires"]) <= service.store.clock():
-                    raise DomainError("FLIGHT_NUITEE_RECORD_EXPIRED", 409)
-                provider.check_session(session, service._offer_query(row, offer), offer)
-            except DomainError as exc:
-                # A browser already received this intent. Preserve its original reference
-                # for later reads even if the supplier will no longer honor the terms.
-                service._write(principal, row, state="needs_attention", reason=exc.code)
+            intent = _read_original_intent(service, principal, row, provider, session, offer)
+            if intent is None:
                 return {"view": service._view(row)}
+            if intent["status"] != "requires_payment_method":
+                return {
+                    "view": reconcile(
+                        service,
+                        principal,
+                        row,
+                        intent=intent,
+                        approved_again=row["state"] == "reconfirm_original",
+                    )
+                }
+            if not _check_original_terms(
+                service,
+                principal,
+                row,
+                provider,
+                session,
+                offer,
+                row.get("receipt") or {},
+                releasing_card=True,
+            ):
+                return {"view": service._view(row)}
+            if row["state"] == "reconfirm_original":
+                service._write(
+                    principal,
+                    row,
+                    state="card_pending",
+                    approval_invalidated=False,
+                    revised_terms=None,
+                    reason=None,
+                )
         else:
             if not service._sync_source(principal, row):
                 return {"view": service._view(row)}
@@ -142,20 +238,36 @@ def _ticket_receipt(book, session, offer, query):
     return {}
 
 
-def reconcile(service, principal, row):
+def reconcile(service, principal, row, *, intent=None, approved_again=False):
     """A browser result can prompt this read; it cannot certify payment or ticketing."""
     if not row.get("card_session") or row["state"] in {"completed", "failed"}:
         return service._view(row)
     provider = service.provider_for(row)
     session = provider.unseal(row["card_session"])
     offer = row["offers"][row["selected"] - 1]
-    intent = provider.intent(session, offer)
+    if intent is None:
+        intent = _read_original_intent(service, principal, row, provider, session, offer)
+    if intent is None:
+        return service._view(row)
     state = intent.get("status")
-    if state not in {"requires_capture", "succeeded"} and not session.get("booking_id"):
-        if state == "canceled":
-            service._record(
-                principal, row, {"state": "failed", "reason": "card_authorization_canceled"}
-            )
+    needs_decision = _needs_new_decision(row)
+    if not session.get("booking_id") and state == "canceled":
+        service._record(
+            principal,
+            row,
+            {
+                "state": "failed",
+                "reason": "card_authorization_canceled",
+                "processor_status": state,
+                "currency": offer["currency"],
+            },
+        )
+        return service._view(row)
+    if (
+        not session.get("booking_id")
+        and state not in {"requires_capture", "succeeded"}
+        and not (state == "requires_payment_method" and needs_decision)
+    ):
         return service._view(row)
 
     receipt = {"currency": offer["currency"], "processor_status": state}
@@ -166,14 +278,27 @@ def reconcile(service, principal, row):
 
     if not session.get("booking_id"):
         now = service.store.clock()
+        if "charged_minor" in receipt and receipt["charged_minor"] != offer["total_minor"]:
+            _pause_payment(service, principal, row, CHANGED_CARD_AMOUNT, receipt)
+            return service._view(row)
         if (row.get("book_next_check") or "") > iso(now):
             return service._view(row)
-        try:
-            provider.check_session(session, service._offer_query(row, offer), offer)
-        except DomainError as exc:
-            service._write(
-                principal, row, state="needs_attention", reason=exc.code, receipt=receipt
+        if not _check_original_terms(service, principal, row, provider, session, offer, receipt):
+            return service._view(row)
+        if needs_decision and not approved_again:
+            # Reading the original payment may restore a quote for review, never the buyer's consent.
+            _write_changes(
+                service,
+                principal,
+                row,
+                state="reconfirm_original",
+                approval_invalidated=True,
+                reason=None,
+                revised_terms=None,
+                receipt=receipt,
             )
+            return service._view(row)
+        if state == "requires_payment_method":
             return service._view(row)
         # Reserve the only original prebook before posting. The documented idempotent
         # provider operation may recover a lost acknowledgement on that exact prebook.
@@ -182,6 +307,9 @@ def reconcile(service, principal, row):
             row,
             state="processing",
             receipt=receipt,
+            approval_invalidated=False,
+            revised_terms=None,
+            reason=None,
             book_next_check=iso(now + timedelta(seconds=30)),
         )
         try:

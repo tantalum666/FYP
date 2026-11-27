@@ -65,6 +65,10 @@ export function NuiteeSandboxCard({
   const [message, setMessage] = useState("");
   const sending = useRef(false);
   const alive = useRef(true);
+  const price = formatCurrencyMinor(amount, currency);
+  const confirmation = view.state === "reconfirm_original"
+    ? t("Reconfirm original fare " + price, "再次确认原票价 " + price)
+    : t("Confirm test Visa payment " + price, "确认测试 Visa 付款 " + price);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -153,13 +157,7 @@ export function NuiteeSandboxCard({
         disabled={!loaded || busy || !window.isSecureContext}
         onClick={() => void pay()}
       >
-        {busy
-          ? t("Checking payment…", "正在核对付款…")
-          : t(
-              "Confirm test Visa payment " +
-                formatCurrencyMinor(amount, currency),
-              "确认测试 Visa 付款 " + formatCurrencyMinor(amount, currency),
-            )}
+        {busy ? t("Checking payment…", "正在核对付款…") : confirmation}
       </button>
       {!origin && (
         <p role="status">
