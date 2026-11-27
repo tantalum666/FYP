@@ -1164,3 +1164,7 @@ The owner authorized the original Pi to connect the existing LetsFG account for 
 ## 27 November 2026 · Traveller-card payment priority
 
 The owner specified one approval in Alice followed by charging the traveller’s bank card and issuing the ticket. Consumer checkout in the conversation is the fallback. Evaluating Nuitée for both paths is an engineering recommendation. [Evidence and open entitlements](output/qa/2026-11-27-delegated-travel-payments/verification.md#one-supplier-for-the-owners-card).
+
+## 27 November 2026 · Nuitée traveller-card sandbox
+
+The owner registered with Nuitée and asked to continue using the signed-in Chrome session. This sandbox prebook allowed a Stripe traveller transaction and the card saved on the developer account. FYP selected the traveller transaction. Alice keeps the supplier-issued ticket and bank-side collection as independently verified states. Production activation and direct use of a traveller’s bank card remain separate decisions. [Original-order checks](output/qa/2026-11-27-nuitee-traveller-card/verification.md).
