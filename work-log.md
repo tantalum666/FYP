@@ -1423,3 +1423,7 @@ The original iPhone Simulator selected the direct test flight, showed included b
 ## 28 November 2026 · Named overseas shop
 
 A scoped shopping request kept the eBay sandbox distinct from the configured WooCommerce store. The operator verified public postage for a synthetic US ZIP. Alice’s managed browser saved an unavailable result and confirmed session deletion. Quantity and tax were insufficient for a payable total. [Shop checks](output/qa/2026-11-28-ebay-sandbox-price/verification.md).
+
+## 28 November 2026 · Native access and background source readback
+
+The native settings and authenticated desk response establish the Simulator’s local owner access. The retained server origin, device bearer state and installed data are separately identified in the [release checks](output/qa/2026-11-28-native-flight-reconfirmation/verification.md#normal-release). Three successive scheduled Gmail reads were observed during quiet hours.
